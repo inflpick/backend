@@ -26,7 +26,7 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2024.1
+        uses: JetBrains/qodana-action@v2024.1.9
         with:
           pr-mode: false
         env:
