@@ -28,12 +28,17 @@ dependencies {
 
 	// Lombok
 	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 
 	// Spring DevTools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// JUnit 5
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Jetbrains Annotations
+	implementation 'org.jetbrains:annotations:23.0.0'
+
 }
 
 tasks.named('test') {
