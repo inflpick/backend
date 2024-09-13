@@ -18,12 +18,12 @@ public class Influencer {
 
     @Builder
     public Influencer(@NotNull InfluencerId id,
-                      Profile profile,
-                      SocialMediaLinks socialMediaLinks,
-                      Instant createdDate,
-                      String createdBy,
-                      Instant lastModifiedDate,
-                      String lastModifiedBy) {
+                      @NotNull Profile profile,
+                      @NotNull SocialMediaLinks socialMediaLinks,
+                      @NotNull Instant createdDate,
+                      @NotNull String createdBy,
+                      @NotNull Instant lastModifiedDate,
+                      @NotNull String lastModifiedBy) {
 
         Objects.requireNonNull(id, "id must not be null");
         Objects.requireNonNull(profile, "profile must not be null");
