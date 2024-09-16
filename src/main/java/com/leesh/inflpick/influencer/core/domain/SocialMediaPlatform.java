@@ -1,8 +1,10 @@
-package com.leesh.inflpick.influencer.domain;
+package com.leesh.inflpick.influencer.core.domain;
 
 import lombok.Getter;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 public enum SocialMediaPlatform {
@@ -11,12 +13,19 @@ public enum SocialMediaPlatform {
     YOUTUBE(URI.create("https://www.youtube.com")),
     TIKTOK(URI.create("https://www.tiktok.com")),
     FACEBOOK(URI.create("https://www.facebook.com")),
-    TWITTER(URI.create("https://www.twitter.com")),
+    X(URI.create("https://www.x.com")),
+    DISCORD(URI.create("https://www.discord.com")),
     ;
 
     private final URI uri;
 
     SocialMediaPlatform(URI uri) {
         this.uri = uri;
+    }
+
+    public static List<String> availablePlatforms() {
+        return Arrays.stream(SocialMediaPlatform.values())
+                .map(SocialMediaPlatform::name)
+                .toList();
     }
 }

@@ -1,14 +1,12 @@
 package com.leesh.inflpick.common.domain;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.time.Instant;
 import java.util.Objects;
 
-public record Metadata(@NotNull String createdBy,
-                       @NotNull Instant createdAt,
-                       @NotNull String lastModifiedBy,
-                       @NotNull Instant lastModifiedAt) {
+public record Metadata(String createdBy,
+                       Instant createdAt,
+                       String lastModifiedBy,
+                       Instant lastModifiedAt) {
 
     public Metadata {
         Objects.requireNonNull(createdBy, "createdBy must not be null");

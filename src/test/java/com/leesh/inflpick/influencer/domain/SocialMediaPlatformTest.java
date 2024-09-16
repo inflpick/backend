@@ -1,5 +1,6 @@
 package com.leesh.inflpick.influencer.domain;
 
+import com.leesh.inflpick.influencer.core.domain.SocialMediaPlatform;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class SocialMediaPlatformTest {
         assertEquals(URI.create("https://www.youtube.com"), SocialMediaPlatform.YOUTUBE.getUri());
         assertEquals(URI.create("https://www.tiktok.com"), SocialMediaPlatform.TIKTOK.getUri());
         assertEquals(URI.create("https://www.facebook.com"), SocialMediaPlatform.FACEBOOK.getUri());
-        assertEquals(URI.create("https://www.twitter.com"), SocialMediaPlatform.TWITTER.getUri());
+        assertEquals(URI.create("https://www.x.com"), SocialMediaPlatform.X.getUri());
     }
 
     @Test

@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.6'
 }
 
-group = 'com.leesh'
+group = 'com.leesh.inflpick'
 version = '2024.1.0'
 
 java {
@@ -39,6 +39,11 @@ dependencies {
 	// Jetbrains Annotations
 	implementation 'org.jetbrains:annotations:23.0.0'
 
+	// Spring Data Mongo
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 }
 
 tasks.named('test') {
