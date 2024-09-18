@@ -5,18 +5,19 @@ import com.leesh.inflpick.influencer.core.domain.*;
 import org.jetbrains.annotations.NotNull;
 
 public record InfluencerCreateCommand(@NotNull InfluencerName name,
+                                      @NotNull InfluencerIntroduction briefIntroduction,
                                       @NotNull InfluencerDescription description,
                                       @NotNull ProfileImage profileImage,
-                                      @NotNull SocialMediaLinks socialMediaLinks) {
+                                      @NotNull SocialMediaProfileLinks socialMediaProfileLinks) {
 
     public Influencer toEntity(UuidHolder uuidHolder) {
-        InfluencerId id = new InfluencerId(uuidHolder.uuid());
         return Influencer.builder()
-                .id(id)
+                .uuid(uuidHolder.uuid())
                 .name(name)
+                .introduction(briefIntroduction)
                 .description(description)
                 .profileImage(profileImage)
-                .socialMediaLinks(socialMediaLinks)
+                .socialMediaProfileLinks(socialMediaProfileLinks)
                 .build();
     }
 }

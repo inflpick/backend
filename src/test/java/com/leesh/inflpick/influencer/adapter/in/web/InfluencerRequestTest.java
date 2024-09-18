@@ -1,7 +1,8 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
-import com.leesh.inflpick.influencer.core.domain.SocialMediaLink;
+import com.leesh.inflpick.common.adapter.in.web.MissingRequiredFieldsException;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaPlatform;
+import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLink;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,15 @@ class InfluencerRequestTest {
     void toCommand() {
         // given
         SocialMediaRequest socialMediaRequest = new SocialMediaRequest(SocialMediaPlatform.TIKTOK.name(), "http://example.com/profile.jpg");
-        SocialMediaLink socialMediaLink = socialMediaRequest.toEntity();
+        String keywordId = "keywordId";
+        SocialMediaProfileLink socialMediaProfileLink = socialMediaRequest.toEntity();
         String profileImageUri = "http://example.com/profile.jpg";
         InfluencerRequest request = new InfluencerRequest(
-                "name",
+                "짐종국",
+                "introduction",
                 "description",
                 profileImageUri,
+                List.of(keywordId),
                 List.of(socialMediaRequest)
         );
 
@@ -33,11 +37,11 @@ class InfluencerRequestTest {
 
         // then
         assertThat(command).isNotNull();
-        assertThat(command.name().name()).isEqualTo("name");
+        assertThat(command.name().name()).isEqualTo("짐종국");
         assertThat(command.description().description()).isEqualTo("description");
         assertThat(command.profileImage().uri()).isEqualTo(URI.create(profileImageUri));
-        assertThat(command.socialMediaLinks().hasSocialMedia(SocialMediaPlatform.TIKTOK)).isTrue();
-        assertThat(command.socialMediaLinks().getSocialMediaLink(SocialMediaPlatform.TIKTOK)).isEqualTo(socialMediaLink);
+        assertThat(command.socialMediaProfileLinks().hasSocialMedia(SocialMediaPlatform.TIKTOK)).isTrue();
+        assertThat(command.socialMediaProfileLinks().getSocialMediaLink(SocialMediaPlatform.TIKTOK)).isEqualTo(socialMediaProfileLink);
 
     }
 
@@ -45,51 +49,57 @@ class InfluencerRequestTest {
     @Test
     void toCommandThrowsExceptionWhenNameIsNull() {
         SocialMediaRequest socialMediaRequest = new SocialMediaRequest(SocialMediaPlatform.TIKTOK.name(), "http://example.com/profile.jpg");
-        InfluencerRequest request = new InfluencerRequest(
+        String keywordId = "keywordId";
+        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerRequest(
                 null,
+                "introduction",
                 "description",
                 "http://example.com/profile.jpg",
+                List.of(keywordId),
                 List.of(socialMediaRequest)
-        );
-
-        assertThrows(UserInputException.class, request::toCommand);
+        ));
     }
 
     @DisplayName("toCommand() 메서드를 통해 InfluencerCreateCommand 객체로 변환할 때 설명이 null인 경우 예외가 발생한다.")
     @Test
     void toCommandThrowsExceptionWhenDescriptionIsNull() {
         SocialMediaRequest socialMediaRequest = new SocialMediaRequest(SocialMediaPlatform.TIKTOK.name(), "http://example.com/profile.jpg");
-        InfluencerRequest request = new InfluencerRequest(
-                "name",
+        String keywordId = "keywordId";
+        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerRequest(
+                "짐종국",
+                "introduction",
                 null,
                 "http://example.com/profile.jpg",
+                List.of(keywordId),
                 List.of(socialMediaRequest)
-        );
-
-        assertThrows(UserInputException.class, request::toCommand);
+        ));
     }
 
     @DisplayName("toCommand() 메서드를 통해 InfluencerCreateCommand 객체로 변환할 때 프로필 이미지 URI가 null인 경우 예외가 발생한다.")
     @Test
     void toCommandThrowsExceptionWhenProfileImageUriIsNull() {
         SocialMediaRequest socialMediaRequest = new SocialMediaRequest(SocialMediaPlatform.TIKTOK.name(), "http://example.com/profile.jpg");
-        InfluencerRequest request = new InfluencerRequest(
-                "name",
+        String keywordId = "keywordId";
+        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerRequest(
+                "짐종국",
+                "introduction",
                 "description",
                 null,
+                List.of(keywordId),
                 List.of(socialMediaRequest)
-        );
-
-        assertThrows(UserInputException.class, request::toCommand);
+        ));
     }
 
     @DisplayName("toCommand() 메서드를 통해 InfluencerCreateCommand 객체로 변환할 때 소셜 미디어 링크가 null인 경우 빈 SocialMediaLinks 객체로 변환한다.")
     @Test
     void toCommandThrowsExceptionWhenSocialMediaLinksAreNull() {
+        String keywordId = "keywordId";
         InfluencerRequest request = new InfluencerRequest(
-                "name",
+                "짐종국",
+                "introduction",
                 "description",
                 "http://example.com/profile.jpg",
+                List.of(keywordId),
                 null
         );
 
@@ -98,10 +108,10 @@ class InfluencerRequestTest {
 
         // then
         assertThat(command).isNotNull();
-        assertThat(command.name().name()).isEqualTo("name");
+        assertThat(command.name().name()).isEqualTo("짐종국");
         assertThat(command.description().description()).isEqualTo("description");
         assertThat(command.profileImage().uri()).isEqualTo(URI.create("http://example.com/profile.jpg"));
-        assertThat(command.socialMediaLinks().isEmpty()).isTrue();
+        assertThat(command.socialMediaProfileLinks().isEmpty()).isTrue();
 
     }
 

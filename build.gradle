@@ -39,7 +39,7 @@ dependencies {
 	// Jetbrains Annotations
 	implementation 'org.jetbrains:annotations:23.0.0'
 
-	// Spring Data Mongo
+	// Spring Data MongoDB
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// Swagger

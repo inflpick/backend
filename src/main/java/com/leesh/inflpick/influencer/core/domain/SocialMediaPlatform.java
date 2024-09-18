@@ -15,6 +15,8 @@ public enum SocialMediaPlatform {
     FACEBOOK(URI.create("https://www.facebook.com")),
     X(URI.create("https://www.x.com")),
     DISCORD(URI.create("https://www.discord.com")),
+    BLOG(URI.create("")),
+    OTHER(URI.create(""))
     ;
 
     private final URI uri;

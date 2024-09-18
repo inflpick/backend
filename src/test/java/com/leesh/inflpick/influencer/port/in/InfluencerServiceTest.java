@@ -15,72 +15,65 @@ import java.util.List;
 
 class InfluencerServiceTest {
 
-    private InfluencerService sut;
+    private InfluencerServiceImpl sut;
     private final InfluencerRepository repository = new FakeInfluencerRepository();
 
     @BeforeEach
     void init() {
 
         Influencer testInfluencer1 = Influencer.builder()
-                .id(new InfluencerId("1"))
+                .uuid("1")
                 .name(new InfluencerName("John Doe"))
+                .introduction(new InfluencerIntroduction("An influencer"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage(URI.create("http://example.com/profile.jpg")))
-                .socialMediaLinks(new SocialMediaLinks(List.of(
-                        new SocialMediaLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(
+                        new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"))
                 )))
                 .build();
         Influencer testInfluencer2 = Influencer.builder()
-                .id(new InfluencerId("2"))
+                .uuid("2")
                 .name(new InfluencerName("Jane Doe"))
+                .introduction(new InfluencerIntroduction("Another influencer"))
                 .description(new InfluencerDescription("Another influencer"))
                 .profileImage(new ProfileImage(URI.create("http://example.com/profile2.jpg")))
-                .socialMediaLinks(new SocialMediaLinks(List.of(
-                        new SocialMediaLink(SocialMediaPlatform.X, URI.create("http://twitter.com/janedoe"))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(
+                        new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/janedoe"))
                 )))
                 .build();
 
         repository.save(testInfluencer1);
         repository.save(testInfluencer2);
 
-        this.sut = new InfluencerServiceImpl(
-                new TestUuidHolder("test-uuid"),
-                repository
-        );
+        this.sut = InfluencerServiceImpl.builder()
+                .uuidHolder(new TestUuidHolder("test-uuid"))
+                .influencerRepository(repository)
+                .build();
     }
 
-    @DisplayName("인플루언서 생성에 성공하면, 크기가 1 증가한다.")
+    @DisplayName("InfluencerCreateCommand 객체로 인플루언서 생성에 성공하면, 크기가 1 증가한다.")
     @Test
     void createInfluencer() {
 
         // given
         InfluencerName name = new InfluencerName("John Doe");
+        InfluencerIntroduction introduction = new InfluencerIntroduction("An influencer");
         InfluencerDescription description = new InfluencerDescription("An influencer");
         ProfileImage profileImage = new ProfileImage(URI.create("http://example.com/profile.jpg"));
-        SocialMediaLink twitterLink = new SocialMediaLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"));
-        SocialMediaLinks socialMediaLinks = new SocialMediaLinks(List.of(twitterLink));
+        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"));
+        SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(List.of(twitterLink));
+        InfluencerCreateCommand command = new InfluencerCreateCommand(name,
+                introduction,
+                description,
+                profileImage,
+                socialMediaProfileLinks);
         long count = repository.count();
 
         // when
-        sut.create(name, description, profileImage, socialMediaLinks);
+        sut.create(command);
 
         // then
         Assertions.assertThat(repository.count()).isEqualTo(count + 1);
-    }
-
-    @DisplayName("ID를 통해서 인플루언서를 조회할 수 있어야 한다.")
-    @Test
-    void getById() {
-        // given
-        String uuid = "1";
-        InfluencerId id = new InfluencerId(uuid);
-
-        // when
-        Influencer influencer = sut.getById(id);
-
-        // then
-        Assertions.assertThat(influencer).isNotNull();
-        Assertions.assertThat(influencer.getId()).isEqualTo(id.id());
     }
 
 }

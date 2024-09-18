@@ -6,7 +6,9 @@ spring:
       uri: mongodb://localhost:27017/api-server
 springdoc:
   swagger-ui:
-    path: /api-docs.html # Web UI 접속 경로
     default-models-expand-depth: -1 # API 문서 밑에 Schema 모델 없애기
+    enabled: true
+    path: /swagger-ui.html  # Swagger UI 기본 접속 경로
   api-docs:
-    path: /v3/api-docs # OpenAPI 접속 경로
+    enabled: true
+    path: /v3/api-docs # Swagger API 기본접속 경로

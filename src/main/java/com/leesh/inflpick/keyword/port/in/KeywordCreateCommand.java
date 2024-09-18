@@ -1,0 +1,22 @@
+package com.leesh.inflpick.keyword.port.in;
+
+import com.leesh.inflpick.common.port.out.UuidHolder;
+import com.leesh.inflpick.keyword.core.domain.Keyword;
+import com.leesh.inflpick.keyword.core.domain.KeywordColor;
+import com.leesh.inflpick.keyword.core.domain.KeywordName;
+import lombok.Builder;
+import org.jetbrains.annotations.NotNull;
+
+@Builder
+public record KeywordCreateCommand(@NotNull KeywordName name,
+                                   @NotNull KeywordColor color) {
+
+    public Keyword toEntity(UuidHolder uuidHolder) {
+        return Keyword.builder()
+                .uuid(uuidHolder.uuid())
+                .name(name)
+                .color(color)
+                .build();
+    }
+
+}
