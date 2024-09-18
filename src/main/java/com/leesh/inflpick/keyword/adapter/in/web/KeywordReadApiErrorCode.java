@@ -10,12 +10,14 @@ public enum KeywordReadApiErrorCode implements ApiErrorCode {
     private final HttpStatus httpStatus;
     private final String reason;
     private final String action;
+    private final String comment;
 
-    KeywordReadApiErrorCode(String code, HttpStatus httpStatus, String reason, String action) {
+    KeywordReadApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {
         this.code = code;
         this.httpStatus = httpStatus;
         this.reason = reason;
         this.action = action;
+        this.comment = comment;
     }
 
     @Override
@@ -36,5 +38,10 @@ public enum KeywordReadApiErrorCode implements ApiErrorCode {
     @Override
     public String action() {
         return this.action;
+    }
+
+    @Override
+    public String comment() {
+        return this.comment;
     }
 }

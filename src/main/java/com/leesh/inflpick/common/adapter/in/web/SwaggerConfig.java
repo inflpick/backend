@@ -57,7 +57,7 @@ public class SwaggerConfig {
                         errorCode -> {
                             String reason = errorCode.reason();
                             ApiErrorResponse apiErrorResponse = buildApiErrorResponse(errorCode, method, apiPath, reason);
-                            Example example = createSwaggerExample(reason, apiErrorResponse);
+                            Example example = createSwaggerExample(errorCode.comment(), apiErrorResponse);
                             return buildSwaggerExampleHolder(errorCode, example);
                         }
                 ).toList();
@@ -101,9 +101,9 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private static @NotNull Example createSwaggerExample(String reason, ApiErrorResponse apiErrorResponse) {
+    private static @NotNull Example createSwaggerExample(String comment, ApiErrorResponse apiErrorResponse) {
         Example example = new Example();
-        example.description(reason);
+        example.description(comment);
         example.value(apiErrorResponse);
         return example;
     }
@@ -117,6 +117,16 @@ public class SwaggerConfig {
                 .status(errorCode.httpStatus().value())
                 .reason(reason)
                 .action(errorCode.action())
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi commonApi() {
+        return GroupedOpenApi.builder()
+                .group("공통 API")
+                .pathsToMatch("/api/**")
+                .pathsToExclude("/api/influencers/**", "/api/keywords/**")
+                .addOperationCustomizer(customize())
                 .build();
     }
 

@@ -23,9 +23,11 @@ public record InfluencerRequest(
         String description,
         @Schema(description = "프로필 이미지 URI (URI 형식의 문자열)", example = "https://example.com/profile.jpg", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String profileImageUri,
-        @Schema(description = "키워드 ID 목록", example = "[\"f103314b-778c-49fc-ae9c-7956794a3bdf\",\"a203314c-481a-52cd-a391-2av6594a3b4a\"]", implementation = String.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+        @Schema(description = "키워드 ID 목록", type = "array", example = "[\"92624c72-1cf2-4762-8c45-fe1a1f0a3e97\", \"8eabcaa9-5c70-46a5-a7c0-b580b1d20316\"]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
         List<String> keywordIds,
-        @ArraySchema(schema = @Schema(description = "소셜 미디어 링크 목록", implementation = SocialMediaRequest.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED))
+        @ArraySchema(
+                arraySchema = @Schema(description = "인플루언서의 소셜 미디어 링크 목록", implementation = SocialMediaRequest.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+        )
         List<SocialMediaRequest> socialMediaLinks
 ) {
 
@@ -40,7 +42,7 @@ public record InfluencerRequest(
         this.introduction = introduction.strip();
         this.description = description.strip();
         this.profileImageUri = profileImageUri.strip();
-        this.keywordIds = keywordIds == null ? new ArrayList<>() : keywordIds;
+        this.keywordIds = keywordIds == null ? new ArrayList<>() : keywordIds.stream().map(String::strip).toList();
         this.socialMediaLinks = socialMediaLinks == null ? new ArrayList<>() : socialMediaLinks;
     }
 
@@ -52,19 +54,20 @@ public record InfluencerRequest(
         InfluencerDescription influencerDescription = new InfluencerDescription(description);
         InfluencerIntroduction influencerIntroduction = new InfluencerIntroduction(introduction);
         ProfileImage profileImage = ProfileImage.of(profileImageUri);
-        SocialMediaProfileLinks socialMediaProfileLinks = convertToEntity();
+        SocialMediaProfileLinks socialMediaProfileLinks = convertToSocialMediaProfileEntity(socialMediaLinks);
 
         return new InfluencerCreateCommand(
             influencerName,
-                influencerIntroduction,
+            influencerIntroduction,
             influencerDescription,
             profileImage,
+            keywordIds,
             socialMediaProfileLinks
         );
     }
 
-    private @NotNull SocialMediaProfileLinks convertToEntity() {
-        List<SocialMediaProfileLink> list = socialMediaLinks
+    private @NotNull SocialMediaProfileLinks convertToSocialMediaProfileEntity(@NotNull List<SocialMediaRequest> links) {
+        List<SocialMediaProfileLink> list = links
                 .stream()
                 .map(SocialMediaRequest::toEntity)
                 .toList();

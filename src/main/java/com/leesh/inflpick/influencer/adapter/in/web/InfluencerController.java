@@ -2,7 +2,6 @@ package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.ApiErrorResponse;
-import com.leesh.inflpick.common.adapter.in.web.CommonApiErrorCode;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
@@ -34,11 +33,11 @@ public class InfluencerController {
     private final InfluencerCreateService createService;
     private final InfluencerReadService readService;
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class, InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
     @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
-            @ApiResponse(responseCode = "400", description = "입력값이 유효하지 않음", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody InfluencerRequest request) {
@@ -52,7 +51,7 @@ public class InfluencerController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = InfluencerReadApiErrorCode.class, httpMethod = "GET", apiPath = "/api/influencers/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{id}")
     @Operation(summary = "인플루언서 단건 조회", description = "인플루언서를 단건 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),

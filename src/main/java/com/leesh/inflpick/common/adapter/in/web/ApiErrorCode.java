@@ -8,5 +8,6 @@ public interface ApiErrorCode {
     HttpStatus httpStatus();
     String reason();
     String action();
+    String comment();
 
 }

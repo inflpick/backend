@@ -6,10 +6,13 @@ import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
 import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
+import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Builder
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
 
     private final UuidHolder uuidHolder;
     private final InfluencerRepository influencerRepository;
+    private final KeywordRepository keywordRepository;
 
     @Override
     public Influencer getByUuid(String uuid) {
@@ -28,6 +32,7 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
     @Transactional()
     @Override
     public Influencer create(InfluencerCreateCommand command) {
+        List<String> keywordIds = command.keywordIds();
         Influencer influencer = command.toEntity(uuidHolder);
         return influencerRepository.save(influencer);
     }
