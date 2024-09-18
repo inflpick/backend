@@ -5,7 +5,6 @@ import com.leesh.inflpick.keyword.core.domain.KeywordColor;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,8 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "keywords")
 public class KeywordDocument {
 
-    @Id
-    private final String id;
     @Getter
     private final String uuid; // 외부에 노출할 고유한 ID
     @TextIndexed
@@ -24,8 +21,7 @@ public class KeywordDocument {
     private final Long version;
 
     @Builder
-    public KeywordDocument(String id, String uuid, String name, String color, Long version) {
-        this.id = id;
+    public KeywordDocument(String uuid, String name, String color, Long version) {
         this.uuid = uuid;
         this.name = name;
         this.color = color;

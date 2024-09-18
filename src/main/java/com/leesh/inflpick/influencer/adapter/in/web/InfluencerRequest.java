@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Schema(name = "인플루언서 생성 요청")
@@ -23,11 +24,10 @@ public record InfluencerRequest(
         String description,
         @Schema(description = "프로필 이미지 URI (URI 형식의 문자열)", example = "https://example.com/profile.jpg", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String profileImageUri,
-        @Schema(description = "키워드 ID 목록", type = "array", example = "[\"92624c72-1cf2-4762-8c45-fe1a1f0a3e97\", \"8eabcaa9-5c70-46a5-a7c0-b580b1d20316\"]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-        List<String> keywordIds,
-        @ArraySchema(
-                arraySchema = @Schema(description = "인플루언서의 소셜 미디어 링크 목록", implementation = SocialMediaRequest.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-        )
+//        @Schema(description = "키워드 ID 목록", type = "array", example = "[\"92624c72-1cf2-4762-8c45-fe1a1f0a3e97\", \"8eabcaa9-5c70-46a5-a7c0-b580b1d20316\"]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+        @ArraySchema(arraySchema = @Schema(description = "인플루언서에 등록할 키워드 UUID 목록", example = "[\"92624c72-1cf2-4762-8c45-fe1a1f0a3e97\", \"8eabcaa9-5c70-46a5-a7c0-b580b1d20316\"]", implementation = String.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED))
+        List<String> keywordUuids,
+        @ArraySchema(arraySchema = @Schema(description = "인플루언서의 소셜 미디어 링크 목록", implementation = SocialMediaRequest.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED))
         List<SocialMediaRequest> socialMediaLinks
 ) {
 
@@ -35,14 +35,14 @@ public record InfluencerRequest(
                              @Nullable String introduction,
                              @Nullable String description,
                              @Nullable String profileImageUri,
-                             @Nullable List<String> keywordIds,
+                             @Nullable List<String> keywordUuids,
                              @Nullable List<SocialMediaRequest> socialMediaLinks) {
         validateRequiredFields(name, introduction, description, profileImageUri);
         this.name = name.strip();
         this.introduction = introduction.strip();
         this.description = description.strip();
         this.profileImageUri = profileImageUri.strip();
-        this.keywordIds = keywordIds == null ? new ArrayList<>() : keywordIds.stream().map(String::strip).toList();
+        this.keywordUuids = keywordUuids == null ? new ArrayList<>() : keywordUuids.stream().map(String::strip).toList();
         this.socialMediaLinks = socialMediaLinks == null ? new ArrayList<>() : socialMediaLinks;
     }
 
@@ -61,7 +61,7 @@ public record InfluencerRequest(
             influencerIntroduction,
             influencerDescription,
             profileImage,
-            keywordIds,
+            new HashSet<>(keywordUuids),
             socialMediaProfileLinks
         );
     }

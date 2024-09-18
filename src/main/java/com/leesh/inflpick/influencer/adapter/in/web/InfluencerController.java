@@ -34,7 +34,7 @@ public class InfluencerController {
     private final InfluencerReadService readService;
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
-    @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다.")
+    @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 UUID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 UUID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -44,23 +44,23 @@ public class InfluencerController {
         InfluencerCreateCommand command = request.toCommand();
         Influencer influencer = createService.create(command);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
+                .path("/{uuid}")
                 .buildAndExpand(influencer.getUuid())
                 .toUri();
         return ResponseEntity.created(location)
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{uuid}")
     @Operation(summary = "인플루언서 단건 조회", description = "인플루언서를 단건 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
     })
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfluencerResponse> read(@PathVariable
-                                                      @Parameter(description = "ID", required = true)
-                                                      String id) {
-        Influencer influencer = readService.getByUuid(id);
+                                                      @Parameter(description = "고유 식별자(uuid)", required = true)
+                                                      String uuid) {
+        Influencer influencer = readService.getByUuid(uuid);
         return ResponseEntity.ok(InfluencerResponse.from(influencer));
     }
 }

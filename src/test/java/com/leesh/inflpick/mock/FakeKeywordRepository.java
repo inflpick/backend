@@ -1,15 +1,14 @@
 package com.leesh.inflpick.mock;
 
+import com.leesh.inflpick.influencer.core.domain.Keywords;
 import com.leesh.inflpick.keyword.adapter.out.persistence.KeywordNotFoundException;
 import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordDocument;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FakeKeywordRepository implements KeywordRepository {
 
@@ -49,5 +48,14 @@ public class FakeKeywordRepository implements KeywordRepository {
     @Override
     public List<Keyword> search(KeywordName name) {
         return data;
+    }
+
+    @Override
+    public Keywords getAllByUuids(Set<String> keywordUuids) {
+        Set<Keyword> keywords = data.stream()
+                .filter(keyword -> keywordUuids.contains(keyword.getUuid()))
+                .collect(Collectors.toSet());
+
+        return new Keywords(keywords);
     }
 }

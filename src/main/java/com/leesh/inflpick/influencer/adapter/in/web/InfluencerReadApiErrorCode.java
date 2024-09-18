@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public enum InfluencerReadApiErrorCode implements ApiErrorCode {
 
-    INFLUENCER_NOT_FOUND("IN_R_0001", HttpStatus.NOT_FOUND, "ID에 해당하는 인플루언서를 찾을 수 없습니다.", "ID를 확인하고 다시 시도해주세요.", "ID에 해당하는 인플루언서를 찾을 수 없는 경우에 발생합니다."),
+    INFLUENCER_NOT_FOUND("IN_R_0001", HttpStatus.NOT_FOUND, "UUID에 해당하는 인플루언서를 찾을 수 없습니다.", "UUID를 확인하고 다시 시도해주세요.", "UUID에 해당하는 인플루언서를 찾을 수 없는 경우에 발생합니다."),
     ;
 
     private final String code;

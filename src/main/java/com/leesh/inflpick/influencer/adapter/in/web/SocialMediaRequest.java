@@ -1,5 +1,7 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.leesh.inflpick.common.adapter.in.web.MissingRequiredFieldsException;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLink;
@@ -16,13 +18,13 @@ public record SocialMediaRequest(
         @Schema(description = "소셜 미디어 프로필 링크 URI (URI 형식의 문자열)", example = "https://instagram.com/jimjongkook", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String profileLinkUri) {
 
-    public SocialMediaRequest(@Nullable String platform,
-                              @Nullable String profileLinkUri) {
+    @JsonCreator
+    public SocialMediaRequest(@JsonProperty("platform") @Nullable String platform,
+                              @JsonProperty("profileLinkUri") @Nullable String profileLinkUri) {
         validateRequireFields(platform, profileLinkUri);
         this.platform = platform.strip();
         assert profileLinkUri != null;
         this.profileLinkUri = profileLinkUri.strip();
-
     }
 
     private void validateRequireFields(@Nullable String platform,
@@ -44,7 +46,7 @@ public record SocialMediaRequest(
         try {
             return SocialMediaPlatform.valueOf(platform);
         } catch (IllegalArgumentException e) {
-            throw new InvalidSocialMediaPlatformException("유효한 소셜 미디어 플랫폼을 입력해주세요.");
+            throw new InvalidSocialMediaPlatformException(platform);
         }
     }
 

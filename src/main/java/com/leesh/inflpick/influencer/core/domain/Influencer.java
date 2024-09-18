@@ -70,4 +70,8 @@ public class Influencer {
     public String getProfileImage() {
         return profileImage.uri().toASCIIString();
     }
+
+    public void addKeywords(Keywords keywords) {
+        this.keywords.addAll(keywords);
+    }
 }

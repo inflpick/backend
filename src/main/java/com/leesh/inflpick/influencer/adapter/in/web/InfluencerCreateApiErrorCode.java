@@ -6,12 +6,13 @@ import org.springframework.http.HttpStatus;
 
 public enum InfluencerCreateApiErrorCode implements ApiErrorCode {
 
-    INFLUENCER_NAME_VALIDATION_FAILED("IN_C_0001", HttpStatus.BAD_REQUEST, "입력한 인플루언서 이름이 유효성 검증에 실패하였습니다.", InfluencerName.ERROR_MESSAGE_FORMAT.toPattern(),  "인플루언서 이름 필드가 유효성 검증에 실패한 경우에 발생합니다."),
-    INFLUENCER_INTRODUCTION_VALIDATION_FAILED("IN_C_0002", HttpStatus.BAD_REQUEST, "입력한 인플루언서 소개가 유효성 검증에 실패하였습니다.", InfluencerIntroduction.ERROR_MESSAGE_FORMAT.toPattern(), "인플루언서 소개 필드가 유효성 검증에 실패한 경우에 발생합니다."),
-    INFLUENCER_DESCRIPTION_VALIDATION_FAILED("IN_C_0003", HttpStatus.BAD_REQUEST, "입력한 인플루언서 설명이 유효성 검증에 실패하였습니다.", InfluencerDescription.ERROR_MESSAGE_FORMAT.toPattern(), "인플루언서 설명 필드가 유효성 검증에 실패한 경우에 발생합니다."),
-    PROFILE_IMAGE_URI_SYNTAX_ERROR("IN_C_0004", HttpStatus.BAD_REQUEST, "프로필 이미지 URI 형식이 올바르지 않습니다.", ProfileImage.ERROR_MESSAGE_FORMAT.toPattern(), "프로필 이미지 URI 형식이 올바르지 않은 경우에 발생합니다."),
-    SOCIAL_MEDIA_PROFILE_LINK_URI_SYNTAX_ERROR("IN_C_0005", HttpStatus.BAD_REQUEST, "소셜 미디어 프로필 링크 URI 형식이 올바르지 않습니다.", SocialMediaProfileLink.ERROR_MESSAGE_FORMAT.toPattern(), "소셜 미디어 프로필 링크 URI 형식이 올바르지 않은 경우에 발생합니다."),
-    INVALID_SOCIAL_MEDIA_TYPE("IN_C_0006", HttpStatus.BAD_REQUEST, "유효하지 않은 소셜 미디어 타입입니다.", "소셜 미디어 타입은 %s 중 하나여야 합니다.".formatted(String.join(", ", SocialMediaPlatform.availablePlatforms())), "소셜 미디어 타입이 유효하지 않은 경우에 발생합니다."),
+    INFLUENCER_NAME_VALIDATION_FAILED("IN_C_0001", HttpStatus.BAD_REQUEST, "입력한 인플루언서 이름이 유효성 검증에 실패하였습니다.", InfluencerNameValidationFailedException.ERROR_MESSAGE_FORMAT.toPattern(),  "인플루언서 이름 필드가 유효성 검증에 실패한 경우에 발생합니다."),
+    INFLUENCER_INTRODUCTION_VALIDATION_FAILED("IN_C_0002", HttpStatus.BAD_REQUEST, "입력한 인플루언서 소개가 유효성 검증에 실패하였습니다.", InfluencerIntroductionValidationFailedException.ERROR_MESSAGE_FORMAT.toPattern(), "인플루언서 소개 필드가 유효성 검증에 실패한 경우에 발생합니다."),
+    INFLUENCER_DESCRIPTION_VALIDATION_FAILED("IN_C_0003", HttpStatus.BAD_REQUEST, "입력한 인플루언서 설명이 유효성 검증에 실패하였습니다.", InfluencerDescriptionValidationFailedException.ERROR_MESSAGE_FORMAT.toPattern(), "인플루언서 설명 필드가 유효성 검증에 실패한 경우에 발생합니다."),
+    PROFILE_IMAGE_URI_SYNTAX_ERROR("IN_C_0004", HttpStatus.BAD_REQUEST, "프로필 이미지 URI 형식이 올바르지 않습니다.", ProfileImageUriSyntaxException.ERROR_MESSAGE_FORMAT.toPattern(), "프로필 이미지 URI 형식이 올바르지 않은 경우에 발생합니다."),
+    SOCIAL_MEDIA_PROFILE_LINK_URI_SYNTAX_ERROR("IN_C_0005", HttpStatus.BAD_REQUEST, "소셜 미디어 프로필 링크 URI 형식이 올바르지 않습니다.", SocialMediaProfileLinkUriSyntaxException.ERROR_MESSAGE_FORMAT.toPattern(), "소셜 미디어 프로필 링크 URI 형식이 올바르지 않은 경우에 발생합니다."),
+    INVALID_SOCIAL_MEDIA_TYPE("IN_C_0006", HttpStatus.BAD_REQUEST, "유효하지 않은 소셜 미디어 타입입니다.", InvalidSocialMediaPlatformException.ERROR_MESSAGE_FORMAT.toPattern(), "소셜 미디어 타입이 유효하지 않은 경우에 발생합니다."),
+    KEYWORD_MAXIMUM_SIZE_EXCEED("IN_C_0007", HttpStatus.BAD_REQUEST, "등록 가능한 최대 키워드를 초과하였습니다.", KeywordMaximumSizeExceedException.ERROR_MESSAGE_FORMAT.toPattern(), "키워드 등록 요청이 최대 허용 개수를 초과한 경우에 발생합니다."),
     ;
 
     private final String code;

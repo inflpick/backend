@@ -44,7 +44,7 @@ public class KeywordController {
     public ResponseEntity<Void> create(@RequestBody KeywordRequest request) {
         Keyword keyword = createService.create(request.toCommand());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
+                .path("/{uuid}")
                 .buildAndExpand(keyword.getUuid())
                 .toUri();
         return ResponseEntity

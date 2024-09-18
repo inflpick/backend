@@ -1,5 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.out.persistence;
 
+import com.leesh.inflpick.influencer.core.domain.Keywords;
 import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordDocument;
 import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordMongoRepository;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -47,5 +50,14 @@ public class KeywordRepositoryImpl implements KeywordRepository {
                 .stream()
                 .map(KeywordDocument::toEntity)
                 .toList();
+    }
+
+    @Override
+    public Keywords getAllByUuids(Set<String> keywordUuids) {
+        List<KeywordDocument> keywordDocuments = keywordMongoRepository.findAllByUuidIn(keywordUuids);
+        Set<Keyword> keywords = keywordDocuments.stream()
+                .map(KeywordDocument::toEntity)
+                .collect(Collectors.toSet());
+        return new Keywords(keywords);
     }
 }

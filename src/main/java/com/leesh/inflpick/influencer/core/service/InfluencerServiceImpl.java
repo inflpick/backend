@@ -2,6 +2,7 @@ package com.leesh.inflpick.influencer.core.service;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.influencer.core.domain.Keywords;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
 import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
@@ -12,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 @RequiredArgsConstructor
@@ -29,11 +30,13 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
         return influencerRepository.getByUuid(uuid);
     }
 
-    @Transactional()
+    @Transactional
     @Override
     public Influencer create(InfluencerCreateCommand command) {
-        List<String> keywordIds = command.keywordIds();
+        Set<String> keywordIds = command.keywordUuids();
+        Keywords keywords = keywordRepository.getAllByUuids(keywordIds);
         Influencer influencer = command.toEntity(uuidHolder);
+        influencer.addKeywords(keywords);
         return influencerRepository.save(influencer);
     }
 }

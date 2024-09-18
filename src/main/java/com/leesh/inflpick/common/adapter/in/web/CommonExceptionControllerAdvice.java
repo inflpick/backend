@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @Slf4j
 @RestControllerAdvice
@@ -38,7 +39,20 @@ public class CommonExceptionControllerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorResponse> handlerHttpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
         log.error("HttpMessageNotReadableException: {}", e.getMessage());
-        ApiErrorCode apiErrorCode = CommonApiErrorCode.INVALID_REQUEST_BODY;
-        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+
+        return findMissingRequiredFieldsException(e.getCause())
+                .map(exception -> createResponseEntityFromApiErrorCode(request, exception.getApiErrorCode()))
+                .orElseGet(() -> createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_REQUEST_BODY));
     }
+
+    private Optional<MissingRequiredFieldsException> findMissingRequiredFieldsException(Throwable e) {
+        while (e != null) {
+            if (e instanceof MissingRequiredFieldsException cause) {
+                return Optional.of(cause);
+            }
+            e = e.getCause();
+        }
+        return Optional.empty();
+    }
+
 }
