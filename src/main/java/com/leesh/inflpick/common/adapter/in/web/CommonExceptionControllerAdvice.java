@@ -29,6 +29,12 @@ public class CommonExceptionControllerAdvice {
                 .body(apiErrorResponse);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerRuntimeException(RuntimeException e, HttpServletRequest request) {
+        log.error("RuntimeException: {}", e.getMessage(), e.getCause());
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.SERVER_ERROR);
+    }
+
     @ExceptionHandler(MissingRequiredFieldsException.class)
     public ResponseEntity<ApiErrorResponse> handlerMissingRequiredFieldsException(MissingRequiredFieldsException e, HttpServletRequest request) {
         log.error("MissingRequiredFieldsException: {}", e.getMessage());
