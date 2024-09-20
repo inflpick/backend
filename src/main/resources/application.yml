@@ -3,7 +3,7 @@ spring:
     name: api-server
   data:
     mongodb:
-      uri: mongodb://root:example@localhost:27017/api-server
+      uri: mongodb://myuser:mypassword@localhost:27017/api-server
 springdoc:
   swagger-ui:
     default-models-expand-depth: -1 # API 문서 밑에 Schema 모델 없애기
@@ -20,9 +20,8 @@ logging:
     path: logs # 로그 파일의 위치 절대 경로를 적어주시면 됩니다.
   logback:
     rollingpolicy:
-#      file-name-pattern: # 로그 파일의 이름을 설정하는 패턴입니다. 파일명+날짜와 같이 지정할 수 있습니다.
-      file-name-pattern: ./logs/${spring.application.name}.%d{yyyy-MM-dd_HH-mm-ss}.%i.log
+      file-name-pattern: ./logs/${spring.application.name}.%d{yyyy-MM-dd_HH-mm-ss}.log
       clean-history-on-start: false # 애플리케이션 재실행시 로그 파일을 초기화 여부 설정
-      max-file-size: 5KB # 로그 파일의 최대 크기이며, 크기가 넘어가면 새로운 로그파일 작성
+      max-file-size: 5MB # 로그 파일의 최대 크기이며, 크기가 넘어가면 새로운 로그파일 작성
       max-history: 30 # 로그 파일의 최대 수
-      total-size-cap: 10MB # 로그 파일의 총 크기이며, 넘어갈 시 가장 오래된 로그 파일 삭제
+      total-size-cap: 50MB # 로그 파일의 총 크기이며, 넘어갈 시 가장 오래된 로그 파일 삭제

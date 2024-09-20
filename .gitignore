@@ -306,3 +306,5 @@ gradle-app.setting
 ### Custom ###
 infra/data/*
 infra/data/
+.idea
+infra/data/**/*

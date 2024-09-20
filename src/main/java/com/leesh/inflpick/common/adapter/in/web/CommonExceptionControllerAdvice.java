@@ -37,14 +37,14 @@ public class CommonExceptionControllerAdvice {
 
     @ExceptionHandler(MissingRequiredFieldsException.class)
     public ResponseEntity<ApiErrorResponse> handlerMissingRequiredFieldsException(MissingRequiredFieldsException e, HttpServletRequest request) {
-        log.error("MissingRequiredFieldsException: {}", e.getMessage());
+         log.error("MissingRequiredFieldsException: {}", e.getMessage(), e.getCause());
         ApiErrorCode apiErrorCode = e.getApiErrorCode();
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorResponse> handlerHttpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
-        log.error("HttpMessageNotReadableException: {}", e.getMessage());
+        log.error("HttpMessageNotReadableException: {}", e.getMessage(), e.getCause());
 
         return findMissingRequiredFieldsException(e.getCause())
                 .map(exception -> createResponseEntityFromApiErrorCode(request, exception.getApiErrorCode()))
