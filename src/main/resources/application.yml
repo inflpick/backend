@@ -27,11 +27,11 @@ logging:
   logback:
     rollingpolicy:
       file-name-pattern: ./logs/${spring.application.name}.%d{yyyy-MM-dd_HH-mm-ss}.log
-      clean-history-on-start: false # 애플리케이션 재실행시 로그 파일을 초기화 여부 설정
+      clean-history-on-start: true # 애플리케이션 재실행시 로그 파일을 초기화 여부 설정
       max-file-size: 5MB # 로그 파일의 최대 크기이며, 크기가 넘어가면 새로운 로그파일 작성
       max-history: 30 # 로그 파일의 최대 수
       total-size-cap: 50MB # 로그 파일의 총 크기이며, 넘어갈 시 가장 오래된 로그 파일 삭제
 custom:
   storage:
     file-system:
-      base-dir: /data
+      base-path: data

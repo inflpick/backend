@@ -1,5 +1,9 @@
 package com.leesh.inflpick.common.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,29 +36,28 @@ public class CommonExceptionControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiErrorResponse> handlerRuntimeException(RuntimeException e, HttpServletRequest request) {
-        log.error("RuntimeException: {}", e.getMessage(), e.getCause());
+        log.error("RuntimeException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.SERVER_ERROR);
     }
 
     @ExceptionHandler(MissingRequiredFieldsException.class)
     public ResponseEntity<ApiErrorResponse> handlerMissingRequiredFieldsException(MissingRequiredFieldsException e, HttpServletRequest request) {
-         log.error("MissingRequiredFieldsException: {}", e.getMessage(), e.getCause());
-        ApiErrorCode apiErrorCode = e.getApiErrorCode();
-        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+         log.error("MissingRequiredFieldsException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.MISSING_REQUIRED_FIELDS);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorResponse> handlerHttpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
-        log.error("HttpMessageNotReadableException: {}", e.getMessage(), e.getCause());
+        log.error("HttpMessageNotReadableException: {}", e.getMessage(), e);
 
-        return findMissingRequiredFieldsException(e.getCause())
-                .map(exception -> createResponseEntityFromApiErrorCode(request, exception.getApiErrorCode()))
+        return findMissingRequiredFieldsException(e)
+                .map(exception -> createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.MISSING_REQUIRED_FIELDS))
                 .orElseGet(() -> createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_REQUEST_BODY));
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<ApiErrorResponse> handlerHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e, HttpServletRequest request) {
-        log.error("HttpMediaTypeNotSupportedException: {}", e.getMessage(), e.getCause());
+        log.error("HttpMediaTypeNotSupportedException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.UNSUPPORTED_HTTP_MEDIA_TYPE);
     }
 
@@ -62,8 +65,9 @@ public class CommonExceptionControllerAdvice {
         while (e != null) {
             if (e instanceof MissingRequiredFieldsException cause) {
                 return Optional.of(cause);
+            } else {
+                e = e.getCause();
             }
-            e = e.getCause();
         }
         return Optional.empty();
     }

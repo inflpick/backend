@@ -1,9 +1,9 @@
 package com.leesh.inflpick.influencer.core.domain;
 
+import com.leesh.inflpick.influencer.core.domain.value.*;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.net.URI;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Objects;
@@ -70,7 +70,7 @@ public class Influencer {
     }
 
     public String getProfileImage() {
-        return profileImage.uri().toASCIIString();
+        return profileImage.imagePath();
     }
 
     public void addKeywords(Keywords keywords) {
@@ -81,7 +81,7 @@ public class Influencer {
         return profileImage.basePath(this.uuid);
     }
 
-    public void registerProfileImage(URI uploadPath) {
+    public void registerProfileImage(String uploadPath) {
         this.profileImage = new ProfileImage(uploadPath);
     }
 }

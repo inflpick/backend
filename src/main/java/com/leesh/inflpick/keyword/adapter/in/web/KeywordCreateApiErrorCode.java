@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.ApiErrorCode;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
 import com.leesh.inflpick.keyword.core.domain.KeywordColor;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.mock;
 
-import com.leesh.inflpick.influencer.core.domain.Keywords;
+import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.adapter.out.persistence.KeywordNotFoundException;
 import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordDocument;
 import com.leesh.inflpick.keyword.core.domain.Keyword;

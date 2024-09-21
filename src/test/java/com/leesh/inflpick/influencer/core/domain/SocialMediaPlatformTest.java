@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain;
 
-import com.leesh.inflpick.influencer.core.domain.SocialMediaPlatform;
+import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

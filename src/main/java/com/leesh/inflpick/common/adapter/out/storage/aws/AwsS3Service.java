@@ -1,8 +1,9 @@
 package com.leesh.inflpick.common.adapter.out.storage.aws;
 
+import com.leesh.inflpick.common.adapter.out.storage.InvalidFileRequestException;
+import com.leesh.inflpick.common.adapter.out.storage.ThirdPartyStorageException;
 import com.leesh.inflpick.influencer.port.out.StorageService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,9 @@ public class AwsS3Service implements StorageService {
     private final AwsProperties awsProperties;
 
     public String upload(@NotNull MultipartFile file,
-                         @NotNull String basePath) throws FileUploadException {
+                         @NotNull String resourcePath) throws ThirdPartyStorageException {
 
-        String key = Paths.get(basePath, file.getOriginalFilename()).toString();
+        String key = Paths.get(resourcePath, file.getOriginalFilename()).toString();
 
         try {
             // S3에 파일 업로드 요청
@@ -38,9 +39,9 @@ public class AwsS3Service implements StorageService {
             RequestBody requestBody = RequestBody.fromBytes(file.getBytes());
             s3Client.putObject(request, requestBody);
         } catch (S3Exception e) {
-            throw new FileUploadException("S3 예외가 발생하여, 파일 업로드에 실패하였습니다.", e);
+            throw new ThirdPartyStorageException("S3 예외가 발생하여, 파일 업로드에 실패하였습니다.", e);
         } catch (IOException e) {
-            throw new FileUploadException("IO 예외가 발생하여, 파일 업로드에 실패하였습니다.", e);
+            throw new InvalidFileRequestException("유저가 업로드한 파일이 유효하지 못해 업로드 할 수 없습니다.", e);
         }
 
         return key;

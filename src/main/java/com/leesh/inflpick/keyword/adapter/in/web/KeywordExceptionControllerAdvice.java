@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.keyword.core.domain.HexColorSyntaxException;
 import com.leesh.inflpick.keyword.core.domain.KeywordNameValidationFailedException;
 import com.leesh.inflpick.keyword.port.in.DuplicateKeywordNameException;

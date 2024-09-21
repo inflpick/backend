@@ -1,8 +1,10 @@
 package com.leesh.inflpick.influencer.core.service;
 
+import com.leesh.inflpick.common.adapter.out.storage.InvalidFileRequestException;
+import com.leesh.inflpick.common.adapter.out.storage.ThirdPartyStorageException;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.influencer.core.domain.Keywords;
+import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
 import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
@@ -11,13 +13,11 @@ import com.leesh.inflpick.influencer.port.out.StorageService;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URI;
 import java.nio.file.Path;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
 
     @Transactional
     @Override
-    public Influencer create(@NotNull InfluencerCreateCommand command,
+    public String create(@NotNull InfluencerCreateCommand command,
                              @NotNull MultipartFile profileImage) {
 
         Set<String> keywordIds = command.keywordUuids();
@@ -52,12 +52,14 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
         Path basePath = influencer.getProfileImageBasePath();
         try {
             String uploadPath = storageService.upload(profileImage, basePath.toString());
-            URI uri = URI.create(uploadPath);
-            influencer.registerProfileImage(uri);
-        } catch (FileUploadException e) {
-            throw new RuntimeException(e);
+            influencer.registerProfileImage(uploadPath);
+        } catch (InvalidFileRequestException e) {
+            throw new InvalidProfileImageRequestException(e);
+        } catch (ThirdPartyStorageException e) {
+            throw new ProfileImageUploadFailedException(e);
         }
 
-        return influencerRepository.save(influencer);
+        return influencerRepository.save(influencer)
+                .getUuid();
     }
 }

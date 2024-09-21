@@ -1,13 +1,14 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence.mongo;
 
-import com.leesh.inflpick.influencer.core.domain.*;
+import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
+import com.leesh.inflpick.influencer.core.domain.value.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.net.URI;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,7 @@ public class InfluencerDocument {
     private final String name;
     private final String introduction;
     private final String description;
-    private final String profileImageUri;
+    private final String profileImagePath;
     @Getter
     private final Set<String> keywordUuids;
     private final List<SocialMediaProfileLink> socialMediaProfileLinks;
@@ -40,7 +41,7 @@ public class InfluencerDocument {
                                String name,
                                String introduction,
                                String description,
-                               String profileImageUri,
+                               String profileImagePath,
                                Set<String> keywordUuids,
                                List<SocialMediaProfileLink> socialMediaProfileLinks,
                                String createdBy,
@@ -51,7 +52,7 @@ public class InfluencerDocument {
         this.name = name;
         this.introduction = introduction;
         this.description = description;
-        this.profileImageUri = profileImageUri;
+        this.profileImagePath = profileImagePath;
         this.keywordUuids = keywordUuids;
         this.socialMediaProfileLinks = socialMediaProfileLinks;
         this.createdBy = createdBy;
@@ -71,7 +72,7 @@ public class InfluencerDocument {
                 .name(influencer.getName())
                 .introduction(influencer.getIntroduction())
                 .description(influencer.getDescription())
-                .profileImageUri(influencer.getProfileImage())
+                .profileImagePath(influencer.getProfileImage())
                 .keywordUuids(keywordUuids)
                 .socialMediaProfileLinks(influencer.getSocialMediaProfileLinks().getImmutable())
                 .build();
@@ -84,7 +85,7 @@ public class InfluencerDocument {
                 .name(new InfluencerName(name))
                 .introduction(new InfluencerIntroduction(introduction))
                 .description(new InfluencerDescription(description))
-                .profileImage(new ProfileImage(URI.create(profileImageUri)))
+                .profileImage(new ProfileImage(profileImagePath))
                 .keywords(keywords)
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(socialMediaProfileLinks))
                 .createdDate(createdDate)

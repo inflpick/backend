@@ -1,6 +1,7 @@
 package com.leesh.inflpick.influencer.port.in;
 
 import com.leesh.inflpick.influencer.core.domain.*;
+import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.influencer.core.service.InfluencerServiceImpl;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.influencer.port.out.StorageService;
@@ -33,7 +34,7 @@ class InfluencerServiceTest {
                 .name(new InfluencerName("John Doe"))
                 .introduction(new InfluencerIntroduction("An influencer"))
                 .description(new InfluencerDescription("An influencer"))
-                .profileImage(new ProfileImage(URI.create("http://example.com/profile.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .keywords(Keywords.EMPTY)
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(
                         new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"))
@@ -45,7 +46,7 @@ class InfluencerServiceTest {
                 .name(new InfluencerName("Jane Doe"))
                 .introduction(new InfluencerIntroduction("Another influencer"))
                 .description(new InfluencerDescription("Another influencer"))
-                .profileImage(new ProfileImage(URI.create("http://example.com/profile2.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile2.jpg"))
                 .keywords(Keywords.EMPTY)
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(
                         new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/janedoe"))
@@ -71,7 +72,7 @@ class InfluencerServiceTest {
         InfluencerName name = new InfluencerName("John Doe");
         InfluencerIntroduction introduction = new InfluencerIntroduction("An influencer");
         InfluencerDescription description = new InfluencerDescription("An influencer");
-        ProfileImage profileImage = new ProfileImage(URI.create("http://example.com/profile.jpg"));
+        ProfileImage profileImage = new ProfileImage("http://example.com/profile1.jpg");
         SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"));
         SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(List.of(twitterLink));
         InfluencerCreateCommand command = new InfluencerCreateCommand(name,

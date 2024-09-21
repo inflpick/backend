@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.port.out;
 
-import com.leesh.inflpick.influencer.core.domain.Keywords;
+import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.adapter.out.persistence.KeywordNotFoundException;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;

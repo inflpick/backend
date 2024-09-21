@@ -308,3 +308,4 @@ infra/data/*
 infra/data/
 .idea
 infra/data/**/*
+data/

@@ -1,5 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain;
 
+import com.leesh.inflpick.influencer.core.domain.value.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ class InfluencerTest {
                 .uuid("123")
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
-                .profileImage(new ProfileImage(new URI("http://example.com/profile.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(twitterLink)))
                 .build();
 
@@ -31,7 +32,7 @@ class InfluencerTest {
         assertEquals("123", influencer.getUuid());
         assertEquals("John Doe", influencer.getName());
         assertEquals("An influencer", influencer.getDescription());
-        assertEquals("http://example.com/profile.jpg", influencer.getProfileImage());
+        assertEquals("http://example.com/profile1.jpg", influencer.getProfileImage());
     }
 
     @Test
@@ -44,7 +45,7 @@ class InfluencerTest {
                 .uuid("123")
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
-                .profileImage(new ProfileImage(new URI("http://example.com/profile.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
                 .build();
 
@@ -61,14 +62,14 @@ class InfluencerTest {
                 .uuid(id)
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
-                .profileImage(new ProfileImage(new URI("http://example.com/profile.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
                 .build();
         Influencer influencer2 = Influencer.builder()
                 .uuid(id)
                 .name(new InfluencerName("Jane Doe"))
                 .description(new InfluencerDescription("Another influencer"))
-                .profileImage(new ProfileImage(new URI("http://example.com/profile2.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
                 .build();
 
@@ -85,14 +86,14 @@ class InfluencerTest {
                 .uuid("123")
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
-                .profileImage(new ProfileImage(new URI("http://example.com/profile.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
                 .build();
         Influencer influencer2 = Influencer.builder()
                 .uuid("456")
                 .name(new InfluencerName("Jane Doe"))
                 .description(new InfluencerDescription("Another influencer"))
-                .profileImage(new ProfileImage(new URI("http://example.com/profile2.jpg")))
+                .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
                 .build();
 

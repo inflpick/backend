@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.MissingRequiredFieldsException;
+import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
 import com.leesh.inflpick.keyword.core.domain.KeywordNameValidationFailedException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.ApiErrorCode;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum KeywordReadApiErrorCode implements ApiErrorCode {

@@ -1,7 +1,13 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.in.web.exception.ProfileImageNotExistException;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerRequest;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
@@ -17,6 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +42,7 @@ public class InfluencerController {
     private final InfluencerCreateService createService;
     private final InfluencerReadService readService;
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
+    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class, InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
     @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 UUID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 UUID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
@@ -54,12 +61,14 @@ public class InfluencerController {
         }
 
         InfluencerCreateCommand command = request.toCommand();
-        Influencer influencer = createService.create(command, profileImage);
+        String uuid = createService.create(command, profileImage);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{uuid}")
-                .buildAndExpand(influencer.getUuid())
+                .buildAndExpand(uuid)
                 .toUri();
         return ResponseEntity.created(location)
+                .header(HttpHeaders.ACCEPT, MediaType.MULTIPART_FORM_DATA_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
                 .build();
     }
 

@@ -1,6 +1,5 @@
 package com.leesh.inflpick.keyword.core.domain;
 
-import com.leesh.inflpick.influencer.core.domain.CustomConstraintViolationExceptionBase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

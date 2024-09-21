@@ -1,5 +1,8 @@
 package com.leesh.inflpick.influencer.core.domain;
 
+import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
+import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

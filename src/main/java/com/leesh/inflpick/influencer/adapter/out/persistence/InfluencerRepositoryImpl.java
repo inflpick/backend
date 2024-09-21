@@ -3,7 +3,7 @@ package com.leesh.inflpick.influencer.adapter.out.persistence;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.influencer.core.domain.Keywords;
+import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.RequiredArgsConstructor;

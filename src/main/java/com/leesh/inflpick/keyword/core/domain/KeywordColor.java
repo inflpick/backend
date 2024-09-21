@@ -1,6 +1,5 @@
 package com.leesh.inflpick.keyword.core.domain;
 
-import com.leesh.inflpick.influencer.core.domain.CustomConstraintViolationExceptionBase;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -17,13 +16,13 @@ public record KeywordColor(@NotNull Color color) {
         ERROR_MESSAGE_FORMAT = new MessageFormat(pattern);
     }
 
-    private static void validateInput(@NotNull String hexColor) throws CustomConstraintViolationExceptionBase {
+    private static void validateInput(@NotNull String hexColor) throws HexColorSyntaxException {
         if (!PATTERN.matcher(hexColor).matches()) {
             throw new HexColorSyntaxException(ERROR_MESSAGE_FORMAT.format(new Object[]{hexColor}));
         }
     }
 
-    public static KeywordColor from(String hexColor) throws CustomConstraintViolationExceptionBase {
+    public static KeywordColor from(String hexColor) throws HexColorSyntaxException {
         validateInput(hexColor);
         return new KeywordColor(Color.decode(hexColor));
     }

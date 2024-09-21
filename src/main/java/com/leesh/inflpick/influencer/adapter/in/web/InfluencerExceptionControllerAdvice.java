@@ -1,8 +1,16 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import com.leesh.inflpick.influencer.adapter.in.web.exception.InvalidSocialMediaPlatformException;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.out.persistence.InfluencerNotFoundException;
-import com.leesh.inflpick.influencer.core.domain.*;
+import com.leesh.inflpick.influencer.core.domain.exception.InfluencerDescriptionValidationFailedException;
+import com.leesh.inflpick.influencer.core.domain.exception.InfluencerIntroductionValidationFailedException;
+import com.leesh.inflpick.influencer.core.domain.exception.InfluencerNameValidationFailedException;
+import com.leesh.inflpick.influencer.core.domain.exception.SocialMediaProfileLinkUriSyntaxException;
+import com.leesh.inflpick.influencer.core.service.InvalidProfileImageRequestException;
+import com.leesh.inflpick.influencer.core.service.ProfileImageUploadFailedException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,50 +25,58 @@ public class InfluencerExceptionControllerAdvice {
 
     @ExceptionHandler(InfluencerNameValidationFailedException.class)
     public ResponseEntity<ApiErrorResponse> handlerInfluencerNameValidationFailedException(InfluencerNameValidationFailedException e, HttpServletRequest request) {
-        log.warn("InfluencerNameValidationFailedException: {}", e.getMessage(), e.getCause());
+        log.warn("InfluencerNameValidationFailedException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INFLUENCER_NAME_VALIDATION_FAILED;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(InfluencerIntroductionValidationFailedException.class)
     public ResponseEntity<ApiErrorResponse> handlerInfluencerIntroductionValidationFailedException(InfluencerIntroductionValidationFailedException e, HttpServletRequest request) {
-        log.warn("InfluencerIntroductionValidationFailedException: {}", e.getMessage(), e.getCause());
+        log.warn("InfluencerIntroductionValidationFailedException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INFLUENCER_INTRODUCTION_VALIDATION_FAILED;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(InfluencerDescriptionValidationFailedException.class)
     public ResponseEntity<ApiErrorResponse> handlerInfluencerDescriptionValidationFailedException(InfluencerDescriptionValidationFailedException e, HttpServletRequest request) {
-        log.warn("InfluencerDescriptionValidationFailedException: {}", e.getMessage(), e.getCause());
+        log.warn("InfluencerDescriptionValidationFailedException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INFLUENCER_DESCRIPTION_VALIDATION_FAILED;
-        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
-    }
-
-    @ExceptionHandler(ProfileImageUriSyntaxException.class)
-    public ResponseEntity<ApiErrorResponse> handlerProfileImageUriSyntaxException(ProfileImageUriSyntaxException e, HttpServletRequest request) {
-        log.warn("ProfileImageUriSyntaxException: {}", e.getMessage(), e.getCause());
-        InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.PROFILE_IMAGE_URI_SYNTAX_ERROR;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(InvalidSocialMediaPlatformException.class)
     public ResponseEntity<ApiErrorResponse> handlerInvalidSocialMediaPlatformException(InvalidSocialMediaPlatformException e, HttpServletRequest request) {
-        log.warn("InvalidSocialMediaPlatformException: {}", e.getMessage(), e.getCause());
+        log.warn("InvalidSocialMediaPlatformException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INVALID_SOCIAL_MEDIA_TYPE;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(SocialMediaProfileLinkUriSyntaxException.class)
     public ResponseEntity<ApiErrorResponse> handlerSocialMediaProfileLinkUriSyntaxException(SocialMediaProfileLinkUriSyntaxException e, HttpServletRequest request) {
-        log.warn("SocialMediaProfileLinkUriSyntaxException: {}", e.getMessage(), e.getCause());
+        log.warn("SocialMediaProfileLinkUriSyntaxException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.SOCIAL_MEDIA_PROFILE_LINK_URI_SYNTAX_ERROR;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(InfluencerNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handlerInfluencerNotFoundException(InfluencerNotFoundException e, HttpServletRequest request) {
-        log.warn("InfluencerNotFoundException: {}", e.getMessage(), e.getCause());
+        log.warn("InfluencerNotFoundException: {}", e.getMessage(), e);
         InfluencerReadApiErrorCode apiErrorCode = InfluencerReadApiErrorCode.INFLUENCER_NOT_FOUND;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
+
+    @ExceptionHandler(InvalidProfileImageRequestException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidProfileImageRequestException(InvalidProfileImageRequestException e, HttpServletRequest request) {
+        log.warn("InvalidProfileImageRequestException: {}", e.getMessage(), e);
+        InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INVALID_PROFILE_IMAGE_REQUEST;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(ProfileImageUploadFailedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerProfileImageUploadFailedException(ProfileImageUploadFailedException e, HttpServletRequest request) {
+        log.warn("ProfileImageUploadFailedException: {}", e.getMessage(), e);
+        InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.PROFILE_IMAGE_UPLOAD_FAILED;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
 }
