@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -49,6 +50,12 @@ public class CommonExceptionControllerAdvice {
         return findMissingRequiredFieldsException(e.getCause())
                 .map(exception -> createResponseEntityFromApiErrorCode(request, exception.getApiErrorCode()))
                 .orElseGet(() -> createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_REQUEST_BODY));
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e, HttpServletRequest request) {
+        log.error("HttpMediaTypeNotSupportedException: {}", e.getMessage(), e.getCause());
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.UNSUPPORTED_HTTP_MEDIA_TYPE);
     }
 
     private Optional<MissingRequiredFieldsException> findMissingRequiredFieldsException(Throwable e) {

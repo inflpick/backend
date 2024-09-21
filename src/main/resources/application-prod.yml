@@ -33,5 +33,11 @@ logging:
       total-size-cap: 50MB # 로그 파일의 총 크기이며, 넘어갈 시 가장 오래된 로그 파일 삭제
 custom:
   storage:
-    file-system:
-      base-dir: /data
+    aws:
+      credentials:
+        access-key: my-access-key
+        secret-key: my-secret-key
+      region: ap-northeast-2
+      s3:
+        bucket: my-bucket
+        url: https://my-bucket.s3.ap-northeast-2.amazonaws.com

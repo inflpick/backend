@@ -10,7 +10,7 @@ import lombok.Builder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Schema(name = "소셜 미디어 요청", hidden = true)
+@Schema(name = "소셜 미디어 요청", description = "소셜 미디어 생성 요청 필드")
 @Builder
 public record SocialMediaRequest(
         @Schema(description = "소셜 미디어 플랫폼", example = "INSTAGRAM", implementation = SocialMediaPlatform.class, requiredMode = Schema.RequiredMode.REQUIRED)

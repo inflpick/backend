@@ -12,6 +12,7 @@ public enum CommonApiErrorCode implements ApiErrorCode {
     MISSING_REQUIRED_FIELDS("C_O_0004", HttpStatus.BAD_REQUEST, "필수 입력 값이 입력되지 않았습니다.", "필수 입력 값을 입력 후 다시 요청해주세요.", "API 요청 시, 필수 입력 값이 입력되지 않은 경우에 발생합니다."),
     RESOURCE_NOT_FOUND("C_O_0005", HttpStatus.NOT_FOUND, "해당 UUID를 가진 리소스를 찾을 수 없습니다.", "UUID를 확인 후 다시 시도해주세요.", "해당 UUID를 가진 리소스를 찾을 수 없는 경우에 발생합니다."),
     INVALID_REQUEST_BODY("C_O_0006", HttpStatus.BAD_REQUEST, "요청 본문이 올바르지 않습니다.", "요청 본문을 확인 후 다시 요청해주세요.", "API 요청 본문이 올바르지 않은 경우에 발생합니다. (ex. Json 형식이 올바르지 않은 경우)"),
+    UNSUPPORTED_HTTP_MEDIA_TYPE("C_O_0007", HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않는 HTTP Media 타입입니다.", "HTTP Media 타입을 확인 후 다시 요청해주세요.", "API 요청 시, 지원하지 않는 HTTP Media 타입을 사용한 경우에 발생합니다."),
     ;
 
     CommonApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {

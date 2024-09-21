@@ -16,4 +16,8 @@ public record InfluencerDescription(@NotNull String description) {
             throw new InfluencerDescriptionValidationFailedException(description);
         }
     }
+
+    public static InfluencerDescription from(@NotNull String description) {
+        return new InfluencerDescription(description);
+    }
 }

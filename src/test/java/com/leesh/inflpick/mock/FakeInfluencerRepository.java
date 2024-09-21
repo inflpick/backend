@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class FakeInfluencerRepository implements InfluencerRepository {
 
@@ -25,21 +24,6 @@ public class FakeInfluencerRepository implements InfluencerRepository {
             data.add(influencer);
         }
         return influencer;
-    }
-
-    @Override
-    public @NotNull Influencer getById(@NotNull String id) throws InfluencerNotFoundException {
-        return data.stream()
-                .filter(d -> d.getUuid().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new InfluencerNotFoundException(id));
-    }
-
-    @Override
-    public Optional<Influencer> findById(@NotNull String id) {
-        return data.stream()
-                .filter(d -> d.getUuid().equals(id))
-                .findFirst();
     }
 
     @Override

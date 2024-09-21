@@ -1,11 +1,12 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.ApiErrorCode;
+import com.leesh.inflpick.common.adapter.out.persistence.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 
 public enum InfluencerReadApiErrorCode implements ApiErrorCode {
 
-    INFLUENCER_NOT_FOUND("IN_R_0001", HttpStatus.NOT_FOUND, "UUID에 해당하는 인플루언서를 찾을 수 없습니다.", "UUID를 확인하고 다시 시도해주세요.", "UUID에 해당하는 인플루언서를 찾을 수 없는 경우에 발생합니다."),
+    INFLUENCER_NOT_FOUND("IN_R_0001", HttpStatus.NOT_FOUND, "UUID에 해당하는 인플루언서를 찾을 수 없습니다.", ResourceNotFoundException.MESSAGE_FORMAT.toPattern(), "UUID에 해당하는 인플루언서를 찾을 수 없는 경우에 발생합니다."),
     ;
 
     private final String code;

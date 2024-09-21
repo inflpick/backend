@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-@Schema(name = "인플루언서 생성 요청")
+@Schema(name = "인플루언서 생성 요청", description = "인플루언서 생성 요청 필드")
 @Builder
 public record InfluencerRequest(
         @Schema(description = "이름 (최소 1자, 최대 300자)", example = "도날드 트럼프", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED, minLength = InfluencerName.MIN_LENGTH, maxLength = InfluencerName.MAX_LENGTH)

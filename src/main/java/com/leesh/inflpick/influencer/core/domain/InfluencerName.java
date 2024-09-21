@@ -11,6 +11,10 @@ public record InfluencerName(@NotNull String name) {
         validateInput(name);
     }
 
+    public static InfluencerName from(@NotNull String name) {
+        return new InfluencerName(name);
+    }
+
     private void validateInput(@NotNull String name) throws InfluencerNameValidationFailedException {
         if (name.isBlank() || name.isEmpty() || name.length() > MAX_LENGTH) {
             throw new InfluencerNameValidationFailedException(name);

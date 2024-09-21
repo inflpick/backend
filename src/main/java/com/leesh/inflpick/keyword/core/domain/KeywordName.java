@@ -21,6 +21,10 @@ public record KeywordName(@NotNull String name) {
         validateInput(name);
     }
 
+    public static KeywordName from(String keyword) {
+        return new KeywordName(keyword);
+    }
+
     private void validateInput(@NotNull String name) throws KeywordNameValidationFailedException {
         if (!PATTERN.matcher(name).matches()) {
             throw new KeywordNameValidationFailedException(ERROR_MESSAGE_FORMAT.format(new Object[]{name}));

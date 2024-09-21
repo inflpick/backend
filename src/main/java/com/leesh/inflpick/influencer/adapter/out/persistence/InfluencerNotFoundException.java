@@ -4,7 +4,7 @@ import com.leesh.inflpick.common.adapter.out.persistence.ResourceNotFoundExcepti
 
 public class InfluencerNotFoundException extends ResourceNotFoundException {
 
-    public InfluencerNotFoundException(String id) {
-        super(id, "인플루언서");
+    public InfluencerNotFoundException(String uuid) {
+        super(uuid, "인플루언서");
     }
 }

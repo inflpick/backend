@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 
 public record ProfileImage(@NotNull URI uri) {
 
@@ -14,5 +15,9 @@ public record ProfileImage(@NotNull URI uri) {
         } catch (URISyntaxException e) {
             throw new ProfileImageUriSyntaxException(profileImageUri);
         }
+    }
+
+    public Path basePath(String uuid) {
+        return Path.of("/influencers", uuid, "/profile-images");
     }
 }

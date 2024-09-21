@@ -13,6 +13,7 @@ public enum InfluencerCreateApiErrorCode implements ApiErrorCode {
     SOCIAL_MEDIA_PROFILE_LINK_URI_SYNTAX_ERROR("IN_C_0005", HttpStatus.BAD_REQUEST, "소셜 미디어 프로필 링크 URI 형식이 올바르지 않습니다.", SocialMediaProfileLinkUriSyntaxException.ERROR_MESSAGE_FORMAT.toPattern(), "소셜 미디어 프로필 링크 URI 형식이 올바르지 않은 경우에 발생합니다."),
     INVALID_SOCIAL_MEDIA_TYPE("IN_C_0006", HttpStatus.BAD_REQUEST, "유효하지 않은 소셜 미디어 타입입니다.", InvalidSocialMediaPlatformException.ERROR_MESSAGE_FORMAT.toPattern(), "소셜 미디어 타입이 유효하지 않은 경우에 발생합니다."),
     KEYWORD_MAXIMUM_SIZE_EXCEED("IN_C_0007", HttpStatus.BAD_REQUEST, "등록 가능한 최대 키워드를 초과하였습니다.", KeywordMaximumSizeExceedException.ERROR_MESSAGE_FORMAT.toPattern(), "키워드 등록 요청이 최대 허용 개수를 초과한 경우에 발생합니다."),
+    PROFILE_IMAGE_NOT_EXIST("IN_C_0008", HttpStatus.BAD_REQUEST, "API 요청에 프로필 이미지가 존재하지 않습니다.", ProfileImageNotExistException.ERROR_MESSAGE_FORMAT.toPattern(), "프로필 이미지가 존재하지 않는 경우에 발생합니다. API 요청에 프로필 이미지를 포함하여 재요청 해주세요."),
     ;
 
     private final String code;

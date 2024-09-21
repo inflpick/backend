@@ -3,7 +3,7 @@ package com.leesh.inflpick.common.adapter.in.web;
 import lombok.Getter;
 
 @Getter
-public class BaseBusinessException extends RuntimeException {
+public abstract class BaseBusinessException extends RuntimeException {
 
     private final ApiErrorCode apiErrorCode;
 

@@ -3,6 +3,8 @@ package com.leesh.inflpick.influencer.core.domain;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.net.URI;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -13,7 +15,7 @@ public class Influencer {
     private final InfluencerName name;
     private final InfluencerDescription description;
     private final InfluencerIntroduction introduction;
-    private final ProfileImage profileImage;
+    private ProfileImage profileImage;
     @Getter
     private final SocialMediaProfileLinks socialMediaProfileLinks;
     @Getter
@@ -73,5 +75,13 @@ public class Influencer {
 
     public void addKeywords(Keywords keywords) {
         this.keywords.addAll(keywords);
+    }
+
+    public Path getProfileImageBasePath() {
+        return profileImage.basePath(this.uuid);
+    }
+
+    public void registerProfileImage(URI uploadPath) {
+        this.profileImage = new ProfileImage(uploadPath);
     }
 }

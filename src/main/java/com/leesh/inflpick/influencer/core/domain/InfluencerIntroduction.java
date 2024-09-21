@@ -17,4 +17,7 @@ public record InfluencerIntroduction(@NotNull String introduction) {
         }
     }
 
+    public static InfluencerIntroduction from(@NotNull String introduction) {
+        return new InfluencerIntroduction(introduction);
+    }
 }
