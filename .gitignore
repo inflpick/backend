@@ -103,7 +103,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-out/
+#out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -302,3 +302,10 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,git,linux,c++,java,intellij+all,visualstudiocode,gradle,maven
+
+### Custom ###
+infra/data/*
+infra/data/
+.idea
+infra/data/**/*
+data/

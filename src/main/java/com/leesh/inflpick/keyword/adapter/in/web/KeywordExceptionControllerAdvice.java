@@ -1,0 +1,44 @@
+package com.leesh.inflpick.keyword.adapter.in.web;
+
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
+import com.leesh.inflpick.keyword.core.domain.HexColorSyntaxException;
+import com.leesh.inflpick.keyword.core.domain.KeywordNameValidationFailedException;
+import com.leesh.inflpick.keyword.port.in.DuplicateKeywordNameException;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.PriorityOrdered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static com.leesh.inflpick.common.adapter.in.web.CommonExceptionControllerAdvice.createResponseEntityFromApiErrorCode;
+
+@Slf4j
+@Order(PriorityOrdered.HIGHEST_PRECEDENCE)
+@RestControllerAdvice(basePackageClasses = KeywordController.class)
+public class KeywordExceptionControllerAdvice {
+
+    @ExceptionHandler(KeywordNameValidationFailedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerKeywordNameValidationFailedException(KeywordNameValidationFailedException e, HttpServletRequest request) {
+        log.error("KeywordNameValidationFailedException: {}", e.getMessage(), e);
+        KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.KEYWORD_NAME_VALIDATE_FAILED;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(HexColorSyntaxException.class)
+    public ResponseEntity<ApiErrorResponse> handlerHexColorSyntaxException(HexColorSyntaxException e, HttpServletRequest request) {
+        log.error("HexColorSyntaxException: {}", e.getMessage(), e);
+        KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.KEYWORD_COLOR_VALIDATION_FAILED;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(DuplicateKeywordNameException.class)
+    public ResponseEntity<ApiErrorResponse> handlerDuplicateKeywordNameException(DuplicateKeywordNameException e, HttpServletRequest request) {
+        log.error("DuplicateKeywordNameException: {}", e.getMessage(), e);
+        KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.DUPLICATE_KEYWORD_NAME_EXCEPTION;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+}
