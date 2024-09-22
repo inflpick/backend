@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface InfluencerMongoRepository extends MongoRepository<ProductDocument, String> {
+public interface ProductMongoRepository extends MongoRepository<ProductDocument, String> {
     Optional<ProductDocument> findByUuid(String uuid);
 }

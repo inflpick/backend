@@ -7,6 +7,7 @@ import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.core.Product;
 import com.leesh.inflpick.product.port.in.ProductCreateCommand;
 import com.leesh.inflpick.product.port.in.ProductCreateService;
+import com.leesh.inflpick.product.port.in.ProductReadService;
 import com.leesh.inflpick.product.port.out.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class ProductService implements ProductCreateService {
+public class ProductService implements ProductCreateService, ProductReadService {
 
     private final UuidHolder uuidHolder;
     private final KeywordRepository keywordRepository;
@@ -40,6 +41,11 @@ public class ProductService implements ProductCreateService {
         String uploadPath = storageService.upload(productImage, basePath);
         product.registerProductImage(uploadPath);
 
-        return "";
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product getByUuid(String uuid) {
+        return productRepository.getByUuid(uuid);
     }
 }

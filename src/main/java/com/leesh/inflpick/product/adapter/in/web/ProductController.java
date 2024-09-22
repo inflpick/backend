@@ -5,9 +5,13 @@ import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductCreateApiErrorCode;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductRequest;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductResponse;
+import com.leesh.inflpick.product.core.Product;
 import com.leesh.inflpick.product.port.in.ProductCreateCommand;
 import com.leesh.inflpick.product.port.in.ProductCreateService;
+import com.leesh.inflpick.product.port.in.ProductReadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -19,10 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,6 +38,7 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 public class ProductController {
 
     private final ProductCreateService createService;
+    private final ProductReadService readService;
 
     @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class, ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
     @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 UUID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 UUID 값으로 변경 후 요청해주세요.")
@@ -64,7 +66,19 @@ public class ProductController {
                 .header(ACCEPT, MediaType.MULTIPART_FORM_DATA_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
                 .build();
-
     }
+
+    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products")
+    @Operation(summary = "제품 단건 조회", description = "제품을 단건 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ProductResponse.class))),
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductResponse> read(@Parameter(description = "제품 UUID", required = true)
+                                                @RequestParam String uuid) {
+        Product product = readService.getByUuid(uuid);
+        return ResponseEntity.ok(ProductResponse.from(product));
+    }
+
 
 }

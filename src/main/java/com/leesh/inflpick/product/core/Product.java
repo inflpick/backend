@@ -69,4 +69,8 @@ public class Product {
     public String getProfileImage() {
         return productImage.imagePath();
     }
+
+    public String getProductImage() {
+        return productImage.imagePath();
+    }
 }

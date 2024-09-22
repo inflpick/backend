@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 import java.util.Set;
 
-@Document(collection = "influencers")
+@Document(collection = "products")
 public class ProductDocument {
 
     @Getter

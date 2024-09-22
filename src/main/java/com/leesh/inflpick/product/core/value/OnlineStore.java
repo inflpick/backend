@@ -19,14 +19,14 @@ public enum OnlineStore {
     }
 
     public static List<String> availablePlatforms() {
-        return Arrays.stream(SocialMediaPlatform.values())
-                .map(SocialMediaPlatform::name)
+        return Arrays.stream(OnlineStore.values())
+                .map(OnlineStore::name)
                 .toList();
     }
 
     public static void validate(String platform) {
-        if (Arrays.stream(SocialMediaPlatform.values())
-                .noneMatch(socialMediaPlatform -> socialMediaPlatform.name().equals(platform))) {
+        if (Arrays.stream(OnlineStore.values())
+                .noneMatch(onlineStore -> onlineStore.name().equals(platform))) {
             throw new InvalidOnlineStoreException(platform);
         }
     }

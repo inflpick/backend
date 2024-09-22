@@ -47,7 +47,7 @@ class SocialMediaProfileLinkLinksTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             socialMediaProfileLinks.getSocialMediaLink(SocialMediaPlatform.X);
         });
-        assertEquals("link not found: X", exception.getMessage());
+        assertEquals("uri not found: X", exception.getMessage());
     }
 
     @Test

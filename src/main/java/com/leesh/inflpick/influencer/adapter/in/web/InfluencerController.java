@@ -75,7 +75,7 @@ public class InfluencerController {
     })
     @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfluencerResponse> read(@PathVariable
-                                                   @Parameter(description = "고유 식별자(uuid)", required = true)
+                                                   @Parameter(description = "인플루언서 UUID", required = true)
                                                    String uuid) {
         Influencer influencer = readService.getByUuid(uuid);
         return ResponseEntity.ok(InfluencerResponse.from(influencer));
