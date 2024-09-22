@@ -2,8 +2,8 @@ package com.leesh.inflpick.influencer.port.in;
 
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 
-public interface InfluencerReadService {
+public interface InfluencerQueryService {
 
-    Influencer getByUuid(String uuid);
+    Influencer getById(String id);
 
 }

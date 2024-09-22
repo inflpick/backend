@@ -1,11 +1,11 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.common.adapter.out.storage.InvalidFileRequestException;
-import com.leesh.inflpick.common.adapter.out.storage.ThirdPartyStorageException;
+import com.leesh.inflpick.common.port.out.exception.InvalidFileRequestException;
+import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.out.persistence.InfluencerNotFoundException;
+import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerDescriptionValidationFailedException;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerIntroductionValidationFailedException;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerNameValidationFailedException;

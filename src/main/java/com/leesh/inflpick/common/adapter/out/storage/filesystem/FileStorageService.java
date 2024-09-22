@@ -1,8 +1,8 @@
 package com.leesh.inflpick.common.adapter.out.storage.filesystem;
 
-import com.leesh.inflpick.common.adapter.out.storage.InvalidFileRequestException;
-import com.leesh.inflpick.common.adapter.out.storage.ThirdPartyStorageException;
-import com.leesh.inflpick.influencer.port.out.StorageService;
+import com.leesh.inflpick.common.port.out.exception.InvalidFileRequestException;
+import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
+import com.leesh.inflpick.common.port.out.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

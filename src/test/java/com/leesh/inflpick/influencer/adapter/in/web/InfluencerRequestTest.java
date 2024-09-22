@@ -5,7 +5,7 @@ import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerRequest;
 import com.leesh.inflpick.influencer.adapter.in.web.value.SocialMediaProfileRequest;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
+import com.leesh.inflpick.influencer.core.service.InfluencerCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ class InfluencerRequestTest {
         );
 
         // when
-        InfluencerCreateCommand command = request.toCommand();
+        InfluencerCommand command = request.toCommand();
 
         // then
         assertThat(command).isNotNull();
@@ -85,7 +85,7 @@ class InfluencerRequestTest {
         );
 
         // when
-        InfluencerCreateCommand command = request.toCommand();
+        InfluencerCommand command = request.toCommand();
 
         // then
         assertThat(command).isNotNull();

@@ -2,7 +2,7 @@ package com.leesh.inflpick.product.core.service;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.influencer.port.out.StorageService;
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.core.Product;
 import com.leesh.inflpick.product.port.in.ProductCreateCommand;
@@ -31,7 +31,7 @@ public class ProductService implements ProductCreateService, ProductReadService 
     public String create(ProductCreateCommand command, MultipartFile productImage) {
 
         Set<String> keywordIds = command.keywordUuids();
-        Keywords keywords = keywordRepository.getAllByUuids(keywordIds);
+        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
 
         Product product = command.toEntity(uuidHolder);
         product.addKeywords(keywords);
@@ -45,7 +45,7 @@ public class ProductService implements ProductCreateService, ProductReadService 
     }
 
     @Override
-    public Product getByUuid(String uuid) {
-        return productRepository.getByUuid(uuid);
+    public Product getById(String id) {
+        return productRepository.getById(id);
     }
 }

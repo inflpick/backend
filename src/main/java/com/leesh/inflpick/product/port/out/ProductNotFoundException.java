@@ -1,4 +1,4 @@
-package com.leesh.inflpick.product.adapter.out.persistence;
+package com.leesh.inflpick.product.port.out;
 
 import com.leesh.inflpick.common.adapter.out.persistence.ResourceNotFoundException;
 

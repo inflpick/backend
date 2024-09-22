@@ -33,8 +33,8 @@ public class KeywordServiceImpl implements KeywordCreateService, KeywordReadServ
                 });
         Keyword entity = command.toEntity(uuidHolder);
         keywordRepository.save(entity);
-        return keywordRepository.getByUuid(entity.getUuid())
-                .getUuid();
+        return keywordRepository.getById(entity.getId())
+                .getId();
     }
 
     @Override

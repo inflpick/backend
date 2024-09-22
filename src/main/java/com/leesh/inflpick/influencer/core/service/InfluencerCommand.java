@@ -1,4 +1,4 @@
-package com.leesh.inflpick.influencer.port.in;
+package com.leesh.inflpick.influencer.core.service;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
@@ -10,17 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
-public record InfluencerCreateCommand(@NotNull InfluencerName name,
-                                      @NotNull InfluencerIntroduction briefIntroduction,
-                                      @NotNull InfluencerDescription description,
-                                      @NotNull Set<String> keywordUuids,
-                                      @NotNull SocialMediaProfileLinks socialMediaProfileLinks) {
+public record InfluencerCommand(@NotNull InfluencerName name,
+                                @NotNull InfluencerIntroduction introduction,
+                                @NotNull InfluencerDescription description,
+                                @NotNull Set<String> keywordIds,
+                                @NotNull SocialMediaProfileLinks socialMediaProfileLinks) {
 
     public Influencer toEntity(UuidHolder uuidHolder) {
         return Influencer.builder()
-                .uuid(uuidHolder.uuid())
+                .id(uuidHolder.uuid())
                 .name(name)
-                .introduction(briefIntroduction)
+                .introduction(introduction)
                 .description(description)
                 .socialMediaProfileLinks(socialMediaProfileLinks)
                 .build();

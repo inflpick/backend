@@ -4,7 +4,7 @@ import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsE
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
-import com.leesh.inflpick.common.port.in.NotImageTypeException;
+import com.leesh.inflpick.common.port.in.exception.NotImageTypeException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;

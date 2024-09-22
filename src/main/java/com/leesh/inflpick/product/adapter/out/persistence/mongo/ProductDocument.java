@@ -62,7 +62,7 @@ public class ProductDocument {
     public static ProductDocument from(Product product) {
 
         Set<String> keywordUuids = product.getKeywords()
-                .getUuids();
+                .getIds();
 
         return ProductDocument.builder()
                 .uuid(product.getUuid())

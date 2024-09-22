@@ -5,6 +5,7 @@ import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductMongoRepository;
 import com.leesh.inflpick.product.core.Product;
+import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.product.port.out.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -32,12 +33,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public @NotNull Product getByUuid(@NotNull String uuid) throws ProductNotFoundException {
-        ProductDocument productDocument = productMongoRepository.findByUuid(uuid)
-                .orElseThrow(() -> new ProductNotFoundException(uuid));
+    public @NotNull Product getById(@NotNull String id) throws ProductNotFoundException {
+        ProductDocument productDocument = productMongoRepository.findByUuid(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
 
         Set<String> keywordUuids = productDocument.getKeywordUuids();
-        Keywords keywords = keywordRepository.getAllByUuids(keywordUuids);
+        Keywords keywords = keywordRepository.getAllByIds(keywordUuids);
 
         return productDocument.toEntity(keywords);
     }

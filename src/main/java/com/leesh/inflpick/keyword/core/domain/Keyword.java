@@ -8,13 +8,13 @@ import java.util.Objects;
 public class Keyword {
 
     @Getter
-    private final String uuid;
+    private final String id;
     private final KeywordName name;
     private final KeywordColor color;
 
     @Builder
-    public Keyword(String uuid, KeywordName name, KeywordColor color) {
-        this.uuid = uuid;
+    public Keyword(String id, KeywordName name, KeywordColor color) {
+        this.id = id;
         this.name = name;
         this.color = color;
     }
@@ -24,12 +24,12 @@ public class Keyword {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Keyword keyword = (Keyword) o;
-        return Objects.equals(uuid, keyword.uuid);
+        return Objects.equals(id, keyword.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uuid);
+        return Objects.hashCode(id);
     }
 
     public String getName() {

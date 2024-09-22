@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.adapter.out.storage;
+package com.leesh.inflpick.common.port.out.exception;
 
 public class InvalidFileRequestException extends RuntimeException {
 

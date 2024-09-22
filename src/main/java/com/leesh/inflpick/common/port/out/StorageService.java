@@ -1,7 +1,7 @@
-package com.leesh.inflpick.influencer.port.out;
+package com.leesh.inflpick.common.port.out;
 
-import com.leesh.inflpick.common.adapter.out.storage.InvalidFileRequestException;
-import com.leesh.inflpick.common.adapter.out.storage.ThirdPartyStorageException;
+import com.leesh.inflpick.common.port.out.exception.InvalidFileRequestException;
+import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 

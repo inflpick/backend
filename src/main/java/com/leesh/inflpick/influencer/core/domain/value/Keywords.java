@@ -42,9 +42,9 @@ public record Keywords(@NotNull Set<Keyword> keywords) {
         return keywords.size() >= 10;
     }
 
-    public Set<String> getUuids() {
+    public Set<String> getIds() {
         return keywords.stream()
-                .map(Keyword::getUuid)
+                .map(Keyword::getId)
                 .collect(Collectors.toSet());
     }
 }

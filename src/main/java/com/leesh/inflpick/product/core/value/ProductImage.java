@@ -14,7 +14,7 @@ public record ProductImage(@NotNull String imagePath) {
         return new ProductImage("");
     }
 
-    public Path basePath(String uuid) {
-        return Path.of("/products", uuid, "/product-image");
+    public Path basePath(String id) {
+        return Path.of("/products", id, "/product-image");
     }
 }

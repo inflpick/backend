@@ -4,6 +4,7 @@ import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDoc
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
+import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,10 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     private final KeywordRepository keywordRepository;
 
     @Override
-    public Influencer save(@NotNull Influencer influencer) {
+    public String save(@NotNull Influencer influencer) {
         InfluencerDocument document = InfluencerDocument.from(influencer);
         influencerMongoRepository.save(document);
-        return this.getByUuid(document.getUuid());
+        return document.getId();
     }
 
     @Override
@@ -32,13 +33,18 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     }
 
     @Override
-    public @NotNull Influencer getByUuid(@NotNull String uuid) throws InfluencerNotFoundException {
-        InfluencerDocument influencerDocument = influencerMongoRepository.findByUuid(uuid)
-                .orElseThrow(() -> new InfluencerNotFoundException(uuid));
+    public @NotNull Influencer getById(@NotNull String id) throws InfluencerNotFoundException {
+        InfluencerDocument influencerDocument = influencerMongoRepository.findById(id)
+                .orElseThrow(() -> new InfluencerNotFoundException(id));
 
-        Set<String> keywordUuids = influencerDocument.getKeywordUuids();
-        Keywords keywords = keywordRepository.getAllByUuids(keywordUuids);
+        Set<String> keywordIds = influencerDocument.getKeywordIds();
+        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
 
         return influencerDocument.toEntity(keywords);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        influencerMongoRepository.deleteById(id);
     }
 }

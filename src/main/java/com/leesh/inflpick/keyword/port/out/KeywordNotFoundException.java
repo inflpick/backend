@@ -1,4 +1,4 @@
-package com.leesh.inflpick.keyword.adapter.out.persistence;
+package com.leesh.inflpick.keyword.port.out;
 
 import com.leesh.inflpick.common.adapter.out.persistence.ResourceNotFoundException;
 

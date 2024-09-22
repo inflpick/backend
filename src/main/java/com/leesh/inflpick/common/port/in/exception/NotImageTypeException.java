@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.port.in;
+package com.leesh.inflpick.common.port.in.exception;
 
 public class NotImageTypeException extends RuntimeException {
     public NotImageTypeException(String message) {

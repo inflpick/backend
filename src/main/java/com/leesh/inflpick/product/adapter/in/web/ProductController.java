@@ -40,7 +40,7 @@ public class ProductController {
     private final ProductReadService readService;
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
-    @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 UUID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 UUID 값으로 변경 후 요청해주세요.")
+    @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -55,10 +55,10 @@ public class ProductController {
 
         FileTypeValidator.validateImageFile(productImage);
         ProductCreateCommand command = request.toCommand();
-        String uuid = createService.create(command, productImage);
+        String id = createService.create(command, productImage);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{uuid}")
-                .buildAndExpand(uuid)
+                .path("/{id}")
+                .buildAndExpand(id)
                 .toUri();
 
         return ResponseEntity.created(location)
@@ -67,15 +67,16 @@ public class ProductController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products/{uuid}")
+    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products/{id}")
     @Operation(summary = "제품 단건 조회", description = "제품을 단건 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ProductResponse.class))),
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductResponse> read(@Parameter(description = "제품 UUID", required = true)
-                                                @RequestParam String uuid) {
-        Product product = readService.getByUuid(uuid);
+    @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductResponse> read(@PathVariable(value = "id")
+                                                @Parameter(description = "제품 ID", required = true)
+                                                String id) {
+        Product product = readService.getById(id);
         return ResponseEntity.ok(ProductResponse.from(product));
     }
 }

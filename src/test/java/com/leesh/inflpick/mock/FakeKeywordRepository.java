@@ -1,7 +1,7 @@
 package com.leesh.inflpick.mock;
 
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.keyword.adapter.out.persistence.KeywordNotFoundException;
+import com.leesh.inflpick.keyword.port.out.KeywordNotFoundException;
 import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordDocument;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
@@ -17,8 +17,8 @@ public class FakeKeywordRepository implements KeywordRepository {
     @Override
     public void save(Keyword keyword) {
         KeywordDocument document = KeywordDocument.from(keyword);
-        if (data.stream().anyMatch(d -> d.getUuid().equals(document.getUuid()))) {
-            data.removeIf(d -> d.getUuid().equals(document.getUuid()));
+        if (data.stream().anyMatch(d -> d.getId().equals(document.getId()))) {
+            data.removeIf(d -> d.getId().equals(document.getId()));
             data.add(keyword);
         } else {
             data.add(keyword);
@@ -26,11 +26,11 @@ public class FakeKeywordRepository implements KeywordRepository {
     }
 
     @Override
-    public Keyword getByUuid(String uuid) throws KeywordNotFoundException {
+    public Keyword getById(String id) throws KeywordNotFoundException {
         return data.stream()
-                .filter(keyword -> keyword.getUuid().equals(uuid))
+                .filter(keyword -> keyword.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new KeywordNotFoundException(uuid));
+                .orElseThrow(() -> new KeywordNotFoundException(id));
     }
 
     @Override
@@ -51,9 +51,9 @@ public class FakeKeywordRepository implements KeywordRepository {
     }
 
     @Override
-    public Keywords getAllByUuids(Set<String> keywordUuids) {
+    public Keywords getAllByIds(Set<String> keywordIds) {
         Set<Keyword> keywords = data.stream()
-                .filter(keyword -> keywordUuids.contains(keyword.getUuid()))
+                .filter(keyword -> keywordIds.contains(keyword.getId()))
                 .collect(Collectors.toSet());
 
         return new Keywords(keywords);

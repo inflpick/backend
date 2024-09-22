@@ -45,10 +45,10 @@ public class KeywordController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody KeywordRequest request) {
-        String uuid = createService.create(request.toCommand());
+        String id = createService.create(request.toCommand());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{uuid}")
-                .buildAndExpand(uuid)
+                .path("/{id}")
+                .buildAndExpand(id)
                 .toUri();
         return ResponseEntity
                 .created(location)

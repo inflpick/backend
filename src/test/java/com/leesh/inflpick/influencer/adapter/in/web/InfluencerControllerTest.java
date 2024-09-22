@@ -5,13 +5,13 @@ import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.out.persistence.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
-import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
+import com.leesh.inflpick.influencer.core.service.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
+import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
+import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.mock.TestInstantHolder;
 import com.leesh.inflpick.mock.TestUuidHolder;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,11 +44,11 @@ class InfluencerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    private final UuidHolder uuidHolder = new TestUuidHolder("test-uuid");
+    private final UuidHolder uuidHolder = new TestUuidHolder("test-id");
     @MockBean
-    private InfluencerCreateService createService;
+    private InfluencerCommandService createService;
     @MockBean
-    private InfluencerReadService readService;
+    private InfluencerQueryService readService;
 
     @DisplayName("인플루언서 생성 API 요청 시, 정상 입력 값을 입력하면, 201 Created 상태코드와 생성된 리소스 URI를 반환한다.")
     @ParameterizedTest
@@ -70,7 +70,7 @@ class InfluencerControllerTest {
 
         // when & then
         Mockito.when(createService.create(
-                        Mockito.any(InfluencerCreateCommand.class),
+                        Mockito.any(InfluencerCommand.class),
                         Mockito.any(MultipartFile.class)))
                 .thenReturn(uuidHolder.uuid());
 
@@ -232,22 +232,22 @@ class InfluencerControllerTest {
         );
     }
 
-    @DisplayName("인플루언서 UUID로 인플루언서를 조회하면, 200 OK 상태코드와 인플루언서 정보를 반환한다.")
+    @DisplayName("인플루언서 ID로 인플루언서를 조회하면, 200 OK 상태코드와 인플루언서 정보를 반환한다.")
     @Test
     void read() throws Exception {
 
         // given
-        String uuid = "test-uuid";
+        String id = "test-id";
 
         // when & then
         Influencer influencer = Influencer.builder()
-                .uuid(uuid)
+                .id(id)
                 .name(InfluencerName.from("test-name"))
                 .introduction(InfluencerIntroduction.from("test-introduction"))
                 .description(InfluencerDescription.from("test-description"))
                 .keywords(Keywords.EMPTY)
                 .socialMediaProfileLinks(SocialMediaProfileLinks.from(
-                        List.of(
+                        Set.of(
                                 SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/test"),
                                 SocialMediaProfileLink.of(SocialMediaPlatform.X, "http://twitter.com/test")
                         )
@@ -256,14 +256,14 @@ class InfluencerControllerTest {
                 .lastModifiedDate(Instant.now())
                 .build();
 
-        Mockito.when(readService.getByUuid(uuid))
+        Mockito.when(readService.getById(id))
                 .thenReturn(influencer);
 
-        mockMvc.perform(get("/api/influencers/{uuid}", uuid)
+        mockMvc.perform(get("/api/influencers/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.uuid").value(uuid))
+                .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value("test-name"))
                 .andExpect(jsonPath("$.introduction").value("test-introduction"))
                 .andExpect(jsonPath("$.description").value("test-description"))
@@ -276,23 +276,23 @@ class InfluencerControllerTest {
 
     }
 
-    @DisplayName("존재하지 않는 UUID로 인플루언서를 조회하면, 404 상태 코드를 반환한다.")
+    @DisplayName("존재하지 않는 ID로 인플루언서를 조회하면, 404 상태 코드를 반환한다.")
     @Test
     void read_notFound() throws Exception {
 
         // given
-        String apiPath = "/api/influencers/test-uuid";
+        String apiPath = "/api/influencers/test-id";
         Instant now = Instant.now();
         InstantHolder instantHolder = new TestInstantHolder(now);
         InfluencerReadApiErrorCode apiErrorCode = InfluencerReadApiErrorCode.INFLUENCER_NOT_FOUND;
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.GET.name(), apiPath);
-        String uuid = "test-uuid";
+        String id = "test-id";
 
         // when & then
-        Mockito.when(readService.getByUuid(uuid))
-                .thenThrow(new InfluencerNotFoundException(uuid));
+        Mockito.when(readService.getById(id))
+                .thenThrow(new InfluencerNotFoundException(id));
 
-        mockMvc.perform(get("/api/influencers/{uuid}", uuid)
+        mockMvc.perform(get("/api/influencers/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
