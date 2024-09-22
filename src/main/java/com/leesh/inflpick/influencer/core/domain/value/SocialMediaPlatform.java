@@ -1,5 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain.value;
 
+import com.leesh.inflpick.influencer.core.domain.exception.InvalidSocialMediaPlatformException;
 import lombok.Getter;
 
 import java.net.URI;
@@ -29,5 +30,13 @@ public enum SocialMediaPlatform {
         return Arrays.stream(SocialMediaPlatform.values())
                 .map(SocialMediaPlatform::name)
                 .toList();
+    }
+
+    public static SocialMediaPlatform from(String platform) {
+        try {
+            return SocialMediaPlatform.valueOf(platform);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidSocialMediaPlatformException(platform);
+        }
     }
 }

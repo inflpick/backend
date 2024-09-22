@@ -26,14 +26,15 @@ public class KeywordServiceImpl implements KeywordCreateService, KeywordReadServ
 
     @Transactional
     @Override
-    public Keyword create(KeywordCreateCommand command) {
+    public String create(KeywordCreateCommand command) {
         keywordRepository.findByName(command.name())
                 .ifPresent(keyword -> {
                     throw new DuplicateKeywordNameException("name", command.name().name(), "Keyword");
                 });
         Keyword entity = command.toEntity(uuidHolder);
         keywordRepository.save(entity);
-        return keywordRepository.getByUuid(entity.getUuid());
+        return keywordRepository.getByUuid(entity.getUuid())
+                .getUuid();
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.leesh.inflpick.influencer.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.in.web.exception.ProfileImageNotExistException;
+import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerRequest;
@@ -22,7 +22,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,14 +51,11 @@ public class InfluencerController {
     public ResponseEntity<Void> create(@Parameter(description = "인플루언서 생성 요청 정보가 담긴 JSON 데이터 (schemas의 \"인플루언서 생성 요청\" 항목 참고 바랍니다.)", required = true)
                                        @RequestPart(value = "request")
                                        InfluencerRequest request,
-                                       @Nullable @Parameter(description = "프로필 이미지 파일", required = true, content = @Content(mediaType = MediaType.IMAGE_JPEG_VALUE, schema = @Schema(type = "string", format = "binary")))
+                                       @Parameter(description = "프로필 이미지 파일", content = @Content(mediaType = MediaType.IMAGE_JPEG_VALUE, schema = @Schema(type = "string", format = "binary")))
                                        @RequestPart(value = "profileImage", required = true)
                                        MultipartFile profileImage) {
 
-        if (profileImage == null) {
-            throw new ProfileImageNotExistException("프로필 이미지 파일이 존재하지 않습니다.");
-        }
-
+        FileTypeValidator.validateImageFile(profileImage);
         InfluencerCreateCommand command = request.toCommand();
         String uuid = createService.create(command, profileImage);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -79,8 +75,8 @@ public class InfluencerController {
     })
     @GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfluencerResponse> read(@PathVariable
-                                                      @Parameter(description = "고유 식별자(uuid)", required = true)
-                                                      String uuid) {
+                                                   @Parameter(description = "고유 식별자(uuid)", required = true)
+                                                   String uuid) {
         Influencer influencer = readService.getByUuid(uuid);
         return ResponseEntity.ok(InfluencerResponse.from(influencer));
     }

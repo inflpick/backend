@@ -2,7 +2,10 @@ package com.leesh.inflpick.keyword.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.keyword.core.domain.Keyword;
+import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
+import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordReadApiErrorCode;
+import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
+import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
@@ -42,13 +45,15 @@ public class KeywordController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody KeywordRequest request) {
-        Keyword keyword = createService.create(request.toCommand());
+        String uuid = createService.create(request.toCommand());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{uuid}")
-                .buildAndExpand(keyword.getUuid())
+                .buildAndExpand(uuid)
                 .toUri();
         return ResponseEntity
                 .created(location)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 

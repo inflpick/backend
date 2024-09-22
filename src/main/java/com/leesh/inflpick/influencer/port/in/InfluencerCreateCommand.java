@@ -1,8 +1,11 @@
 package com.leesh.inflpick.influencer.port.in;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
-import com.leesh.inflpick.influencer.core.domain.*;
-import com.leesh.inflpick.influencer.core.domain.value.*;
+import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
+import com.leesh.inflpick.influencer.core.domain.value.InfluencerDescription;
+import com.leesh.inflpick.influencer.core.domain.value.InfluencerIntroduction;
+import com.leesh.inflpick.influencer.core.domain.value.InfluencerName;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -10,7 +13,6 @@ import java.util.Set;
 public record InfluencerCreateCommand(@NotNull InfluencerName name,
                                       @NotNull InfluencerIntroduction briefIntroduction,
                                       @NotNull InfluencerDescription description,
-                                      @NotNull ProfileImage profileImage,
                                       @NotNull Set<String> keywordUuids,
                                       @NotNull SocialMediaProfileLinks socialMediaProfileLinks) {
 
@@ -20,8 +22,6 @@ public record InfluencerCreateCommand(@NotNull InfluencerName name,
                 .name(name)
                 .introduction(briefIntroduction)
                 .description(description)
-                .profileImage(profileImage)
-                .keywords(Keywords.EMPTY)
                 .socialMediaProfileLinks(socialMediaProfileLinks)
                 .build();
     }

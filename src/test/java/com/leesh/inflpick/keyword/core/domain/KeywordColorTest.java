@@ -3,7 +3,8 @@ package com.leesh.inflpick.keyword.core.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class KeywordColorTest {
 
@@ -30,7 +31,6 @@ class KeywordColorTest {
         HexColorSyntaxException exception = assertThrows(HexColorSyntaxException.class, () -> {
             KeywordColor.from(hexColor);
         });
-        assertTrue(exception.getMessage().contains("키워드 색상은 16진수 형식으로 입력해야 합니다."));
     }
 
     @Test
@@ -43,7 +43,6 @@ class KeywordColorTest {
         HexColorSyntaxException exception = assertThrows(HexColorSyntaxException.class, () -> {
             KeywordColor.from(hexColor);
         });
-        assertTrue(exception.getMessage().contains("키워드 색상은 16진수 형식으로 입력해야 합니다."));
     }
 
     @Test

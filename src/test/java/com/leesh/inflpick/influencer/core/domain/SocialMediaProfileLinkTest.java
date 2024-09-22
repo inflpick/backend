@@ -21,7 +21,7 @@ class SocialMediaProfileLinkTest {
         SocialMediaProfileLink socialMediaProfileLink = new SocialMediaProfileLink(platform, uri);
         assertNotNull(socialMediaProfileLink);
         assertEquals(platform, socialMediaProfileLink.platform());
-        assertEquals(uri, socialMediaProfileLink.profileLink());
+        assertEquals(uri, socialMediaProfileLink.uri());
     }
 
 }

@@ -158,6 +158,15 @@ public class SwaggerConfig {
             .build();
     }
 
+    @Bean
+    public GroupedOpenApi productApi() {
+        return GroupedOpenApi.builder()
+                .group("제품 API")
+                .pathsToMatch("/api/products/**")
+                .addOperationCustomizer(customize())
+                .build();
+    }
+
     @Getter
     @Builder
     public static class SwaggerExampleHolder {

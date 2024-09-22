@@ -1,8 +1,8 @@
 package com.leesh.inflpick.review.domain;
 
-import com.leesh.inflpick.common.domain.Metadata;
+import com.leesh.inflpick.common.core.domain.Metadata;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerId;
-import com.leesh.inflpick.product.domain.ProductId;
+import com.leesh.inflpick.product.core.value.ProductId;
 
 import java.time.Instant;
 

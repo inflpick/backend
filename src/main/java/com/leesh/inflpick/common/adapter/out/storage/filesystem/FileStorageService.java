@@ -26,7 +26,7 @@ public class FileStorageService implements StorageService {
     }
 
     @Override
-    public String upload(@NotNull MultipartFile file, @NotNull String resourcePath) throws ThirdPartyStorageException, InvalidFileRequestException {
+    public String upload(@NotNull MultipartFile file, @NotNull Path resourcePath) throws ThirdPartyStorageException, InvalidFileRequestException {
         try {
             // Create the directory if it doesn't exist
             Path baseDirectory = Paths.get(basePath + resourcePath);
@@ -38,7 +38,9 @@ public class FileStorageService implements StorageService {
             }
             Path filePath = baseDirectory.resolve(file.getOriginalFilename());
             Files.write(filePath, file.getBytes());
-            return resourcePath;
+            return Paths.get(basePath)
+                    .relativize(filePath)
+                    .toString();
         } catch (IOException e) {
             throw new InvalidFileRequestException("유저가 업로드한 파일이 유효하지 못해 업로드 할 수 없습니다.", e);
         }

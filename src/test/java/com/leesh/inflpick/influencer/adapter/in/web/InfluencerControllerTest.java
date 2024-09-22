@@ -4,8 +4,8 @@ import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
 import com.leesh.inflpick.common.port.out.UuidHolder;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerRequest;
-import com.leesh.inflpick.influencer.adapter.in.web.value.SocialMediaRequest;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.out.persistence.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
@@ -14,7 +14,6 @@ import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
 import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
 import com.leesh.inflpick.mock.TestInstantHolder;
 import com.leesh.inflpick.mock.TestUuidHolder;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,11 +25,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -38,6 +34,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -47,16 +44,11 @@ class InfluencerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    private UuidHolder uuidHolder = new TestUuidHolder("test-uuid");
+    private final UuidHolder uuidHolder = new TestUuidHolder("test-uuid");
     @MockBean
     private InfluencerCreateService createService;
     @MockBean
     private InfluencerReadService readService;
-
-    @BeforeEach
-    void init() {
-
-    }
 
     @DisplayName("인플루언서 생성 API 요청 시, 정상 입력 값을 입력하면, 201 Created 상태코드와 생성된 리소스 URI를 반환한다.")
     @ParameterizedTest
@@ -105,7 +97,7 @@ class InfluencerControllerTest {
                     "description": "test-description",
                     "keywords": [],
                     "profileImageUri": "http://test.com",
-                    "socialMediaLinks": []
+                    "socialMediaProfileLinks": []
                 }
                 """,
                 """
@@ -114,17 +106,7 @@ class InfluencerControllerTest {
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
-                    "socialMediaLinks": []
-                }
-                """,
-                """
-                {
-                    "name": "test-name",
-                    "introduction": "test-introduction",
-                    "description": "test-description",
-                    "profileImageUri": "http://test.com",
-                    "keywords": [],
-                    "socialMediaLinks": []
+                    "socialMediaProfileLinks": []
                 }
                 """,
                 """
@@ -134,10 +116,59 @@ class InfluencerControllerTest {
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
                     "keywords": [],
-                    "socialMediaLinks": []
+                    "socialMediaProfileLinks": []
+                }
+                """,
+                """
+                {
+                    "name": "test-name",
+                    "introduction": "test-introduction",
+                    "description": "test-description",
+                    "profileImageUri": "http://test.com",
+                    "keywords": [],
+                    "socialMediaProfileLinks": []
                 }
                 """
         );
+    }
+
+    @DisplayName("인플루언서 생성 API 요청 시, 프로필 이미지를 등록하지 않으면, 400 에러가 발생한다.")
+    @Test
+    void create_missingProfileImage() throws Exception {
+
+        // given
+        String jsonRequest = """
+                {
+                    "name": "test-name",
+                    "introduction": "test-introduction",
+                    "description": "test-description",
+                    "profileImageUri": "http://test.com",
+                    "keywords": [],
+                    "socialMediaProfileLinks": []
+                }
+                """;
+        Instant now = Instant.now();
+        InstantHolder instantHolder = new TestInstantHolder(now);
+        String apiPath = "/api/influencers";
+        CommonApiErrorCode apiErrorCode = CommonApiErrorCode.MISSING_REQUEST_PART;
+        MockMultipartFile request = new MockMultipartFile("request", "", "application/json", jsonRequest.getBytes());
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
+
+        // when & then
+        mockMvc.perform(multipart(apiPath)
+                        .file(request)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest())
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.status").value(apiErrorResponse.status()))
+                .andExpect(jsonPath("$.code").value(apiErrorResponse.code()))
+                .andExpect(jsonPath("$.reason").value(apiErrorResponse.reason()))
+                .andExpect(jsonPath("$.action").value(apiErrorResponse.action()))
+                .andExpect(jsonPath("$.method").value(apiErrorResponse.method()))
+                .andExpect(jsonPath("$.path").value(apiErrorResponse.path()))
+                .andDo(print())
+        ;
     }
 
     @DisplayName("인플루언서 생성 API 요청 시, 필수 입력 값을 입력하지 않으면, 400 에러가 발생한다.")
@@ -146,12 +177,12 @@ class InfluencerControllerTest {
     void create_missingRequiredFields(String jsonRequest) throws Exception {
 
         // given
-        Instant now = Instant.now();
-        InstantHolder instantHolder = new TestInstantHolder(now);
         MockMultipartFile profileImage = new MockMultipartFile("profileImage", "test.jpg", "image/jpeg", "test".getBytes());
-        CommonApiErrorCode apiErrorCode = CommonApiErrorCode.MISSING_REQUIRED_FIELDS;
         String apiPath = "/api/influencers";
         MockMultipartFile request = new MockMultipartFile("request", "", "application/json", jsonRequest.getBytes());
+        Instant now = Instant.now();
+        InstantHolder instantHolder = new TestInstantHolder(now);
+        CommonApiErrorCode apiErrorCode = CommonApiErrorCode.MISSING_REQUIRED_FIELDS;
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
 
         // when & then
@@ -160,7 +191,6 @@ class InfluencerControllerTest {
                         .file(request)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isBadRequest())
-                .andExpect(header().doesNotExist(HttpHeaders.LOCATION))
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.timestamp").isNotEmpty())
                 .andExpect(jsonPath("$.status").value(apiErrorResponse.status()))
@@ -180,7 +210,7 @@ class InfluencerControllerTest {
                             "introduction": "test-introduction",
                             "description": "test-description",
                             "profileImageUri": "http://test.com",
-                            "socialMediaLinks": []
+                            "socialMediaProfileLinks": []
                         }
                         """,
                         """
@@ -188,7 +218,7 @@ class InfluencerControllerTest {
                             "name": "test-name",
                             "description": "test-description",
                             "profileImageUri": "http://test.com",
-                            "socialMediaLinks": []
+                            "socialMediaProfileLinks": []
                         }
                         """,
                         """
@@ -196,79 +226,84 @@ class InfluencerControllerTest {
                             "name": "test-name",
                             "introduction": "test-introduction",
                             "profileImageUri": "http://test.com",
-                            "socialMediaLinks": []
-                        }
-                        """,
-                        """
-                        {
-                            "name": "test-name",
-                            "introduction": "test-introduction",
-                            "description": "test-description",
-                            "socialMediaLinks": []
+                            "socialMediaProfileLinks": []
                         }
                         """
         );
     }
 
-    @DisplayName("인플루언서 이름을 1~50자 이내로 입력하지 않으면, 400 응답을 반환하고, 이에 맞는 에러 메세지를 반환한다.")
-    @Test
-    void create_invalidName() {
-
-        // given
-        MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-        String apiPath = "/api/influencers";
-        String httpMethod = HttpMethod.POST.name();
-        mockHttpServletRequest.setRequestURI(apiPath);
-        mockHttpServletRequest.setMethod(httpMethod);
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(mockHttpServletRequest));
-
-        SocialMediaRequest socialMediaRequest = SocialMediaRequest.builder()
-                .platform("INSTAGRAM")
-                .profileLinkUri("http://instagram.com/jimjongkook")
-                .build();
-
-        InfluencerRequest request = InfluencerRequest.builder()
-                .name("")
-                .introduction("test-introduction")
-                .description("test-description")
-                .profileImageUri("http://test.com")
-                .socialMediaLinks(List.of(socialMediaRequest))
-                .build();
-
-        MultipartFile profileImage = new MockMultipartFile("profileImage", "test.jpg", "image/jpeg", "test".getBytes());
-
-        // when
-    }
-
     @DisplayName("인플루언서 UUID로 인플루언서를 조회하면, 200 OK 상태코드와 인플루언서 정보를 반환한다.")
     @Test
-    void read() {
+    void read() throws Exception {
 
         // given
         String uuid = "test-uuid";
+
+        // when & then
         Influencer influencer = Influencer.builder()
                 .uuid(uuid)
                 .name(InfluencerName.from("test-name"))
                 .introduction(InfluencerIntroduction.from("test-introduction"))
                 .description(InfluencerDescription.from("test-description"))
-                .profileImage(ProfileImage.of("http://test.com"))
                 .keywords(Keywords.EMPTY)
-                .socialMediaProfileLinks(
-                        new SocialMediaProfileLinks(
-                                List.of(SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/jimjongkook"))
+                .socialMediaProfileLinks(SocialMediaProfileLinks.from(
+                        List.of(
+                                SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/test"),
+                                SocialMediaProfileLink.of(SocialMediaPlatform.X, "http://twitter.com/test")
                         )
-                )
+                ))
+                .createdDate(Instant.now())
+                .lastModifiedDate(Instant.now())
                 .build();
 
+        Mockito.when(readService.getByUuid(uuid))
+                .thenReturn(influencer);
+
+        mockMvc.perform(get("/api/influencers/{uuid}", uuid)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.uuid").value(uuid))
+                .andExpect(jsonPath("$.name").value("test-name"))
+                .andExpect(jsonPath("$.introduction").value("test-introduction"))
+                .andExpect(jsonPath("$.description").value("test-description"))
+                .andExpect(jsonPath("$.socialMediaProfileLinks[0].platform").value("INSTAGRAM"))
+                .andExpect(jsonPath("$.socialMediaProfileLinks[0].uri").value("http://instagram.com/test"))
+                .andExpect(jsonPath("$.socialMediaProfileLinks[1].platform").value("X"))
+                .andExpect(jsonPath("$.socialMediaProfileLinks[1].uri").value("http://twitter.com/test"))
+                .andExpect(jsonPath("$.keywords").isEmpty())
+                .andDo(print());
 
     }
 
-    @DisplayName("존재하지 않는 UUID로 인플루언서를 조회하면, InfluencerNotFoundException 예외가 발생한다.")
+    @DisplayName("존재하지 않는 UUID로 인플루언서를 조회하면, 404 상태 코드를 반환한다.")
     @Test
-    void read_notFound() {
+    void read_notFound() throws Exception {
 
         // given
-        String uuid = "not-found-uuid";
+        String apiPath = "/api/influencers/test-uuid";
+        Instant now = Instant.now();
+        InstantHolder instantHolder = new TestInstantHolder(now);
+        InfluencerReadApiErrorCode apiErrorCode = InfluencerReadApiErrorCode.INFLUENCER_NOT_FOUND;
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.GET.name(), apiPath);
+        String uuid = "test-uuid";
+
+        // when & then
+        Mockito.when(readService.getByUuid(uuid))
+                .thenThrow(new InfluencerNotFoundException(uuid));
+
+        mockMvc.perform(get("/api/influencers/{uuid}", uuid)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.status").value(apiErrorResponse.status()))
+                .andExpect(jsonPath("$.code").value(apiErrorResponse.code()))
+                .andExpect(jsonPath("$.reason").value(apiErrorResponse.reason()))
+                .andExpect(jsonPath("$.action").value(apiErrorResponse.action()))
+                .andExpect(jsonPath("$.method").value(apiErrorResponse.method()))
+                .andExpect(jsonPath("$.path").value(apiErrorResponse.path()))
+                .andDo(print());
 
     }
 

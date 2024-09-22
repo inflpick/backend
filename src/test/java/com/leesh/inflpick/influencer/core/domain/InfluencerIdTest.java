@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -17,7 +18,7 @@ class InfluencerTest {
     @DisplayName("유효한 데이터로 인플루언서 생성")
     void influencerCreationWithValidData() throws URISyntaxException {
         // given
-        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, new URI("http://twitter.com/johndoe"));
+        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X,"http://twitter.com/johndoe");
 
         // when
         Influencer influencer = Influencer.builder()
@@ -25,7 +26,7 @@ class InfluencerTest {
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(twitterLink)))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of(twitterLink)))
                 .build();
 
         // then
@@ -46,7 +47,7 @@ class InfluencerTest {
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
 
         // then
@@ -63,14 +64,14 @@ class InfluencerTest {
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
         Influencer influencer2 = Influencer.builder()
                 .uuid(id)
                 .name(new InfluencerName("Jane Doe"))
                 .description(new InfluencerDescription("Another influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
 
         // when & then
@@ -87,14 +88,14 @@ class InfluencerTest {
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
         Influencer influencer2 = Influencer.builder()
                 .uuid("456")
                 .name(new InfluencerName("Jane Doe"))
                 .description(new InfluencerDescription("Another influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of()))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
 
         // when & then

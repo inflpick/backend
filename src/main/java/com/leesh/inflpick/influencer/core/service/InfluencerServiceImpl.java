@@ -1,7 +1,5 @@
 package com.leesh.inflpick.influencer.core.service;
 
-import com.leesh.inflpick.common.adapter.out.storage.InvalidFileRequestException;
-import com.leesh.inflpick.common.adapter.out.storage.ThirdPartyStorageException;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
@@ -40,7 +38,7 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
     @Transactional
     @Override
     public String create(@NotNull InfluencerCreateCommand command,
-                             @NotNull MultipartFile profileImage) {
+                         @NotNull MultipartFile profileImage) {
 
         Set<String> keywordIds = command.keywordUuids();
         Keywords keywords = keywordRepository.getAllByUuids(keywordIds);
@@ -50,14 +48,8 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
 
         // 프로필 이미지 업로드
         Path basePath = influencer.getProfileImageBasePath();
-        try {
-            String uploadPath = storageService.upload(profileImage, basePath.toString());
-            influencer.registerProfileImage(uploadPath);
-        } catch (InvalidFileRequestException e) {
-            throw new InvalidProfileImageRequestException(e);
-        } catch (ThirdPartyStorageException e) {
-            throw new ProfileImageUploadFailedException(e);
-        }
+        String uploadPath = storageService.upload(profileImage, basePath);
+        influencer.registerProfileImage(uploadPath);
 
         return influencerRepository.save(influencer)
                 .getUuid();

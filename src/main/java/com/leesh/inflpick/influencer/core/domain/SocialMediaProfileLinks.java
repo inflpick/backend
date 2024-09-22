@@ -3,16 +3,16 @@ package com.leesh.inflpick.influencer.core.domain;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public final class SocialMediaProfileLinks {
+public record SocialMediaProfileLinks(Set<SocialMediaProfileLink> links) {
 
-    private final List<SocialMediaProfileLink> links;
+    public SocialMediaProfileLinks(Set<SocialMediaProfileLink> links) {
+        this.links = new HashSet<>(links);
+    }
 
-    public SocialMediaProfileLinks(List<SocialMediaProfileLink> links) {
-        this.links = new ArrayList<>(links);
+    public static SocialMediaProfileLinks from(Set<SocialMediaProfileLink> links) {
+        return new SocialMediaProfileLinks(links);
     }
 
     public SocialMediaProfileLink getSocialMediaLink(SocialMediaPlatform socialMediaPlatform) {
@@ -27,8 +27,8 @@ public final class SocialMediaProfileLinks {
                 .anyMatch(link -> link.platform().equals(socialMediaPlatform));
     }
 
-    public List<SocialMediaProfileLink> getImmutable() {
-        return List.copyOf(links);
+    public Set<SocialMediaProfileLink> getImmutable() {
+        return Set.copyOf(links);
     }
 
     @Override
@@ -37,11 +37,6 @@ public final class SocialMediaProfileLinks {
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (SocialMediaProfileLinks) obj;
         return Objects.equals(this.links, that.links);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(links);
     }
 
     @Override
@@ -59,7 +54,8 @@ public final class SocialMediaProfileLinks {
         return links.isEmpty();
     }
 
-    public List<SocialMediaProfileLink> getLinks() {
-        return List.copyOf(links);
+    @Override
+    public Set<SocialMediaProfileLink> links() {
+        return Set.copyOf(links);
     }
 }

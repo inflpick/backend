@@ -10,7 +10,6 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @Document(collection = "influencers")
@@ -24,11 +23,11 @@ public class InfluencerDocument {
     private final String profileImagePath;
     @Getter
     private final Set<String> keywordUuids;
-    private final List<SocialMediaProfileLink> socialMediaProfileLinks;
+    private final Set<SocialMediaProfileLink> socialMediaProfileLinks;
     @CreatedBy
-    private String createdBy;
+    private final String createdBy;
     @CreatedDate
-    private Instant createdDate;
+    private final Instant createdDate;
     @LastModifiedBy
     private final String lastModifiedBy;
     @LastModifiedDate
@@ -43,7 +42,7 @@ public class InfluencerDocument {
                                String description,
                                String profileImagePath,
                                Set<String> keywordUuids,
-                               List<SocialMediaProfileLink> socialMediaProfileLinks,
+                               Set<SocialMediaProfileLink> socialMediaProfileLinks,
                                String createdBy,
                                Instant createdDate,
                                String lastModifiedBy,
@@ -82,12 +81,12 @@ public class InfluencerDocument {
 
         return Influencer.builder()
                 .uuid(uuid)
-                .name(new InfluencerName(name))
-                .introduction(new InfluencerIntroduction(introduction))
-                .description(new InfluencerDescription(description))
-                .profileImage(new ProfileImage(profileImagePath))
+                .name(InfluencerName.from(name))
+                .introduction(InfluencerIntroduction.from(introduction))
+                .description(InfluencerDescription.from(description))
+                .profileImage(ProfileImage.from(profileImagePath))
                 .keywords(keywords)
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(socialMediaProfileLinks))
+                .socialMediaProfileLinks(SocialMediaProfileLinks.from(socialMediaProfileLinks))
                 .createdDate(createdDate)
                 .lastModifiedDate(lastModifiedDate)
                 .build();

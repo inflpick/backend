@@ -1,6 +1,7 @@
 package com.leesh.inflpick.influencer.port.in;
 
-import com.leesh.inflpick.influencer.core.domain.*;
+import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.mock.TestUuidHolder;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -21,13 +23,11 @@ class InfluencerCreateCommandTest {
         InfluencerName name = new InfluencerName("John Doe");
         InfluencerIntroduction briefIntroduction = new InfluencerIntroduction("An influencer");
         InfluencerDescription description = new InfluencerDescription("An influencer");
-        ProfileImage profileImage = new ProfileImage("http://example.com/profile1.jpg");
         SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"));
-        SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(List.of(twitterLink));
+        SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(Set.of(twitterLink));
         InfluencerCreateCommand command = new InfluencerCreateCommand(name,
                 briefIntroduction,
                 description,
-                profileImage,
                 new HashSet<>(),
                 socialMediaProfileLinks);
 
@@ -39,7 +39,7 @@ class InfluencerCreateCommandTest {
         assertThat(influencer.getUuid()).isEqualTo(uuid);
         assertThat(influencer.getName()).isEqualTo(name.name());
         assertThat(influencer.getDescription()).isEqualTo(description.description());
-        assertThat(influencer.getProfileImage()).isEqualTo(profileImage.imagePath());
+        assertThat(influencer.getProfileImage()).isEmpty();
         assertThat(influencer.getSocialMediaProfileLinks()).isEqualTo(socialMediaProfileLinks);
         assertThat(influencer.getSocialMediaProfileLinks().hasSocialMedia(SocialMediaPlatform.X)).isTrue();
         assertThat(influencer.getSocialMediaProfileLinks().getSocialMediaLink(SocialMediaPlatform.X)).isEqualTo(twitterLink);

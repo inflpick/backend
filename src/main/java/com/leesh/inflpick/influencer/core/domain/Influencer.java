@@ -32,14 +32,16 @@ public class Influencer {
                       InfluencerIntroduction introduction,
                       ProfileImage profileImage,
                       SocialMediaProfileLinks socialMediaProfileLinks,
-                      Keywords keywords, Instant createdDate, Instant lastModifiedDate) {
+                      Keywords keywords,
+                      Instant createdDate,
+                      Instant lastModifiedDate) {
         this.uuid = uuid;
         this.name = name;
         this.description = description;
         this.introduction = introduction;
-        this.profileImage = profileImage;
+        this.profileImage = profileImage == null ? ProfileImage.EMPTY : profileImage;
         this.socialMediaProfileLinks = socialMediaProfileLinks;
-        this.keywords = keywords;
+        this.keywords = keywords == null ? Keywords.EMPTY : keywords;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
     }
@@ -82,6 +84,6 @@ public class Influencer {
     }
 
     public void registerProfileImage(String uploadPath) {
-        this.profileImage = new ProfileImage(uploadPath);
+        this.profileImage = ProfileImage.from(uploadPath);
     }
 }

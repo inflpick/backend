@@ -14,6 +14,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Profile("prod")
@@ -25,9 +26,10 @@ public class AwsS3Service implements StorageService {
     private final AwsProperties awsProperties;
 
     public String upload(@NotNull MultipartFile file,
-                         @NotNull String resourcePath) throws ThirdPartyStorageException {
+                         @NotNull Path resourcePath) throws ThirdPartyStorageException {
 
-        String key = Paths.get(resourcePath, file.getOriginalFilename()).toString();
+        String key = Paths.get(resourcePath.toString(),
+                file.getOriginalFilename()).toString();
 
         try {
             // S3에 파일 업로드 요청

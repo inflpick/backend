@@ -1,89 +1,140 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
-import com.leesh.inflpick.keyword.core.domain.KeywordNameValidationFailedException;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
+import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
+import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
+import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
+import com.leesh.inflpick.keyword.port.in.KeywordReadService;
+import com.leesh.inflpick.mock.TestInstantHolder;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Instant;
+import java.util.stream.Stream;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(KeywordController.class)
 class KeywordControllerTest {
 
-    private KeywordController sut;
+    @Autowired
+    private MockMvc mockMvc;
+    @MockBean
+    private KeywordCreateService createService;
+    @MockBean
+    private KeywordReadService readService;
 
-    @BeforeEach
-    void init() {
-        sut = KeywordController.builder()
-                .createService(command -> command.toEntity(() -> "test-uuid"))
-                .build();
-    }
+    @DisplayName("키워드 생성 API 요청 시, 정상 입력 값을 입력하면, 201 Created 상태코드와 생성된 리소스 URI를 반환한다.")
+    @MethodSource("provideValidJsonRequests")
+    @ParameterizedTest
+    void create(String jsonRequest) throws Exception {
 
-    @DisplayName("키워드를 생성할 수 있다.")
-    @Test
-    void create() {
         // given
-        KeywordRequest request = KeywordRequest.builder()
-                .name("test introduction")
-                .hexColor("#FFFFFF")
-                .build();
+        String apiPath = "/api/keywords";
+        String uriString = UriComponentsBuilder.fromHttpUrl("http://localhost").path(apiPath).toUriString();
 
-        // when
-        ResponseEntity<Void> result = sut.create(request);
+        // when & then
+        String testUuid = "test-uuid";
+        Mockito.when(createService.create(
+                Mockito.any(KeywordCreateCommand.class)))
+                        .thenReturn(testUuid);
 
-        // then
-        Assertions.assertThat(result.getStatusCode().value()).isEqualTo(201);
-        Assertions.assertThat(result.getBody()).isNull();
+        mockMvc.perform(post(apiPath)
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isCreated())
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(HttpHeaders.LOCATION, uriString + "/" + testUuid))
+                .andDo(print())
+        ;
     }
 
-    @DisplayName("키워드 생성 시 이름이 비어있으면 실패한다.")
-    @Test
-    void createFailsWhenNameIsEmpty() {
-
-        // when
-        Throwable thrown = Assertions.catchThrowable(() -> KeywordRequest.builder()
-                .name("")
-                .hexColor("#FFFFFF")
-                .build());
-
-        // then
-        Assertions.assertThat(thrown)
-                .isInstanceOf(MissingRequiredFieldsException.class);
+    private static Stream<String> provideValidJsonRequests() {
+        return Stream.of(
+                """
+                    {
+                        "name": "100만 유튜버",
+                        "hexColor": "#FFFFFF"
+                    }
+                    """
+        );
     }
 
-    @DisplayName("키워드 생성 시 이름이 30자를 초과하면 실패한다.")
-    @Test
-    void createFailsWhenNameExceedsMaxLength() {
+    @DisplayName("키워드 생성 API 요청 시, 이름이 잘못된 값이면, 400 Bad Request 상태코드를 반환한다.")
+    @MethodSource("provideInvalidJsonRequests")
+    @ParameterizedTest
+    void createFailsWhenNameIsEmpty(String jsonRequest) throws Exception {
+
         // given
-        String longName = "a".repeat(31);
-        KeywordRequest request = KeywordRequest.builder()
-                .name(longName)
-                .hexColor("#FFFFFF")
-                .build();
+        String apiPath = "/api/keywords";
+        Instant now = Instant.now();
+        InstantHolder instantHolder = new TestInstantHolder(now);
+        KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.KEYWORD_NAME_VALIDATE_FAILED;
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
 
-        // when
-        Throwable thrown = Assertions.catchThrowable(() -> sut.create(request));
-
-        // then
-        Assertions.assertThat(thrown)
-                .isInstanceOf(KeywordNameValidationFailedException.class);
+        // when & then
+        mockMvc.perform(post(apiPath)
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+        ;
     }
 
-    @DisplayName("키워드 생성 시 이름에 특수문자가 포함되면 실패한다.")
-    @Test
-    void createFailsWhenNameContainsSpecialCharacters() {
-        // given
-        KeywordRequest request = KeywordRequest.builder()
-                .name("invalid@introduction")
-                .hexColor("#FFFFFF")
-                .build();
-
-        // when
-        Throwable thrown = Assertions.catchThrowable(() -> sut.create(request));
-
-        // then
-        Assertions.assertThat(thrown)
-                .isInstanceOf(KeywordNameValidationFailedException.class);
+    private static Stream<String> provideInvalidJsonRequests() {
+        return Stream.of(
+        """
+                {
+                    "introduction": "test-introduction",
+                    "description": "test-description",
+                    "profileImageUri": "http://test.com",
+                    "socialMediaProfileLinks": []
+                }
+                """,
+                """
+                {
+                    "name": "test-name",
+                    "description": "test-description",
+                    "profileImageUri": "http://test.com",
+                    "socialMediaProfileLinks": []
+                }
+                """,
+                """
+                {
+                    "name": "test-name",
+                    "introduction": "test-introduction",
+                    "profileImageUri": "http://test.com",
+                    "socialMediaProfileLinks": []
+                }
+                """,
+                """
+                {
+                    "name": "test-name",
+                    "introduction": "test-introduction",
+                    "description": "test-description",
+                    "socialMediaProfileLinks": []
+                }
+                """
+        );
     }
 
 }

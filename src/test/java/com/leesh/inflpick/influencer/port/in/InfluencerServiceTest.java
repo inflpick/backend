@@ -1,6 +1,7 @@
 package com.leesh.inflpick.influencer.port.in;
 
-import com.leesh.inflpick.influencer.core.domain.*;
+import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.influencer.core.service.InfluencerServiceImpl;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
@@ -19,6 +20,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class InfluencerServiceTest {
 
@@ -36,8 +38,8 @@ class InfluencerServiceTest {
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .keywords(Keywords.EMPTY)
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(
-                        new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of(
+                        new SocialMediaProfileLink(SocialMediaPlatform.X, "http://twitter.com/johndoe")
                 )))
                 .build();
 
@@ -48,8 +50,8 @@ class InfluencerServiceTest {
                 .description(new InfluencerDescription("Another influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile2.jpg"))
                 .keywords(Keywords.EMPTY)
-                .socialMediaProfileLinks(new SocialMediaProfileLinks(List.of(
-                        new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/janedoe"))
+                .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of(
+                        new SocialMediaProfileLink(SocialMediaPlatform.X, "http://twitter.com/janedoe")
                 )))
                 .build();
 
@@ -72,13 +74,11 @@ class InfluencerServiceTest {
         InfluencerName name = new InfluencerName("John Doe");
         InfluencerIntroduction introduction = new InfluencerIntroduction("An influencer");
         InfluencerDescription description = new InfluencerDescription("An influencer");
-        ProfileImage profileImage = new ProfileImage("http://example.com/profile1.jpg");
-        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"));
-        SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(List.of(twitterLink));
+        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, "http://twitter.com/johndoe");
+        SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(Set.of(twitterLink));
         InfluencerCreateCommand command = new InfluencerCreateCommand(name,
                 introduction,
                 description,
-                profileImage,
                 new HashSet<>(List.of("1")),
                 socialMediaProfileLinks);
         long count = repository.count();
