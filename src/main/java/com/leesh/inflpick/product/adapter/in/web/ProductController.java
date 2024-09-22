@@ -2,7 +2,6 @@ package com.leesh.inflpick.product.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductCreateApiErrorCode;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
@@ -40,7 +39,7 @@ public class ProductController {
     private final ProductCreateService createService;
     private final ProductReadService readService;
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class, ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
+    @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
     @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 UUID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 UUID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
@@ -68,7 +67,7 @@ public class ProductController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products")
+    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products/{uuid}")
     @Operation(summary = "제품 단건 조회", description = "제품을 단건 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ProductResponse.class))),
@@ -79,6 +78,4 @@ public class ProductController {
         Product product = readService.getByUuid(uuid);
         return ResponseEntity.ok(ProductResponse.from(product));
     }
-
-
 }

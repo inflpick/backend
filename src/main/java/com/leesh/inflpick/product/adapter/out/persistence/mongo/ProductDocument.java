@@ -83,6 +83,8 @@ public class ProductDocument {
                 .productImage(ProductImage.from(productImagePath))
                 .keywords(keywords)
                 .onlineStoreLinks(OnlineStoreLinks.from(onlineStoreLinks))
+                .createdDate(createdDate)
+                .lastModifiedDate(lastModifiedDate)
                 .build();
     }
 }

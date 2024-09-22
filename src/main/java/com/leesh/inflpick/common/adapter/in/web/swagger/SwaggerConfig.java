@@ -135,7 +135,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("공통 API")
                 .pathsToMatch("/api/**")
-                .pathsToExclude("/api/influencers/**", "/api/keywords/**")
+                .pathsToExclude("/api/influencers/**", "/api/keywords/**", "/api/products/**")
                 .addOperationCustomizer(customize())
                 .build();
     }
