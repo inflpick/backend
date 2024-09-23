@@ -13,7 +13,7 @@ import java.util.List;
 @Schema(name = "제품 조회 응답")
 @Builder
 public record ProductResponse(
-        @Schema(description = "고유 식별자(UUID)", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "ID", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String uuid,
         @Schema(description = "제품명", example = "마이프로틴 “6레이어 프로틴바” (육겹바)", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String name,

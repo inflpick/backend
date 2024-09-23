@@ -8,6 +8,7 @@ import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.service.InfluencerCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
 import com.leesh.inflpick.product.core.Product;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.review.core.domain.Review;
@@ -42,7 +43,7 @@ import java.util.List;
 public class InfluencerController {
 
     private final InfluencerCommandService commandService;
-    private final InfluencerQueryService queryService;
+    private final InfluencerQueryService influencerQueryService;
     private final ReviewCommandService reviewCommandService;
     private final ProductQueryService productQueryService;
     private final ReviewQueryService reviewQueryService;
@@ -76,11 +77,23 @@ public class InfluencerController {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
     })
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InfluencerResponse> read(@PathVariable
+    public ResponseEntity<InfluencerResponse> get(@PathVariable
                                                    @Parameter(description = "인플루언서 ID", required = true)
                                                    String id) {
-        Influencer influencer = queryService.getById(id);
+        Influencer influencer = influencerQueryService.getById(id);
         return ResponseEntity.ok(InfluencerResponse.from(influencer));
+    }
+
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers")
+    @Operation(summary = "인플루언서 목록 조회", description = "인플루언서 목록을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerListResponse.class))),
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> list() {
+        List<Influencer> influencers = influencerQueryService.getPage();
+        InfluencerListResponse response = InfluencerListResponse.from(influencers);
+        return ResponseEntity.ok(response);
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerUpdateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/api/influencers/{id}")
@@ -136,8 +149,8 @@ public class InfluencerController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReviewsApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers/{id}/reviews")
-    @Operation(summary = "인플루언서 제품 리뷰 생성", description = "인플루언서의 제품 리뷰를 생성합니다.")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerReviewsApiErrorCode.class, ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers/{id}/reviews")
+    @Operation(summary = "인플루언서 제품 리뷰하기", description = "인플루언서의 제품 리뷰를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리뷰의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -149,8 +162,8 @@ public class InfluencerController {
                                         @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 리뷰 생성 요청 정보", required = true)
                                         @RequestBody
                                         InfluencerReviewRequest request) {
+        Influencer reviewer = influencerQueryService.getById(id);
         Product product = productQueryService.getById(request.productId());
-        Influencer reviewer = queryService.getById(id);
         ReviewCommand command = request.toCommand();
         String reviewId = reviewCommandService.create(reviewer, product, command);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -163,13 +176,13 @@ public class InfluencerController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReviewsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{id}/reviews")
+    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{id}/reviews")
     @Operation(summary = "인플루언서가 리뷰한 제품들을 조회", description = "인플루언서가 리뷰한 제품들을 조회합니다.")
     @GetMapping(path = "/{id}/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfluencerReviewResponse> getProductReviews(@Parameter(description = "인플루언서 ID", required = true)
                                                                          @PathVariable(value = "id")
                                                                          String id) {
-        Influencer influencer = queryService.getById(id);
+        Influencer influencer = influencerQueryService.getById(id);
         List<Review> reviews = reviewQueryService.getAllByReviewerId(id);
         InfluencerReviewResponse response = InfluencerReviewResponse.from(influencer, reviews);
         return ResponseEntity.ok(response);

@@ -8,6 +8,7 @@ import com.leesh.inflpick.product.core.Product;
 import com.leesh.inflpick.product.port.in.ProductCommand;
 import com.leesh.inflpick.product.port.in.ProductCommandService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
+import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.product.port.out.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
-    public Product getById(String id) {
+    public Product getById(String id) throws ProductNotFoundException {
         return productRepository.getById(id);
     }
 }

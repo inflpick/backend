@@ -6,6 +6,7 @@ import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
+import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.Builder;
@@ -30,7 +31,7 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     private final StorageService storageService;
 
     @Override
-    public Influencer getById(String id) {
+    public Influencer getById(String id) throws InfluencerNotFoundException {
         return influencerRepository.getById(id);
     }
 

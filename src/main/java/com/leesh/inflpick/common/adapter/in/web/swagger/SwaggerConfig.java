@@ -16,10 +16,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springdoc.core.customizers.OperationCustomizer;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.HandlerMethod;
 
 import java.time.Instant;
@@ -30,22 +28,15 @@ import java.util.*;
 public class SwaggerConfig {
 
     @Bean
-    public MappingJackson2HttpMessageConverter octetStreamJsonConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(org.springframework.http.MediaType.APPLICATION_JSON, org.springframework.http.MediaType.APPLICATION_OCTET_STREAM));
-        return converter;
-    }
-
-    @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
             .info(new Info()
                 .title("인플픽 API Docs")
                 .description("인플픽 API 명세서입니다.")
-                .version("1.0.0"));
+                .version("2024.1.0"));
     }
 
-
+    @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
 
@@ -127,43 +118,6 @@ public class SwaggerConfig {
                 .status(errorCode.httpStatus().value())
                 .reason(reason)
                 .action(errorCode.action())
-                .build();
-    }
-
-    @Bean
-    public GroupedOpenApi commonApi() {
-        return GroupedOpenApi.builder()
-                .group("공통 API")
-                .pathsToMatch("/api/**")
-                .pathsToExclude("/api/influencers/**", "/api/keywords/**", "/api/products/**")
-                .addOperationCustomizer(customize())
-                .build();
-    }
-
-    @Bean
-    public GroupedOpenApi influencerApi() {
-        return GroupedOpenApi.builder()
-            .group("인플루언서 API")
-            .pathsToMatch("/api/influencers/**")
-            .addOperationCustomizer(customize())
-            .build();
-    }
-
-    @Bean
-    public GroupedOpenApi keywordApi() {
-        return GroupedOpenApi.builder()
-            .group("키워드 API")
-            .pathsToMatch("/api/keywords/**")
-            .addOperationCustomizer(customize())
-            .build();
-    }
-
-    @Bean
-    public GroupedOpenApi productApi() {
-        return GroupedOpenApi.builder()
-                .group("제품 API")
-                .pathsToMatch("/api/products/**")
-                .addOperationCustomizer(customize())
                 .build();
     }
 

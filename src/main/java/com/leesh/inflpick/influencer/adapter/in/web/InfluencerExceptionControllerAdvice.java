@@ -4,12 +4,18 @@ import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.port.out.exception.InvalidFileRequestException;
 import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerProfileImageUpdateApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReviewsApiErrorCode;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerDescriptionValidationFailedException;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerIntroductionValidationFailedException;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerNameValidationFailedException;
 import com.leesh.inflpick.influencer.core.domain.exception.InvalidSocialMediaPlatformException;
+import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
+import com.leesh.inflpick.product.port.out.ProductNotFoundException;
+import com.leesh.inflpick.review.core.domain.ReviewContentsValidationFailedException;
+import com.leesh.inflpick.review.core.domain.ReviewUriValidationFailedException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.PriorityOrdered;
@@ -63,14 +69,35 @@ public class InfluencerExceptionControllerAdvice {
     @ExceptionHandler(InvalidFileRequestException.class)
     public ResponseEntity<ApiErrorResponse> handlerInvalidFileRequestException(InvalidFileRequestException e, HttpServletRequest request) {
         log.warn("InvalidFileRequestException: {}", e.getMessage(), e);
-        InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INVALID_PROFILE_IMAGE_REQUEST;
+        InfluencerProfileImageUpdateApiErrorCode apiErrorCode = InfluencerProfileImageUpdateApiErrorCode.INVALID_PROFILE_IMAGE_REQUEST;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
     @ExceptionHandler(ThirdPartyStorageException.class)
     public ResponseEntity<ApiErrorResponse> handlerThirdPartyStorageException(ThirdPartyStorageException e, HttpServletRequest request) {
         log.warn("ThirdPartyStorageException: {}", e.getMessage(), e);
-        InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.PROFILE_IMAGE_UPLOAD_FAILED;
+        InfluencerProfileImageUpdateApiErrorCode apiErrorCode = InfluencerProfileImageUpdateApiErrorCode.PROFILE_IMAGE_UPLOAD_FAILED;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(ReviewContentsValidationFailedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerReviewContentsValidationFailedException(ReviewContentsValidationFailedException e, HttpServletRequest request) {
+        log.warn("ReviewContentsValidationFailedException: {}", e.getMessage(), e);
+        InfluencerReviewsApiErrorCode apiErrorCode = InfluencerReviewsApiErrorCode.REVIEW_CONTENTS_VALIDATION_FAILED;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(ReviewUriValidationFailedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerReviewUriValidationFailedException(ReviewUriValidationFailedException e, HttpServletRequest request) {
+        log.warn("ReviewUriValidationFailedException: {}", e.getMessage(), e);
+        InfluencerReviewsApiErrorCode apiErrorCode = InfluencerReviewsApiErrorCode.REVIEW_URI_VALIDATION_FAILED;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handlerProductNotFoundException(ProductNotFoundException e, HttpServletRequest request) {
+        log.warn("ProductNotFoundException: {}", e.getMessage(), e);
+        ProductReadApiErrorCode apiErrorCode = ProductReadApiErrorCode.PRODUCT_NOT_FOUND;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 }

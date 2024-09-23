@@ -16,7 +16,7 @@ public record ProductCommand(@NotNull ProductName name,
 
     public Product toEntity(UuidHolder uuidHolder) {
         return Product.builder()
-                .uuid(uuidHolder.uuid())
+                .id(uuidHolder.uuid())
                 .name(name)
                 .description(description)
                 .onlineStoreLinks(onlineStoreLinks)

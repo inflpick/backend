@@ -27,6 +27,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
@@ -190,7 +191,7 @@ class InfluencerControllerTest {
 
     @DisplayName("인플루언서 ID로 인플루언서를 조회하면, 200 OK 상태코드와 인플루언서 정보를 반환한다.")
     @Test
-    void read() throws Exception {
+    void get() throws Exception {
 
         // given
         String id = "test-id";
@@ -215,7 +216,7 @@ class InfluencerControllerTest {
         Mockito.when(readService.getById(id))
                 .thenReturn(influencer);
 
-        mockMvc.perform(get("/api/influencers/{id}", id)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/influencers/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -234,7 +235,7 @@ class InfluencerControllerTest {
 
     @DisplayName("존재하지 않는 ID로 인플루언서를 조회하면, 404 상태 코드를 반환한다.")
     @Test
-    void read_notFound() throws Exception {
+    void get_notFound() throws Exception {
 
         // given
         String apiPath = "/api/influencers/test-id";
@@ -248,7 +249,7 @@ class InfluencerControllerTest {
         Mockito.when(readService.getById(id))
                 .thenThrow(new InfluencerNotFoundException(id));
 
-        mockMvc.perform(get("/api/influencers/{id}", id)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/influencers/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
