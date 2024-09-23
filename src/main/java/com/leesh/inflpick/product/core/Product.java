@@ -14,7 +14,7 @@ import java.time.Instant;
 public class Product {
 
     @Getter
-    private final String uuid;
+    private final String id;
     private final ProductName name;
     private final ProductDescription description;
     private ProductImage productImage;
@@ -28,7 +28,7 @@ public class Product {
     private final Instant lastModifiedDate;
 
     @Builder
-    public Product(String uuid,
+    public Product(String id,
                    ProductName name,
                    ProductDescription description,
                    ProductImage productImage,
@@ -36,7 +36,7 @@ public class Product {
                    Keywords keywords,
                    Instant createdDate,
                    Instant lastModifiedDate) {
-        this.uuid = uuid;
+        this.id = id;
         this.name = name;
         this.description = description;
         this.productImage = productImage == null ? ProductImage.empty() : productImage;
@@ -51,10 +51,10 @@ public class Product {
     }
 
     public Path getProductImageBasePath() {
-        return productImage.basePath(uuid);
+        return productImage.basePath(id);
     }
 
-    public void registerProductImage(String uploadPath) {
+    public void registerProductImagePath(String uploadPath) {
         this.productImage = ProductImage.from(uploadPath);
     }
 

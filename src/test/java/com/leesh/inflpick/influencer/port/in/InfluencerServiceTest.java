@@ -85,7 +85,7 @@ class InfluencerServiceTest {
 
         // when
         MockMultipartFile profileImageFile = new MockMultipartFile("profileImage", "test-image.jpg", "image/jpeg", "test-image".getBytes());
-        sut.create(command, profileImageFile);
+        sut.create(command);
 
         // then
         Assertions.assertThat(repository.count()).isEqualTo(count + 1);

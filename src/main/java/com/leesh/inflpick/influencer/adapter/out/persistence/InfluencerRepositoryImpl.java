@@ -45,6 +45,12 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
 
     @Override
     public void deleteById(String id) {
-        influencerMongoRepository.deleteById(id);
+        try {
+            Influencer influencer = this.getById(id);
+            influencer.delete();
+            this.save(influencer);
+        } catch (InfluencerNotFoundException e) {
+            // do nothing
+        }
     }
 }

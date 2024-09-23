@@ -36,19 +36,13 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
 
     @Transactional
     @Override
-    public String create(@NotNull InfluencerCommand command,
-                         @NotNull MultipartFile profileImage) {
+    public String create(@NotNull InfluencerCommand command) {
 
         Set<String> keywordIds = command.keywordIds();
         Keywords keywords = keywordRepository.getAllByIds(keywordIds);
 
         Influencer influencer = command.toEntity(uuidHolder);
         influencer.addKeywords(keywords);
-
-        // 프로필 이미지 업로드
-        Path basePath = influencer.getProfileImageBasePath();
-        String uploadPath = storageService.upload(profileImage, basePath);
-        influencer.registerProfileImage(uploadPath);
 
         return influencerRepository.save(influencer);
     }
@@ -66,5 +60,14 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     @Override
     public void delete(String id) {
         influencerRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateProfileImage(String id, MultipartFile profileImage) {
+        Influencer influencer = influencerRepository.getById(id);
+        Path basePath = influencer.getProfileImageBasePath();
+        String uploadPath = storageService.upload(profileImage, basePath);
+        influencer.registerProfileImagePath(uploadPath);
+        influencerRepository.save(influencer);
     }
 }

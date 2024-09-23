@@ -57,12 +57,12 @@ public class KeywordController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = KeywordReadApiErrorCode.class, httpMethod = "GET", apiPath = "/api/keywords/search?name={name}")
-    @Operation(summary = "키워드 명으로 검색", description = "입력한 키워드 명과 유사한 키워드를 검색합니다.")
+    @ApiErrorCodeSwaggerDocs(values = KeywordReadApiErrorCode.class, httpMethod = "GET", apiPath = "/api/keywords?name={name}")
+    @Operation(summary = "키워드 명으로 검색", description = "입력한 키워드 명과 \"유사한\" 키워드를 검색합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
     })
-    @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<KeywordResponse>> search(@RequestParam(value = "name")
                                                         @Parameter(description = "키워드 명", example = "100만 유튜버", required = true)
                                                         String name) {

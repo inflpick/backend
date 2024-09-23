@@ -25,6 +25,8 @@ public class Influencer {
     private final Instant createdDate;
     @Getter
     private final Instant lastModifiedDate;
+    @Getter
+    private Boolean deleted = false;
 
     @Builder
     public Influencer(String id,
@@ -35,7 +37,8 @@ public class Influencer {
                       SocialMediaProfileLinks socialMediaProfileLinks,
                       Keywords keywords,
                       Instant createdDate,
-                      Instant lastModifiedDate) {
+                      Instant lastModifiedDate,
+                      Boolean deleted) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,6 +48,7 @@ public class Influencer {
         this.keywords = keywords == null ? Keywords.EMPTY : keywords;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+        this.deleted = deleted != null && deleted;
     }
 
     @Override
@@ -84,7 +88,7 @@ public class Influencer {
         return profileImage.basePath(this.id);
     }
 
-    public void registerProfileImage(String uploadPath) {
+    public void registerProfileImagePath(String uploadPath) {
         this.profileImage = ProfileImage.from(uploadPath);
     }
 
@@ -94,5 +98,9 @@ public class Influencer {
         this.description = command.description();
         this.keywords = keywords;
         this.socialMediaProfileLinks = command.socialMediaProfileLinks();
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 }

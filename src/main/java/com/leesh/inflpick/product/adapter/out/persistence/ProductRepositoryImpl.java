@@ -24,7 +24,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public String save(@NotNull Product product) {
         ProductDocument document = ProductDocument.from(product);
         productMongoRepository.save(document);
-        return document.getUuid();
+        return document.getId();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public @NotNull Product getById(@NotNull String id) throws ProductNotFoundException {
-        ProductDocument productDocument = productMongoRepository.findByUuid(id)
+        ProductDocument productDocument = productMongoRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
         Set<String> keywordUuids = productDocument.getKeywordUuids();

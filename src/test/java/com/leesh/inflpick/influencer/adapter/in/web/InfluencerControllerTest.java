@@ -27,15 +27,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -70,14 +69,13 @@ class InfluencerControllerTest {
 
         // when & then
         Mockito.when(createService.create(
-                        Mockito.any(InfluencerCommand.class),
-                        Mockito.any(MultipartFile.class)))
+                        Mockito.any(InfluencerCommand.class)
+                ))
                 .thenReturn(uuidHolder.uuid());
 
-        mockMvc.perform(multipart(apiPath)
-                        .file(profileImage)
-                        .file(requestFile)
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
+        mockMvc.perform(post(apiPath)
+                        .content(requestFile.getBytes())
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
@@ -132,64 +130,22 @@ class InfluencerControllerTest {
         );
     }
 
-    @DisplayName("인플루언서 생성 API 요청 시, 프로필 이미지를 등록하지 않으면, 400 에러가 발생한다.")
-    @Test
-    void create_missingProfileImage() throws Exception {
-
-        // given
-        String jsonRequest = """
-                {
-                    "name": "test-name",
-                    "introduction": "test-introduction",
-                    "description": "test-description",
-                    "profileImageUri": "http://test.com",
-                    "keywords": [],
-                    "socialMediaProfileLinks": []
-                }
-                """;
-        Instant now = Instant.now();
-        InstantHolder instantHolder = new TestInstantHolder(now);
-        String apiPath = "/api/influencers";
-        CommonApiErrorCode apiErrorCode = CommonApiErrorCode.MISSING_REQUEST_PART;
-        MockMultipartFile request = new MockMultipartFile("request", "", "application/json", jsonRequest.getBytes());
-        ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
-
-        // when & then
-        mockMvc.perform(multipart(apiPath)
-                        .file(request)
-                        .contentType(MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().isBadRequest())
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.timestamp").isNotEmpty())
-                .andExpect(jsonPath("$.status").value(apiErrorResponse.status()))
-                .andExpect(jsonPath("$.code").value(apiErrorResponse.code()))
-                .andExpect(jsonPath("$.reason").value(apiErrorResponse.reason()))
-                .andExpect(jsonPath("$.action").value(apiErrorResponse.action()))
-                .andExpect(jsonPath("$.method").value(apiErrorResponse.method()))
-                .andExpect(jsonPath("$.path").value(apiErrorResponse.path()))
-                .andDo(print())
-        ;
-    }
-
     @DisplayName("인플루언서 생성 API 요청 시, 필수 입력 값을 입력하지 않으면, 400 에러가 발생한다.")
     @ParameterizedTest
     @MethodSource("provideInvalidJsonRequests")
     void create_missingRequiredFields(String jsonRequest) throws Exception {
 
         // given
-        MockMultipartFile profileImage = new MockMultipartFile("profileImage", "test.jpg", "image/jpeg", "test".getBytes());
         String apiPath = "/api/influencers";
-        MockMultipartFile request = new MockMultipartFile("request", "", "application/json", jsonRequest.getBytes());
         Instant now = Instant.now();
         InstantHolder instantHolder = new TestInstantHolder(now);
         CommonApiErrorCode apiErrorCode = CommonApiErrorCode.MISSING_REQUIRED_FIELDS;
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
 
         // when & then
-        mockMvc.perform(multipart(apiPath)
-                        .file(profileImage)
-                        .file(request)
-                        .contentType(MediaType.MULTIPART_FORM_DATA))
+        mockMvc.perform(post(apiPath)
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.timestamp").isNotEmpty())
@@ -239,19 +195,19 @@ class InfluencerControllerTest {
         // given
         String id = "test-id";
 
+        LinkedHashSet<SocialMediaProfileLink> objectLinkedHashSet = new LinkedHashSet<>();
+        objectLinkedHashSet.add(SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/test"));
+        objectLinkedHashSet.add(SocialMediaProfileLink.of(SocialMediaPlatform.X, "http://twitter.com/test"));
+
         // when & then
+        SocialMediaProfileLinks socialMediaProfileLinks = SocialMediaProfileLinks.from(objectLinkedHashSet);
         Influencer influencer = Influencer.builder()
                 .id(id)
                 .name(InfluencerName.from("test-name"))
                 .introduction(InfluencerIntroduction.from("test-introduction"))
                 .description(InfluencerDescription.from("test-description"))
                 .keywords(Keywords.EMPTY)
-                .socialMediaProfileLinks(SocialMediaProfileLinks.from(
-                        Set.of(
-                                SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/test"),
-                                SocialMediaProfileLink.of(SocialMediaPlatform.X, "http://twitter.com/test")
-                        )
-                ))
+                .socialMediaProfileLinks(socialMediaProfileLinks)
                 .createdDate(Instant.now())
                 .lastModifiedDate(Instant.now())
                 .build();
