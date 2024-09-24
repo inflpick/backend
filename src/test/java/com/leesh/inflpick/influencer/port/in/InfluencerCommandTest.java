@@ -3,7 +3,6 @@ package com.leesh.inflpick.influencer.port.in;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
-import com.leesh.inflpick.influencer.core.service.InfluencerCommand;
 import com.leesh.inflpick.mock.TestUuidHolder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

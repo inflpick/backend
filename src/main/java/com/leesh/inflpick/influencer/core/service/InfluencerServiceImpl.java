@@ -1,9 +1,12 @@
 package com.leesh.inflpick.influencer.core.service;
 
+import com.leesh.inflpick.common.core.PageDetails;
+import com.leesh.inflpick.common.core.PageQuery;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
+import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
@@ -17,11 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 
 @Builder
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Service
 public class InfluencerServiceImpl implements InfluencerQueryService, InfluencerCommandService {
 
@@ -35,7 +39,11 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
         return influencerRepository.getById(id);
     }
 
-    @Transactional
+    @Override
+    public PageDetails<List<Influencer>> getPage(PageQuery query) {
+        return influencerRepository.getPage(query);
+    }
+
     @Override
     public String create(@NotNull InfluencerCommand command) {
 
@@ -48,13 +56,16 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
         return influencerRepository.save(influencer);
     }
 
-    @Transactional
     @Override
     public void update(String id, InfluencerCommand command) {
         Influencer influencer = influencerRepository.getById(id);
         Set<String> keywordIds = command.keywordIds();
         Keywords keywords = keywordRepository.getAllByIds(keywordIds);
-        influencer.update(command, keywords);
+        influencer.update(command.name(),
+                command.introduction(),
+                command.description(),
+                keywords,
+                command.socialMediaProfileLinks());
         influencerRepository.save(influencer);
     }
 

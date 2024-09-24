@@ -1,0 +1,10 @@
+package com.leesh.inflpick.common.core;
+
+public record PageDetails<T>(
+        int currentPage,
+        int size,
+        int totalPages,
+        long totalElements,
+        String[] sorts,
+        T content) {
+}

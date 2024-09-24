@@ -6,7 +6,7 @@ import com.leesh.inflpick.influencer.core.domain.value.InfluencerDescription;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerIntroduction;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerName;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
-import com.leesh.inflpick.influencer.core.service.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -31,8 +31,7 @@ public record InfluencerRequest(
         @ArraySchema(arraySchema = @Schema(description = "인플루언서에 등록할 키워드 ID 목록 (기본값: 빈 배열)", example = "[\"92624c72-1cf2-4762-8c45-fe1a1f0a3e97\", \"8eabcaa9-5c70-46a5-a7c0-b580b1d20316\"]", implementation = String.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED))
         List<String> keywordIds,
         @ArraySchema(arraySchema = @Schema(description = "인플루언서의 소셜 미디어 프로필 링크 목록 (기본값: 빈 배열)", implementation = SocialMediaProfileRequest.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED))
-        List<SocialMediaProfileRequest> socialMediaProfileLinks
-) {
+        List<SocialMediaProfileRequest> socialMediaProfileLinks) {
 
     public InfluencerRequest(@Nullable String name,
                              @Nullable String introduction,

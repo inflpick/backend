@@ -1,5 +1,9 @@
 package com.leesh.inflpick.common.adapter.in.web.value;
 
+import com.leesh.inflpick.common.adapter.in.web.exception.InvalidSortParameterException;
+import com.leesh.inflpick.common.port.in.exception.InvalidDirectionException;
+import com.leesh.inflpick.common.port.in.exception.InvalidPageNumberException;
+import com.leesh.inflpick.common.port.in.exception.InvalidPageSizeException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -16,6 +20,11 @@ public enum CommonApiErrorCode implements ApiErrorCode {
     UNSUPPORTED_HTTP_MEDIA_TYPE("C_O_0008", HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않는 HTTP 미디어 타입이에요.", "요청을 확인 후 다시 요청해주세요.", "API 요청 시, 지원하지 않는 HTTP 미디어 타입을 사용한 경우에 발생합니다."),
     MISSING_REQUEST_PART("C_O_0009", HttpStatus.BAD_REQUEST, "필수 입력 값이 입력되지 않았어요.", "필수 입력 값을 확인 후, 다시 시도해주세요.", "API 요청 시, 필수 파라미터가 입력되지 않은 경우에 발생합니다."),
     NOT_IMAGE_TYPE("C_O_0010", HttpStatus.BAD_REQUEST, "이미지 파일이 아니에요.", "업로드 한 파일을 확인 후, 이미지 파일로 다시 시도해주세요.", "이미지 파일이 아닌 파일을 업로드한 경우에 발생합니다."),
+    INVALID_PAGE_VALUE("C_O_0011", HttpStatus.BAD_REQUEST, "유효한 페이지 번호를 입력해주세요.", InvalidPageNumberException.ERROR_MESSAGE_FORMAT.toPattern(), "페이지 번호가 올바르지 않은 경우에 발생합니다."),
+    INVALID_PAGE_SIZE_VALUE("C_O_0012", HttpStatus.BAD_REQUEST, "유효한 페이지 크기를 입력해주세요", InvalidPageSizeException.ERROR_MESSAGE_FORMAT.toPattern(), "페이지 크기가 올바르지 않은 경우에 발생합니다."),
+    INVALID_SORT_DIRECTION("C_O_0013", HttpStatus.BAD_REQUEST, "유효한 정렬 방향을 입력해주세요.", InvalidDirectionException.ERROR_MESSAGE_FORMAT.toPattern(), "정렬 방향이 올바르지 않은 경우에 발생합니다."),
+    INVALID_SORT_PARAMETER("C_O_0014", HttpStatus.BAD_REQUEST, "유효한 정렬 파라미터를 입력해주세요.", InvalidSortParameterException.ERROR_MESSAGE_FORMAT, "정렬 파라미터가 올바르지 않은 경우에 발생합니다."),
+    NOT_FOUND_API_URL("C_O_0015", HttpStatus.NOT_FOUND, "API URL을 찾을 수 없어요.", "API URL을 확인 후 다시 시도해주세요.", "존재하지 않는 API URL을 호출하는 경우에 발생합니다."),
     ;
 
     CommonApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {

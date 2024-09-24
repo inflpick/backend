@@ -18,7 +18,7 @@ public interface KeywordRepository {
 
     Optional<Keyword> findByName(KeywordName name);
 
-    List<Keyword> search(KeywordName name);
+    List<Keyword> search(String name);
 
     Keywords getAllByIds(Set<String> keywordIds);
 }

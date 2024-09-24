@@ -46,7 +46,7 @@ public class FakeKeywordRepository implements KeywordRepository {
     }
 
     @Override
-    public List<Keyword> search(KeywordName name) {
+    public List<Keyword> search(String name) {
         return data;
     }
 

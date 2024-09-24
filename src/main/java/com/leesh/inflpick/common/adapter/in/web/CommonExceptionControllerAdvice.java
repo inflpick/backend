@@ -1,10 +1,14 @@
 package com.leesh.inflpick.common.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.exception.InvalidSortParameterException;
 import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
+import com.leesh.inflpick.common.port.in.exception.InvalidDirectionException;
 import com.leesh.inflpick.common.port.in.exception.NotImageTypeException;
+import com.leesh.inflpick.common.port.in.exception.InvalidPageNumberException;
+import com.leesh.inflpick.common.port.in.exception.InvalidPageSizeException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -15,6 +19,7 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -77,6 +82,36 @@ public class CommonExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerNotImageTypeException(NotImageTypeException e, HttpServletRequest request) {
         log.error("NotImageTypeException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.NOT_IMAGE_TYPE);
+    }
+
+    @ExceptionHandler(InvalidPageNumberException.class)
+    public ResponseEntity<ApiErrorResponse> handlerWrongPageException(InvalidPageNumberException e, HttpServletRequest request) {
+        log.error("WrongPageException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_PAGE_VALUE);
+    }
+
+    @ExceptionHandler(InvalidPageSizeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerWrongPageSizeException(InvalidPageSizeException e, HttpServletRequest request) {
+        log.error("WrongPageSizeException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_PAGE_SIZE_VALUE);
+    }
+
+    @ExceptionHandler(InvalidDirectionException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidDirectionException(InvalidDirectionException e, HttpServletRequest request) {
+        log.error("InvalidDirectionException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_SORT_DIRECTION);
+    }
+
+    @ExceptionHandler(InvalidSortParameterException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidSortParameterException(InvalidSortParameterException e, HttpServletRequest request) {
+        log.error("InvalidSortParameterException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.INVALID_SORT_PARAMETER);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handlerNoResourceFoundException(NoResourceFoundException e, HttpServletRequest request) {
+        log.error("NoResourceFoundException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.NOT_FOUND_API_URL);
     }
 
     private Optional<MissingRequiredFieldsException> findMissingRequiredFieldsException(Throwable e) {

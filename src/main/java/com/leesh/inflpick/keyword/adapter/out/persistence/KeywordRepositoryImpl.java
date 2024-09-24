@@ -46,8 +46,8 @@ public class KeywordRepositoryImpl implements KeywordRepository {
     }
 
     @Override
-    public List<Keyword> search(KeywordName name) {
-        return keywordMongoRepository.searchBy(name.name())
+    public List<Keyword> search(String name) {
+        return keywordMongoRepository.searchBy(name)
                 .stream()
                 .map(KeywordDocument::toEntity)
                 .toList();

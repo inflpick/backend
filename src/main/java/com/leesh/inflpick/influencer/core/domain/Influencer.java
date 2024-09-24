@@ -1,7 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain;
 
 import com.leesh.inflpick.influencer.core.domain.value.*;
-import com.leesh.inflpick.influencer.core.service.InfluencerCommand;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -92,12 +91,16 @@ public class Influencer {
         this.profileImage = ProfileImage.from(uploadPath);
     }
 
-    public void update(InfluencerCommand command, Keywords keywords) {
-        this.name = command.name();
-        this.introduction = command.introduction();
-        this.description = command.description();
+    public void update(InfluencerName name,
+                       InfluencerIntroduction introduction,
+                       InfluencerDescription description,
+                       Keywords keywords,
+                       SocialMediaProfileLinks socialMediaProfileLinks) {
+        this.name = name;
+        this.introduction = introduction;
+        this.description = description;
         this.keywords = keywords;
-        this.socialMediaProfileLinks = command.socialMediaProfileLinks();
+        this.socialMediaProfileLinks = socialMediaProfileLinks;
     }
 
     public void delete() {

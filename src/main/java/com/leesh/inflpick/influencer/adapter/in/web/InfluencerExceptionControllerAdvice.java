@@ -3,14 +3,8 @@ package com.leesh.inflpick.influencer.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.port.out.exception.InvalidFileRequestException;
 import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerProfileImageUpdateApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReviewsApiErrorCode;
-import com.leesh.inflpick.influencer.core.domain.exception.InfluencerDescriptionValidationFailedException;
-import com.leesh.inflpick.influencer.core.domain.exception.InfluencerIntroductionValidationFailedException;
-import com.leesh.inflpick.influencer.core.domain.exception.InfluencerNameValidationFailedException;
-import com.leesh.inflpick.influencer.core.domain.exception.InvalidSocialMediaPlatformException;
+import com.leesh.inflpick.influencer.adapter.in.web.value.*;
+import com.leesh.inflpick.influencer.core.domain.exception.*;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
@@ -98,6 +92,13 @@ public class InfluencerExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerProductNotFoundException(ProductNotFoundException e, HttpServletRequest request) {
         log.warn("ProductNotFoundException: {}", e.getMessage(), e);
         ProductReadApiErrorCode apiErrorCode = ProductReadApiErrorCode.PRODUCT_NOT_FOUND;
+        return createResponseEntityFromApiErrorCode(request, apiErrorCode);
+    }
+
+    @ExceptionHandler(InvalidInfluencerSortTypeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidInfluencerSortTypeException(InvalidInfluencerSortTypeException e, HttpServletRequest request) {
+        log.warn("InvalidInfluencerSortTypeException: {}", e.getMessage(), e);
+        InfluencerGetListsApiErrorCode apiErrorCode = InfluencerGetListsApiErrorCode.INVALID_SORT_TYPE;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 }

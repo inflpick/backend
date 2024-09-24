@@ -38,7 +38,7 @@ public class KeywordServiceImpl implements KeywordCreateService, KeywordReadServ
     }
 
     @Override
-    public List<Keyword> search(KeywordName name) {
+    public List<Keyword> search(String name) {
         return keywordRepository.search(name);
     }
 }

@@ -3,10 +3,8 @@ package com.leesh.inflpick.keyword.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
-import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordReadApiErrorCode;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
-import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,7 +55,6 @@ public class KeywordController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = KeywordReadApiErrorCode.class, httpMethod = "GET", apiPath = "/api/keywords?name={name}")
     @Operation(summary = "키워드 명으로 검색", description = "입력한 키워드 명과 \"유사한\" 키워드를 검색합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
@@ -67,8 +64,7 @@ public class KeywordController {
                                                         @Parameter(description = "키워드 명", example = "100만 유튜버", required = true)
                                                         String name) {
 
-        KeywordName keywordName = new KeywordName(name);
-        List<KeywordResponse> bodies = readService.search(keywordName)
+        List<KeywordResponse> bodies = readService.search(name)
                 .stream()
                 .map(KeywordResponse::from)
                 .toList();
