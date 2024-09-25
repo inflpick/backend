@@ -5,7 +5,7 @@ import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerRequest;
 import com.leesh.inflpick.influencer.adapter.in.web.value.SocialMediaProfileRequest;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
-import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

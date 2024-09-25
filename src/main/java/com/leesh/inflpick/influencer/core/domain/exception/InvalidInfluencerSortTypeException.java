@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain.exception;
 
-import com.leesh.inflpick.influencer.core.domain.value.InfluencerSortType;
+import com.leesh.inflpick.influencer.port.InfluencerSortType;
 
 import java.text.MessageFormat;
 

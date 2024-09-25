@@ -1,13 +1,13 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence;
 
 import com.leesh.inflpick.common.core.Direction;
-import com.leesh.inflpick.common.core.PageDetails;
-import com.leesh.inflpick.common.core.PageQuery;
+import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.influencer.core.domain.value.InfluencerSortType;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
+import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
+import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
@@ -55,17 +55,11 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
 
     @Override
     public void deleteById(String id) {
-        try {
-            Influencer influencer = this.getById(id);
-            influencer.delete();
-            this.save(influencer);
-        } catch (InfluencerNotFoundException e) {
-            // do nothing
-        }
+        influencerMongoRepository.deleteById(id);
     }
 
     @Override
-    public PageDetails<List<Influencer>> getPage(PageQuery query) {
+    public PageDetails<List<Influencer>> getPage(InfluencerPageQuery query) {
 
         Sort sortCriteria = getSortCriteria(query.sort());
 
@@ -85,6 +79,11 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
                 documentPage.getTotalElements(),
                 getSortProperties(documentPage.getSort()),
                 contents);
+    }
+
+    @Override
+    public void deleteAll() {
+        influencerMongoRepository.deleteAll();
     }
 
     private static String @NotNull [] getSortProperties(Sort sort) {

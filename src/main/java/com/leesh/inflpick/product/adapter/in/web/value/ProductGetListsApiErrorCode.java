@@ -1,11 +1,13 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
+import com.leesh.inflpick.influencer.core.domain.exception.InvalidInfluencerSortTypeException;
+import com.leesh.inflpick.product.core.domain.exception.InvalidProductSortTypeException;
 import org.springframework.http.HttpStatus;
 
-public enum ProductReadApiErrorCode implements ApiErrorCode {
+public enum ProductGetListsApiErrorCode implements ApiErrorCode {
 
-    PRODUCT_NOT_FOUND("PR_R_0001", HttpStatus.NOT_FOUND, "제품을 찾을 수 없어요.", "요청한 제품이 존재하지 않아, 요청을 처리할 수 없습니다.", "ID에 해당하는 제품을 찾을 수 없는 경우에 발생합니다."),
+    INVALID_SORT_TYPE("P_L_0001", HttpStatus.BAD_REQUEST, "유효한 정렬 타입을 입력해주세요.", InvalidProductSortTypeException.ERROR_MESSAGE_FORMAT.toPattern(), "정렬 타입이 올바르지 않은 경우에 발생합니다."),
     ;
 
     private final String code;
@@ -14,7 +16,7 @@ public enum ProductReadApiErrorCode implements ApiErrorCode {
     private final String action;
     private final String comment;
 
-    ProductReadApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {
+    ProductGetListsApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {
         this.code = code;
         this.httpStatus = httpStatus;
         this.reason = reason;
@@ -46,4 +48,5 @@ public enum ProductReadApiErrorCode implements ApiErrorCode {
     public String comment() {
         return this.comment;
     }
+
 }

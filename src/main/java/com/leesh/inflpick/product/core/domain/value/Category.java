@@ -1,4 +1,4 @@
-package com.leesh.inflpick.product.core.value;
+package com.leesh.inflpick.product.core.domain.value;
 
 import lombok.Getter;
 

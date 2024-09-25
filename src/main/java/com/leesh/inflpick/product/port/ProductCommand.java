@@ -1,10 +1,10 @@
-package com.leesh.inflpick.product.port.in;
+package com.leesh.inflpick.product.port;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
-import com.leesh.inflpick.product.core.Product;
-import com.leesh.inflpick.product.core.value.OnlineStoreLinks;
-import com.leesh.inflpick.product.core.value.ProductDescription;
-import com.leesh.inflpick.product.core.value.ProductName;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLinks;
+import com.leesh.inflpick.product.core.domain.value.ProductDescription;
+import com.leesh.inflpick.product.core.domain.value.ProductName;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;

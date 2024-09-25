@@ -1,6 +1,10 @@
 package com.leesh.inflpick.influencer.core.domain;
 
+import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.*;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.review.core.domain.Review;
+import com.leesh.inflpick.review.port.in.ReviewCommand;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -103,7 +107,12 @@ public class Influencer {
         this.socialMediaProfileLinks = socialMediaProfileLinks;
     }
 
-    public void delete() {
-        this.deleted = true;
+    public Review review(Product product, ReviewCommand command, UuidHolder uuidHolder) {
+        return Review.builder()
+                .id(uuidHolder.uuid())
+                .reviewer(this)
+                .product(product)
+                .source(command.reviewSource())
+                .build();
     }
 }

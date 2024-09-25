@@ -4,16 +4,16 @@ import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.PageResponse;
-import com.leesh.inflpick.common.core.PageDetails;
-import com.leesh.inflpick.common.core.PageQuery;
+import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.influencer.adapter.in.web.value.*;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
-import com.leesh.inflpick.product.core.Product;
+import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.review.core.domain.Review;
 import com.leesh.inflpick.review.port.in.ReviewCommand;
@@ -22,6 +22,7 @@ import com.leesh.inflpick.review.port.in.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,11 +31,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -48,17 +47,6 @@ import java.util.List;
 @RequestMapping(path = "/api/influencers")
 @RestController
 public class InfluencerController {
-
-    /**
-     * Controller 에서 @RequestParam 으로 받는 String[] 타입의 값이 "created,asc" 와 같은 경우 배열로 분리하지 않고 그대로 받기 위한 설정
-     * @param webDataBinder
-     */
-    @InitBinder
-    public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.registerCustomEditor(
-                String[].class,
-                new StringArrayPropertyEditor("\\|"));
-    }
 
     private final InfluencerCommandService commandService;
     private final InfluencerQueryService influencerQueryService;
@@ -104,26 +92,23 @@ public class InfluencerController {
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers?page={page}&size={size}&sort={sortType,sortDirection}")
     @Operation(summary = "인플루언서 목록 조회", description = "인플루언서 목록을 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
-    })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PageResponse<List<InfluencerResponse>>> list(@Parameter(description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class))
+    public ResponseEntity<PageResponse<InfluencerResponse>> list(@Parameter(description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "page", required = false, defaultValue = "0")
                                                                        Integer page,
                                                                        @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @Parameter(description = "정렬 기준 [name|createdDate|lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", schema = @Schema(implementation = String[].class))
+                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [name | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
                                                                        @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 
         PageRequest request = new PageRequest(page, size, sort);
-        PageQuery query = PageQuery.from(request);
+        InfluencerPageQuery query = InfluencerPageQuery.from(request);
         PageDetails<List<Influencer>> influencerPage = influencerQueryService.getPage(query);
         List<InfluencerResponse> influencerResponses = convertToResponse(influencerPage);
-        PageResponse<List<InfluencerResponse>> pageResponse = new PageResponse<>(
-                influencerResponses,
+        PageResponse<InfluencerResponse> pageResponse = new PageResponse<>(
+                influencerResponses.toArray(InfluencerResponse[]::new),
                 influencerPage.currentPage(),
                 influencerPage.totalPages(),
                 influencerPage.size(),
@@ -139,7 +124,7 @@ public class InfluencerController {
                 .toList();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerUpdateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/api/influencers/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/api/influencers/{id}")
     @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
@@ -169,6 +154,7 @@ public class InfluencerController {
                                        String id) {
         commandService.delete(id);
         return ResponseEntity.noContent()
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 

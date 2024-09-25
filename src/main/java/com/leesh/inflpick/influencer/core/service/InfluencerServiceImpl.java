@@ -1,17 +1,20 @@
 package com.leesh.inflpick.influencer.core.service;
 
-import com.leesh.inflpick.common.core.PageDetails;
-import com.leesh.inflpick.common.core.PageQuery;
+import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.review.core.domain.Review;
+import com.leesh.inflpick.review.port.in.ReviewCommand;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +43,7 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     }
 
     @Override
-    public PageDetails<List<Influencer>> getPage(PageQuery query) {
+    public PageDetails<List<Influencer>> getPage(InfluencerPageQuery query) {
         return influencerRepository.getPage(query);
     }
 

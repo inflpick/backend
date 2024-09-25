@@ -1,6 +1,6 @@
-package com.leesh.inflpick.product.core.exception;
+package com.leesh.inflpick.product.core.domain.exception;
 
-import com.leesh.inflpick.product.core.value.OnlineStore;
+import com.leesh.inflpick.product.core.domain.value.OnlineStore;
 
 import java.text.MessageFormat;
 

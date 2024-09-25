@@ -8,7 +8,7 @@ import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiError
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
-import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;

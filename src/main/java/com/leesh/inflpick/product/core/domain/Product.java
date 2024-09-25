@@ -1,10 +1,11 @@
-package com.leesh.inflpick.product.core;
+package com.leesh.inflpick.product.core.domain;
 
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.product.core.value.OnlineStoreLinks;
-import com.leesh.inflpick.product.core.value.ProductDescription;
-import com.leesh.inflpick.product.core.value.ProductImage;
-import com.leesh.inflpick.product.core.value.ProductName;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLinks;
+import com.leesh.inflpick.product.core.domain.value.ProductDescription;
+import com.leesh.inflpick.product.core.domain.value.ProductImage;
+import com.leesh.inflpick.product.core.domain.value.ProductName;
+import com.leesh.inflpick.product.port.ProductCommand;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,13 +16,13 @@ public class Product {
 
     @Getter
     private final String id;
-    private final ProductName name;
-    private final ProductDescription description;
+    private ProductName name;
+    private ProductDescription description;
     private ProductImage productImage;
     @Getter
-    private final OnlineStoreLinks onlineStoreLinks;
+    private OnlineStoreLinks onlineStoreLinks;
     @Getter
-    private final Keywords keywords;
+    private Keywords keywords;
     @Getter
     private final Instant createdDate;
     @Getter
@@ -72,5 +73,12 @@ public class Product {
 
     public String getProductImage() {
         return productImage.imagePath();
+    }
+
+    public void update(ProductCommand command, Keywords keywords) {
+        this.name = command.name();
+        this.description = command.description();
+        this.onlineStoreLinks = command.onlineStoreLinks();
+        this.keywords = keywords;
     }
 }

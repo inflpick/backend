@@ -1,5 +1,6 @@
 package com.leesh.inflpick.influencer.port.in;
 
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 

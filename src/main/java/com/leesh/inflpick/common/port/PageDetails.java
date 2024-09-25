@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.core;
+package com.leesh.inflpick.common.port;
 
 public record PageDetails<T>(
         int currentPage,

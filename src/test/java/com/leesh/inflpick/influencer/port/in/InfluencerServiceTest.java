@@ -5,6 +5,7 @@ import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.influencer.core.service.InfluencerServiceImpl;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.mock.FakeInfluencerRepository;

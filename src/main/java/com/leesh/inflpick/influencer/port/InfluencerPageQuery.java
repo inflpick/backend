@@ -1,27 +1,27 @@
-package com.leesh.inflpick.common.core;
+package com.leesh.inflpick.influencer.port;
 
 import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
+import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.in.exception.InvalidPageNumberException;
 import com.leesh.inflpick.common.port.in.exception.InvalidPageSizeException;
-import com.leesh.inflpick.influencer.core.domain.value.InfluencerSortType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record PageQuery(@NotNull Integer page,
-                        @NotNull Integer size,
-                        List<Pair<InfluencerSortType, Direction>> sort) {
+public record InfluencerPageQuery(@NotNull Integer page,
+                                  @NotNull Integer size,
+                                  List<Pair<InfluencerSortType, Direction>> sort) {
 
-    public PageQuery {
+    public InfluencerPageQuery {
         validateUserInputs(page, size);
     }
 
-    public static PageQuery from(PageRequest request) {
+    public static InfluencerPageQuery from(PageRequest request) {
         String[] sortTypes = request.sort();
         List<Pair<InfluencerSortType, Direction>> sort = getSortTypePairs(sortTypes);
-        return new PageQuery(request.page(), request.size(), sort);
+        return new InfluencerPageQuery(request.page(), request.size(), sort);
     }
 
     private static @NotNull List<Pair<InfluencerSortType, Direction>> getSortTypePairs(String[] sortTypes) {

@@ -1,7 +1,7 @@
 package com.leesh.inflpick.review.core.domain;
 
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.product.core.Product;
+import com.leesh.inflpick.product.core.domain.Product;
 import lombok.Builder;
 import lombok.Getter;
 

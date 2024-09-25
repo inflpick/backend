@@ -2,7 +2,7 @@ package com.leesh.inflpick.review.port.in;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.product.core.Product;
+import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.review.core.domain.Review;
 import com.leesh.inflpick.review.core.domain.ReviewSource;
 

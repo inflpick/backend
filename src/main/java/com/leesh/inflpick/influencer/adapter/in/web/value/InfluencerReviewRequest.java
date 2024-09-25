@@ -39,7 +39,7 @@ public record InfluencerReviewRequest(
 
     public ReviewCommand toCommand() {
         RequiredFieldsValidator.validate(productId, reviewContents, reviewSourceUri, reviewedDate);
-        ReviewSource reviewSource = ReviewSource.of(reviewSourceUri, reviewSourceUri, reviewedDate);
+        ReviewSource reviewSource = ReviewSource.of(reviewContents, reviewSourceUri, reviewedDate);
         return ReviewCommand.of(reviewSource);
     }
 

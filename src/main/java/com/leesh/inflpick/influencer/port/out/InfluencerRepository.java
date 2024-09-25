@@ -1,8 +1,8 @@
 package com.leesh.inflpick.influencer.port.out;
 
-import com.leesh.inflpick.common.core.PageDetails;
-import com.leesh.inflpick.common.core.PageQuery;
+import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -17,5 +17,7 @@ public interface InfluencerRepository {
 
     void deleteById(String id);
 
-    PageDetails<List<Influencer>> getPage(PageQuery query);
+    PageDetails<List<Influencer>> getPage(InfluencerPageQuery query);
+
+    void deleteAll();
 }

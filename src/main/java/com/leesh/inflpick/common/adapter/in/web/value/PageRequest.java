@@ -8,11 +8,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public record PageRequest(
-        @Schema(description = "페이지 번호 (0부터 시작)", example = "0", defaultValue = "0", implementation = Integer.class, requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "페이지 번호 (0부터 시작)", example = "0", defaultValue = "0", implementation = Integer.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
         Integer page,
-        @Schema(description = "페이지 크기", example = "20", defaultValue = "20", implementation = Integer.class, requiredMode = Schema.RequiredMode.REQUIRED)
+        @Schema(description = "페이지 크기", example = "20", defaultValue = "20", implementation = Integer.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
         Integer size,
-        @ArraySchema(schema = @Schema(description = "정렬 기준", example = "createdDate,asc", defaultValue = "createdDate,asc", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED))
+        @ArraySchema(schema = @Schema(description = "정렬 기준", example = "createdDate,asc", defaultValue = "createdDate,asc", implementation = String.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED))
         String[] sort) {
 
     private static final int DEFAULT_PAGE = 0;

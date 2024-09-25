@@ -1,7 +1,6 @@
-package com.leesh.inflpick.product.core.value;
+package com.leesh.inflpick.product.core.domain.value;
 
-import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
-import com.leesh.inflpick.product.core.exception.InvalidOnlineStoreException;
+import com.leesh.inflpick.product.core.domain.exception.InvalidOnlineStoreException;
 
 import java.net.URI;
 import java.util.Arrays;

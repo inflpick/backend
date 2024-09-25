@@ -2,7 +2,7 @@ package com.leesh.inflpick.review.adapter.out.persistence;
 
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
-import com.leesh.inflpick.product.core.Product;
+import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.out.ProductRepository;
 import com.leesh.inflpick.review.adapter.out.persistence.mongo.ReviewDocument;
 import com.leesh.inflpick.review.adapter.out.persistence.mongo.ReviewMongoRepository;
@@ -45,7 +45,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<Review> getAllByReviewerId(String id) {
-        List<ReviewDocument> reviewDocuments = reviewMongoRepository.findAllByInfluencerId(id);
+        List<ReviewDocument> reviewDocuments = reviewMongoRepository.findAllByInfluencerIdOrderByReviewedDateDesc(id);
         return reviewDocuments.stream()
                 .map(reviewDocument -> {
                     Influencer reviewer = influencerRepository.getById(reviewDocument.getInfluencerId());

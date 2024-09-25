@@ -2,9 +2,11 @@ package com.leesh.inflpick.product.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductCreateApiErrorCode;
-import com.leesh.inflpick.product.core.exception.InvalidOnlineStoreException;
-import com.leesh.inflpick.product.core.exception.ProductDescriptionValidationFailedException;
-import com.leesh.inflpick.product.core.exception.ProductNameValidationFailedException;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
+import com.leesh.inflpick.product.core.domain.exception.InvalidOnlineStoreException;
+import com.leesh.inflpick.product.core.domain.exception.ProductDescriptionValidationFailedException;
+import com.leesh.inflpick.product.core.domain.exception.ProductNameValidationFailedException;
+import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.PriorityOrdered;
@@ -36,6 +38,12 @@ public class ProductExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerInvalidOnlineStoreException(InvalidOnlineStoreException e, HttpServletRequest request) {
         log.warn("InvalidOnlineStoreException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, ProductCreateApiErrorCode.INVALID_ONLINE_STORE_TYPE);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handlerProductNotFoundException(ProductNotFoundException e, HttpServletRequest request) {
+        log.warn("ProductNotFoundException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, ProductReadApiErrorCode.PRODUCT_NOT_FOUND);
     }
 
 }

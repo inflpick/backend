@@ -1,6 +1,6 @@
-package com.leesh.inflpick.product.core.value;
+package com.leesh.inflpick.product.core.domain.value;
 
-import com.leesh.inflpick.product.core.exception.ProductNameValidationFailedException;
+import com.leesh.inflpick.product.core.domain.exception.ProductNameValidationFailedException;
 import org.jetbrains.annotations.NotNull;
 
 public record ProductName(@NotNull String name) {

@@ -1,11 +1,11 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
-import com.leesh.inflpick.product.core.value.OnlineStoreLink;
-import com.leesh.inflpick.product.core.value.OnlineStoreLinks;
-import com.leesh.inflpick.product.core.value.ProductDescription;
-import com.leesh.inflpick.product.core.value.ProductName;
-import com.leesh.inflpick.product.port.in.ProductCommand;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLink;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLinks;
+import com.leesh.inflpick.product.core.domain.value.ProductDescription;
+import com.leesh.inflpick.product.core.domain.value.ProductName;
+import com.leesh.inflpick.product.port.ProductCommand;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package com.leesh.inflpick.review.port.in;
 
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.product.core.Product;
+import com.leesh.inflpick.product.core.domain.Product;
 
 public interface ReviewCommandService {
 

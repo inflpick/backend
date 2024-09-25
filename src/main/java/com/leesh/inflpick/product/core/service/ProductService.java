@@ -1,11 +1,13 @@
 package com.leesh.inflpick.product.core.service;
 
+import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
-import com.leesh.inflpick.product.core.Product;
-import com.leesh.inflpick.product.port.in.ProductCommand;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.product.port.ProductCommand;
+import com.leesh.inflpick.product.port.ProductPageQuery;
 import com.leesh.inflpick.product.port.in.ProductCommandService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -47,7 +50,26 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
+    public void delete(String id) {
+        productRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(String id, ProductCommand command) {
+        Product product = productRepository.getById(id);
+        Set<String> keywordIds = command.keywordUuids();
+        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        product.update(command, keywords);
+        productRepository.save(product);
+    }
+
+    @Override
     public Product getById(String id) throws ProductNotFoundException {
         return productRepository.getById(id);
+    }
+
+    @Override
+    public PageDetails<List<Product>> getPage(ProductPageQuery query) {
+        return productRepository.getPage(query);
     }
 }

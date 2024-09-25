@@ -1,8 +1,8 @@
 package com.leesh.inflpick.product.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.product.core.Product;
-import com.leesh.inflpick.product.core.value.*;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.product.core.domain.value.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class ProductDocument implements Persistable<String> {
     private final String description;
     private final String productImagePath;
     @Getter
-    private final Set<String> keywordUuids;
+    private final Set<String> keywordIds;
     private final Set<OnlineStoreLink> onlineStoreLinks;
     @CreatedBy
     private final String createdBy;
@@ -39,7 +39,7 @@ public class ProductDocument implements Persistable<String> {
                             String name,
                             String description,
                             String productImagePath,
-                            Set<String> keywordUuids,
+                            Set<String> keywordIds,
                             Set<OnlineStoreLink> onlineStoreLinks,
                             String createdBy,
                             Instant createdDate,
@@ -49,7 +49,7 @@ public class ProductDocument implements Persistable<String> {
         this.name = name;
         this.description = description;
         this.productImagePath = productImagePath;
-        this.keywordUuids = keywordUuids;
+        this.keywordIds = keywordIds;
         this.onlineStoreLinks = onlineStoreLinks;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
@@ -59,7 +59,7 @@ public class ProductDocument implements Persistable<String> {
 
     public static ProductDocument from(Product product) {
 
-        Set<String> keywordUuids = product.getKeywords()
+        Set<String> keywordIds = product.getKeywords()
                 .getIds();
 
         return ProductDocument.builder()
@@ -67,8 +67,10 @@ public class ProductDocument implements Persistable<String> {
                 .name(product.getName())
                 .description(product.getDescription())
                 .productImagePath(product.getProfileImage())
-                .keywordUuids(keywordUuids)
+                .keywordIds(keywordIds)
                 .onlineStoreLinks(product.getOnlineStoreLinks().getImmutable())
+                .createdDate(product.getCreatedDate())
+                .lastModifiedDate(product.getLastModifiedDate())
                 .build();
     }
 

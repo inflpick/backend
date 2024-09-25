@@ -6,7 +6,7 @@ import com.leesh.inflpick.influencer.core.domain.value.InfluencerDescription;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerIntroduction;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerName;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
-import com.leesh.inflpick.influencer.port.in.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
