@@ -35,6 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.Instant;
+import java.util.List;
 
 @Tag(name = "리뷰 API", description = "리뷰 API")
 @Builder
@@ -51,10 +52,10 @@ public class ReviewController {
     @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class, ProductReadApiErrorCode.class})
     @Operation(summary = "리뷰 페이지 조회 (Cursor 방식)", description = "리뷰 조회")
     @GetMapping
-    public ResponseEntity<CursorResponse<Review>> getCursorPage(@Parameter(description = "현재 커서 (UTC 형식의 날짜 포맷)", example = "2021-07-01T00:00:00Z", schema = @Schema(defaultValue = "1970-01-01T00:00:00Z", implementation = Instant.class))
+    public ResponseEntity<CursorResponse<ReviewResponse>> getCursorPage(@Parameter(description = "현재 커서 (UTC 형식의 날짜 포맷)", example = "2021-07-01T00:00:00Z", schema = @Schema(defaultValue = "1970-01-01T00:00:00Z", implementation = Instant.class))
                                                                 @RequestParam(value = "cursor", required = false, defaultValue = "1970-01-01T00:00:00Z")
                                                                 Instant cursor,
-                                                                @Parameter(description = "커서 크기 (기본값: 20)", example = "10", schema = @Schema(implementation = Integer.class))
+                                                                @Parameter(description = "한번에 가져올 컨텐츠 수 (기본값: 20)", example = "10", schema = @Schema(implementation = Integer.class))
                                                                 @RequestParam(value = "limit", required = false, defaultValue = "20")
                                                                 Integer limit,
                                                                 @Parameter(description = "리뷰한 인플루언서 ID", example = "9a0b1c2d-3e4f-5a6b-7c8d-9e0f1a2b3c4d", schema = @Schema(implementation = String.class))
@@ -66,7 +67,10 @@ public class ReviewController {
 
         ReviewCursorQuery query = new ReviewCursorQuery(influencerId, productId, cursor, limit);
         CursorPage<Review> page = reviewQueryService.getCursorPage(query);
-        CursorResponse<Review> response = CursorResponse.from(page);
+        List<ReviewResponse> contents = page.contents().stream()
+                .map(ReviewResponse::from)
+                .toList();
+        CursorResponse<ReviewResponse> response = new CursorResponse<>(page.limit(), contents, page.hasNext());
         return ResponseEntity.ok(response);
     }
 
