@@ -2,12 +2,12 @@ package com.leesh.inflpick.product.adapter.out.persistence;
 
 import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductMongoRepository;
 import com.leesh.inflpick.product.core.domain.Product;
-import com.leesh.inflpick.product.port.ProductPageQuery;
 import com.leesh.inflpick.product.port.ProductSortType;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.product.port.out.ProductRepository;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,9 +55,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public PageDetails<List<Product>> getPage(ProductPageQuery query) {
+    public PageDetails<Collection<Product>> getPage(PageQuery<ProductSortType> query) {
 
-        Sort sortCriteria = getSortCriteria(query.sort());
+        Sort sortCriteria = getSortCriteria(query.sortPairs());
 
         PageRequest pageRequest = PageRequest.of(query.page(),
                 query.size(),
@@ -87,7 +88,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 Sort.unsorted().toString().split(",");
     }
 
-    private Sort getSortCriteria(List<Pair<ProductSortType, Direction>> sortPairs) {
+    private Sort getSortCriteria(Collection<Pair<ProductSortType, Direction>> sortPairs) {
         Sort sortOrder = Sort.unsorted();
         for (Pair<ProductSortType, Direction> sortPair : sortPairs) {
             ProductSortType sortType = sortPair.getFirst();

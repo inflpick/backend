@@ -2,11 +2,11 @@ package com.leesh.inflpick.influencer.adapter.out.persistence;
 
 import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,9 +60,9 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     }
 
     @Override
-    public PageDetails<List<Influencer>> getPage(InfluencerPageQuery query) {
+    public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
 
-        Sort sortCriteria = getSortCriteria(query.sort());
+        Sort sortCriteria = getSortCriteria(query.sortPairs());
 
         PageRequest pageRequest = PageRequest.of(query.page(),
                 query.size(),
@@ -81,18 +82,13 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
                 contents);
     }
 
-    @Override
-    public void deleteAll() {
-        influencerMongoRepository.deleteAll();
-    }
-
     private static String @NotNull [] getSortProperties(Sort sort) {
         return sort.isSorted() ?
                 sort.toString().split(",") :
                 Sort.unsorted().toString().split(",");
     }
 
-    private Sort getSortCriteria(List<Pair<InfluencerSortType, Direction>> sortPairs) {
+    private Sort getSortCriteria(Collection<Pair<InfluencerSortType, Direction>> sortPairs) {
         Sort sortOrder = Sort.unsorted();
         for (Pair<InfluencerSortType, Direction> sortPair : sortPairs) {
             InfluencerSortType sortType = sortPair.getFirst();

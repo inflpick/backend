@@ -74,8 +74,8 @@ public class ReviewController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReviewsApiErrorCode.class, ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers/{id}/reviews")
-    @Operation(summary = "인플루언서 제품 리뷰하기", description = "인플루언서의 제품 리뷰를 생성합니다.")
+    @ApiErrorCodeSwaggerDocs(values = {ReviewCreateApiErrorCode.class, ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/reviews")
+    @Operation(summary = "리뷰 생성하기", description = "제품 리뷰 생성 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리뷰의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),

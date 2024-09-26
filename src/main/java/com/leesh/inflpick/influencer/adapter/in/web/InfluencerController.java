@@ -4,12 +4,14 @@ import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.PageResponse;
+import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.influencer.adapter.in.web.value.*;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;
-import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
+import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
@@ -26,6 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +37,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Tag(name = "인플루언서 API", description = "인플루언서 API 명세서입니다.")
@@ -98,8 +103,16 @@ public class InfluencerController {
                                                                        String[] sort) {
 
         PageRequest request = new PageRequest(page, size, sort);
-        InfluencerPageQuery query = InfluencerPageQuery.from(request);
-        PageDetails<List<Influencer>> influencerPage = influencerQueryService.getPage(query);
+        String[] sortTypes = request.sort();
+        Collection<Pair<InfluencerSortType, Direction>> sortPairs = new ArrayList<>();
+        for (String sortType : sortTypes) {
+            String[] split = sortType.split(",");
+            InfluencerSortType influencerSortType = InfluencerSortType.from(split[0]);
+            Direction direction = Direction.from(split[1]);
+            sortPairs.add(Pair.of(influencerSortType, direction));
+        }
+        PageQuery<InfluencerSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
+        PageDetails<Collection<Influencer>> influencerPage = influencerQueryService.getPage(pageQuery);
         List<InfluencerResponse> influencerResponses = convertToResponse(influencerPage);
         PageResponse<InfluencerResponse> pageResponse = new PageResponse<>(
                 influencerResponses.toArray(InfluencerResponse[]::new),
@@ -111,7 +124,7 @@ public class InfluencerController {
         return ResponseEntity.ok(pageResponse);
     }
 
-    private static @NotNull List<InfluencerResponse> convertToResponse(PageDetails<List<Influencer>> influencerPage) {
+    private static @NotNull List<InfluencerResponse> convertToResponse(PageDetails<Collection<Influencer>> influencerPage) {
         return influencerPage.content()
                 .stream()
                 .map(InfluencerResponse::from)

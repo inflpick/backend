@@ -1,13 +1,14 @@
 package com.leesh.inflpick.product.core.service;
 
 import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.ProductCommand;
-import com.leesh.inflpick.product.port.ProductPageQuery;
+import com.leesh.inflpick.product.port.ProductSortType;
 import com.leesh.inflpick.product.port.in.ProductCommandService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -69,7 +70,7 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
-    public PageDetails<List<Product>> getPage(ProductPageQuery query) {
+    public PageDetails<Collection<Product>> getPage(PageQuery<ProductSortType> query) {
         return productRepository.getPage(query);
     }
 }

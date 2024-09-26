@@ -1,14 +1,17 @@
 package com.leesh.inflpick.mock;
 
 import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
+import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,6 +47,11 @@ public class FakeInfluencerRepository implements InfluencerRepository {
     @Override
     public void deleteById(String id) {
         data.removeIf(d -> d.getId().equals(id));
+    }
+
+    @Override
+    public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
+        return null;
     }
 
     @Override
