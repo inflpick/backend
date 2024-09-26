@@ -35,7 +35,7 @@ public class KeywordController {
     private final KeywordCreateService createService;
     private final KeywordReadService readService;
 
-    @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "POST", apiPath = "/api/keywords")
+//    @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "POST", apiPath = "/api/keywords")
     @Operation(summary = "키워드 생성", description = "키워드를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),

@@ -1,4 +1,4 @@
-package com.leesh.inflpick.review.port.in;
+package com.leesh.inflpick.review.port;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;

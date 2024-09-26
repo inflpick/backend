@@ -12,12 +12,7 @@ import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
-import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
-import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
-import com.leesh.inflpick.review.core.domain.Review;
-import com.leesh.inflpick.review.port.in.ReviewCommand;
-import com.leesh.inflpick.review.port.in.ReviewCommandService;
 import com.leesh.inflpick.review.port.in.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -50,7 +45,6 @@ public class InfluencerController {
 
     private final InfluencerCommandService commandService;
     private final InfluencerQueryService influencerQueryService;
-    private final ReviewCommandService reviewCommandService;
     private final ProductQueryService productQueryService;
     private final ReviewQueryService reviewQueryService;
 
@@ -176,44 +170,5 @@ public class InfluencerController {
         return ResponseEntity.noContent()
                 .header(HttpHeaders.ACCEPT, MediaType.MULTIPART_FORM_DATA_VALUE)
                 .build();
-    }
-
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReviewsApiErrorCode.class, ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers/{id}/reviews")
-    @Operation(summary = "인플루언서 제품 리뷰하기", description = "인플루언서의 제품 리뷰를 생성합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리뷰의 URI", schema = @Schema(type = "string"))),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
-    })
-    @PostMapping(path = "/{id}/reviews", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> review(@Parameter(description = "인플루언서 ID", required = true)
-                                       @PathVariable(value = "id")
-                                       String id,
-                                       @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 리뷰 생성 요청 정보", required = true)
-                                       @RequestBody
-                                       InfluencerReviewRequest request) {
-        Influencer reviewer = influencerQueryService.getById(id);
-        Product product = productQueryService.getById(request.productId());
-        ReviewCommand command = request.toCommand();
-        String reviewId = reviewCommandService.create(reviewer, product, command);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{reviewId}")
-                .buildAndExpand(reviewId)
-                .toUri();
-        return ResponseEntity.created(location)
-                .header(HttpHeaders.ACCEPT, MediaType.MULTIPART_FORM_DATA_VALUE)
-                .contentType(MediaType.APPLICATION_JSON)
-                .build();
-    }
-
-    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{id}/reviews")
-    @Operation(summary = "인플루언서가 리뷰한 제품들을 조회", description = "인플루언서가 리뷰한 제품들을 조회합니다.")
-    @GetMapping(path = "/{id}/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InfluencerReviewResponse> getProductReviews(@Parameter(description = "인플루언서 ID", required = true)
-                                                                      @PathVariable(value = "id")
-                                                                      String id) {
-        Influencer influencer = influencerQueryService.getById(id);
-        List<Review> reviews = reviewQueryService.getAllByReviewerId(id);
-        InfluencerReviewResponse response = InfluencerReviewResponse.from(influencer, reviews);
-        return ResponseEntity.ok(response);
     }
 }

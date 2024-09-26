@@ -4,7 +4,7 @@ import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.review.core.domain.Review;
-import com.leesh.inflpick.review.port.in.ReviewCommand;
+import com.leesh.inflpick.review.port.ReviewCommand;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -49,7 +49,7 @@ public class ProductController {
     private final ProductCommandService commandService;
     private final ProductQueryService queryService;
 
-    @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
+//    @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
     @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
@@ -74,7 +74,7 @@ public class ProductController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products/{id}")
+//    @ApiErrorCodeSwaggerDocs(values = {ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products/{id}")
     @Operation(summary = "제품 단건 조회", description = "제품을 단건 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = ProductResponse.class))),
@@ -87,7 +87,7 @@ public class ProductController {
         return ResponseEntity.ok(ProductResponse.from(product));
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products?page={page}&size={size}&sort={sortType,sortDirection}")
+//    @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products?page={page}&size={size}&sort={sortType,sortDirection}")
     @Operation(summary = "제품 목록 조회", description = "제품 목록을 조회합니다.")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PageResponse<ProductResponse>> list(@Parameter(description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class))
@@ -114,7 +114,7 @@ public class ProductController {
         return ResponseEntity.ok(pageResponse);
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/api/products/{id}")
+//    @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/api/products/{id}")
     @Operation(summary = "제품 수정", description = "제품을 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
@@ -134,7 +134,7 @@ public class ProductController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/api/products/{id}/product-image")
+//    @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/api/products/{id}/product-image")
     @Operation(summary = "제품 이미지 수정", description = "제품 이미지를 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),

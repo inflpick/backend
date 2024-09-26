@@ -1,9 +1,11 @@
 package com.leesh.inflpick.review.port.in;
 
+import com.leesh.inflpick.common.port.CursorPage;
 import com.leesh.inflpick.review.core.domain.Review;
-
-import java.util.List;
+import com.leesh.inflpick.review.port.ReviewCursorQuery;
 
 public interface ReviewQueryService {
-    List<Review> getAllByReviewerId(String id);
+
+    CursorPage<Review> getCursorPage(ReviewCursorQuery query);
+
 }
