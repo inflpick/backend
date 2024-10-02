@@ -23,7 +23,7 @@ class InfluencerCreateCommandTest {
         InfluencerName name = new InfluencerName("John Doe");
         InfluencerIntroduction briefIntroduction = new InfluencerIntroduction("An influencer");
         InfluencerDescription description = new InfluencerDescription("An influencer");
-        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, URI.create("http://twitter.com/johndoe"));
+        SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, "http://twitter.com/johndoe");
         SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(Set.of(twitterLink));
         InfluencerCreateCommand command = new InfluencerCreateCommand(name,
                 briefIntroduction,

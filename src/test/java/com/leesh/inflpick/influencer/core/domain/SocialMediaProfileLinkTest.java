@@ -17,11 +17,10 @@ class SocialMediaProfileLinkTest {
     @DisplayName("유효한 값으로 SocialMediaLink 생성되어야 한다.")
     void socialMediaLinkCreationWithValidValues() throws URISyntaxException {
         SocialMediaPlatform platform = SocialMediaPlatform.FACEBOOK;
-        URI uri = new URI("https://www.facebook.com");
-        SocialMediaProfileLink socialMediaProfileLink = new SocialMediaProfileLink(platform, uri);
+        SocialMediaProfileLink socialMediaProfileLink = new SocialMediaProfileLink(platform, "https://www.facebook.com");
         assertNotNull(socialMediaProfileLink);
         assertEquals(platform, socialMediaProfileLink.platform());
-        assertEquals(uri, socialMediaProfileLink.uri());
+        assertEquals("https://www.facebook.com", socialMediaProfileLink.uri());
     }
 
 }

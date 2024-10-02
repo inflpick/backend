@@ -13,6 +13,14 @@ java {
 	}
 }
 
+jar {
+	enabled = false
+}
+
+bootJar {
+	archiveFileName = 'api-server.jar'
+}
+
 repositories {
 	mavenCentral()
 }
@@ -48,6 +56,9 @@ dependencies {
 	// AWS SDK
 	implementation 'software.amazon.awssdk:s3:2.28.4'
 	implementation 'software.amazon.awssdk:sts:2.28.4'
+
+	// Java Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 }
 
 tasks.named('test') {
