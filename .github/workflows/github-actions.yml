@@ -5,7 +5,7 @@ on:
   pull_request:
   push:
     branches: # Specify your branches here
-      - main # The 'main' branch
+      - prod # The 'main' branch
       - 'releases/*' # The release branches
       - '#15-cicd' # Temporary branches
 
@@ -49,9 +49,13 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
+      - name: 'Create docker-compose .env file'
+        run: |
+          echo "SPRING_PROFILES_ACTIVE=${{ github.ref_name }}" > infra/.env
+          echo "JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}" >> infra/.env
       - name: 'Upload to S3 for aws codedeploy'
         run: |
-          zip -r deploy.zip infra/scripts infra/appspec.yml
+          zip -r deploy.zip infra/scripts infra/appspec.yml infra/docker-compose.yml
           aws s3 cp --acl private ./deploy.zip s3://${{ secrets.AWS_S3_BUCKET_NAME }}/deploy.zip
       - name: 'Deploy to AWS CodeDeploy'
         run: |
