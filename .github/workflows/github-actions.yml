@@ -9,6 +9,10 @@ on:
       - 'releases/*' # The release branches
       - '#15-cicd' # Temporary branches
 
+permissions:
+  contents: read
+  id-token: write # aws-actions/configure-aws-credentials@v4 사용 시 필요
+
 jobs:
 #  ci:
 #    runs-on: ubuntu-latest
