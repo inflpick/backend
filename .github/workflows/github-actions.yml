@@ -53,3 +53,9 @@ jobs:
         run: |
           zip -r deploy.zip infra/scripts infra/appspec.yml
           aws s3 cp --acl private ./deploy.zip s3://${{ secrets.AWS_S3_BUCKET_NAME }}/deploy.zip
+      - name: 'Deploy to AWS CodeDeploy'
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ env.AWS_CODEDEPLOY_APPLICATION_NAME }} \
+            --deployment-group-name ${{ env.AWS_CODEDEPLOY_DEPLOYMENT_GROUP_NAME }} \
+            --s3-location bucket=${{ env.AWS_S3_BUCKET_NAME }},key=infra.zip,bundleType=zip
