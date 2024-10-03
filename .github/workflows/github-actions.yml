@@ -54,17 +54,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: 'ls -al'
-        run: ls -al
-      - name: 'pwd'
-        run: pwd
-      - name: 'Echo the Docker image'
-        run: echo ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
       - name: 'Build and push Docker images'
         uses: docker/build-push-action@v6.9.0
         with:
           context: .
-          file: infra/Dockerfile
+          file: /infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
 
