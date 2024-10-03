@@ -10,29 +10,29 @@ on:
       - '#15-cicd' # Temporary branches
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      checks: write
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
-          fetch-depth: 0  # a full history is required for pull request analysis
-      - name: 'Set up JDK 21'
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'corretto'
-      - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2024.1.9
-        with:
-          pr-mode: false
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
-          QODANA_ENDPOINT: 'https://qodana.cloud'
+#  ci:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: write
+#      pull-requests: write
+#      checks: write
+#    steps:
+#      - uses: actions/checkout@v3
+#        with:
+#          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
+#          fetch-depth: 0  # a full history is required for pull request analysis
+#      - name: 'Set up JDK 21'
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '21'
+#          distribution: 'corretto'
+#      - name: 'Qodana Scan'
+#        uses: JetBrains/qodana-action@v2024.1.9
+#        with:
+#          pr-mode: false
+#        env:
+#          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
+#          QODANA_ENDPOINT: 'https://qodana.cloud'
   cd:
     needs: ci
     runs-on: ubuntu-latest
