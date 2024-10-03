@@ -32,11 +32,6 @@ jobs:
 #        env:
 #          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
 #          QODANA_ENDPOINT: 'https://qodana.cloud'
-      - name: 'Configure AWS credentials'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
       - name: 'Login to Docker Hub'
         uses: docker/login-action@v3.3.0
         with:
@@ -49,6 +44,11 @@ jobs:
           file: infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: 'Upload to S3 for aws codedeploy'
         run: |
           zip -r deploy.zip infra/scripts infra/appspec.yml
