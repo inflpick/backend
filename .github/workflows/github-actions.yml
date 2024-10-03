@@ -9,20 +9,17 @@ on:
       - 'releases/*' # The release branches
       - '#15-cicd' # Temporary branches
 
-permissions:
-  contents: read
-  id-token: write # aws-actions/configure-aws-credentials@v4 사용 시 필요
-
 env:
   APP_NAME: 'api-server'
 
 jobs:
-  ci:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
       checks: write
+      id-token: write # aws-actions/configure-aws-credentials@v4 사용 시 필요
     steps:
       - uses: actions/checkout@v4.2.0
         with:
