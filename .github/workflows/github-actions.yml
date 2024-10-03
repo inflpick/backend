@@ -25,11 +25,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
-#      - name: 'Set up JDK 21'
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '21'
-#          distribution: 'corretto'
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.1.9
         with:
@@ -54,5 +49,7 @@ jobs:
           file: infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
-
-
+      - name: 'Upload to S3 for aws codedeploy'
+        run: |
+          zip -r deploy.zip ./scripts appspec.yml
+          aws s3 cp --acl private ./deploy.zip s3://${{ secrets.AWS_S3_BUCKET_NAME }}/deploy.zip
