@@ -61,6 +61,7 @@ jobs:
           file: infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
+      - name: 'ls -al'
         run: ls -al
       - name: 'Echo the Docker image'
         run: echo ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
