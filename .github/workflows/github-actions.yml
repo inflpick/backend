@@ -41,7 +41,7 @@ jobs:
 #          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
 #          QODANA_ENDPOINT: 'https://qodana.cloud'
   cd:
-#    needs: ci
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: 'Configure AWS credentials'
