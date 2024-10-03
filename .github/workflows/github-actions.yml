@@ -30,13 +30,13 @@ jobs:
 #        with:
 #          java-version: '21'
 #          distribution: 'corretto'
-#      - name: 'Qodana Scan'
-#        uses: JetBrains/qodana-action@v2024.1.9
-#        with:
-#          pr-mode: false
-#        env:
-#          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
-#          QODANA_ENDPOINT: 'https://qodana.cloud'
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2024.1.9
+        with:
+          pr-mode: false
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -47,14 +47,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: 'Lists the files in the repository'
-        run: ls -al
       - name: 'Build and push Docker images'
         uses: docker/build-push-action@v6.9.0
         with:
           context: .
           file: infra/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
 
 
