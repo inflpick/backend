@@ -60,4 +60,4 @@ jobs:
           context: .
           file: infra/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-server:latest
+          tags: ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
