@@ -309,3 +309,4 @@ infra/data/
 .idea
 infra/data/**/*
 data/
+infra/.env
