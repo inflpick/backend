@@ -8,13 +8,3 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
-    networks:
-      inflpick:
-        ipv4_address: 172.10.0.1
-networks:
-  inflpick:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.10.0.0/16
-          gateway: 172.10.32.128
