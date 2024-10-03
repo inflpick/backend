@@ -24,7 +24,7 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.2.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
@@ -40,15 +40,6 @@ jobs:
 #        env:
 #          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
 #          QODANA_ENDPOINT: 'https://qodana.cloud'
-  cd:
-    needs: ci
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
-          fetch-depth: 0  # a full history is required for pull request analysis
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -65,7 +56,7 @@ jobs:
         uses: docker/build-push-action@v6.9.0
         with:
           context: .
-          file: /infra/Dockerfile
+          file: infra/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_NAMESPACE }}/api-server:latest
 
