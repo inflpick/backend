@@ -13,6 +13,9 @@ permissions:
   contents: read
   id-token: write # aws-actions/configure-aws-credentials@v4 사용 시 필요
 
+env:
+  APP_NAME: 'api-server'
+
 jobs:
 #  ci:
 #    runs-on: ubuntu-latest
@@ -40,9 +43,23 @@ jobs:
   cd:
 #    needs: ci
     runs-on: ubuntu-latest
+    env:
+      APP_NAME: 'api-server'
     steps:
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
+      - name: 'Login to Docker Hub'
+        uses: docker/login-action@v3.3.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: 'Build and push Docker images'
+        uses: docker/build-push-action@v6.9.0
+        with:
+          context: .
+          file: infra/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/$APP_NAME:latest
