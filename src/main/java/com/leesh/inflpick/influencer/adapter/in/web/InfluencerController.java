@@ -185,7 +185,7 @@ public class InfluencerController {
                                                    @PathVariable(value = "id")
                                                    String id,
                                                    @Parameter(description = "프로필 이미지 파일", content = @Content(mediaType = MediaType.IMAGE_JPEG_VALUE, schema = @Schema(type = "string", format = "binary")))
-                                                   @RequestPart(value = "profileImage", required = true)
+                                                   @RequestPart(value = "profileImage")
                                                    MultipartFile profileImage) {
         FileTypeValidator.validateImageFile(profileImage);
         commandService.updateProfileImage(id, profileImage);

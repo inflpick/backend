@@ -171,7 +171,7 @@ public class ProductController {
                                                    @PathVariable(value = "id")
                                                    String id,
                                                    @Parameter(description = "제품 이미지 파일", content = @Content(mediaType = MediaType.IMAGE_JPEG_VALUE, schema = @Schema(type = "string", format = "binary")))
-                                                   @RequestPart(value = "productImage", required = true)
+                                                   @RequestPart(value = "productImage")
                                                    MultipartFile productImage) {
         FileTypeValidator.validateImageFile(productImage);
         commandService.updateProductImage(id, productImage);

@@ -56,7 +56,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 페이지 조회 (Cursor 방식)", description = "리뷰 조회")
     @GetMapping
     public ResponseEntity<CursorResponse<ReviewResponse>> getCursorPage(
-            @Parameter(description = "현재 커서 (리뷰한 날짜)", example = "1970-01-01T00:00:00Z", schema = @Schema(defaultValue = "1970-01-01T00:00:00Z", implementation = Instant.class), required = false)
+            @Parameter(description = "현재 커서 (리뷰한 날짜)", example = "1970-01-01T00:00:00Z", schema = @Schema(defaultValue = "1970-01-01T00:00:00Z", implementation = Instant.class))
             @RequestParam(value = "cursor", required = false, defaultValue = "1970-01-01T00:00:00Z")
             Instant cursor,
             @Parameter(description = "한번에 가져올 컨텐츠 수 (기본값: 20)", example = "10", schema = @Schema(implementation = Integer.class))

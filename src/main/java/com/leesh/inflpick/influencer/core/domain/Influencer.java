@@ -28,8 +28,6 @@ public class Influencer {
     private final Instant createdDate;
     @Getter
     private final Instant lastModifiedDate;
-    @Getter
-    private Boolean deleted = false;
 
     @Builder
     public Influencer(String id,
@@ -40,8 +38,7 @@ public class Influencer {
                       SocialMediaProfileLinks socialMediaProfileLinks,
                       Keywords keywords,
                       Instant createdDate,
-                      Instant lastModifiedDate,
-                      Boolean deleted) {
+                      Instant lastModifiedDate) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -51,7 +48,6 @@ public class Influencer {
         this.keywords = keywords == null ? Keywords.EMPTY : keywords;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
-        this.deleted = deleted != null && deleted;
     }
 
     @Override

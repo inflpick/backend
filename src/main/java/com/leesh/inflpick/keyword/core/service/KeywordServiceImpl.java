@@ -2,7 +2,6 @@ package com.leesh.inflpick.keyword.core.service;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
-import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.DuplicateKeywordNameException;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;

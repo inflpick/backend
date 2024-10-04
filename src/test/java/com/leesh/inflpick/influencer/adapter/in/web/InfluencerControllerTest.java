@@ -5,13 +5,11 @@ import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.out.persistence.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
-import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
+import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
+import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.mock.TestInstantHolder;
 import com.leesh.inflpick.mock.TestUuidHolder;
 import org.junit.jupiter.api.DisplayName;
@@ -46,9 +44,9 @@ class InfluencerControllerTest {
     private MockMvc mockMvc;
     private final UuidHolder uuidHolder = new TestUuidHolder("test-uuid");
     @MockBean
-    private InfluencerCreateService createService;
+    private InfluencerCommandService commandService;
     @MockBean
-    private InfluencerReadService readService;
+    private InfluencerQueryService readService;
 
     @DisplayName("인플루언서 생성 API 요청 시, 정상 입력 값을 입력하면, 201 Created 상태코드와 생성된 리소스 URI를 반환한다.")
     @ParameterizedTest
@@ -69,7 +67,7 @@ class InfluencerControllerTest {
                 jsonRequest.getBytes());
 
         // when & then
-        Mockito.when(createService.create(
+        Mockito.when(commandService.create(
                         Mockito.any(InfluencerCreateCommand.class),
                         Mockito.any(MultipartFile.class)))
                 .thenReturn(uuidHolder.uuid());
