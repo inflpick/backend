@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.util.List;
 
-@Profile("!prod")
+@Profile("prod")
 @RequiredArgsConstructor
 @Component
 public class DataInitializer implements CommandLineRunner {
