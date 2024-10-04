@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Load variables from .env file
-if [ -f /root/app/.env ]; then
-  source /root/app/.env
+if [ -f .env ]; then
+  source .env
 fi
 
 # Docker login using environment variables from .env
