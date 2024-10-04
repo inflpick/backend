@@ -33,7 +33,14 @@ public class SwaggerConfig {
             .info(new Info()
                 .title("인플픽 API Docs")
                 .description("인플픽 API 명세서입니다.")
-                .version("2024.1.0"));
+                .version("2024.1.0"))
+            .servers(
+                List.of(
+                    new io.swagger.v3.oas.models.servers.Server().url("http://localhost:8080").description("local"),
+                    new io.swagger.v3.oas.models.servers.Server().url("https://api.inflpick.com").description("prod")
+                )
+            )
+            ;
     }
 
     @Bean
