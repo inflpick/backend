@@ -53,8 +53,7 @@ jobs:
         run: |
           echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" >> infra/.env
           echo "DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}" >> infra/.env
-#          echo "SPRING_PROFILES_ACTIVE=${{ github.ref_name }}" >> infra/.env
-          echo "SPRING_PROFILES_ACTIVE=prod" >> infra/.env
+          echo "SPRING_PROFILES_ACTIVE=${{ github.ref_name }}" >> infra/.env
           echo "JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}" >> infra/.env
       - name: 'Upload to S3 for AWS CodeDeploy Required Files'
         run: |
