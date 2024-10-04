@@ -1,8 +1,8 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
-import com.leesh.inflpick.product.core.value.OnlineStore;
-import com.leesh.inflpick.product.core.value.OnlineStoreLink;
+import com.leesh.inflpick.product.core.domain.value.OnlineStore;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLink;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.jetbrains.annotations.Nullable;

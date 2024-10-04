@@ -1,6 +1,6 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
-import com.leesh.inflpick.product.core.value.OnlineStoreLink;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLink;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "온라인 스토어 링크 응답", description = "온라인 스토어 링크 생성 응답 필드")

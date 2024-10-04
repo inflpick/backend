@@ -304,8 +304,8 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,git,linux,c++,java,intellij+all,visualstudiocode,gradle,maven
 
 ### Custom ###
-infra/data/*
-infra/data/
+infra/data
+data
+!src/main/resources/data
 .idea
-infra/data/**/*
-data/
+infra/.env

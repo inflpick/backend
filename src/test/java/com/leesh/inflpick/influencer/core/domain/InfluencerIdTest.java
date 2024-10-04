@@ -4,9 +4,7 @@ import com.leesh.inflpick.influencer.core.domain.value.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,13 +14,13 @@ class InfluencerTest {
 
     @Test
     @DisplayName("유효한 데이터로 인플루언서 생성")
-    void influencerCreationWithValidData() throws URISyntaxException {
+    void influencerCreationWithValidData() {
         // given
         SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X,"http://twitter.com/johndoe");
 
         // when
         Influencer influencer = Influencer.builder()
-                .uuid("123")
+                .id("123")
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
@@ -30,7 +28,7 @@ class InfluencerTest {
                 .build();
 
         // then
-        assertEquals("123", influencer.getUuid());
+        assertEquals("123", influencer.getId());
         assertEquals("John Doe", influencer.getName());
         assertEquals("An influencer", influencer.getDescription());
         assertEquals("http://example.com/profile1.jpg", influencer.getProfileImage());
@@ -38,12 +36,12 @@ class InfluencerTest {
 
     @Test
     @DisplayName("빈 소셜 미디어 링크로 인플루언서 생성")
-    void influencerCreationWithEmptySocialMediaLinks() throws URISyntaxException {
+    void influencerCreationWithEmptySocialMediaLinks() {
         // given
 
         // when
         Influencer influencer = Influencer.builder()
-                .uuid("123")
+                .id("123")
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
@@ -56,18 +54,18 @@ class InfluencerTest {
 
     @Test
     @DisplayName("동일한 ID로 생성된 두 인플루언서는 동일")
-    void influencersWithSameIdAreEqual() throws URISyntaxException {
+    void influencersWithSameIdAreEqual() {
         // given
         String id = "123";
         Influencer influencer1 = Influencer.builder()
-                .uuid(id)
+                .id(id)
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
         Influencer influencer2 = Influencer.builder()
-                .uuid(id)
+                .id(id)
                 .name(new InfluencerName("Jane Doe"))
                 .description(new InfluencerDescription("Another influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
@@ -84,14 +82,14 @@ class InfluencerTest {
     void influencersWithDifferentIdAreNotEqual() throws URISyntaxException {
         // given
         Influencer influencer1 = Influencer.builder()
-                .uuid("123")
+                .id("123")
                 .name(new InfluencerName("John Doe"))
                 .description(new InfluencerDescription("An influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))
                 .socialMediaProfileLinks(new SocialMediaProfileLinks(Set.of()))
                 .build();
         Influencer influencer2 = Influencer.builder()
-                .uuid("456")
+                .id("456")
                 .name(new InfluencerName("Jane Doe"))
                 .description(new InfluencerDescription("Another influencer"))
                 .profileImage(new ProfileImage("http://example.com/profile1.jpg"))

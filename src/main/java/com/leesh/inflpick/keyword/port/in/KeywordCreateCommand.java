@@ -13,7 +13,7 @@ public record KeywordCreateCommand(@NotNull KeywordName name,
 
     public Keyword toEntity(UuidHolder uuidHolder) {
         return Keyword.builder()
-                .uuid(uuidHolder.uuid())
+                .id(uuidHolder.uuid())
                 .name(name)
                 .color(color)
                 .build();

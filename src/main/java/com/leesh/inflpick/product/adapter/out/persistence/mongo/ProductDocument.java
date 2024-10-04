@@ -1,27 +1,29 @@
 package com.leesh.inflpick.product.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.product.core.Product;
-import com.leesh.inflpick.product.core.value.*;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.product.core.domain.value.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.Set;
 
 @Document(collection = "products")
-public class ProductDocument {
+public class ProductDocument implements Persistable<String> {
 
     @Getter
-    private final String uuid;
+    @Id
+    private final String id;
     private final String name;
     private final String description;
     private final String productImagePath;
     @Getter
-    private final Set<String> keywordUuids;
+    private final Set<String> keywordIds;
     private final Set<OnlineStoreLink> onlineStoreLinks;
     @CreatedBy
     private final String createdBy;
@@ -31,53 +33,51 @@ public class ProductDocument {
     private final String lastModifiedBy;
     @LastModifiedDate
     private final Instant lastModifiedDate;
-    @Version
-    private final Long version;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private ProductDocument(String uuid,
+    private ProductDocument(String id,
                             String name,
                             String description,
                             String productImagePath,
-                            Set<String> keywordUuids,
+                            Set<String> keywordIds,
                             Set<OnlineStoreLink> onlineStoreLinks,
                             String createdBy,
                             Instant createdDate,
                             String lastModifiedBy,
-                            Instant lastModifiedDate,
-                            Long version) {
-        this.uuid = uuid;
+                            Instant lastModifiedDate) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.productImagePath = productImagePath;
-        this.keywordUuids = keywordUuids;
+        this.keywordIds = keywordIds;
         this.onlineStoreLinks = onlineStoreLinks;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
-        this.version = version;
     }
 
     public static ProductDocument from(Product product) {
 
-        Set<String> keywordUuids = product.getKeywords()
-                .getUuids();
+        Set<String> keywordIds = product.getKeywords()
+                .getIds();
 
         return ProductDocument.builder()
-                .uuid(product.getUuid())
+                .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .productImagePath(product.getProfileImage())
-                .keywordUuids(keywordUuids)
+                .keywordIds(keywordIds)
                 .onlineStoreLinks(product.getOnlineStoreLinks().getImmutable())
+                .createdDate(product.getCreatedDate())
+                .lastModifiedDate(product.getLastModifiedDate())
                 .build();
     }
 
     public Product toEntity(Keywords keywords) {
 
         return Product.builder()
-                .uuid(uuid)
+                .id(id)
                 .name(ProductName.from(name))
                 .description(ProductDescription.from(description))
                 .productImage(ProductImage.from(productImagePath))
@@ -86,5 +86,10 @@ public class ProductDocument {
                 .createdDate(createdDate)
                 .lastModifiedDate(lastModifiedDate)
                 .build();
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdDate == null;
     }
 }

@@ -12,7 +12,7 @@ public record ProfileImage(@NotNull String imagePath) {
         return new ProfileImage(profileImagePath);
     }
 
-    public Path basePath(String uuid) {
-        return Path.of("/influencers", uuid, "/profile-image");
+    public Path basePath(String id) {
+        return Path.of("/influencers", id, "/profile-image");
     }
 }

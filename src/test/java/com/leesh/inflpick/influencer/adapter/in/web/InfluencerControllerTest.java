@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -247,9 +247,8 @@ class InfluencerControllerTest {
                 .description(InfluencerDescription.from("test-description"))
                 .keywords(Keywords.EMPTY)
                 .socialMediaProfileLinks(SocialMediaProfileLinks.from(
-                        List.of(
-                                SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/test"),
-                                SocialMediaProfileLink.of(SocialMediaPlatform.X, "http://twitter.com/test")
+                        Set.of(
+                                SocialMediaProfileLink.of(SocialMediaPlatform.INSTAGRAM, "http://instagram.com/test")
                         )
                 ))
                 .createdDate(Instant.now())
@@ -269,8 +268,6 @@ class InfluencerControllerTest {
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andExpect(jsonPath("$.socialMediaProfileLinks[0].platform").value("INSTAGRAM"))
                 .andExpect(jsonPath("$.socialMediaProfileLinks[0].uri").value("http://instagram.com/test"))
-                .andExpect(jsonPath("$.socialMediaProfileLinks[1].platform").value("X"))
-                .andExpect(jsonPath("$.socialMediaProfileLinks[1].uri").value("http://twitter.com/test"))
                 .andExpect(jsonPath("$.keywords").isEmpty())
                 .andDo(print());
 

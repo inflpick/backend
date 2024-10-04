@@ -23,7 +23,7 @@ class KeywordCreateCommandTest {
 
         // when
         Keyword keyword = command.toEntity(
-                () -> "test-uuid"
+                () -> "test-id"
         );
 
         // then

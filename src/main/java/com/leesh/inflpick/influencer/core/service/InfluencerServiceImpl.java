@@ -1,13 +1,18 @@
 package com.leesh.inflpick.influencer.core.service;
 
+import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
-import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
+import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
+import com.leesh.inflpick.influencer.port.InfluencerSortType;
+import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
+import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
+import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
-import com.leesh.inflpick.influencer.port.out.StorageService;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +22,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Builder
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Service
-public class InfluencerServiceImpl implements InfluencerReadService, InfluencerCreateService {
+public class InfluencerServiceImpl implements InfluencerQueryService, InfluencerCommandService {
 
     private final UuidHolder uuidHolder;
     private final InfluencerRepository influencerRepository;
@@ -31,27 +38,51 @@ public class InfluencerServiceImpl implements InfluencerReadService, InfluencerC
     private final StorageService storageService;
 
     @Override
-    public Influencer getByUuid(String uuid) {
-        return influencerRepository.getByUuid(uuid);
+    public Influencer getById(String id) throws InfluencerNotFoundException {
+        return influencerRepository.getById(id);
     }
 
-    @Transactional
     @Override
-    public String create(@NotNull InfluencerCreateCommand command,
-                         @NotNull MultipartFile profileImage) {
+    public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
+        return influencerRepository.getPage(query);
+    }
 
-        Set<String> keywordIds = command.keywordUuids();
-        Keywords keywords = keywordRepository.getAllByUuids(keywordIds);
+    @Override
+    public String create(@NotNull InfluencerCommand command) {
+
+        Set<String> keywordIds = command.keywordIds();
+        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
 
         Influencer influencer = command.toEntity(uuidHolder);
         influencer.addKeywords(keywords);
 
-        // 프로필 이미지 업로드
+        return influencerRepository.save(influencer);
+    }
+
+    @Override
+    public void update(String id, InfluencerCommand command) {
+        Influencer influencer = influencerRepository.getById(id);
+        Set<String> keywordIds = command.keywordIds();
+        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        influencer.update(command.name(),
+                command.introduction(),
+                command.description(),
+                keywords,
+                command.socialMediaProfileLinks());
+        influencerRepository.save(influencer);
+    }
+
+    @Override
+    public void delete(String id) {
+        influencerRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateProfileImage(String id, MultipartFile profileImage) {
+        Influencer influencer = influencerRepository.getById(id);
         Path basePath = influencer.getProfileImageBasePath();
         String uploadPath = storageService.upload(profileImage, basePath);
-        influencer.registerProfileImage(uploadPath);
-
-        return influencerRepository.save(influencer)
-                .getUuid();
+        influencer.registerProfileImagePath(uploadPath);
+        influencerRepository.save(influencer);
     }
 }

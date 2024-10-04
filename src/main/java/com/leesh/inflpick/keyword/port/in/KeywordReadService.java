@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface KeywordReadService {
 
-    List<Keyword> search(KeywordName name);
+    List<Keyword> search(String name);
 
 }

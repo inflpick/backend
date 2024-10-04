@@ -18,13 +18,13 @@ class KeywordTest {
 
         // when
         Keyword keyword = Keyword.builder()
-                .uuid(id)
+                .id(id)
                 .name(name)
                 .color(color)
                 .build();
 
         // then
-        assertEquals(id, keyword.getUuid());
+        assertEquals(id, keyword.getId());
         assertEquals(name.name(), keyword.getName());
         assertEquals(color.hexColor(), keyword.getHexColor());
     }
@@ -41,12 +41,12 @@ class KeywordTest {
 
         // when
         Keyword keyword1 = Keyword.builder()
-                .uuid(id)
+                .id(id)
                 .name(name1)
                 .color(color1)
                 .build();
         Keyword keyword2 = Keyword.builder()
-                .uuid(id)
+                .id(id)
                 .name(name2)
                 .color(color2)
                 .build();
@@ -64,12 +64,12 @@ class KeywordTest {
 
         // when
         Keyword keyword1 = Keyword.builder()
-                .uuid("1")
+                .id("1")
                 .name(name)
                 .color(color)
                 .build();
         Keyword keyword2 = Keyword.builder()
-                .uuid("2")
+                .id("2")
                 .name(name)
                 .color(color)
                 .build();
@@ -87,7 +87,7 @@ class KeywordTest {
 
         // when
         Keyword keyword = Keyword.builder()
-                .uuid("1")
+                .id("1")
                 .name(name)
                 .color(color)
                 .build();

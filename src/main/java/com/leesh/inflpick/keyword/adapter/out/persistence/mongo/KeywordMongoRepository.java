@@ -12,10 +12,8 @@ public interface KeywordMongoRepository extends MongoRepository<KeywordDocument,
 
     Optional<KeywordDocument> findByName(String name);
 
-    Optional<KeywordDocument> findByUuid(String uuid);
-
     @Query("{ 'name' :  { $regex: ?0 } }")
     List<KeywordDocument> searchBy(@NotNull String name);
 
-    List<KeywordDocument> findAllByUuidIn(Collection<String> uuid);
+    List<KeywordDocument> findAllByIdIn(Collection<String> id);
 }

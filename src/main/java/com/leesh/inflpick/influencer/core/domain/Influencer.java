@@ -1,6 +1,10 @@
 package com.leesh.inflpick.influencer.core.domain;
 
+import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.*;
+import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.review.core.domain.Review;
+import com.leesh.inflpick.review.port.ReviewCommand;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,22 +15,24 @@ import java.util.Objects;
 public class Influencer {
 
     @Getter
-    private final String uuid;
-    private final InfluencerName name;
-    private final InfluencerDescription description;
-    private final InfluencerIntroduction introduction;
+    private final String id;
+    private InfluencerName name;
+    private InfluencerDescription description;
+    private InfluencerIntroduction introduction;
     private ProfileImage profileImage;
     @Getter
-    private final SocialMediaProfileLinks socialMediaProfileLinks;
+    private SocialMediaProfileLinks socialMediaProfileLinks;
     @Getter
-    private final Keywords keywords;
+    private Keywords keywords;
     @Getter
     private final Instant createdDate;
     @Getter
     private final Instant lastModifiedDate;
+    @Getter
+    private Boolean deleted = false;
 
     @Builder
-    public Influencer(String uuid,
+    public Influencer(String id,
                       InfluencerName name,
                       InfluencerDescription description,
                       InfluencerIntroduction introduction,
@@ -34,8 +40,9 @@ public class Influencer {
                       SocialMediaProfileLinks socialMediaProfileLinks,
                       Keywords keywords,
                       Instant createdDate,
-                      Instant lastModifiedDate) {
-        this.uuid = uuid;
+                      Instant lastModifiedDate,
+                      Boolean deleted) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.introduction = introduction;
@@ -44,6 +51,7 @@ public class Influencer {
         this.keywords = keywords == null ? Keywords.EMPTY : keywords;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+        this.deleted = deleted != null && deleted;
     }
 
     @Override
@@ -51,12 +59,12 @@ public class Influencer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Influencer that = (Influencer) o;
-        return Objects.equals(uuid, that.uuid);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(uuid);
+        return Objects.hashCode(id);
     }
 
     public String getName() {
@@ -80,10 +88,31 @@ public class Influencer {
     }
 
     public Path getProfileImageBasePath() {
-        return profileImage.basePath(this.uuid);
+        return profileImage.basePath(this.id);
     }
 
-    public void registerProfileImage(String uploadPath) {
+    public void registerProfileImagePath(String uploadPath) {
         this.profileImage = ProfileImage.from(uploadPath);
+    }
+
+    public void update(InfluencerName name,
+                       InfluencerIntroduction introduction,
+                       InfluencerDescription description,
+                       Keywords keywords,
+                       SocialMediaProfileLinks socialMediaProfileLinks) {
+        this.name = name;
+        this.introduction = introduction;
+        this.description = description;
+        this.keywords = keywords;
+        this.socialMediaProfileLinks = socialMediaProfileLinks;
+    }
+
+    public Review review(Product product, ReviewCommand command, UuidHolder uuidHolder) {
+        return Review.builder()
+                .id(uuidHolder.uuid())
+                .reviewer(this)
+                .product(product)
+                .source(command.reviewSource())
+                .build();
     }
 }

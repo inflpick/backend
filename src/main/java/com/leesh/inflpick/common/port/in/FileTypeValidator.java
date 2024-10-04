@@ -1,5 +1,7 @@
 package com.leesh.inflpick.common.port.in;
 
+import com.leesh.inflpick.common.port.in.exception.NotImageTypeException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class FileTypeValidator {
             "jpg", "jpeg", "png", "gif", "bmp", "webp"
     );
 
-    public static void validateImageFile(MultipartFile file) {
+    public static void validateImageFile(@NotNull MultipartFile file) {
         if (!isImageFile(file)) {
             throw new NotImageTypeException("The uploaded file is not an image");
         }
@@ -39,7 +41,7 @@ public class FileTypeValidator {
      * @param file the uploaded MultipartFile
      * @return true if the file is an image, false otherwise
      */
-    public static boolean isImageFile(MultipartFile file) {
+    public static boolean isImageFile(@NotNull MultipartFile file) {
         // Check the file's content type (MIME type)
         String mimeType = file.getContentType();
         if (mimeType == null || !IMAGE_MIME_TYPES.contains(mimeType)) {
