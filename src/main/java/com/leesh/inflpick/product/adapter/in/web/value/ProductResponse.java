@@ -19,8 +19,8 @@ public record ProductResponse(
         String name,
         @Schema(description = "제품 설명", example = "프로틴 스낵 베스트셀러 중 하나로 6겹의 뛰어난 맛과 식감을 자랑합니다.\n 1개당 20g 이상의 단백질과 탄수화물뿐만 아니라 우리 몸에 필요한 식이섬유를 풍부하게 함유하였습니다. 6 레이어 프로틴바로 맛과 영양을 모두 챙기세요!", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String description,
-        @Schema(description = "제품 이미지 URI", example = "https://example.com/product-image.jpg", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-        String productImageUri,
+        @Schema(description = "제품 이미지 URL", example = "https://cdn.inflpick.com/product-image.jpg", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+        String productImageUrl,
         @ArraySchema(schema = @Schema(description = "제품 키워드 목록", implementation = KeywordResponse.class, requiredMode = Schema.RequiredMode.REQUIRED))
         List<KeywordResponse> keywords,
         @ArraySchema(schema = @Schema(description = "제품의 온라인 스토어 링크 목록", implementation = OnlineStoreLinkResponse.class, requiredMode = Schema.RequiredMode.REQUIRED))
@@ -32,7 +32,7 @@ public record ProductResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
         Instant lastModifiedDate) {
 
-    public static ProductResponse from(Product product) {
+    public static ProductResponse from(Product product, String productImageUrl) {
 
         List<KeywordResponse> keywordResponses = product.getKeywords().keywords().stream()
                 .map(KeywordResponse::from)
@@ -46,7 +46,7 @@ public record ProductResponse(
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
-                .productImageUri(product.getProductImage())
+                .productImageUrl(productImageUrl)
                 .keywords(keywordResponses)
                 .onlineStoreLinks(onlineStoreLinkResponses)
                 .createdDate(product.getCreatedDate())

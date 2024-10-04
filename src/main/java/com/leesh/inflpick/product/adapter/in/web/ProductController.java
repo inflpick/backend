@@ -8,6 +8,7 @@ import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerGetListsApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerProfileImageUpdateApiErrorCode;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductCreateApiErrorCode;
@@ -52,6 +53,7 @@ public class ProductController {
 
     private final ProductCommandService commandService;
     private final ProductQueryService queryService;
+    private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
     @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
@@ -88,7 +90,12 @@ public class ProductController {
                                                 @Parameter(description = "제품 ID", required = true)
                                                 String id) {
         Product product = queryService.getById(id);
-        return ResponseEntity.ok(ProductResponse.from(product));
+        String productImagePath = product.getProductImagePath();
+        String productImageUrl = storageService.getUrlString(productImagePath);
+        return ResponseEntity.ok(ProductResponse.from(
+                product,
+                productImageUrl
+        ));
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products?page={page}&size={size}&sort={sortType,sortDirection}")
@@ -117,7 +124,11 @@ public class ProductController {
         PageDetails<Collection<Product>> productPage = queryService.getPage(pageQuery);
         Collection<ProductResponse> productResponses = productPage.content()
                 .stream()
-                .map(ProductResponse::from)
+                .map(product -> {
+                    String productImagePath = product.getProductImagePath();
+                    String productImageUrl = storageService.getUrlString(productImagePath);
+                    return ProductResponse.from(product, productImageUrl);
+                })
                 .toList();
         PageResponse<ProductResponse> pageResponse = new PageResponse<>(
                 productResponses.toArray(ProductResponse[]::new),

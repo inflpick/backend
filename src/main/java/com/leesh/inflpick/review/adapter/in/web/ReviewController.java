@@ -11,6 +11,7 @@ import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductResponse;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.review.core.domain.Review;
@@ -55,7 +56,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 페이지 조회 (Cursor 방식)", description = "리뷰 조회")
     @GetMapping
     public ResponseEntity<CursorResponse<ReviewResponse>> getCursorPage(
-            @Parameter(description = "현재 커서 (UTC 형식의 날짜 포맷)", example = "1970-01-01T00:00:00Z", schema = @Schema(defaultValue = "1970-01-01T00:00:00Z", implementation = Instant.class), required = false)
+            @Parameter(description = "현재 커서 (리뷰한 날짜)", example = "1970-01-01T00:00:00Z", schema = @Schema(defaultValue = "1970-01-01T00:00:00Z", implementation = Instant.class), required = false)
             @RequestParam(value = "cursor", required = false, defaultValue = "1970-01-01T00:00:00Z")
             Instant cursor,
             @Parameter(description = "한번에 가져올 컨텐츠 수 (기본값: 20)", example = "10", schema = @Schema(implementation = Integer.class))
@@ -72,10 +73,14 @@ public class ReviewController {
         CursorPage<Review> page = reviewQueryService.getCursorPage(query);
         List<ReviewResponse> contents = page.contents().stream()
                 .map(review -> {
-                    String reviewerProfileImageUrl = storageService.getUrlString(review.getReviewer().getProfileImagePath()).toString();
+                    String reviewerProfileImageUrl = storageService.getUrlString(review.getReviewer().getProfileImagePath());
+                    String productImageUrl = storageService.getUrlString(review.getProduct().getProductImagePath());
                     return ReviewResponse.from(review, InfluencerResponse.from(
                             influencerQueryService.getById(review.getReviewer().getId()),
                             reviewerProfileImageUrl
+                    ), ProductResponse.from(
+                            productQueryService.getById(review.getProduct().getId()),
+                            productImageUrl
                     ));
                 })
                 .toList();

@@ -16,7 +16,6 @@ custom:
       host: cdn.inflpick.com
       base-path: 'data'
     aws:
-      credentials:
       s3:
         region: ap-northeast-2
         bucket-name: api-server-data

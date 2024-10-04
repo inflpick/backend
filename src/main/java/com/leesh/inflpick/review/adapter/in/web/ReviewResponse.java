@@ -22,13 +22,13 @@ public record ReviewResponse(
         @Schema(description = "리뷰한 제품 정보")
         ProductResponse product) {
 
-    public static ReviewResponse from(Review review, InfluencerResponse reviewer) {
+    public static ReviewResponse from(Review review, InfluencerResponse reviewer, ProductResponse product) {
         return new ReviewResponse(
                 review.getContents(),
                 review.getUri(),
                 review.getReviewedDate(),
                 reviewer,
-                ProductResponse.from(review.getProduct())
+                product
         );
     }
 

@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Profile;
 
 @Profile("prod")
 @ConfigurationProperties(prefix = "custom.storage.aws")
-public record AwsProperties(Credentials credentials, S3 s3) {
-
-    public record Credentials(String accessKey, String secretKey) {
-    }
+public record AwsProperties(S3 s3) {
 
     public record S3(String region, String bucketName) {
     }

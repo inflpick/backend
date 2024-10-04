@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Set;
@@ -45,8 +46,8 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     public void updateProductImage(String id, MultipartFile productImage) {
         Product product = productRepository.getById(id);
         Path basePath = product.getProductImageBasePath();
-        String uploadPath = storageService.upload(productImage, basePath).toString();
-        product.registerProductImagePath(uploadPath);
+        URL uploadUrl = storageService.upload(productImage, basePath);
+        product.updateProductImagePath(uploadUrl.getPath());
         productRepository.save(product);
     }
 

@@ -55,8 +55,8 @@ public class Product {
         return productImage.basePath(id);
     }
 
-    public void registerProductImagePath(String uploadPath) {
-        this.productImage = ProductImage.from(uploadPath);
+    public void updateProductImagePath(String imagePath) {
+        this.productImage = ProductImage.from(imagePath);
     }
 
     public String getName() {
@@ -71,7 +71,7 @@ public class Product {
         return productImage.imagePath();
     }
 
-    public String getProductImage() {
+    public String getProductImagePath() {
         return productImage.imagePath();
     }
 
