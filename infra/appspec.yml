@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/root/app
+    destination: /root/app
     overwrite: yes
 permissions:
   - object: /
