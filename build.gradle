@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.leesh.inflpick'
-version = '2024.1.5'
+version = '2024.1.0'
 
 java {
 	toolchain {
