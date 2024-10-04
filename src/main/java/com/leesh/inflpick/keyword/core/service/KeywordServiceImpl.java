@@ -29,7 +29,7 @@ public class KeywordServiceImpl implements KeywordCreateService, KeywordReadServ
     public String create(KeywordCreateCommand command) {
         keywordRepository.findByName(command.name())
                 .ifPresent(keyword -> {
-                    throw new DuplicateKeywordNameException("name", command.name().name(), "Keyword");
+                    throw new DuplicateKeywordNameException("imagePath", command.name().name(), "Keyword");
                 });
         Keyword entity = command.toEntity(uuidHolder);
         keywordRepository.save(entity);

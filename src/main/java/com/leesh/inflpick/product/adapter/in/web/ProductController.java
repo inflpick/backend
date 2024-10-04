@@ -100,7 +100,7 @@ public class ProductController {
                                                                        @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [name | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [imagePath | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
                                                                        @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 

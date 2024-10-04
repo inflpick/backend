@@ -92,7 +92,7 @@ class InfluencerControllerTest {
         return Stream.of(
         """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "keywords": [],
@@ -102,7 +102,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -111,7 +111,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -121,7 +121,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -139,7 +139,7 @@ class InfluencerControllerTest {
         // given
         String jsonRequest = """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -215,7 +215,7 @@ class InfluencerControllerTest {
                         """,
                         """
                         {
-                            "name": "test-name",
+                            "imagePath": "test-imagePath",
                             "description": "test-description",
                             "profileImageUri": "http://test.com",
                             "socialMediaProfileLinks": []
@@ -223,7 +223,7 @@ class InfluencerControllerTest {
                         """,
                         """
                         {
-                            "name": "test-name",
+                            "imagePath": "test-imagePath",
                             "introduction": "test-introduction",
                             "profileImageUri": "http://test.com",
                             "socialMediaProfileLinks": []
@@ -242,7 +242,7 @@ class InfluencerControllerTest {
         // when & then
         Influencer influencer = Influencer.builder()
                 .uuid(uuid)
-                .name(InfluencerName.from("test-name"))
+                .name(InfluencerName.from("test-imagePath"))
                 .introduction(InfluencerIntroduction.from("test-introduction"))
                 .description(InfluencerDescription.from("test-description"))
                 .keywords(Keywords.EMPTY)
@@ -263,7 +263,7 @@ class InfluencerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.uuid").value(uuid))
-                .andExpect(jsonPath("$.name").value("test-name"))
+                .andExpect(jsonPath("$.name").value("test-imagePath"))
                 .andExpect(jsonPath("$.introduction").value("test-introduction"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andExpect(jsonPath("$.socialMediaProfileLinks[0].platform").value("INSTAGRAM"))

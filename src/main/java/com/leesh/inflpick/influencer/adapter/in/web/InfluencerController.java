@@ -8,6 +8,7 @@ import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.*;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;
@@ -52,6 +53,7 @@ public class InfluencerController {
     private final InfluencerQueryService influencerQueryService;
     private final ProductQueryService productQueryService;
     private final ReviewQueryService reviewQueryService;
+    private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
     @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.")
@@ -86,7 +88,11 @@ public class InfluencerController {
                                                   @Parameter(description = "인플루언서 ID", required = true)
                                                   String id) {
         Influencer influencer = influencerQueryService.getById(id);
-        return ResponseEntity.ok(InfluencerResponse.from(influencer));
+        String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
+        return ResponseEntity.ok(InfluencerResponse.from(
+                influencer,
+                profileImageUrl
+        ));
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers?page={page}&size={size}&sort={sortType,sortDirection}")
@@ -98,7 +104,7 @@ public class InfluencerController {
                                                                        @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [name | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [imagePath | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
                                                                        @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 
@@ -124,10 +130,13 @@ public class InfluencerController {
         return ResponseEntity.ok(pageResponse);
     }
 
-    private static @NotNull List<InfluencerResponse> convertToResponse(PageDetails<Collection<Influencer>> influencerPage) {
+    private @NotNull List<InfluencerResponse> convertToResponse(PageDetails<Collection<Influencer>> influencerPage) {
         return influencerPage.content()
                 .stream()
-                .map(InfluencerResponse::from)
+                .map(influencer -> {
+                    String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
+                    return InfluencerResponse.from(influencer, profileImageUrl);
+                })
                 .toList();
     }
 

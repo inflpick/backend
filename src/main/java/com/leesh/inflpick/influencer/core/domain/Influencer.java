@@ -79,7 +79,7 @@ public class Influencer {
         return introduction.introduction();
     }
 
-    public String getProfileImage() {
+    public String getProfileImagePath() {
         return profileImage.imagePath();
     }
 
@@ -91,8 +91,8 @@ public class Influencer {
         return profileImage.basePath(this.id);
     }
 
-    public void registerProfileImagePath(String uploadPath) {
-        this.profileImage = ProfileImage.from(uploadPath);
+    public void updateProfileImagePath(String imagePath) {
+        this.profileImage = ProfileImage.from(imagePath);
     }
 
     public void update(InfluencerName name,

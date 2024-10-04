@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum CommonApiErrorCode implements ApiErrorCode {
 
-    SERVER_ERROR("C_O_0001", HttpStatus.INTERNAL_SERVER_ERROR, "현재 서버가 요청을 처리할 수 없는 상태에요.", "잠시 후 다시 시도하시거나, 인플픽 관리자에게 문의바랍니다.", "예기치 못한 에러로 인해 서버가 요청을 처리할 수 없는 경우에 발생합니다."),
-    TOO_MANY_REQUESTS("C_O_0002", HttpStatus.TOO_MANY_REQUESTS, "요청이 너무 많아요.", "잠시 후 다시 시도하시거나, 인플픽 관리자에게 문의바랍니다.", "짧은 시간 동안 많은 API 요청되는 경우에 발생합니다."),
+    SERVER_ERROR("C_O_0001", HttpStatus.INTERNAL_SERVER_ERROR, "현재 서버가 요청을 처리할 수 없는 상태에요.", "잠시 후 다시 시도하시거나, 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.", "예기치 못한 에러로 인해 서버가 요청을 처리할 수 없는 경우에 발생합니다."),
+    TOO_MANY_REQUESTS("C_O_0002", HttpStatus.TOO_MANY_REQUESTS, "요청이 너무 많아요.", "잠시 후 다시 시도하시거나, 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.", "짧은 시간 동안 많은 API 요청되는 경우에 발생합니다."),
     SERVICE_UNAVAILABLE("C_O_0003", HttpStatus.SERVICE_UNAVAILABLE, "서버가 임시 점검 중이에요.", "서버 점검이 끝난 후, 다시 시도해주세요.", "현재 서버가 점검 중이거나 서비스를 제공할 수 없는 상태인 경우에 발생합니다."),
     MISSING_REQUIRED_FIELDS("C_O_0004", HttpStatus.BAD_REQUEST, "필수 입력 값이 입력되지 않았어요.", "필수 입력 값을 입력 후 다시 요청해주세요.", "API 요청 시, 필수 입력 값이 입력되지 않은 경우에 발생합니다."),
     RESOURCE_NOT_FOUND("C_O_0005", HttpStatus.NOT_FOUND, "리소스를 찾을 수 없어요.", "요청 ID를 확인 후 다시 시도해주세요.", "해당 ID를 가진 리소스를 찾을 수 없는 경우에 발생합니다."),

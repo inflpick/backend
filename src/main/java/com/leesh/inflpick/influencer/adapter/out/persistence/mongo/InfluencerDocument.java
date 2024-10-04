@@ -69,7 +69,7 @@ public class InfluencerDocument implements Persistable<String> {
                 .name(influencer.getName())
                 .introduction(influencer.getIntroduction())
                 .description(influencer.getDescription())
-                .profileImagePath(influencer.getProfileImage())
+                .profileImagePath(influencer.getProfileImagePath())
                 .keywordIds(keywordIds)
                 .socialMediaProfileLinks(influencer.getSocialMediaProfileLinks().getImmutable())
                 .createdDate(influencer.getCreatedDate())

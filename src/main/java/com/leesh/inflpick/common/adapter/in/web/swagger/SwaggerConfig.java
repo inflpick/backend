@@ -57,6 +57,7 @@ public class SwaggerConfig {
             if (activeProfile.equals("local")) {
                 currentProfileServer.add(localServer);
             } else if (activeProfile.equals("prod")) {
+                currentProfileServer.add(localServer);
                 currentProfileServer.add(prodServer);
             }
         }

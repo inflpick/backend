@@ -5,7 +5,9 @@ import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CursorResponse;
 import com.leesh.inflpick.common.port.CursorPage;
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
@@ -47,6 +49,7 @@ public class ReviewController {
     private final ProductQueryService productQueryService;
     private final ReviewCommandService reviewCommandService;
     private final ReviewQueryService reviewQueryService;
+    private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class, ProductReadApiErrorCode.class})
     @Operation(summary = "리뷰 페이지 조회 (Cursor 방식)", description = "리뷰 조회")
@@ -68,7 +71,13 @@ public class ReviewController {
         ReviewCursorQuery query = new ReviewCursorQuery(influencerId, productId, cursor, limit);
         CursorPage<Review> page = reviewQueryService.getCursorPage(query);
         List<ReviewResponse> contents = page.contents().stream()
-                .map(ReviewResponse::from)
+                .map(review -> {
+                    String reviewerProfileImageUrl = storageService.getUrlString(review.getReviewer().getProfileImagePath()).toString();
+                    return ReviewResponse.from(review, InfluencerResponse.from(
+                            influencerQueryService.getById(review.getReviewer().getId()),
+                            reviewerProfileImageUrl
+                    ));
+                })
                 .toList();
         CursorResponse<ReviewResponse> response = new CursorResponse<>(page.limit(), contents, page.hasNext());
         return ResponseEntity.ok(response);

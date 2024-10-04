@@ -8,8 +8,8 @@ public record ProfileImage(@NotNull String imagePath) {
 
     public static final ProfileImage EMPTY = new ProfileImage("");
 
-    public static ProfileImage from(@NotNull String profileImagePath) {
-        return new ProfileImage(profileImagePath);
+    public static ProfileImage from(@NotNull String imagePath) {
+        return new ProfileImage(imagePath);
     }
 
     public Path basePath(String id) {

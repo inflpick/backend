@@ -45,7 +45,7 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     public void updateProductImage(String id, MultipartFile productImage) {
         Product product = productRepository.getById(id);
         Path basePath = product.getProductImageBasePath();
-        String uploadPath = storageService.upload(productImage, basePath);
+        String uploadPath = storageService.upload(productImage, basePath).toString();
         product.registerProductImagePath(uploadPath);
         productRepository.save(product);
     }

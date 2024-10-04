@@ -11,11 +11,12 @@ jasypt:
     password: ${JASYPT_PASSWORD} # 암호화 키를 지정합니다.
 custom:
   storage:
+    uri:
+      scheme: https
+      host: cdn.inflpick.com
+      base-path: 'data'
     aws:
       credentials:
-        access-key: my-access-key
-        secret-key: my-secret-key
-      region: ap-northeast-2
       s3:
-        bucket: my-bucket
-        url: https://my-bucket.s3.ap-northeast-2.amazonaws.com
+        region: ap-northeast-2
+        bucket-name: api-server-data

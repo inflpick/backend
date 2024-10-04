@@ -54,9 +54,9 @@ public class FileTypeValidator {
     }
 
     /**
-     * Get the file extension from a file name.
+     * Get the file extension from a file imagePath.
      *
-     * @param fileName the original file name
+     * @param fileName the original file imagePath
      * @return the file extension (without the dot) or null if not found
      */
     private static String getFileExtension(String fileName) {

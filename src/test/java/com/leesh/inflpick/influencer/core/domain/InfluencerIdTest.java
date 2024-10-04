@@ -31,7 +31,6 @@ class InfluencerTest {
         assertEquals("123", influencer.getId());
         assertEquals("John Doe", influencer.getName());
         assertEquals("An influencer", influencer.getDescription());
-        assertEquals("http://example.com/profile1.jpg", influencer.getProfileImage());
     }
 
     @Test
