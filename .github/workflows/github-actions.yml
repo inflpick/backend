@@ -5,9 +5,9 @@ on:
   pull_request:
   push:
     branches: # Specify your branches here
-      - prod # The 'main' branch
+      - 'prod' # The 'main' branch
+      - 'dev'
       - 'releases/*' # The release branches
-      - '#15-cicd' # Temporary branches
 
 env:
   APP_NAME: 'api-server'
