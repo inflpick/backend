@@ -1,0 +1,524 @@
+[
+  {
+    "id": "a1274f95-2392-45b6-93ab-df751af0afab",
+    "name": "핏블리",
+    "introduction": "➞ 핏블리(문석기) PROFILE 국제트레이너&스포츠영양코치",
+    "description": "“운동독학, 누구나 쉽고 전문적으로” 국제트레이너 / 스포츠영양코치 / BJ치즈볼 / 타락헬창 40여개국 세계여행&전문 자격증으로 탄생한 핏블리",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/jimjongkook"
+      }
+    ],
+    "createdDate": "2024-02-22T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-22T08:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "339e1231-bfa7-4fb8-8a49-39c1969624ce",
+    "name": "짐종국",
+    "introduction": "안녕하세요 김종국.. 아니 GYM 종국 ㅎ 입니다 ㅎ",
+    "description": "안녕하세요 김종국.. 아니 GYM 종국 ㅎ 입니다 ㅎ\n자격증 이라곤 이 몸땡이 뿐인 ㅎ그냥 운동 좋아하고 오래 한 ㅎ 동네 아저씨 ㅎ\n우리 다함께 건강한 대한민국을 위해서 쭉 함 달려봅시다!! \uD83D\uDCAA",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "X",
+        "uri": "https://x.com/jimjongkook"
+      }
+    ],
+    "createdDate": "2024-02-22T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-22T08:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "a1274f95-2392-45b6-93ab-df751af0afab",
+    "name": "Fitvely",
+    "introduction": "➞ Fitvly (Seokki Moon) PROFILE International Trainer & Sports Nutrition Coach",
+    "description": "“Self-taught exercise, anyone can do it easily and professionally” International trainer / sports nutrition coach / BJ Cheese Ball / Tarak Hellchang Fitvly born with world travel & professional qualifications to over 40 countries",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/jimjongkook"
+      }
+    ],
+    "createdDate": "2024-02-22T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-22T08:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "339e1231-bfa7-4fb8-8a49-39c1969624ce",
+    "name": "Jim Jong-guk",
+    "introduction": "Hello, Kim Jong-kook... no, I'm GYM Jong-kook haha",
+    "description": "Hello, I'm Kim Jong-kook... no, I'm GYM Jong-kook haha\nThe only certification I have is this body. I'm just a guy from the neighborhood who likes working out and has been doing it for a long time haha\nLet's all keep running for a healthy Republic of Korea!! 💪",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "X",
+        "uri": "https://x.com/jimjongkook"
+      }
+    ],
+    "createdDate": "2024-02-22T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-22T08:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "c5f8b7f9-1e8a-4c9d-9a4d-3b0f6b2d6f89",
+    "name": "Jane Doe",
+    "introduction": "Fitness enthusiast and personal trainer.",
+    "description": "Hi, I'm Jane Doe, a certified personal trainer with a passion for helping others achieve their fitness goals. Let's embark on this journey together!",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/janedoe_fitness"
+      }
+    ],
+    "createdDate": "2024-02-23T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-23T09:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "d4e8c6a2-7e7c-4b28-8a6b-7a3d0f1b2e4c",
+    "name": "John Smith",
+    "introduction": "Professional athlete and wellness coach.",
+    "description": "I'm John Smith, a former professional athlete turned wellness coach. I believe in holistic health and fitness.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/johnsmithwellness"
+      }
+    ],
+    "createdDate": "2024-02-24T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-24T10:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "e7f1d6b9-9c6e-4f8d-a2e3-1b0a4c9d5e6f",
+    "name": "Alice Lee",
+    "introduction": "Yoga instructor and mindfulness advocate.",
+    "description": "Namaste! I'm Alice Lee, a certified yoga instructor specializing in Vinyasa and Hatha yoga. Join me for a journey of self-discovery and peace.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/alicelee_yoga"
+      }
+    ],
+    "createdDate": "2024-02-25T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-25T11:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "f9a3b2c1-3d2e-4f6a-9b8c-2d1e4f3a5b6c",
+    "name": "Bob Johnson",
+    "introduction": "Strength coach and nutritionist.",
+    "description": "Hey, I'm Bob Johnson. With over 10 years of experience, I help people build strength and eat right to achieve their fitness goals.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "X",
+        "uri": "https://x.com/bobjohnson_strength"
+      }
+    ],
+    "createdDate": "2024-02-26T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-26T12:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "Michael Brown",
+    "introduction": "Cycling coach and endurance athlete.",
+    "description": "Michael Brown here! As an endurance athlete and cycling coach, I help riders of all levels improve their performance and enjoy the ride.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/michaelbrowncycling"
+      }
+    ],
+    "createdDate": "2024-02-27T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-27T13:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "name": "Emily Davis",
+    "introduction": "Pilates instructor and wellness blogger.",
+    "description": "Hi, I'm Emily Davis, a Pilates instructor dedicated to helping you strengthen your core and improve your flexibility. Check out my wellness blog for tips!",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/emilydavis_pilates"
+      }
+    ],
+    "createdDate": "2024-02-28T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-28T14:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "name": "David Wilson",
+    "introduction": "Martial arts trainer and self-defense expert.",
+    "description": "I'm David Wilson, a black belt martial artist with over 15 years of teaching experience. Let's empower ourselves through self-defense.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "X",
+        "uri": "https://x.com/davidwilson_martialarts"
+      }
+    ],
+    "createdDate": "2024-02-29T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-02-29T15:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "name": "Sarah Taylor",
+    "introduction": "Dance instructor and choreographer.",
+    "description": "Hello! I'm Sarah Taylor, a professional dance instructor specializing in contemporary and hip-hop styles. Let's move to the rhythm together!",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/sarahtaylor_dance"
+      }
+    ],
+    "createdDate": "2024-03-01T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-01T16:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "name": "Daniel Moore",
+    "introduction": "Certified CrossFit coach.",
+    "description": "I'm Daniel Moore, a certified CrossFit coach ready to help you reach new heights in strength and conditioning.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/danielmoore_crossfit"
+      }
+    ],
+    "createdDate": "2024-03-02T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-02T17:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+    "name": "Jessica Anderson",
+    "introduction": "Nutritionist and wellness coach.",
+    "description": "Hi there, I'm Jessica Anderson, a registered nutritionist passionate about helping you create sustainable healthy eating habits.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "LINKEDIN",
+        "uri": "https://linkedin.com/in/jessicaandersonnutrition"
+      }
+    ],
+    "createdDate": "2024-03-03T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-03T18:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "name": "Kevin Thomas",
+    "introduction": "Swimming coach and aquatic therapist.",
+    "description": "I'm Kevin Thomas, an experienced swimming coach dedicated to teaching all ages and abilities the joys of swimming.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/kevinthomas_swim"
+      }
+    ],
+    "createdDate": "2024-03-04T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-04T19:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+    "name": "Lisa Martin",
+    "introduction": "Certified personal trainer and group fitness instructor.",
+    "description": "Hi, I'm Lisa Martin. Whether you prefer one-on-one training or group classes, I'm here to make fitness fun and accessible.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/lisamartin_fitness"
+      }
+    ],
+    "createdDate": "2024-03-05T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-05T20:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+    "name": "Richard Jackson",
+    "introduction": "Sports psychologist and performance coach.",
+    "description": "I'm Richard Jackson, helping athletes improve their mental game to achieve peak performance when it matters most.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "LINKEDIN",
+        "uri": "https://linkedin.com/in/richardjacksonpsychology"
+      }
+    ],
+    "createdDate": "2024-03-06T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-06T21:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+    "name": "Karen White",
+    "introduction": "Meditation teacher and life coach.",
+    "description": "Hello, I'm Karen White. I guide individuals on a journey of self-discovery through meditation and mindfulness practices.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/karenwhite_meditation"
+      }
+    ],
+    "createdDate": "2024-03-07T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-07T22:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+    "name": "Charles Harris",
+    "introduction": "Professional runner and track coach.",
+    "description": "I'm Charles Harris, a professional runner and coach. I help athletes improve their speed and endurance on the track.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/charlesharris_running"
+      }
+    ],
+    "createdDate": "2024-03-08T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-08T23:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "2f3a4b5c-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+    "name": "Nancy Clark",
+    "introduction": "Holistic health coach and herbalist.",
+    "description": "Greetings! I'm Nancy Clark, focusing on holistic health through natural remedies and lifestyle changes.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/nancyclark_holistic"
+      }
+    ],
+    "createdDate": "2024-03-09T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-09T08:35:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "3a4b5c6d-7e8f-9a0b-1c2d-3e4f5a6b7c8d",
+    "name": "Christopher Lewis",
+    "introduction": "Strength and conditioning coach.",
+    "description": "Hi, I'm Christopher Lewis, helping athletes and fitness enthusiasts increase strength and improve overall performance.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "X",
+        "uri": "https://x.com/christopherlewis_strength"
+      }
+    ],
+    "createdDate": "2024-03-10T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-10T09:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
+    "name": "Susan Robinson",
+    "introduction": "Certified Zumba instructor.",
+    "description": "Hello! I'm Susan Robinson, bringing fun and energy to fitness through Zumba dance workouts.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/susanrobinson_zumba"
+      }
+    ],
+    "createdDate": "2024-03-11T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-11T10:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "5c6d7e8f-9a0b-1c2d-3e4f-5a6b7c8d9e0f",
+    "name": "Mark Walker",
+    "introduction": "Parkour instructor and stunt performer.",
+    "description": "Hey there, I'm Mark Walker. I teach parkour and freerunning techniques for all levels. Let's defy gravity together!",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/markwalker_parkour"
+      }
+    ],
+    "createdDate": "2024-03-12T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-12T11:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a",
+    "name": "Angela Hall",
+    "introduction": "Pilates and Barre instructor.",
+    "description": "Hi, I'm Angela Hall, specializing in Pilates and Barre to help you tone and strengthen your body gracefully.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "LINKEDIN",
+        "uri": "https://linkedin.com/in/angelahall_pilates"
+      }
+    ],
+    "createdDate": "2024-03-13T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-13T12:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "7e8f9a0b-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+    "name": "Steven Young",
+    "introduction": "Certified kettlebell instructor.",
+    "description": "I'm Steven Young, specializing in kettlebell training for strength, flexibility, and endurance.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/stevenyoung_kettlebell"
+      }
+    ],
+    "createdDate": "2024-03-14T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-14T13:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
+    "name": "Laura King",
+    "introduction": "Dance fitness instructor.",
+    "description": "Hi! I'm Laura King, and I make fitness fun with dance-based workouts that get you moving and grooving.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "INSTAGRAM",
+        "uri": "https://instagram.com/lauraking_dancefit"
+      }
+    ],
+    "createdDate": "2024-03-15T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-15T14:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "9a0b1c2d-3e4f-5a6b-7c8d-9e0f1a2b3c4d",
+    "name": "Brian Wright",
+    "introduction": "Boxing coach and personal trainer.",
+    "description": "I'm Brian Wright, a professional boxing coach dedicated to improving your technique, speed, and power.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "X",
+        "uri": "https://x.com/brianwright_boxing"
+      }
+    ],
+    "createdDate": "2024-03-16T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-16T15:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "0b1c2d3e-4f5a-6b7c-8d9e-0f1a2b3c4d5e",
+    "name": "Amy Scott",
+    "introduction": "Wellness coach and motivational speaker.",
+    "description": "Hello, I'm Amy Scott. I inspire others to live their best lives through wellness coaching and motivational speaking.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "LINKEDIN",
+        "uri": "https://linkedin.com/in/amyscott_wellness"
+      }
+    ],
+    "createdDate": "2024-03-17T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-17T16:05:35.000Z",
+    "lastModifiedBy": "system"
+  },
+  {
+    "id": "1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f",
+    "name": "Paul Green",
+    "introduction": "Outdoor adventure guide and fitness coach.",
+    "description": "Hey, I'm Paul Green. I combine fitness with outdoor adventures for a unique and exciting experience.",
+    "profileImagePath": "",
+    "keywordIds": [],
+    "socialMediaProfileLinks": [
+      {
+        "platform": "FACEBOOK",
+        "uri": "https://facebook.com/paulgreen_outdoors"
+      }
+    ],
+    "createdDate": "2024-03-18T08:05:35.000Z",
+    "createdBy": "system",
+    "lastModifiedDate": "2024-03-18T17:05:35.000Z",
+    "lastModifiedBy": "system"
+  }
+]

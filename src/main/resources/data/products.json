@@ -1,0 +1,190 @@
+
+[
+  {
+    "id": "6b17ed3f-f56a-4142-8142-cd902587efc6",
+    "name": "단백질 스낵 디럭스",
+    "description": "매우 우수한 맛과 질감으로 6층으로 이루어진 최고의 단백질 스낵입니다. 한 조각당 20g 이상의 단백질과 탄수화물은 물론, 우리 몸에 필요한 식이섬유도 풍부합니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/psnackdeluxe"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-22T06:01:15.345Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-23T06:01:45.678Z"
+  },
+  {
+    "id": "8c47dcb8-8b71-4b7a-bf56-8ed88c2daba1",
+    "name": "고단백 크런치 바",
+    "description": "고단백 크런치 바는 22g의 단백질을 함유하고 있으며, 높은 식이섬유로 하루 종일 에너지를 공급해 줍니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/crunchybar"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-23T07:03:15.122Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-24T07:03:25.234Z"
+  },
+  {
+    "id": "f65cc44c-79d8-462d-9998-e9650ebc82ef",
+    "name": "6층 프로틴 디라이트",
+    "description": "6층으로 이루어진 부드러운 맛과 25g의 단백질, 그리고 식이섬유로 하루 영양을 책임집니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/layeredprotein"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-21T06:05:45.564Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-22T06:06:15.678Z"
+  },
+  {
+    "id": "b0f97969-2c54-43b6-b8e6-bd0d1dd2c6a2",
+    "name": "파워 프로틴 바",
+    "description": "하루 단백질 섭취량을 파워 프로틴 바로 채워보세요. 각 바에는 21g의 단백질이 들어있습니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/powerprotein"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-19T06:07:23.556Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-20T06:07:45.345Z"
+  },
+  {
+    "id": "f07aab6b-9c93-4b9e-8133-0220cfb4fb62",
+    "name": "초코 프로틴 크런치",
+    "description": "풍부한 초콜릿 맛과 20g의 단백질을 자랑하는 초코 프로틴 크런치 바를 즐겨보세요.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/chocoprocrunch"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-18T06:09:00.123Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-19T06:09:35.567Z"
+  },
+  {
+    "id": "986b5087-11eb-4e5d-94b6-f8fcdf95de4b",
+    "name": "에너지 연료 프로틴",
+    "description": "23g의 단백질과 필수 식이섬유를 담은 에너지 연료 프로틴 바는 강도 높은 운동 중에도 몸에 연료를 공급합니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/energyfuel"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-16T06:10:15.345Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-17T06:10:45.567Z"
+  },
+  {
+    "id": "50bbf2b3-5abf-49b7-9217-9c64c79a5b1f",
+    "name": "근육 빌더 바",
+    "description": "운동 후 회복을 위해 최적화된 근육 빌더 바는 24g의 단백질을 함유하고 있으며, 필수 영양소가 가득합니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/musclebuilder"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-14T06:12:00.123Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-15T06:12:25.456Z"
+  },
+  {
+    "id": "723f438a-4212-4b4d-b4b1-688f1b00f3d4",
+    "name": "프로틴 맥스 바이트",
+    "description": "이 바이트 사이즈의 프로틴 바는 19g의 단백질을 함유하고 있으며, 맛과 영양을 동시에 만족시킵니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/proteinmaxbites"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-13T06:13:15.234Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-14T06:13:45.678Z"
+  },
+  {
+    "id": "b0ac58e1-0e3e-431e-ae3b-0b9dd01b7f2c",
+    "name": "최강 프로틴 스택",
+    "description": "운동 선수들을 위한 프로틴 스택으로, 26g의 단백질과 식이섬유, 비타민을 한 번에 섭취할 수 있습니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/proteinultimate"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-12T06:15:00.234Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-13T06:15:25.345Z"
+  },
+  {
+    "id": "bbfc2ac9-5653-45a7-8049-554ac98bc625",
+    "name": "땅콩 버터 프로틴 바",
+    "description": "부드러운 땅콩 버터의 풍미가 가득하며, 각 바에는 20g의 단백질이 함유되어 있어 입안에서 녹습니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/pbproteinbar"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-11T06:17:15.111Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-12T06:17:45.678Z"
+  },
+  {
+    "id": "2d0ccf9b-d8ad-4af6-bf96-7baf7fe63728",
+    "name": "프로틴 파워하우스 바",
+    "description": "영양 가득한 파워하우스 바로, 25g의 단백질을 함유하고 하루 종일 에너지를 유지할 수 있습니다.",
+    "productImagePath": "",
+    "keywordIds": [],
+    "onlineStoreLinks": [
+      {
+        "platform": "COUPANG",
+        "uri": "https://link.coupang.com/a/proteinpowerhouse"
+      }
+    ],
+    "createdBy": "0:0:0:0:0:0:0:1",
+    "createdDate": "2024-09-10T06:19:25.678Z",
+    "lastModifiedBy": "0:0:0:0:0:0:0:1",
+    "lastModifiedDate": "2024-09-11T06:19:45.111Z"
+  }
+]
