@@ -7,22 +7,23 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.Set;
 
 @Document(collection = "influencers")
-public class InfluencerDocument {
-
+public class InfluencerDocument implements Persistable<String> {
+    @Id
     @Getter
-    private final String uuid;
+    private final String id;
     private final String name;
     private final String introduction;
     private final String description;
     private final String profileImagePath;
     @Getter
-    private final Set<String> keywordUuids;
+    private final Set<String> keywordIds;
     private final Set<SocialMediaProfileLink> socialMediaProfileLinks;
     @CreatedBy
     private final String createdBy;
@@ -32,55 +33,54 @@ public class InfluencerDocument {
     private final String lastModifiedBy;
     @LastModifiedDate
     private final Instant lastModifiedDate;
-    @Version
-    private final Long version;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private InfluencerDocument(String uuid,
+    private InfluencerDocument(String id,
                                String name,
                                String introduction,
                                String description,
                                String profileImagePath,
-                               Set<String> keywordUuids,
+                               Set<String> keywordIds,
                                Set<SocialMediaProfileLink> socialMediaProfileLinks,
                                String createdBy,
                                Instant createdDate,
                                String lastModifiedBy,
-                               Instant lastModifiedDate, Long version) {
-        this.uuid = uuid;
+                               Instant lastModifiedDate) {
+        this.id = id;
         this.name = name;
         this.introduction = introduction;
         this.description = description;
         this.profileImagePath = profileImagePath;
-        this.keywordUuids = keywordUuids;
+        this.keywordIds = keywordIds;
         this.socialMediaProfileLinks = socialMediaProfileLinks;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
-        this.version = version;
     }
 
     public static InfluencerDocument from(Influencer influencer) {
 
-        Set<String> keywordUuids = influencer.getKeywords()
-                .getUuids();
+        Set<String> keywordIds = influencer.getKeywords()
+                .getIds();
 
         return InfluencerDocument.builder()
-                .uuid(influencer.getUuid())
+                .id(influencer.getId())
                 .name(influencer.getName())
                 .introduction(influencer.getIntroduction())
                 .description(influencer.getDescription())
                 .profileImagePath(influencer.getProfileImage())
-                .keywordUuids(keywordUuids)
+                .keywordIds(keywordIds)
                 .socialMediaProfileLinks(influencer.getSocialMediaProfileLinks().getImmutable())
+                .createdDate(influencer.getCreatedDate())
+                .lastModifiedDate(influencer.getLastModifiedDate())
                 .build();
     }
 
     public Influencer toEntity(Keywords keywords) {
 
         return Influencer.builder()
-                .uuid(uuid)
+                .id(id)
                 .name(InfluencerName.from(name))
                 .introduction(InfluencerIntroduction.from(introduction))
                 .description(InfluencerDescription.from(description))
@@ -90,5 +90,10 @@ public class InfluencerDocument {
                 .createdDate(createdDate)
                 .lastModifiedDate(lastModifiedDate)
                 .build();
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdDate == null;
     }
 }

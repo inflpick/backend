@@ -1,7 +1,6 @@
 package com.leesh.inflpick.keyword.port.out;
 
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.keyword.adapter.out.persistence.KeywordNotFoundException;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
 
@@ -13,13 +12,13 @@ public interface KeywordRepository {
 
     void save(Keyword keyword);
 
-    Keyword getByUuid(String uuid) throws KeywordNotFoundException;
+    Keyword getById(String id) throws KeywordNotFoundException;
 
     long count();
 
     Optional<Keyword> findByName(KeywordName name);
 
-    List<Keyword> search(KeywordName name);
+    List<Keyword> search(String name);
 
-    Keywords getAllByUuids(Set<String> keywordUuids);
+    Keywords getAllByIds(Set<String> keywordIds);
 }

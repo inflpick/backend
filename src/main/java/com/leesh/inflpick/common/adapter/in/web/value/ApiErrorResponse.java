@@ -37,4 +37,16 @@ public record ApiErrorResponse(
                         .path(path)
                         .build();
         }
+
+        public static ApiErrorResponse of(InstantHolder instantHolder, ApiErrorCode apiErrorCode, String method, String path, String reason) {
+                return ApiErrorResponse.builder()
+                        .timestamp(instantHolder.instant())
+                        .status(apiErrorCode.httpStatus().value())
+                        .code(apiErrorCode.code())
+                        .reason(reason)
+                        .action(apiErrorCode.action())
+                        .method(method)
+                        .path(path)
+                        .build();
+        }
 }

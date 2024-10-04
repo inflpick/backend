@@ -48,7 +48,7 @@ class KeywordControllerTest {
         String uriString = UriComponentsBuilder.fromHttpUrl("http://localhost").path(apiPath).toUriString();
 
         // when & then
-        String testUuid = "test-uuid";
+        String testUuid = "test-id";
         Mockito.when(createService.create(
                 Mockito.any(KeywordCreateCommand.class)))
                         .thenReturn(testUuid);

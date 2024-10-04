@@ -3,10 +3,8 @@ package com.leesh.inflpick.keyword.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
-import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordReadApiErrorCode;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
-import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +35,7 @@ public class KeywordController {
     private final KeywordCreateService createService;
     private final KeywordReadService readService;
 
-    @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "POST", apiPath = "/api/keywords")
+//    @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "POST", apiPath = "/api/keywords")
     @Operation(summary = "키워드 생성", description = "키워드를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
@@ -45,10 +43,10 @@ public class KeywordController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody KeywordRequest request) {
-        String uuid = createService.create(request.toCommand());
+        String id = createService.create(request.toCommand());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{uuid}")
-                .buildAndExpand(uuid)
+                .path("/{id}")
+                .buildAndExpand(id)
                 .toUri();
         return ResponseEntity
                 .created(location)
@@ -57,18 +55,16 @@ public class KeywordController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = KeywordReadApiErrorCode.class, httpMethod = "GET", apiPath = "/api/keywords/search?name={name}")
-    @Operation(summary = "키워드 명으로 검색", description = "입력한 키워드 명과 유사한 키워드를 검색합니다.")
+    @Operation(summary = "키워드 명으로 검색", description = "입력한 키워드 명과 \"유사한\" 키워드를 검색합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
     })
-    @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<KeywordResponse>> search(@RequestParam(value = "name")
                                                         @Parameter(description = "키워드 명", example = "100만 유튜버", required = true)
                                                         String name) {
 
-        KeywordName keywordName = new KeywordName(name);
-        List<KeywordResponse> bodies = readService.search(keywordName)
+        List<KeywordResponse> bodies = readService.search(name)
                 .stream()
                 .map(KeywordResponse::from)
                 .toList();

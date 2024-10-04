@@ -5,6 +5,7 @@ import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordDocument;
 import com.leesh.inflpick.keyword.adapter.out.persistence.mongo.KeywordMongoRepository;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
+import com.leesh.inflpick.keyword.port.out.KeywordNotFoundException;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,10 +28,10 @@ public class KeywordRepositoryImpl implements KeywordRepository {
     }
 
     @Override
-    public Keyword getByUuid(String uuid) throws KeywordNotFoundException {
-        return keywordMongoRepository.findByUuid(uuid)
+    public Keyword getById(String id) throws KeywordNotFoundException {
+        return keywordMongoRepository.findById(id)
                 .map(KeywordDocument::toEntity)
-                .orElseThrow(() -> new KeywordNotFoundException(uuid));
+                .orElseThrow(() -> new KeywordNotFoundException(id));
     }
 
     @Override
@@ -45,16 +46,16 @@ public class KeywordRepositoryImpl implements KeywordRepository {
     }
 
     @Override
-    public List<Keyword> search(KeywordName name) {
-        return keywordMongoRepository.searchBy(name.name())
+    public List<Keyword> search(String name) {
+        return keywordMongoRepository.searchBy(name)
                 .stream()
                 .map(KeywordDocument::toEntity)
                 .toList();
     }
 
     @Override
-    public Keywords getAllByUuids(Set<String> keywordUuids) {
-        List<KeywordDocument> keywordDocuments = keywordMongoRepository.findAllByUuidIn(keywordUuids);
+    public Keywords getAllByIds(Set<String> keywordIds) {
+        List<KeywordDocument> keywordDocuments = keywordMongoRepository.findAllByIdIn(keywordIds);
         Set<Keyword> keywords = keywordDocuments.stream()
                 .map(KeywordDocument::toEntity)
                 .collect(Collectors.toSet());

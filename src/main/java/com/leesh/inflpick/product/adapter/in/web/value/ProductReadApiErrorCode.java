@@ -5,8 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public enum ProductReadApiErrorCode implements ApiErrorCode {
 
-    PRODUCT_NOT_FOUND("PR_R_0001", HttpStatus.NOT_FOUND, "제품을 찾을 수 없어요.", "요청한 제품이 존재하지 않아, 조회할 수 없습니다.", "UUID에 해당하는 제품을 찾을 수 없는 경우에 발생합니다."),
-
+    PRODUCT_NOT_FOUND("PR_R_0001", HttpStatus.NOT_FOUND, "제품을 찾을 수 없어요.", "요청한 제품이 존재하지 않아, 요청을 처리할 수 없습니다.", "ID에 해당하는 제품을 찾을 수 없는 경우에 발생합니다."),
     ;
 
     private final String code;

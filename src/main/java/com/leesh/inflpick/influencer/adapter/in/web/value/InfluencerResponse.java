@@ -13,8 +13,8 @@ import java.util.List;
 @Schema(name = "인플루언서 조회 응답")
 @Builder
 public record InfluencerResponse(
-        @Schema(description = "고유 식별자(UUID)", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-        String uuid,
+        @Schema(description = "ID", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+        String id,
         @Schema(description = "이름", example = "도날드 트럼프", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String name,
         @Schema(description = "인물을 잘 나타낼 수 있는 짧은 소개", example = "미국 45대 대통령, 트럼프 주식회사 CEO, 정치가", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
@@ -45,7 +45,7 @@ public record InfluencerResponse(
                 .toList();
 
         return InfluencerResponse.builder()
-                .uuid(influencer.getUuid())
+                .id(influencer.getId())
                 .name(influencer.getName())
                 .introduction(influencer.getIntroduction())
                 .description(influencer.getDescription())

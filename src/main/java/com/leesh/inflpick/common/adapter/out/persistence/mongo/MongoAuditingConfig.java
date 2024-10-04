@@ -18,16 +18,26 @@ public class MongoAuditingConfig {
 
     @Bean
     public AuditorAware<String> auditorProvider() {
-        return () -> Optional.of(getClientIp(request));  // IP 주소를 반환
+        return () -> {
+            if (request == null) {
+                return Optional.of("system");
+            }
+            // IP 주소를 반환
+            return Optional.of(getClientIp(request));
+        };
     }
 
     // 클라이언트 IP를 추출하는 메서드
     private static String getClientIp(HttpServletRequest request) {
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        if (ipAddress == null || ipAddress.isEmpty()) {
-            ipAddress = request.getRemoteAddr();  // 기본적으로 RemoteAddr에서 IP를 가져옴
+        try {
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");
+            if (ipAddress == null || ipAddress.isEmpty()) {
+                ipAddress = request.getRemoteAddr();  // 기본적으로 RemoteAddr에서 IP를 가져옴
+            }
+            return ipAddress;
+        } catch (Exception e) {
+            return "system";
         }
-        return ipAddress;
     }
 
 }

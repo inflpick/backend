@@ -1,11 +1,11 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
-import com.leesh.inflpick.product.core.value.OnlineStoreLink;
-import com.leesh.inflpick.product.core.value.OnlineStoreLinks;
-import com.leesh.inflpick.product.core.value.ProductDescription;
-import com.leesh.inflpick.product.core.value.ProductName;
-import com.leesh.inflpick.product.port.in.ProductCreateCommand;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLink;
+import com.leesh.inflpick.product.core.domain.value.OnlineStoreLinks;
+import com.leesh.inflpick.product.core.domain.value.ProductDescription;
+import com.leesh.inflpick.product.core.domain.value.ProductName;
+import com.leesh.inflpick.product.port.ProductCommand;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -40,11 +40,11 @@ public record ProductRequest(
                 .toList();
     }
 
-    public @NotNull ProductCreateCommand toCommand() {
+    public @NotNull ProductCommand toCommand() {
         RequiredFieldsValidator.validate(name, description);
         ProductName productName = ProductName.from(name);
         ProductDescription productDescription = ProductDescription.from(description);
-        return new ProductCreateCommand(
+        return new ProductCommand(
             productName,
             productDescription,
             new HashSet<>(keywordUuids),

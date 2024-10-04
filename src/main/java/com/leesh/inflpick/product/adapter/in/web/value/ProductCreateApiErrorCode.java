@@ -1,9 +1,9 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
-import com.leesh.inflpick.product.core.exception.InvalidOnlineStoreException;
-import com.leesh.inflpick.product.core.exception.ProductDescriptionValidationFailedException;
-import com.leesh.inflpick.product.core.exception.ProductNameValidationFailedException;
+import com.leesh.inflpick.product.core.domain.exception.InvalidOnlineStoreException;
+import com.leesh.inflpick.product.core.domain.exception.ProductDescriptionValidationFailedException;
+import com.leesh.inflpick.product.core.domain.exception.ProductNameValidationFailedException;
 import org.springframework.http.HttpStatus;
 
 public enum ProductCreateApiErrorCode implements ApiErrorCode {

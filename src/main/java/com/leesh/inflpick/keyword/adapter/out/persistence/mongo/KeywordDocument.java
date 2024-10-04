@@ -5,32 +5,41 @@ import com.leesh.inflpick.keyword.core.domain.KeywordColor;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+
 @Document(collection = "keywords")
-public class KeywordDocument {
+public class KeywordDocument implements Persistable<String> {
 
     @Getter
-    private final String uuid; // 외부에 노출할 고유한 ID
+    @Id
+    private final String id; // 외부에 노출할 고유한 ID
     @TextIndexed
     private final String name;
     private final String color;
-    @Version
-    private final Long version;
+    @CreatedDate
+    private final Instant createdDate;
+    @LastModifiedDate
+    private final Instant lastModifiedDate;
 
     @Builder
-    public KeywordDocument(String uuid, String name, String color, Long version) {
-        this.uuid = uuid;
+    public KeywordDocument(String id, String name, String color, Instant createdDate, Instant lastModifiedDate) {
+        this.id = id;
         this.name = name;
         this.color = color;
-        this.version = version;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public static KeywordDocument from(Keyword keyword) {
         return KeywordDocument.builder()
-                .uuid(keyword.getUuid())
+                .id(keyword.getId())
                 .name(keyword.getName())
                 .color(keyword.getHexColor())
                 .build();
@@ -38,9 +47,14 @@ public class KeywordDocument {
 
     public Keyword toEntity() {
         return Keyword.builder()
-                .uuid(uuid)
+                .id(id)
                 .name(new KeywordName(name))
                 .color(KeywordColor.from(color))
                 .build();
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdDate == null;
     }
 }

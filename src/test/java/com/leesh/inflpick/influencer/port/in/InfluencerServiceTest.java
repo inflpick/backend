@@ -1,11 +1,12 @@
 package com.leesh.inflpick.influencer.port.in;
 
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.influencer.core.service.InfluencerServiceImpl;
+import com.leesh.inflpick.influencer.port.InfluencerCommand;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
-import com.leesh.inflpick.influencer.port.out.StorageService;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.mock.FakeInfluencerRepository;
 import com.leesh.inflpick.mock.FakeKeywordRepository;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 
-import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +32,7 @@ class InfluencerServiceTest {
     void init() {
 
         Influencer testInfluencer1 = Influencer.builder()
-                .uuid("1")
+                .id("1")
                 .name(new InfluencerName("John Doe"))
                 .introduction(new InfluencerIntroduction("An influencer"))
                 .description(new InfluencerDescription("An influencer"))
@@ -44,7 +44,7 @@ class InfluencerServiceTest {
                 .build();
 
         Influencer testInfluencer2 = Influencer.builder()
-                .uuid("2")
+                .id("2")
                 .name(new InfluencerName("Jane Doe"))
                 .introduction(new InfluencerIntroduction("Another influencer"))
                 .description(new InfluencerDescription("Another influencer"))
@@ -65,7 +65,7 @@ class InfluencerServiceTest {
 
         // given
         InfluencerServiceImpl sut = InfluencerServiceImpl.builder()
-                .uuidHolder(new TestUuidHolder("test-uuid"))
+                .uuidHolder(new TestUuidHolder("test-id"))
                 .influencerRepository(repository)
                 .keywordRepository(keywordRepository)
                 .storageService(storageService)
@@ -76,7 +76,7 @@ class InfluencerServiceTest {
         InfluencerDescription description = new InfluencerDescription("An influencer");
         SocialMediaProfileLink twitterLink = new SocialMediaProfileLink(SocialMediaPlatform.X, "http://twitter.com/johndoe");
         SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(Set.of(twitterLink));
-        InfluencerCreateCommand command = new InfluencerCreateCommand(name,
+        InfluencerCommand command = new InfluencerCommand(name,
                 introduction,
                 description,
                 new HashSet<>(List.of("1")),
@@ -85,7 +85,7 @@ class InfluencerServiceTest {
 
         // when
         MockMultipartFile profileImageFile = new MockMultipartFile("profileImage", "test-image.jpg", "image/jpeg", "test-image".getBytes());
-        sut.create(command, profileImageFile);
+        sut.create(command);
 
         // then
         Assertions.assertThat(repository.count()).isEqualTo(count + 1);

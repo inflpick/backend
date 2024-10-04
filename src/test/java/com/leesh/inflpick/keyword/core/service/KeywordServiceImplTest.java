@@ -19,7 +19,7 @@ class KeywordServiceImplTest {
     void setUp() {
         repository = new FakeKeywordRepository();
         sut = KeywordServiceImpl.builder()
-                .uuidHolder(() -> "test-uuid")
+                .uuidHolder(() -> "test-id")
                 .keywordRepository(repository)
                 .build();
     }
