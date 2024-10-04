@@ -6,7 +6,6 @@ import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CursorResponse;
 import com.leesh.inflpick.common.port.CursorPage;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReviewsApiErrorCode;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
@@ -40,7 +39,7 @@ import java.util.List;
 @Tag(name = "리뷰 API", description = "리뷰 API")
 @Builder
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/reviews")
+@RequestMapping(path = "/reviews")
 @RestController
 public class ReviewController {
 

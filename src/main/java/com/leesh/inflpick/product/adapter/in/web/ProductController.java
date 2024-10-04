@@ -46,7 +46,7 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 
 @Tag(name = "제품 API", description = "제품 API 명세서입니다.")
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/products")
+@RequestMapping(path = "/products")
 @RestController
 public class ProductController {
 

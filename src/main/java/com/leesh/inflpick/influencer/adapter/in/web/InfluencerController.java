@@ -44,7 +44,7 @@ import java.util.List;
 @Tag(name = "인플루언서 API", description = "인플루언서 API 명세서입니다.")
 @Builder
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/influencers")
+@RequestMapping(path = "/influencers")
 @RestController
 public class InfluencerController {
 
