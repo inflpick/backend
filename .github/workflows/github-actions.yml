@@ -1,17 +1,23 @@
 name: 'CI/CD'
 
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - prod
-  push:
+    types:
+      - opened # PR이 열렸을 때
+      - synchronize # PR이 업데이트 되었을 때
+      - reopened # PR이 다시 열렸을 때
+  pull_request_review:
     branches:
       - prod
+    types:
+      - submitted # PR 리뷰가 제출되었을 때
 
 jobs:
   integration:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     permissions:
       contents: write
       pull-requests: write
@@ -30,9 +36,8 @@ jobs:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
   deploy:
+    if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' }}
     runs-on: ubuntu-latest
-    needs: integration
-    if: github.event.pull_request.merged == true
     permissions:
       id-token: write # aws-actions/configure-aws-credentials@v4 사용 시 필요
     steps:
