@@ -6,9 +6,9 @@ on:
       - opened # PR이 열렸을 때
       - synchronize # PR이 업데이트 되었을 때
       - reopened # PR이 다시 열렸을 때
-  pull_request_review:
+  pull_request_target:
     types:
-      - submitted # PR 리뷰가 제출되었을 때
+      - closed # PR이 머지되었을 때
 
 jobs:
   run-on-pr:
@@ -24,16 +24,16 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }} # 실제 PR 커밋을 체크아웃 (머지 커밋이 아님)
           fetch-depth: 0 # PR 분석을 위해 전체 기록을 가져옴
-#      - name: 'Qodana Scan' # Qodana 코드 품질 스캔 수행
-#        uses: JetBrains/qodana-action@v2024.1.9
-#        with:
-#          pr-mode: true # PR 모드 활성화
-#        env:
-#          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }} # Qodana 인증 토큰
-#          QODANA_ENDPOINT: 'https://qodana.cloud' # Qodana 엔드포인트
+      - name: 'Qodana Scan' # Qodana 코드 품질 스캔 수행
+        uses: JetBrains/qodana-action@v2024.1.9
+        with:
+          pr-mode: true # PR 모드 활성화
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }} # Qodana 인증 토큰
+          QODANA_ENDPOINT: 'https://qodana.cloud' # Qodana 엔드포인트
 
   run-on-pr-merged:
-    if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'approved' }} # PR 리뷰가 승인된 경우 실행
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }} # PR이 머지된 경우 실행
     runs-on: ubuntu-latest
     permissions:
       id-token: write # AWS 자격 증명 구성을 위해 필요한 권한
