@@ -4,6 +4,6 @@ import java.time.Instant;
 
 public interface InstantHolder {
 
-    public Instant instant();
+    Instant instant();
 
 }

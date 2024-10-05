@@ -32,7 +32,9 @@ public record ProductRequest(
                           @Nullable List<String> keywordUuids,
                           @Nullable List<OnlineStoreLinkRequest> onlineStoreLinks) {
         RequiredFieldsValidator.validate(name, description);
+        assert name != null;
         this.name = name.strip();
+        assert description != null;
         this.description = description.strip();
         this.keywordUuids = keywordUuids == null ? List.of() : keywordUuids.stream().map(String::strip).toList();
         this.onlineStoreLinks = onlineStoreLinks == null ? List.of() : onlineStoreLinks.stream()

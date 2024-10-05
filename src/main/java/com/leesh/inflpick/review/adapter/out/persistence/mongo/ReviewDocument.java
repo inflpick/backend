@@ -77,7 +77,9 @@ public class ReviewDocument implements Persistable<String> {
                 .reviewer(reviewer)
                 .product(product)
                 .source(source)
+                .createdBy(createdBy)
                 .createdDate(createdDate)
+                .lastModifiedBy(lastModifiedBy)
                 .lastModifiedDate(lastModifiedDate)
                 .build();
     }

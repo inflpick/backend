@@ -50,6 +50,8 @@ public class KeywordDocument implements Persistable<String> {
                 .id(id)
                 .name(new KeywordName(name))
                 .color(KeywordColor.from(color))
+                .createdDate(createdDate)
+                .lastModifiedDate(lastModifiedDate)
                 .build();
     }
 

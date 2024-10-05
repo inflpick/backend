@@ -17,7 +17,11 @@ public class Review {
     private final Product product;
     private final ReviewSource source;
     @Getter
+    private final String createdBy;
+    @Getter
     private final Instant createdDate;
+    @Getter
+    private final String lastModifiedBy;
     @Getter
     private final Instant lastModifiedDate;
 
@@ -25,14 +29,16 @@ public class Review {
     public Review(String id,
                   Influencer reviewer,
                   Product product,
-                  ReviewSource source,
-                  Instant createdDate,
+                  ReviewSource source, String createdBy,
+                  Instant createdDate, String lastModifiedBy,
                   Instant lastModifiedDate) {
         this.id = id;
         this.reviewer = reviewer;
         this.product = product;
         this.source = source;
+        this.createdBy = createdBy;
         this.createdDate = createdDate;
+        this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
     }
 
