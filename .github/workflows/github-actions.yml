@@ -6,9 +6,6 @@ on:
       - opened # PR이 열렸을 때
       - synchronize # PR이 업데이트 되었을 때
       - reopened # PR이 다시 열렸을 때
-  pull_request_review:
-    types:
-      - submitted # PR 리뷰가 제출되었을 때
 
 jobs:
   integration:
@@ -32,7 +29,7 @@ jobs:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
   deploy:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       id-token: write # aws-actions/configure-aws-credentials@v4 사용 시 필요
