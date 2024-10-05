@@ -25,7 +25,11 @@ public class Influencer {
     @Getter
     private Keywords keywords;
     @Getter
+    private final String createdBy;
+    @Getter
     private final Instant createdDate;
+    @Getter
+    private final String lastModifiedBy;
     @Getter
     private final Instant lastModifiedDate;
 
@@ -36,8 +40,8 @@ public class Influencer {
                       InfluencerIntroduction introduction,
                       ProfileImage profileImage,
                       SocialMediaProfileLinks socialMediaProfileLinks,
-                      Keywords keywords,
-                      Instant createdDate,
+                      Keywords keywords, String createdBy,
+                      Instant createdDate, String lastModifiedBy,
                       Instant lastModifiedDate) {
         this.id = id;
         this.name = name;
@@ -46,7 +50,9 @@ public class Influencer {
         this.profileImage = profileImage == null ? ProfileImage.EMPTY : profileImage;
         this.socialMediaProfileLinks = socialMediaProfileLinks;
         this.keywords = keywords == null ? Keywords.EMPTY : keywords;
+        this.createdBy = createdBy;
         this.createdDate = createdDate;
+        this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
     }
 

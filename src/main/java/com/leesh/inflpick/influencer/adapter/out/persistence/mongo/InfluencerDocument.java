@@ -87,7 +87,9 @@ public class InfluencerDocument implements Persistable<String> {
                 .profileImage(ProfileImage.from(profileImagePath))
                 .keywords(keywords)
                 .socialMediaProfileLinks(SocialMediaProfileLinks.from(socialMediaProfileLinks))
+                .createdBy(createdBy)
                 .createdDate(createdDate)
+                .lastModifiedBy(lastModifiedBy)
                 .lastModifiedDate(lastModifiedDate)
                 .build();
     }

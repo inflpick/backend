@@ -24,7 +24,11 @@ public class Product {
     @Getter
     private Keywords keywords;
     @Getter
+    private final String createdBy;
+    @Getter
     private final Instant createdDate;
+    @Getter
+    private final String lastModifiedBy;
     @Getter
     private final Instant lastModifiedDate;
 
@@ -34,8 +38,8 @@ public class Product {
                    ProductDescription description,
                    ProductImage productImage,
                    OnlineStoreLinks onlineStoreLinks,
-                   Keywords keywords,
-                   Instant createdDate,
+                   Keywords keywords, String createdBy,
+                   Instant createdDate, String lastModifiedBy,
                    Instant lastModifiedDate) {
         this.id = id;
         this.name = name;
@@ -43,7 +47,9 @@ public class Product {
         this.productImage = productImage == null ? ProductImage.empty() : productImage;
         this.onlineStoreLinks = onlineStoreLinks;
         this.keywords = keywords == null ? Keywords.EMPTY : keywords;
+        this.createdBy = createdBy;
         this.createdDate = createdDate;
+        this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
     }
 

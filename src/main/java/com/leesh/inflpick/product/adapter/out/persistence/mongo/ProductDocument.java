@@ -83,7 +83,9 @@ public class ProductDocument implements Persistable<String> {
                 .productImage(ProductImage.from(productImagePath))
                 .keywords(keywords)
                 .onlineStoreLinks(OnlineStoreLinks.from(onlineStoreLinks))
+                .createdBy(createdBy)
                 .createdDate(createdDate)
+                .lastModifiedBy(lastModifiedBy)
                 .lastModifiedDate(lastModifiedDate)
                 .build();
     }
