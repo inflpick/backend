@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - 'prod'
+      - prod
   push:
     branches:
-      - 'prod'
+      - prod
 
 jobs:
   integration:
