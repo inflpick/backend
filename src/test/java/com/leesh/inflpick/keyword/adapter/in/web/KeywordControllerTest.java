@@ -1,11 +1,8 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
-import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
-import com.leesh.inflpick.mock.TestInstantHolder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.Instant;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
