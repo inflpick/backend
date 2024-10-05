@@ -17,7 +17,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springdoc.core.customizers.OperationCustomizer;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -35,7 +34,12 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         List<Server> currentProfileServer = getCurrentProfileServers();
-        return new OpenAPI().servers(currentProfileServer);
+        return new OpenAPI()
+                .info(new Info()
+                        .title("인플픽 API 명세서")
+                        .description("인플픽 API 명세서입니다.")
+                        .version("1.0"))
+                .servers(currentProfileServer);
     }
 
     private @NotNull List<Server> getCurrentProfileServers() {
@@ -148,31 +152,6 @@ public class SwaggerConfig {
         private Example holder;
         private String name;
         private int code;
-    }
-
-    @Bean
-    public GroupedOpenApi serviceApi() {
-        return GroupedOpenApi.builder()
-                .group("서비스")
-                .pathsToMatch("/**")
-                .pathsToExclude("/admin/**")
-                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
-                        .title("Service APIs")
-                        .description("서비스 API 명세서입니다.")))
-                .addOperationCustomizer(customize())
-                .build();
-    }
-
-    @Bean
-    public GroupedOpenApi adminApi() {
-        return GroupedOpenApi.builder()
-                .group("관리자")
-                .pathsToMatch("/admin/**")
-                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
-                        .title("Admin APIs")
-                        .description("관리자 API 명세서입니다. 추후 로그인 및 권한 관련 API가 추가될 예정입니다.")))
-                .addOperationCustomizer(customize())
-                .build();
     }
 
 }
