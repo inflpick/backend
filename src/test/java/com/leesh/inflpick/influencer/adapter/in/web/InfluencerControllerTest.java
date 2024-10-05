@@ -5,13 +5,11 @@ import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.out.persistence.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.*;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateCommand;
-import com.leesh.inflpick.influencer.port.in.InfluencerCreateService;
-import com.leesh.inflpick.influencer.port.in.InfluencerReadService;
+import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
+import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.mock.TestInstantHolder;
 import com.leesh.inflpick.mock.TestUuidHolder;
 import org.junit.jupiter.api.DisplayName;
@@ -46,9 +44,9 @@ class InfluencerControllerTest {
     private MockMvc mockMvc;
     private final UuidHolder uuidHolder = new TestUuidHolder("test-uuid");
     @MockBean
-    private InfluencerCreateService createService;
+    private InfluencerCommandService commandService;
     @MockBean
-    private InfluencerReadService readService;
+    private InfluencerQueryService readService;
 
     @DisplayName("인플루언서 생성 API 요청 시, 정상 입력 값을 입력하면, 201 Created 상태코드와 생성된 리소스 URI를 반환한다.")
     @ParameterizedTest
@@ -69,7 +67,7 @@ class InfluencerControllerTest {
                 jsonRequest.getBytes());
 
         // when & then
-        Mockito.when(createService.create(
+        Mockito.when(commandService.create(
                         Mockito.any(InfluencerCreateCommand.class),
                         Mockito.any(MultipartFile.class)))
                 .thenReturn(uuidHolder.uuid());
@@ -92,7 +90,7 @@ class InfluencerControllerTest {
         return Stream.of(
         """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "keywords": [],
@@ -102,7 +100,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -111,7 +109,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -121,7 +119,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -139,7 +137,7 @@ class InfluencerControllerTest {
         // given
         String jsonRequest = """
                 {
-                    "name": "test-name",
+                    "imagePath": "test-imagePath",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -215,7 +213,7 @@ class InfluencerControllerTest {
                         """,
                         """
                         {
-                            "name": "test-name",
+                            "imagePath": "test-imagePath",
                             "description": "test-description",
                             "profileImageUri": "http://test.com",
                             "socialMediaProfileLinks": []
@@ -223,7 +221,7 @@ class InfluencerControllerTest {
                         """,
                         """
                         {
-                            "name": "test-name",
+                            "imagePath": "test-imagePath",
                             "introduction": "test-introduction",
                             "profileImageUri": "http://test.com",
                             "socialMediaProfileLinks": []
@@ -242,7 +240,7 @@ class InfluencerControllerTest {
         // when & then
         Influencer influencer = Influencer.builder()
                 .uuid(uuid)
-                .name(InfluencerName.from("test-name"))
+                .name(InfluencerName.from("test-imagePath"))
                 .introduction(InfluencerIntroduction.from("test-introduction"))
                 .description(InfluencerDescription.from("test-description"))
                 .keywords(Keywords.EMPTY)
@@ -263,7 +261,7 @@ class InfluencerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.uuid").value(uuid))
-                .andExpect(jsonPath("$.name").value("test-name"))
+                .andExpect(jsonPath("$.name").value("test-imagePath"))
                 .andExpect(jsonPath("$.introduction").value("test-introduction"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andExpect(jsonPath("$.socialMediaProfileLinks[0].platform").value("INSTAGRAM"))

@@ -4,7 +4,6 @@ import com.leesh.inflpick.influencer.core.domain.value.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.net.URISyntaxException;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +30,6 @@ class InfluencerTest {
         assertEquals("123", influencer.getId());
         assertEquals("John Doe", influencer.getName());
         assertEquals("An influencer", influencer.getDescription());
-        assertEquals("http://example.com/profile1.jpg", influencer.getProfileImage());
     }
 
     @Test
@@ -79,7 +77,7 @@ class InfluencerTest {
 
     @Test
     @DisplayName("다른 ID로 생성된 두 인플루언서는 다름")
-    void influencersWithDifferentIdAreNotEqual() throws URISyntaxException {
+    void influencersWithDifferentIdAreNotEqual() {
         // given
         Influencer influencer1 = Influencer.builder()
                 .id("123")

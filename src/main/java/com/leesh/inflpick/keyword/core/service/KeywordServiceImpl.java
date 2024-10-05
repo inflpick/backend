@@ -2,7 +2,6 @@ package com.leesh.inflpick.keyword.core.service;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
-import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.DuplicateKeywordNameException;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
@@ -29,7 +28,7 @@ public class KeywordServiceImpl implements KeywordCreateService, KeywordReadServ
     public String create(KeywordCreateCommand command) {
         keywordRepository.findByName(command.name())
                 .ifPresent(keyword -> {
-                    throw new DuplicateKeywordNameException("name", command.name().name(), "Keyword");
+                    throw new DuplicateKeywordNameException("imagePath", command.name().name(), "Keyword");
                 });
         Keyword entity = command.toEntity(uuidHolder);
         keywordRepository.save(entity);

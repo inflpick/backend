@@ -1,8 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
@@ -28,7 +26,7 @@ import java.util.List;
 @Tag(name = "키워드 API", description = "키워드 API 명세서입니다.")
 @Builder
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/keywords")
+@RequestMapping(path = "/keywords")
 @RestController
 public class KeywordController {
 

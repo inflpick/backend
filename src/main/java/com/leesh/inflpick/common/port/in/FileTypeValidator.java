@@ -4,9 +4,6 @@ import com.leesh.inflpick.common.port.in.exception.NotImageTypeException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Set;
 
 public class FileTypeValidator {
@@ -54,9 +51,9 @@ public class FileTypeValidator {
     }
 
     /**
-     * Get the file extension from a file name.
+     * Get the file extension from a file imagePath.
      *
-     * @param fileName the original file name
+     * @param fileName the original file imagePath
      * @return the file extension (without the dot) or null if not found
      */
     private static String getFileExtension(String fileName) {
@@ -64,18 +61,5 @@ public class FileTypeValidator {
             return null;
         }
         return fileName.substring(fileName.lastIndexOf('.') + 1);
-    }
-
-    /**
-     * Optional: Verify the file's magic number to prevent MIME type spoofing.
-     * This method uses the file's "magic numbers" to confirm it's a valid image.
-     *
-     * @param filePath the path to the file
-     * @return true if the file matches a known image type by its magic number, false otherwise
-     * @throws IOException if the file cannot be read
-     */
-    public static boolean isImageFileByMagicNumber(Path filePath) throws IOException {
-        String mimeType = Files.probeContentType(filePath);
-        return mimeType != null && IMAGE_MIME_TYPES.contains(mimeType);
     }
 }

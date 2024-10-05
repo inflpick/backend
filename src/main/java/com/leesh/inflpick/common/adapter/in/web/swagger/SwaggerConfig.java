@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
 
 import java.time.Instant;
@@ -27,20 +29,39 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SwaggerConfig {
 
+    private final Environment environment;
+
     @Bean
     public OpenAPI customOpenAPI() {
+
+        List<Server> currentProfileServer = getCurrentProfileServers();
         return new OpenAPI()
             .info(new Info()
                 .title("인플픽 API Docs")
                 .description("인플픽 API 명세서입니다.")
                 .version("2024.1.0"))
-            .servers(
-                List.of(
-                    new io.swagger.v3.oas.models.servers.Server().url("http://localhost:8080").description("local"),
-                    new io.swagger.v3.oas.models.servers.Server().url("https://api.inflpick.com").description("prod")
-                )
-            )
+            .servers(currentProfileServer)
             ;
+    }
+
+    private @NotNull List<Server> getCurrentProfileServers() {
+        String[] activeProfiles = environment.getActiveProfiles();
+        Server localServer = new Server().url("http://localhost:8080")
+                .description("local");
+        Server prodServer = new Server()
+                .url("https://api.inflpick.com")
+                .description("prod");
+
+        List<Server> currentProfileServer = new ArrayList<>();
+        for (String activeProfile : activeProfiles) {
+            if (activeProfile.equals("local")) {
+                currentProfileServer.add(localServer);
+            } else if (activeProfile.equals("prod")) {
+                currentProfileServer.add(localServer);
+                currentProfileServer.add(prodServer);
+            }
+        }
+        return currentProfileServer;
     }
 
     @Bean

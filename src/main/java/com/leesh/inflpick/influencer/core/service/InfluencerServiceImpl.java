@@ -7,7 +7,6 @@ import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;
-import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
@@ -21,9 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -81,8 +80,9 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     public void updateProfileImage(String id, MultipartFile profileImage) {
         Influencer influencer = influencerRepository.getById(id);
         Path basePath = influencer.getProfileImageBasePath();
-        String uploadPath = storageService.upload(profileImage, basePath);
-        influencer.registerProfileImagePath(uploadPath);
+        URL uploadUrl = storageService.upload(profileImage, basePath);
+        String profileImagePath = uploadUrl.getPath();
+        influencer.updateProfileImagePath(profileImagePath);
         influencerRepository.save(influencer);
     }
 }

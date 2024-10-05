@@ -38,7 +38,6 @@ class InfluencerCommandTest {
         assertThat(influencer.getId()).isEqualTo(uuid);
         assertThat(influencer.getName()).isEqualTo(name.name());
         assertThat(influencer.getDescription()).isEqualTo(description.description());
-        assertThat(influencer.getProfileImage()).isEmpty();
         assertThat(influencer.getSocialMediaProfileLinks()).isEqualTo(socialMediaProfileLinks);
         assertThat(influencer.getSocialMediaProfileLinks().hasSocialMedia(SocialMediaPlatform.X)).isTrue();
         assertThat(influencer.getSocialMediaProfileLinks().getSocialMediaLink(SocialMediaPlatform.X)).isEqualTo(twitterLink);

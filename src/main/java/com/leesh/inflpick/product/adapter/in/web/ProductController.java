@@ -8,6 +8,7 @@ import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
+import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerGetListsApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerProfileImageUpdateApiErrorCode;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductCreateApiErrorCode;
@@ -46,12 +47,13 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 
 @Tag(name = "제품 API", description = "제품 API 명세서입니다.")
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/products")
+@RequestMapping(path = "/products")
 @RestController
 public class ProductController {
 
     private final ProductCommandService commandService;
     private final ProductQueryService queryService;
+    private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/products")
     @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
@@ -88,7 +90,12 @@ public class ProductController {
                                                 @Parameter(description = "제품 ID", required = true)
                                                 String id) {
         Product product = queryService.getById(id);
-        return ResponseEntity.ok(ProductResponse.from(product));
+        String productImagePath = product.getProductImagePath();
+        String productImageUrl = storageService.getUrlString(productImagePath);
+        return ResponseEntity.ok(ProductResponse.from(
+                product,
+                productImageUrl
+        ));
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/products?page={page}&size={size}&sort={sortType,sortDirection}")
@@ -100,7 +107,7 @@ public class ProductController {
                                                                        @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [name | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [imagePath | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
                                                                        @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 
@@ -117,7 +124,11 @@ public class ProductController {
         PageDetails<Collection<Product>> productPage = queryService.getPage(pageQuery);
         Collection<ProductResponse> productResponses = productPage.content()
                 .stream()
-                .map(ProductResponse::from)
+                .map(product -> {
+                    String productImagePath = product.getProductImagePath();
+                    String productImageUrl = storageService.getUrlString(productImagePath);
+                    return ProductResponse.from(product, productImageUrl);
+                })
                 .toList();
         PageResponse<ProductResponse> pageResponse = new PageResponse<>(
                 productResponses.toArray(ProductResponse[]::new),
@@ -160,7 +171,7 @@ public class ProductController {
                                                    @PathVariable(value = "id")
                                                    String id,
                                                    @Parameter(description = "제품 이미지 파일", content = @Content(mediaType = MediaType.IMAGE_JPEG_VALUE, schema = @Schema(type = "string", format = "binary")))
-                                                   @RequestPart(value = "productImage", required = true)
+                                                   @RequestPart(value = "productImage")
                                                    MultipartFile productImage) {
         FileTypeValidator.validateImageFile(productImage);
         commandService.updateProductImage(id, productImage);
