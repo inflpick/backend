@@ -1,7 +1,6 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
-import com.leesh.inflpick.influencer.core.domain.exception.InvalidInfluencerSortTypeException;
 import com.leesh.inflpick.product.core.domain.exception.InvalidProductSortTypeException;
 import org.springframework.http.HttpStatus;
 
