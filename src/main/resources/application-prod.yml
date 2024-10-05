@@ -4,8 +4,8 @@ spring:
       uri: ENC(itRW/kbSl2zOGsmE86hBYUG+Kw8LA56tIyxH3pDfa0Na+rB37pdpE1u2iE2rVVdgIwpbc0YOAEWPVx8z4W1NW8aAP6ol194aUVL2gPWRpaTdcPOj7V9atPjWRC5KcRGD4aeAJETXjIswGUSqyew2e9s6uUSfpHlWoxMex1e9bus=)
 logging:
   level: # 적용할 곳과 레벨을 지정합니다.
-    root: info
-    com.leesh: info
+    root: error
+    com.leesh: warn
 jasypt:
   encryptor:
     password: ${JASYPT_PASSWORD} # 암호화 키를 지정합니다.
