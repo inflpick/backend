@@ -82,9 +82,6 @@ class KeywordControllerTest {
 
         // given
         String apiPath = "/keywords";
-        Instant now = Instant.now();
-        InstantHolder instantHolder = new TestInstantHolder(now);
-        KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.KEYWORD_NAME_VALIDATE_FAILED;
 
         // when & then
         mockMvc.perform(post(apiPath)
