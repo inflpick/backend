@@ -24,7 +24,7 @@ public enum CommonApiErrorCode implements ApiErrorCode {
     INVALID_PAGE_SIZE_VALUE("C_O_0012", HttpStatus.BAD_REQUEST, "유효한 페이지 크기를 입력해주세요", InvalidPageSizeException.ERROR_MESSAGE_FORMAT.toPattern(), "페이지 크기가 올바르지 않은 경우에 발생합니다."),
     INVALID_SORT_DIRECTION("C_O_0013", HttpStatus.BAD_REQUEST, "유효한 정렬 방향을 입력해주세요.", InvalidDirectionException.ERROR_MESSAGE_FORMAT.toPattern(), "정렬 방향이 올바르지 않은 경우에 발생합니다."),
     INVALID_SORT_PARAMETER("C_O_0014", HttpStatus.BAD_REQUEST, "유효한 정렬 파라미터를 입력해주세요.", InvalidSortParameterException.ERROR_MESSAGE_FORMAT, "정렬 파라미터가 올바르지 않은 경우에 발생합니다."),
-    NOT_FOUND_API_URL("C_O_0015", HttpStatus.NOT_FOUND, "API URL을 찾을 수 없어요.", "API URL을 확인 후 다시 시도해주세요.", "존재하지 않는 API URL을 호출하는 경우에 발생합니다."),
+    NOT_FOUND_API_URL("C_O_0015", HttpStatus.NOT_FOUND, "잘못된 API URL 이에요.", "API URL을 확인 후 다시 시도해주세요.", "존재하지 않는 API URL을 호출하는 경우에 발생합니다."),
     ;
 
     CommonApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {

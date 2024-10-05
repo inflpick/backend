@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springdoc.core.customizers.OperationCustomizer;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -33,18 +34,12 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-
         List<Server> currentProfileServer = getCurrentProfileServers();
-        return new OpenAPI()
-            .info(new Info()
-                .title("인플픽 API Docs")
-                .description("인플픽 API 명세서입니다.")
-                .version("2024.1.0"))
-            .servers(currentProfileServer)
-            ;
+        return new OpenAPI().servers(currentProfileServer);
     }
 
     private @NotNull List<Server> getCurrentProfileServers() {
+
         String[] activeProfiles = environment.getActiveProfiles();
         Server localServer = new Server().url("http://localhost:8080")
                 .description("local");
@@ -57,14 +52,12 @@ public class SwaggerConfig {
             if (activeProfile.equals("local")) {
                 currentProfileServer.add(localServer);
             } else if (activeProfile.equals("prod")) {
-                currentProfileServer.add(localServer);
                 currentProfileServer.add(prodServer);
             }
         }
         return currentProfileServer;
     }
 
-    @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
 
@@ -155,6 +148,31 @@ public class SwaggerConfig {
         private Example holder;
         private String name;
         private int code;
+    }
+
+    @Bean
+    public GroupedOpenApi serviceApi() {
+        return GroupedOpenApi.builder()
+                .group("서비스")
+                .pathsToMatch("/**")
+                .pathsToExclude("/admin/**")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
+                        .title("Service APIs")
+                        .description("서비스 API 명세서입니다.")))
+                .addOperationCustomizer(customize())
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi adminApi() {
+        return GroupedOpenApi.builder()
+                .group("관리자")
+                .pathsToMatch("/admin/**")
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
+                        .title("Admin APIs")
+                        .description("관리자 API 명세서입니다. 추후 로그인 및 권한 관련 API가 추가될 예정입니다.")))
+                .addOperationCustomizer(customize())
+                .build();
     }
 
 }

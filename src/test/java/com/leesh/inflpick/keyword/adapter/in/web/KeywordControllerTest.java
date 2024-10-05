@@ -1,12 +1,8 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
-import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
-import com.leesh.inflpick.mock.TestInstantHolder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.Instant;
 import java.util.stream.Stream;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,7 +38,7 @@ class KeywordControllerTest {
     void create(String jsonRequest) throws Exception {
 
         // given
-        String apiPath = "/api/keywords";
+        String apiPath = "/keywords";
         String uriString = UriComponentsBuilder.fromHttpUrl("http://localhost").path(apiPath).toUriString();
 
         // when & then
@@ -83,11 +77,7 @@ class KeywordControllerTest {
     void createFailsWhenNameIsEmpty(String jsonRequest) throws Exception {
 
         // given
-        String apiPath = "/api/keywords";
-        Instant now = Instant.now();
-        InstantHolder instantHolder = new TestInstantHolder(now);
-        KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.KEYWORD_NAME_VALIDATE_FAILED;
-        ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
+        String apiPath = "/keywords";
 
         // when & then
         mockMvc.perform(post(apiPath)

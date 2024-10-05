@@ -3,7 +3,9 @@ package com.leesh.inflpick.influencer.core.domain;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public record SocialMediaProfileLinks(Set<SocialMediaProfileLink> links) {
 

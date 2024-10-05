@@ -4,7 +4,6 @@ import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.influencer.port.InfluencerPageQuery;
 import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
@@ -52,16 +51,6 @@ public class FakeInfluencerRepository implements InfluencerRepository {
     @Override
     public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
         return null;
-    }
-
-    @Override
-    public PageDetails<List<Influencer>> getPage(InfluencerPageQuery query) {
-        return null;
-    }
-
-    @Override
-    public void deleteAll() {
-
     }
 
 }
