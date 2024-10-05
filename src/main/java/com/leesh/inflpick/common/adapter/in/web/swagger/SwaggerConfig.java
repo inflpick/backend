@@ -58,7 +58,6 @@ public class SwaggerConfig {
         return currentProfileServer;
     }
 
-    @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
 
@@ -160,6 +159,7 @@ public class SwaggerConfig {
                 .addOpenApiCustomizer(openApi -> openApi.info(new Info()
                         .title("Service APIs")
                         .description("서비스 API 명세서입니다.")))
+                .addOperationCustomizer(customize())
                 .build();
     }
 
@@ -171,6 +171,7 @@ public class SwaggerConfig {
                 .addOpenApiCustomizer(openApi -> openApi.info(new Info()
                         .title("Admin APIs")
                         .description("관리자 API 명세서입니다. 추후 로그인 및 권한 관련 API가 추가될 예정입니다.")))
+                .addOperationCustomizer(customize())
                 .build();
     }
 

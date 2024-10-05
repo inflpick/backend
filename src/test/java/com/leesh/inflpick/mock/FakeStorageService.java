@@ -3,11 +3,13 @@ package com.leesh.inflpick.mock;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.nio.file.Path;
 
+@Service
 public class FakeStorageService implements StorageService {
 
     @Override

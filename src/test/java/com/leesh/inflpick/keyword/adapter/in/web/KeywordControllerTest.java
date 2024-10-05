@@ -1,6 +1,5 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.out.time.InstantHolder;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -44,7 +42,7 @@ class KeywordControllerTest {
     void create(String jsonRequest) throws Exception {
 
         // given
-        String apiPath = "/api/keywords";
+        String apiPath = "/keywords";
         String uriString = UriComponentsBuilder.fromHttpUrl("http://localhost").path(apiPath).toUriString();
 
         // when & then
@@ -83,11 +81,10 @@ class KeywordControllerTest {
     void createFailsWhenNameIsEmpty(String jsonRequest) throws Exception {
 
         // given
-        String apiPath = "/api/keywords";
+        String apiPath = "/keywords";
         Instant now = Instant.now();
         InstantHolder instantHolder = new TestInstantHolder(now);
         KeywordCreateApiErrorCode apiErrorCode = KeywordCreateApiErrorCode.KEYWORD_NAME_VALIDATE_FAILED;
-        ApiErrorResponse apiErrorResponse = ApiErrorResponse.of(instantHolder, apiErrorCode, HttpMethod.POST.name(), apiPath);
 
         // when & then
         mockMvc.perform(post(apiPath)

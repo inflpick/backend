@@ -52,7 +52,7 @@ public class ReviewController {
     private final ReviewQueryService reviewQueryService;
     private final StorageService storageService;
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class, ProductReadApiErrorCode.class})
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/reviews")
     @Operation(summary = "리뷰 페이지 조회 (Cursor 방식)", description = "리뷰 조회")
     @GetMapping
     public ResponseEntity<CursorResponse<ReviewResponse>> getCursorPage(
@@ -88,7 +88,7 @@ public class ReviewController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {ReviewCreateApiErrorCode.class, ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/reviews")
+    @ApiErrorCodeSwaggerDocs(values = {ReviewCreateApiErrorCode.class, ProductReadApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "POST", apiPath = "/reviews")
     @Operation(summary = "리뷰 생성하기", description = "제품 리뷰 생성 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리뷰의 URI", schema = @Schema(type = "string"))),

@@ -55,13 +55,13 @@ public class InfluencerController {
     private final ReviewQueryService reviewQueryService;
     private final StorageService storageService;
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/api/influencers")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/influencers")
     @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true)
                                        @RequestBody
                                        InfluencerRequest request) {
@@ -73,12 +73,11 @@ public class InfluencerController {
                 .buildAndExpand(id)
                 .toUri();
         return ResponseEntity.created(location)
-                .header(HttpHeaders.ACCEPT, MediaType.MULTIPART_FORM_DATA_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/influencers/{id}")
     @Operation(summary = "인플루언서 단건 조회", description = "인플루언서를 단건 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
@@ -95,7 +94,7 @@ public class InfluencerController {
         ));
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/api/influencers?page={page}&size={size}&sort={sortType,sortDirection}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/influencers?page={page}&size={size}&sort={sortType,sortDirection}")
     @Operation(summary = "인플루언서 목록 조회", description = "인플루언서 목록을 조회합니다.")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PageResponse<InfluencerResponse>> list(@Parameter(description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class))
@@ -140,7 +139,7 @@ public class InfluencerController {
                 .toList();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/api/influencers/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/influencers/{id}")
     @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
@@ -174,7 +173,7 @@ public class InfluencerController {
                 .build();
     }
 
-    @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/api/influencers/{id}/profile-image")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/influencers/{id}/profile-image")
     @Operation(summary = "인플루언서 프로필 이미지 수정", description = "인플루언서의 프로필 이미지를 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),

@@ -1,6 +1,8 @@
 package com.leesh.inflpick.common.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CommonController {
 
-//    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class}, httpMethod = "*", apiPath = "/api/**")
+    @ApiErrorCodeSwaggerDocs(values = {CommonApiErrorCode.class}, httpMethod = "*", apiPath = "/api/**")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
