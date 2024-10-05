@@ -6,9 +6,7 @@ on:
       - opened # PR이 열렸을 때
       - synchronize # PR이 업데이트 되었을 때
       - reopened # PR이 다시 열렸을 때
-  pull_request_target:
-    types:
-      - closed # PR이 머지되었을 때
+      - closed # PR이 닫혔을 때
 
 jobs:
   run-on-pr:
@@ -33,7 +31,7 @@ jobs:
 #          QODANA_ENDPOINT: 'https://qodana.cloud' # Qodana 엔드포인트
 
   run-on-pr-merged:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }} # PR이 머지된 경우 실행
+    if: github.event.pull_request.merged == true # PR이 머지되었을 때 실행
     runs-on: ubuntu-latest
     permissions:
       id-token: write # AWS 자격 증명 구성을 위해 필요한 권한
