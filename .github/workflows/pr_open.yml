@@ -1,0 +1,28 @@
+name: '코드 품질 분석'
+
+on:
+  pull_request:
+    types:
+      - opened # PR이 열렸을 때
+      - synchronize # PR이 업데이트 되었을 때
+      - reopened # PR이 다시 열렸을 때
+jobs:
+  run-on-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - name: 'Git checkout'
+        uses: actions/checkout@v4.2.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
+          fetch-depth: 0  # a full history is required for pull request analysis
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2024.1.9
+        with:
+          pr-mode: true
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1109214742 }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
