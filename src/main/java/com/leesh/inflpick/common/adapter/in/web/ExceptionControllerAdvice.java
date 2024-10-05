@@ -44,7 +44,7 @@ import java.util.Optional;
 @Slf4j
 @Order()
 @RestControllerAdvice
-public class CommonExceptionControllerAdvice {
+public class ExceptionControllerAdvice {
 
     public static ResponseEntity<ApiErrorResponse> createResponseEntityFromApiErrorCode(HttpServletRequest request, ApiErrorCode apiErrorCode) {
         ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
