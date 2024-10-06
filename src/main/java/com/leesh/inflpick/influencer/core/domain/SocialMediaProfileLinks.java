@@ -21,7 +21,7 @@ public record SocialMediaProfileLinks(Set<SocialMediaProfileLink> links) {
         return links.stream()
                 .filter(link -> link.platform().equals(socialMediaPlatform))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("uri not found: " + socialMediaPlatform));
+                .orElseThrow(() -> new IllegalArgumentException("url not found: " + socialMediaPlatform));
     }
 
     public Boolean hasSocialMedia(SocialMediaPlatform socialMediaPlatform) {
