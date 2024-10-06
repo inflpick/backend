@@ -227,7 +227,7 @@ class InfluencerControllerTest {
                 .andExpect(jsonPath("$.introduction").value("test-introduction"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andExpect(jsonPath("$.socialMediaProfileLinks[0].platform").value("INSTAGRAM"))
-                .andExpect(jsonPath("$.socialMediaProfileLinks[0].uri").value("http://instagram.com/test"))
+                .andExpect(jsonPath("$.socialMediaProfileLinks[0].url").value("http://instagram.com/test"))
                 .andExpect(jsonPath("$.profileImageUrl").value(profileImageUrl))
                 .andExpect(jsonPath("$.keywords").isEmpty())
                 .andDo(print());
