@@ -7,8 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record SocialMediaProfileLinkResponse(
         @Schema(description = "플랫폼 이름", example = "INSTAGRAM", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String platform,
-        @Schema(description = "소셜 미디어 프로필 URI (URI 형식의 문자열)", example = "https://instagram.com/jimjongkook", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-        String uri) {
+        @Schema(description = "소셜 미디어 프로필 URL (URL 형식의 문자열)", example = "https://instagram.com/jimjongkook", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+        String url) {
     public static SocialMediaProfileLinkResponse from(SocialMediaProfileLink socialMediaProfileLink) {
         return new SocialMediaProfileLinkResponse(
                 socialMediaProfileLink.getPlatformName(),

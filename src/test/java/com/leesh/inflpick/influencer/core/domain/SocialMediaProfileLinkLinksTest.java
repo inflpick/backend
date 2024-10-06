@@ -41,13 +41,11 @@ class SocialMediaProfileLinkLinksTest {
 
     @Test
     @DisplayName("존재하지 않는 소셜 미디어 플랫폼으로 SocialMediaLink 가져오기 시 예외가 발생해야 한다.")
-    void getSocialMediaLinkByNonExistentPlatformThrowsException() throws URISyntaxException {
+    void getSocialMediaLinkByNonExistentPlatformThrowsException() {
         SocialMediaProfileLink facebookLink = new SocialMediaProfileLink(SocialMediaPlatform.FACEBOOK, "https://www.facebook.com");
         SocialMediaProfileLinks socialMediaProfileLinks = new SocialMediaProfileLinks(Set.of(facebookLink));
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            socialMediaProfileLinks.getSocialMediaLink(SocialMediaPlatform.X);
-        });
-        assertEquals("uri not found: X", exception.getMessage());
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> socialMediaProfileLinks.getSocialMediaLink(SocialMediaPlatform.X));
+        assertEquals("url not found: X", exception.getMessage());
     }
 
     @Test
