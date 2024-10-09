@@ -43,7 +43,7 @@ custom:
       host: '' # 파일 저장 호스트를 지정합니다.'
       base-path: /Users/leesh/Downloads/inflpick/api-server/data # 파일 저장 경로를 지정합니다.
   cors:
-    allowed-origins: '*'
+    allowed-origin-patterns: '*'
     allowed-methods: GET, POST, PUT, DELETE, OPTIONS
     allow-credentials: true
     allowed-headers: Authorization, Content-Type, X-Requested-With, X-XSRF-TOKEN, MultiPartFile
