@@ -23,7 +23,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(corsProperties.allowedOrigins()));
+        config.setAllowedOriginPatterns(List.of(corsProperties.allowedOriginPatterns()));
         config.setAllowedMethods(Arrays.asList(corsProperties.allowedMethods().split(",")));
         config.setAllowedHeaders(List.of(corsProperties.allowedHeaders()));
         config.setAllowCredentials(corsProperties.allowCredentials());
