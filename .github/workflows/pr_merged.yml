@@ -50,3 +50,73 @@ jobs:
             --application-name ${{ secrets.AWS_CODEDEPLOY_APPLICATION_NAME }} \
             --deployment-group-name ${{ secrets.AWS_CODEDEPLOY_DEPLOYMENT_GROUP_NAME }} \
             --s3-location bucket=${{ secrets.AWS_S3_BUCKET_NAME }},key=deploy.zip,bundleType=zip
+      # 성공 시 Discord 알림
+      - name: 'Notify Discord on Success'
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+                "embeds": [{
+                  "title": "✅ inflpick-backend 배포 성공",
+                  "description": "배포가 성공적으로 완료되었습니다.",
+                  "color": 3066993,
+                  "fields": [
+                    {
+                      "name": "브랜치",
+                      "value": "`'"${{ github.ref_name }}"'`",
+                      "inline": true
+                    },
+                    {
+                      "name": "커밋 해시",
+                      "value": "`'"${{ github.sha }}"'`",
+                      "inline": true
+                    },
+                    {
+                      "name": "작성자",
+                      "value": "`'"${{ github.actor }}"'`",
+                      "inline": true
+                    },
+                    {
+                      "name": "커밋 메시지",
+                      "value": "`'"${{ github.event.head_commit.message }}"'`"
+                    }
+                  ]
+                }]
+              }' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+      # 실패 시 Discord 알림
+      - name: 'Notify Discord on Failure'
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+                "embeds": [{
+                  "title": "❌ inflpick-backend 배포 실패",
+                  "description": "배포가 실패했습니다.",
+                  "color": 15158332,
+                  "fields": [
+                    {
+                      "name": "브랜치",
+                      "value": "`'"${{ github.ref_name }}"'`",
+                      "inline": true
+                    },
+                    {
+                      "name": "커밋 해시",
+                      "value": "`'"${{ github.sha }}"'`",
+                      "inline": true
+                    },
+                    {
+                      "name": "작성자",
+                      "value": "`'"${{ github.actor }}"'`",
+                      "inline": true
+                    },
+                    {
+                      "name": "커밋 메시지",
+                      "value": "`'"${{ github.event.head_commit.message }}"'`"
+                    }
+                  ]
+                }]
+              }' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
