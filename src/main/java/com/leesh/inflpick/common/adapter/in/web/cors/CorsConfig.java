@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.adapter.in.web;
+package com.leesh.inflpick.common.adapter.in.web.cors;
 
 import com.leesh.inflpick.common.adapter.in.web.value.CorsProperties;
 import lombok.RequiredArgsConstructor;
