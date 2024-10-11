@@ -1,7 +1,6 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.PageResponse;
 import com.leesh.inflpick.common.core.Direction;
@@ -59,7 +58,6 @@ public class InfluencerController {
     @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string"))),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true)
@@ -143,7 +141,6 @@ public class InfluencerController {
     @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@Parameter(description = "인플루언서 ID", required = true)
@@ -177,7 +174,6 @@ public class InfluencerController {
     @Operation(summary = "인플루언서 프로필 이미지 수정", description = "인플루언서의 프로필 이미지를 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PatchMapping(path = "/{id}/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateProfileImage(@Parameter(description = "인플루언서 ID", required = true)

@@ -62,6 +62,7 @@ public class SwaggerConfig {
         return currentProfileServer;
     }
 
+    @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
 
