@@ -37,7 +37,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         List<Server> currentProfileServer = getCurrentProfileServers();
         return new OpenAPI()
-                .components(new Components().addSecuritySchemes("Bearer-jwt", new SecurityScheme()
+                .components(new Components().addSecuritySchemes("Bearer-Auth", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .description("/oauth2/authorization/{oauth2Type} 를 통해 소셜 로그인 진행 후 발급받은 Access Token 값을 입력하세요.")
                                 .scheme("Bearer")

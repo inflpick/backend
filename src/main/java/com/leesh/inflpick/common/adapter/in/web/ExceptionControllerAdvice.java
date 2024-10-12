@@ -34,6 +34,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -264,6 +265,12 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerNotSupportedOauth2TypeException(NotSupportedOauth2TypeException e, HttpServletRequest request) {
         log.warn("NotSupportedOauth2TypeException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, Oauth2LoginApiErrorCode.NOT_SUPPORTED_OAUTH2_TYPE);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerAuthorizationDeniedException(AuthorizationDeniedException e, HttpServletRequest request) {
+        log.warn("AuthorizationDeniedException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.FORBIDDEN);
     }
 
 }

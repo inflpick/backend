@@ -34,6 +34,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -61,6 +62,7 @@ public class ProductController {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "제품 생성 요청 정보", required = true)
@@ -146,6 +148,7 @@ public class ProductController {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@Parameter(description = "제품 ID", required = true)
                                        @PathVariable(value = "id")
@@ -166,6 +169,7 @@ public class ProductController {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(path = "/{id}/product-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateProductImage(@Parameter(description = "제품 ID", required = true)
                                                    @PathVariable(value = "id")
@@ -184,6 +188,7 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@PathVariable(value = "id")
                                        @Parameter(description = "제품 ID", required = true)

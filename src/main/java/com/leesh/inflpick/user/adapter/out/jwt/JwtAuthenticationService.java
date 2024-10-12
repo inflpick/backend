@@ -1,6 +1,7 @@
 package com.leesh.inflpick.user.adapter.out.jwt;
 
 import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.port.in.UserQueryService;
 import com.leesh.inflpick.user.port.out.AuthenticationToken;
 import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +22,7 @@ import java.util.Date;
 public class JwtAuthenticationService implements AuthenticationTokenService {
 
     private final JwtProperties jwtProperties;
+    private final UserQueryService userQueryService;
 
     @Override
     public AuthenticationToken createAccessToken(User user) {
@@ -47,6 +49,17 @@ public class JwtAuthenticationService implements AuthenticationTokenService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public User extractToken(JwtAuthentication jwtAuthentication) {
+        String userId = Jwts.parserBuilder()
+                .setSigningKey(jwtProperties.secretKey().getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(jwtAuthentication.value())
+                .getBody()
+                .getSubject();
+        return userQueryService.getById(userId);
     }
 
 

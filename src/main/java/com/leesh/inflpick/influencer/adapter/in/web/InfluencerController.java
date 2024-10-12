@@ -18,12 +18,12 @@ import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.review.port.in.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +32,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -55,10 +56,10 @@ public class InfluencerController {
     private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/influencers")
-    @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string"))),
+    @Operation(summary = "인플루언서 생성", description = "(관리자 전용) 인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true)
                                        @RequestBody
@@ -142,6 +143,7 @@ public class InfluencerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@Parameter(description = "인플루언서 ID", required = true)
                                        @PathVariable(value = "id")
@@ -160,6 +162,7 @@ public class InfluencerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@Parameter(description = "인플루언서 ID", required = true)
                                        @PathVariable(value = "id")
@@ -175,6 +178,7 @@ public class InfluencerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(path = "/{id}/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateProfileImage(@Parameter(description = "인플루언서 ID", required = true)
                                                    @PathVariable(value = "id")

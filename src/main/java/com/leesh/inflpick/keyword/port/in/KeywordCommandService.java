@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.port.in;
 
-public interface KeywordCreateService {
+public interface KeywordCommandService {
 
     String create(KeywordCreateCommand command);
 
