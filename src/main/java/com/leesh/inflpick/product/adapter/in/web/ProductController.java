@@ -28,6 +28,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
@@ -57,7 +58,9 @@ public class ProductController {
     private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/products")
-    @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
+    @Operation(summary = "제품 생성", description = "제품을 생성합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -143,7 +146,9 @@ public class ProductController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/products/{id}")
-    @Operation(summary = "제품 수정", description = "제품을 수정합니다.")
+    @Operation(summary = "제품 수정", description = "제품을 수정합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -164,7 +169,9 @@ public class ProductController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/products/{id}/product-image")
-    @Operation(summary = "제품 이미지 수정", description = "제품 이미지를 수정합니다.")
+    @Operation(summary = "제품 이미지 수정", description = "제품 이미지를 수정합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
             @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -184,7 +191,9 @@ public class ProductController {
                 .build();
     }
 
-    @Operation(summary = "제품 삭제", description = "제품을 삭제합니다.")
+    @Operation(summary = "제품 삭제", description = "제품을 삭제합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)")
     })

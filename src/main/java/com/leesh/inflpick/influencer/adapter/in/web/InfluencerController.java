@@ -139,7 +139,9 @@ public class InfluencerController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/influencers/{id}")
-    @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
+    @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
@@ -158,7 +160,9 @@ public class InfluencerController {
                 .build();
     }
 
-    @Operation(summary = "인플루언서 삭제", description = "인플루언서를 삭제합니다.")
+    @Operation(summary = "인플루언서 삭제", description = "인플루언서를 삭제합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
@@ -174,7 +178,9 @@ public class InfluencerController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/influencers/{id}/profile-image")
-    @Operation(summary = "인플루언서 프로필 이미지 수정", description = "인플루언서의 프로필 이미지를 수정합니다.")
+    @Operation(summary = "인플루언서 프로필 이미지 수정", description = "인플루언서의 프로필 이미지를 수정합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
