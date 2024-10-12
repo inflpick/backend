@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.adapter.out.storage.filesystem;
+package com.leesh.inflpick.common.adapter.out.storage.file;
 
 import com.leesh.inflpick.common.adapter.out.storage.StorageProperties;
 import com.leesh.inflpick.common.port.out.StorageService;

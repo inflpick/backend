@@ -90,7 +90,7 @@ class InfluencerControllerTest {
         return Stream.of(
         """
                 {
-                    "name": "test-influencer-name",
+                    "nickname": "test-influencer-nickname",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "keywords": [],
@@ -100,7 +100,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-influencer-name",
+                    "nickname": "test-influencer-nickname",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -109,7 +109,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-influencer-name",
+                    "nickname": "test-influencer-nickname",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -119,7 +119,7 @@ class InfluencerControllerTest {
                 """,
                 """
                 {
-                    "name": "test-influencer-name",
+                    "nickname": "test-influencer-nickname",
                     "introduction": "test-introduction",
                     "description": "test-description",
                     "profileImageUri": "http://test.com",
@@ -197,7 +197,7 @@ class InfluencerControllerTest {
         String id = "test-id";
         Influencer influencer = Influencer.builder()
                 .id(id)
-                .name(InfluencerName.from("test-influencer-name"))
+                .name(InfluencerName.from("test-influencer-nickname"))
                 .introduction(InfluencerIntroduction.from("test-introduction"))
                 .description(InfluencerDescription.from("test-description"))
                 .keywords(Keywords.EMPTY)
@@ -223,7 +223,7 @@ class InfluencerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").value("test-influencer-name"))
+                .andExpect(jsonPath("$.name").value("test-influencer-nickname"))
                 .andExpect(jsonPath("$.introduction").value("test-introduction"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andExpect(jsonPath("$.socialMediaProfileLinks[0].platform").value("INSTAGRAM"))
