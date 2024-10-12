@@ -4,7 +4,7 @@ import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.port.in.DuplicateKeywordNameException;
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
-import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
+import com.leesh.inflpick.keyword.port.in.KeywordCommandService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import lombok.Builder;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class KeywordServiceImpl implements KeywordCreateService, KeywordReadService {
+public class KeywordServiceImpl implements KeywordCommandService, KeywordReadService {
 
     private final UuidHolder uuidHolder;
     private final KeywordRepository keywordRepository;

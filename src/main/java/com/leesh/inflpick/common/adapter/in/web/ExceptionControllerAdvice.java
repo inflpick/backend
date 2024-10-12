@@ -26,12 +26,15 @@ import com.leesh.inflpick.product.core.domain.exception.ProductNameValidationFai
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.review.core.domain.ReviewContentsValidationFailedException;
 import com.leesh.inflpick.review.core.domain.ReviewUriValidationFailedException;
+import com.leesh.inflpick.user.adapter.in.web.Oauth2LoginApiErrorCode;
+import com.leesh.inflpick.user.port.out.NotSupportedOauth2TypeException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -256,6 +259,18 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerInvalidOnlineStoreException(InvalidOnlineStoreException e, HttpServletRequest request) {
         log.warn("InvalidOnlineStoreException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, ProductCreateApiErrorCode.INVALID_ONLINE_STORE_TYPE);
+    }
+
+    @ExceptionHandler(NotSupportedOauth2TypeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerNotSupportedOauth2TypeException(NotSupportedOauth2TypeException e, HttpServletRequest request) {
+        log.warn("NotSupportedOauth2TypeException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, Oauth2LoginApiErrorCode.NOT_SUPPORTED_OAUTH2_TYPE);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerAuthorizationDeniedException(AuthorizationDeniedException e, HttpServletRequest request) {
+        log.warn("AuthorizationDeniedException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.FORBIDDEN);
     }
 
 }

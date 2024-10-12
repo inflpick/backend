@@ -2,6 +2,7 @@ package com.leesh.inflpick.common.adapter.in.web.swagger;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.examples.Example;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +37,11 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         List<Server> currentProfileServer = getCurrentProfileServers();
         return new OpenAPI()
+                .components(new Components().addSecuritySchemes("Bearer-Auth", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .description("/oauth2/authorization/{oauth2Type} 를 통해 소셜 로그인 진행 후 발급받은 Access Token 값을 입력하세요.")
+                                .scheme("Bearer")
+                                .bearerFormat("JWT")))
                 .info(new Info()
                         .title("인플픽 API 명세서")
                         .description("인플픽 API 명세서입니다.")
@@ -62,6 +69,7 @@ public class SwaggerConfig {
         return currentProfileServer;
     }
 
+    @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
 

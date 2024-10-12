@@ -1,7 +1,7 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
 import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
-import com.leesh.inflpick.keyword.port.in.KeywordCreateService;
+import com.leesh.inflpick.keyword.port.in.KeywordCommandService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +28,7 @@ class KeywordControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private KeywordCreateService createService;
+    private KeywordCommandService createService;
     @MockBean
     private KeywordReadService readService;
 

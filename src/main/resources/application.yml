@@ -10,6 +10,43 @@ spring:
       file-size-threshold: 0B # 파일을 디스크에 저장하지 않고 메모리에 저장하는 최소 크기 (default: 0B)
       max-file-size: 10MB # 한개 파일의 최대 사이즈 (default: 1MB)
       max-request-size: 100MB # 한개 요청의 최대 사이즈 (default: 10MB)
+  security:
+    oauth2:
+      client:
+        registration:
+#          google:
+#            client-id: YOUR_GOOGLE_CLIENT_ID
+#            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+##            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+#            redirect-uri: http://localhost:8080/oauth2/callback
+#            scope: profile, email
+#          naver:
+#            client-id: YOUR_NAVER_CLIENT_ID
+#            client-secret: YOUR_NAVER_CLIENT_SECRET
+#            redirect-uri: http://localhost:8080/oauth2/callback
+#            authorization-grant-type: authorization_code
+#            client-authentication-method: POST
+#            scope: nickname, email, profile_image
+#            client-nickname: Naver
+          kakao:
+            client-id: 3fffa1fbbc4f32c6ad0dd3bdd842d095
+            client-secret: B04XARSeNMNumxUBxGrzOZos5pqGD0lk
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao # http://localhost:8080/oauth2/authorization/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            scope: profile_nickname, profile_image
+            client-name: Kakao
+        provider:
+          naver:
+            authorization-uri: https://nid.naver.com/oauth2.0/authorize
+            token-uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user-name-attribute: response
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
 springdoc:
   swagger-ui:
     default-models-expand-depth: -1 # API 문서 밑에 Schema 모델 없애기
@@ -45,5 +82,9 @@ custom:
   cors:
     allowed-origin-patterns: '*'
     allowed-methods: GET, POST, PUT, DELETE, OPTIONS
-    allow-credentials: true
+    allow-credentials: true # 쿠키를 전송할 수 있는지 여부를 지정합니다.
     allowed-headers: Authorization, Content-Type, X-Requested-With, X-XSRF-TOKEN, MultiPartFile
+  jwt:
+    secret-key: 'AbC123!dEfGhIjKBCSWAPPALLL//lMadw@#dwako!!nOpQrStUvW33A3xYz1234567890+/ABCD' # JWT 암호화 키를 지정합니다.
+    access-token-expires-in-seconds: 3600 # 1시간
+    refresh-token-expires-in-seconds: 1209600 # 2주

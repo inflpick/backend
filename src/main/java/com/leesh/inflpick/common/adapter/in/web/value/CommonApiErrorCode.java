@@ -25,6 +25,8 @@ public enum CommonApiErrorCode implements ApiErrorCode {
     INVALID_SORT_DIRECTION("C_O_0013", HttpStatus.BAD_REQUEST, "유효한 정렬 방향을 입력해주세요.", InvalidDirectionException.ERROR_MESSAGE_FORMAT.toPattern(), "정렬 방향이 올바르지 않은 경우에 발생합니다."),
     INVALID_SORT_PARAMETER("C_O_0014", HttpStatus.BAD_REQUEST, "유효한 정렬 파라미터를 입력해주세요.", InvalidSortParameterException.ERROR_MESSAGE_FORMAT, "정렬 파라미터가 올바르지 않은 경우에 발생합니다."),
     NOT_FOUND_API_URL("C_O_0015", HttpStatus.NOT_FOUND, "잘못된 API URL 이에요.", "API URL을 확인 후 다시 시도해주세요.", "존재하지 않는 API URL을 호출하는 경우에 발생합니다."),
+    UNAUTHORIZED("C_O_0016", HttpStatus.UNAUTHORIZED, "인증되지 않았어요.", "로그인 후 다시 시도해주세요.", "API 요청 시, 인증되지 않은 사용자가 요청한 경우에 발생합니다."),
+    FORBIDDEN("C_O_0017", HttpStatus.FORBIDDEN, "접근 권한이 없어요.", "권한을 확인 후 다시 시도해주세요.", "API 요청 시, 권한이 없는 사용자가 요청한 경우에 발생합니다."),
     ;
 
     CommonApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {

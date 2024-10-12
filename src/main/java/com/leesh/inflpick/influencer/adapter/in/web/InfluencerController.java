@@ -1,7 +1,6 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.PageResponse;
 import com.leesh.inflpick.common.core.Direction;
@@ -19,12 +18,12 @@ import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.review.port.in.ReviewQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +32,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -56,11 +56,10 @@ public class InfluencerController {
     private final StorageService storageService;
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class}, httpMethod = "POST", apiPath = "/influencers")
-    @Operation(summary = "인플루언서 생성", description = "인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string"))),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
+    @Operation(summary = "인플루언서 생성", description = "(관리자 전용) 인플루언서를 생성합니다. 요청 예시에 있는 키워드 id 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 id 값으로 변경 후 요청해주세요.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true)
                                        @RequestBody
@@ -103,7 +102,7 @@ public class InfluencerController {
                                                                        @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [name | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [nickname | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
                                                                        @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 
@@ -140,11 +139,13 @@ public class InfluencerController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/influencers/{id}")
-    @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.")
+    @Operation(summary = "인플루언서 수정", description = "인플루언서를 수정합니다. 요청 예시에 있는 키워드 ID 값은 실제 존재하는 값이 아니므로, 키워드 등록 후 실제 ID 값으로 변경 후 요청해주세요.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@Parameter(description = "인플루언서 ID", required = true)
                                        @PathVariable(value = "id")
@@ -159,10 +160,13 @@ public class InfluencerController {
                 .build();
     }
 
-    @Operation(summary = "인플루언서 삭제", description = "인플루언서를 삭제합니다.")
+    @Operation(summary = "인플루언서 삭제", description = "인플루언서를 삭제합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@Parameter(description = "인플루언서 ID", required = true)
                                        @PathVariable(value = "id")
@@ -174,11 +178,13 @@ public class InfluencerController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerProfileImageUpdateApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/influencers/{id}/profile-image")
-    @Operation(summary = "인플루언서 프로필 이미지 수정", description = "인플루언서의 프로필 이미지를 수정합니다.")
+    @Operation(summary = "인플루언서 프로필 이미지 수정", description = "인플루언서의 프로필 이미지를 수정합니다.", security = {
+            @SecurityRequirement(name = "Bearer-Auth")
+    })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(path = "/{id}/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateProfileImage(@Parameter(description = "인플루언서 ID", required = true)
                                                    @PathVariable(value = "id")
