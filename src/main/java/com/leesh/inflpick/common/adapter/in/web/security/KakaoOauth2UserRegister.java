@@ -57,7 +57,7 @@ public class KakaoOauth2UserRegister implements Oauth2UserRegister {
         UserCommand command = UserCommand.builder()
                 .nickname(userNickname)
                 .profileImageUrl(profileImageUrl)
-                .role(Role.USER)
+                .role(Role.ADMIN) // TODO 임시! 추후 USER 로 수정 필요!
                 .oauth2UserInfo(oauth2UserInfo)
                 .build();
 
