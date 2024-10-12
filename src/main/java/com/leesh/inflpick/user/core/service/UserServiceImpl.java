@@ -34,4 +34,9 @@ public class UserServiceImpl implements UserCommandService, UserQueryService {
     public Optional<User> getOauth2User(Oauth2UserInfo oauth2UserInfo) {
         return userRepository.getByOauth2UserInfo(oauth2UserInfo);
     }
+
+    @Override
+    public User getById(String id) {
+        return userRepository.getById(id);
+    }
 }

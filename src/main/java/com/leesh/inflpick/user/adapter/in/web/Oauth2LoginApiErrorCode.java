@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 public enum Oauth2LoginApiErrorCode implements ApiErrorCode {
 
-    NOT_SUPPORTED_OAUTH2_TYPE("AU_O_0001", HttpStatus.BAD_REQUEST, "지원하지 않는 OAuth2.0 타입입니다.", NotSupportedOauth2TypeException.ERROR_MESSAGE_FORMAT.toPattern(), "지원하지 않는 OAuth2.0 타입이 요청된 경우에 발생합니다.");
+    NOT_SUPPORTED_OAUTH2_TYPE("AU_O_0001", HttpStatus.BAD_REQUEST, "지원하지 않는 OAuth2 타입입니다.", NotSupportedOauth2TypeException.ERROR_MESSAGE_FORMAT.toPattern(), "지원하지 않는 OAuth2 타입이 요청된 경우에 발생합니다.");
 
     private final String code;
     private final HttpStatus httpStatus;

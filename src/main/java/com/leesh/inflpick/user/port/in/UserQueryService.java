@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface UserQueryService {
 
     Optional<User> getOauth2User(Oauth2UserInfo oauth2UserInfo);
+
+    User getById(String id);
 }

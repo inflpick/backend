@@ -1,41 +1,46 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.security.CustomOauth2User;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.user.port.in.UserCommandService;
+import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.port.out.AuthenticationToken;
+import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.headers.Header;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User", description = "유저 API")
+@Tag(name = "유저", description = "유저 API")
 @RequiredArgsConstructor
-@RequestMapping("/users")
 @RestController
 public class UserController {
 
-    private final UserCommandService userCommandService;
+    private final AuthenticationTokenService tokenService;
 
-    @ApiErrorCodeSwaggerDocs(values = {Oauth2LoginApiErrorCode.class}, httpMethod = "POST", apiPath = "/users/social-login")
-    @Operation(summary = "OAuth2.0 로그인", description = "OAuth2.0 로그인")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string"))),
-    })
-    @PostMapping(value = "/login/oauth2", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponse> socialLogin(@RequestBody Oauth2LoginRequest request) {
-
-        Oauth2Type oauth2Type = Oauth2Type.from(request.oauth2Type());
-
+    @ApiErrorCodeSwaggerDocs(values = {Oauth2LoginApiErrorCode.class}, httpMethod = "GET", apiPath = "/oauth2/authorization/{oauth2Type}")
+    @Operation(summary = "소셜 로그인 API", description = "문서화를 위한 예시이며, 실제 동작을 위해서는 브라우저를 통해 해당 URL로 주소 입력 후 소셜 로그인을 진행합니다. 예시: \"http://{serverUrl}/oauth2/authorization/kakao 해당 링크를 브라우저 주소창에 입력\"")
+    @GetMapping(path = "/oauth2/authorization/{oauth2Type}")
+    public ResponseEntity<LoginResponse> oauth2Authorization(
+            @Parameter(description = "OAuth2 타입 (kakao, naver, google 중 하나)", required = true, example = "kakao", allowReserved = true)
+            @PathVariable String oauth2Type) {
         return ResponseEntity.ok().build();
     }
 
+    @Hidden
+    @GetMapping(path = "/loginSuccess")
+    public ResponseEntity<LoginResponse> loginSuccess(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        User user = ((CustomOauth2User) oAuth2User).user();
+        AuthenticationToken accessToken = tokenService.createAccessToken(user);
+        AuthenticationToken refreshToken = tokenService.createRefreshToken(user);
+        LoginResponse response = LoginResponse.of(accessToken, refreshToken);
+        return ResponseEntity.ok().body(response);
+    }
 
 }
