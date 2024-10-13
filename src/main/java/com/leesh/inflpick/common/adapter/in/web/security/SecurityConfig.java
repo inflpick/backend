@@ -1,10 +1,13 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
 
+import com.leesh.inflpick.common.adapter.in.web.value.CorsProperties;
 import com.leesh.inflpick.user.adapter.out.jwt.JwtProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,8 +23,11 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Collections;
+
+@EnableConfigurationProperties({CorsProperties.class})
 @RequiredArgsConstructor
 @EnableMethodSecurity()
 @EnableWebSecurity
@@ -31,9 +37,9 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final UserDetailsService userDetailsService;
     private final DefaultOAuth2UserService oAuth2UserService;
-    private final CorsConfigurationSource corsConfigurationSource;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
+    private final CorsProperties corsProperties;
     private final JwtProperties jwtProperties;
 
     @Bean
@@ -47,15 +53,28 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOriginPatterns(Collections.singletonList(corsProperties.allowedOriginPatterns()));
+                    config.setAllowedMethods(Collections.singletonList(corsProperties.allowedMethods()));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(Collections.singletonList(corsProperties.allowedHeaders()));
+                    config.setMaxAge(3600L); //1시간
+                    return config;
+                }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // OAuth2UserService 사용 시, 유저 정보 저장을 위해 세션 사용
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager(http))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/oauth2/**", "/swagger-ui/**", "/v3/api-docs/**", "/loginSuccess", "/loginFailed",
-                                "/error",
-                                "/favicon.ico",
+                        .requestMatchers("/",
+                                "/swagger-ui/**", "/v3/api-docs/**",
+                                "/oauth2/**", "/loginSuccess", "/loginFailed",
+                                "/error", "/favicon.ico",
                                 "/actuator/health").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/influencers/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/keywords/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/reviews/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(errors -> errors
                         .accessDeniedHandler(accessDeniedHandler)
