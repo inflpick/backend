@@ -30,10 +30,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getById(String uuid) throws UserNotFoundException {
+    public User getById(String id) throws UserNotFoundException {
 
-        UserDocument userDocument = userMongoRepository.findById(uuid)
-                .orElseThrow(() -> new UserNotFoundException(uuid));
+        UserDocument userDocument = userMongoRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
         return userDocument.toEntity();
     }

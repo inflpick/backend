@@ -2,6 +2,16 @@ spring:
   data:
     mongodb:
       uri: ENC(itRW/kbSl2zOGsmE86hBYUG+Kw8LA56tIyxH3pDfa0Na+rB37pdpE1u2iE2rVVdgIwpbc0YOAEWPVx8z4W1NW8aAP6ol194aUVL2gPWRpaTdcPOj7V9atPjWRC5KcRGD4aeAJETXjIswGUSqyew2e9s6uUSfpHlWoxMex1e9bus=)
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: ENC(LYCG6lhGqfApl5/VQnBD6NI1GXEzHCyCphKt99CLTDX3h8qn1vgvy9C+AR7qyX/LoJ1DYZVD9ueBe9IXiAJUeQ==)
+          naver:
+            redirect-uri: ENC(2H48aVH4kVoAVAHGbscNFiPSPXohiygPYeOFIIKGm520Vadx4x9RoZ+1SF7ZdZ/KCGuteKapKPAf+z7vxOkkCA==)
+          kakao:
+            redirect-uri: ENC(WpoBVzN9GV0c+v0ScnQvtwo2fBYWwrh9E+A6wd0tmJ5okNVc+gcZF/O5bAwSvkpRM2Kx0npcS8o=)
 logging:
   level: # 적용할 곳과 레벨을 지정합니다.
     root: error
