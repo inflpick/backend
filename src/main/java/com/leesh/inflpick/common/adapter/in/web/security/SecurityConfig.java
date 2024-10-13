@@ -20,7 +20,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 @RequiredArgsConstructor
 @EnableMethodSecurity()
@@ -31,7 +30,6 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final UserDetailsService userDetailsService;
     private final DefaultOAuth2UserService oAuth2UserService;
-    private final CorsConfigurationSource corsConfigurationSource;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
     private final JwtProperties jwtProperties;
@@ -47,7 +45,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // OAuth2UserService 사용 시, 유저 정보 저장을 위해 세션 사용
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager(http))
