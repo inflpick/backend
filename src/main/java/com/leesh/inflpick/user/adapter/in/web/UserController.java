@@ -1,5 +1,6 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.common.adapter.in.web.security.CustomOauth2User;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.user.core.domain.User;
@@ -36,6 +37,11 @@ public class UserController {
     @Hidden
     @GetMapping(path = "/loginSuccess")
     public ResponseEntity<LoginResponse> loginSuccess(@AuthenticationPrincipal OAuth2User oAuth2User) {
+
+        if (oAuth2User == null) {
+            throw new UnauthorizedException("로그인에 실패하였습니다.");
+        }
+
         User user = ((CustomOauth2User) oAuth2User).user();
         AuthenticationToken accessToken = tokenService.createAccessToken(user);
         AuthenticationToken refreshToken = tokenService.createRefreshToken(user);

@@ -2,6 +2,7 @@ package com.leesh.inflpick.common.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.exception.InvalidSortParameterException;
 import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
+import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
@@ -271,6 +272,12 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerAuthorizationDeniedException(AuthorizationDeniedException e, HttpServletRequest request) {
         log.warn("AuthorizationDeniedException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiErrorResponse> handlerUnauthorizedException(UnauthorizedException e, HttpServletRequest request) {
+        log.warn("UnauthorizedException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.UNAUTHORIZED);
     }
 
 }

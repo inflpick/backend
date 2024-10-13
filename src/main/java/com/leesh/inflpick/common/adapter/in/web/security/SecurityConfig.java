@@ -52,7 +52,10 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager(http))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/oauth2/**", "/swagger-ui/**", "/v3/api-docs/**", "/loginSuccess", "/loginFailed", "/actuator/health").permitAll()
+                        .requestMatchers("/", "/oauth2/**", "/swagger-ui/**", "/v3/api-docs/**", "/loginSuccess", "/loginFailed",
+                                "/error",
+                                "/favicon.ico",
+                                "/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(errors -> errors
                         .accessDeniedHandler(accessDeniedHandler)
