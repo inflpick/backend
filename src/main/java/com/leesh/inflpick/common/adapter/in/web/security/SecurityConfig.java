@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,13 +42,6 @@ public class SecurityConfig {
     private final JwtProperties jwtProperties;
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring()
-                // error endpoint 를 열어줘야 함, favicon.ico 추가!
-                .requestMatchers("/error", "/favicon.ico");
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -66,10 +58,10 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager(http))
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/resources/**").permitAll()
                         .requestMatchers("/",
                                 "/swagger-ui/**", "/v3/api-docs/**",
-                                "/oauth2/**", "/loginSuccess", "/loginFailed",
-                                "/error", "/favicon.ico",
+                                "/oauth2/**", "/loginSuccess",
                                 "/actuator/health").permitAll()
                         .requestMatchers(HttpMethod.GET, "/influencers/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
