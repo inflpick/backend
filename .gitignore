@@ -309,3 +309,4 @@ data
 !src/main/resources/data
 .idea
 infra/.env
+src/test/java/com/leesh/inflpick/JasyptTest.java
