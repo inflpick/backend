@@ -8,7 +8,13 @@ import com.leesh.inflpick.user.core.domain.User;
 import lombok.Builder;
 
 @Builder
-public record UserCommand(Nickname nickname, String profileImageUrl, Role role, Oauth2UserInfo oauth2UserInfo) {
+public record UserCommand(
+        Nickname nickname,
+        String profileImageUrl,
+        String email,
+        Role role,
+        Oauth2UserInfo oauth2UserInfo
+) {
 
     public User toEntity(UuidHolder uuidHolder) {
         return User.builder()

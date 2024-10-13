@@ -8,13 +8,14 @@ import com.leesh.inflpick.user.core.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
 @Builder
 @Document(collection = "users")
-public class UserDocument {
+public class UserDocument implements Persistable<String> {
 
     @Id
     @Getter
@@ -60,6 +61,11 @@ public class UserDocument {
                 .lastModifiedDate(lastModifiedDate)
                 .lastModifiedBy(lastModifiedBy)
                 .build();
+    }
+
+    @Override
+    public boolean isNew() {
+        return createdDate == null;
     }
 
 }

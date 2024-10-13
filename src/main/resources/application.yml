@@ -15,22 +15,22 @@ spring:
       client:
         registration:
           google:
-            client-id: YOUR_GOOGLE_CLIENT_ID
-            client-secret: YOUR_GOOGLE_CLIENT_SECRET
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            client-id: ENC(H3tpSUFtz6WDTQLagYXrSVwyan06h6yCKhvel9yyJ09gXR5ZHDcuOyoi6MJ4x9rwovHMC+4lNAafmMFoJ7fJ87fzcd+XcixsyiqNgPNw68buS5fJaVOPFQ==)
+            client-secret: ENC(wKclMkw3sfCG6cwUcVlUlavC24CdFMXGUEuZKYJo17IxU/r3RtZMwB57sxVrNBLk)
+            redirect-uri: ENC(0mVGdfzPl1CabCFZ7aIGt3GCOz8E9WEV+EKjnkzw3ux95z8GehoylCCwHnldENqtiKOh6A3kSsM=)
             scope: profile, email
           naver:
-            client-id: YOUR_NAVER_CLIENT_ID
-            client-secret: YOUR_NAVER_CLIENT_SECRET
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            client-id: ENC(ujJP1+1s2whqxOL1tKaIPkn740+mFJqvrPpkyuvtuFk=)
+            client-secret: ENC(Rge06ofg9trIVEaZehn5/4APw5kxCoeR)
+            redirect-uri: ENC(ZhnWFzQsSD8gJ9OqEObzZSH/LVipqcv4/PbtMBGZaLGctmyYVqgxqqNrsx9I5iQxe5FaJBttHLg=)
             authorization-grant-type: authorization_code
-            client-authentication-method: POST
+            client-authentication-method: client_secret_post
             scope: nickname, email, profile_image
             client-name: Naver
           kakao:
-            client-id: ENC(I5YxcDDRJR8m3AKwZ0iYvG8GRzyCjD2Ir6zboFPAz0f8+clp22DyuY0sSbkF/9K7)
-            client-secret: ENC(6VjhSvcrxjSDvA0U+aJp4nTgB9t2mJA19AtXoZ3ZA+wulZ1uOFRtZM65EuH9BfSg)
-            redirect-uri: ENC(ii/KbzY0z7m8+53G5WsqnEcGv9dJg9CrE7awc7xOUR4G+Cu1L4lTi9pGlBE99l/l5KBBse5J/Jk=)
+            client-id: ENC(Qw4luCbsRSf5Uwl0TptE929O5QLdMt3P/VZnqrR6ADr+rZyPSYLAuOmBpgBUWpn7)
+            client-secret: ENC(YApo/PHPSMq+KkhIM1NzS4CwE5SOE75bmi2qtpUfIhhKc197SUBDZWLR2pPQu1zi)
+            redirect-uri: ENC(p1sURKGBaDkAFInIr0KInAgvixAVNbaddqqS5sGGcol8wEEtjxLUCLVHEaHnuLvgUOpH60vnUdM=)
             authorization-grant-type: authorization_code
             client-authentication-method: client_secret_post
             scope: profile_nickname, profile_image
