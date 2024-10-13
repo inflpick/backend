@@ -30,4 +30,6 @@ custom:
         region: ap-northeast-2
         bucket-name: api-server-data
   cors:
-    allowed-origin-patterns: 'https://inflpick.com, https://*.inflpick.com'
+    allowed-origin-patterns:
+      - 'https://inflpick.com'
+      - 'https://api.inflpick.com'

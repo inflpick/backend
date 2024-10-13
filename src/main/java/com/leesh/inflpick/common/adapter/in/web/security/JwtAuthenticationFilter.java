@@ -21,13 +21,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProperties jwtProperties;
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        // OAuth2 로그인은 성공 후, 필터를 거치지 않도록 설정
-        return requestURI.startsWith("/loginSuccess");
-    }
-
-    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
