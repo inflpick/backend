@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Getter
 public enum ProductSortType {
 
-    NAME("imagePath"),
+    NAME("name"),
     CREATED_DATE("createdDate"),
     LAST_MODIFIED_DATE("lastModifiedDate"),
     ;

@@ -11,11 +11,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "유저", description = "유저 API")
@@ -53,6 +56,18 @@ public class UserController {
     @GetMapping(path = "/loginFailure")
     public ResponseEntity<LoginResponse> loginFailure() {
         throw new UnauthorizedException("로그인에 실패하였습니다.");
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> list(@RequestParam(name = "page", required = false, defaultValue = "0")
+                                     Integer page,
+                                     @RequestParam(name = "size", required = false, defaultValue = "20")
+                                     Integer size,
+                                     @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
+                                     String[] sort) {
+
+        return ResponseEntity.ok().body(null);
     }
 
 }
