@@ -1,9 +1,8 @@
 package com.leesh.inflpick.common.adapter.out.persistence;
 
-import com.leesh.inflpick.common.core.Direction;
-import com.leesh.inflpick.common.port.SortType;
+import com.leesh.inflpick.common.port.SortCriterion;
+import com.leesh.inflpick.common.port.SortDirection;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.util.Pair;
 
 import java.util.Collection;
 
@@ -13,14 +12,13 @@ public class PageSortConverter {
         // Empty
     }
 
-    public static Sort convertSortCriteria(Collection<Pair<SortType, Direction>> sortPairs) {
+    public static Sort convertSortCriteria(Collection<SortCriterion> criteria) {
         Sort sortOrder = Sort.unsorted();
-        for (Pair<SortType, Direction> sortPair : sortPairs) {
-            SortType sortType = sortPair.getFirst();
-            String sortField = sortType.getSortValue();
-            Direction direction = sortPair.getSecond();
-            Sort.Direction sortDirection = direction.isDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
-            sortOrder = sortOrder.and(Sort.by(sortDirection, sortField));
+        for (SortCriterion sortCriterion : criteria) {
+            String sortProperty = sortCriterion.sortProperty();
+            SortDirection sortDirection = sortCriterion.sortDirection();
+            Sort.Direction direction = sortDirection.isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC;
+            sortOrder = sortOrder.and(Sort.by(direction, sortProperty));
         }
         return sortOrder;
     }

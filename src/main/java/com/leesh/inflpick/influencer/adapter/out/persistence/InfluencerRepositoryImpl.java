@@ -1,12 +1,14 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence;
 
 import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageResponse;
+import com.leesh.inflpick.common.port.SortCriterion;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
+import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerPageResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
+import com.leesh.inflpick.influencer.port.InfluencerSortField;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
@@ -17,10 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Repository
@@ -58,41 +57,36 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     }
 
     @Override
-    public PageDetails<Collection<Influencer>> getPage(PageQuery query) {
+    public PageResponse<Influencer> getPage(com.leesh.inflpick.common.port.PageRequest request) {
 
-        Sort sortCriteria = PageSortConverter.convertSortCriteria(query.sortPairs());
-        PageRequest pageRequest = PageRequest.of(query.page(),
-                query.size(),
-                sortCriteria);
+        Collection<SortCriterion> sortCriteria = request.sortCriteria(() -> Arrays.stream(InfluencerSortField.values())
+                .map(InfluencerSortField::getValue)
+                .toList());
+        Sort sort = PageSortConverter.convertSortCriteria(sortCriteria);
+        PageRequest pageRequest = PageRequest.of(request.page(),
+                request.size(),
+                sort);
 
         Page<InfluencerDocument> documentPage = influencerMongoRepository.findAll(pageRequest);
-        List<InfluencerDocument> content = documentPage.getContent();
-        Set<String> allKeywordIds = getAllKeywordIds(content);
-        List<Influencer> contents = convertToEntities(allKeywordIds, content);
-
+        List<Influencer> influencers = convertToEntities(documentPage);
         String[] sortProperties = PageSortConverter.convertSortProperties(documentPage.getSort());
 
-        return PageDetails.of(
-                documentPage.getNumber(),
-                documentPage.getSize(),
-                documentPage.getTotalPages(),
-                documentPage.getTotalElements(),
-                sortProperties,
-                contents);
+        return InfluencerPageResponse.builder()
+                .contents(influencers)
+                .currentPage(documentPage.getNumber())
+                .totalPages(documentPage.getTotalPages())
+                .size(documentPage.getSize())
+                .totalElements(documentPage.getTotalElements())
+                .sortProperties(sortProperties)
+                .build();
     }
 
-    private @NotNull List<Influencer> convertToEntities(Set<String> allKeywordIds, List<InfluencerDocument> content) {
-        Keywords allKeywords = keywordRepository.getAllByIds(allKeywordIds);
-        return content.stream().map(influencerDocument -> {
-            Set<String> keywordIds = influencerDocument.getKeywordIds();
-            Keywords keywords = allKeywords.subset(keywordIds);
-            return influencerDocument.toEntity(keywords);
+    private @NotNull List<Influencer> convertToEntities(Page<InfluencerDocument> documentPage) {
+        List<InfluencerDocument> influencerDocuments = documentPage.getContent();
+        return influencerDocuments.stream().map(document -> {
+            Set<String> keywordIds = document.getKeywordIds();
+            Keywords influencerKeywords = keywordRepository.getAllByIds(keywordIds);
+            return document.toEntity(influencerKeywords);
         }).toList();
-    }
-
-    private static @NotNull Set<String> getAllKeywordIds(List<InfluencerDocument> content) {
-        Set<String> allKeywordIds = new HashSet<>();
-        content.forEach(influencerDocument -> allKeywordIds.addAll(influencerDocument.getKeywordIds()));
-        return allKeywordIds;
     }
 }

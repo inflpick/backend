@@ -78,7 +78,7 @@ public class ReviewController {
                     String reviewerProfileImageUrl = storageService.getUrlString(review.getReviewer().getProfileImagePath());
                     String productImageUrl = storageService.getUrlString(review.getProduct().getProductImagePath());
                     return ReviewResponse.from(review, InfluencerResponse.from(
-                            influencerQueryService.getById(review.getReviewer().getId()),
+                            influencerQueryService.query(review.getReviewer().getId()),
                             reviewerProfileImageUrl
                     ), ProductResponse.from(
                             productQueryService.getById(review.getProduct().getId()),
@@ -104,7 +104,7 @@ public class ReviewController {
                                        @RequestBody
                                        ReviewRequest request) {
 
-        Influencer reviewer = influencerQueryService.getById(request.influencerId());
+        Influencer reviewer = influencerQueryService.query(request.influencerId());
         Product product = productQueryService.getById(request.productId());
         ReviewCommand command = request.toCommand();
         String reviewId = reviewCommandService.create(reviewer, product, command);

@@ -1,14 +1,13 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.common.adapter.in.web.security.CustomOauth2User;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.WebPageRequest;
-import com.leesh.inflpick.common.core.Direction;
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.user.core.domain.User;
-import com.leesh.inflpick.user.port.UserSortType;
 import com.leesh.inflpick.user.port.in.UserQueryService;
 import com.leesh.inflpick.user.port.out.AuthenticationToken;
 import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
@@ -20,7 +19,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,8 +28,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collection;
 
 @Tag(name = "유저", description = "유저 API")
 @RequiredArgsConstructor
@@ -92,19 +88,22 @@ public class UserController {
     )
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> list(@RequestParam(name = "page", required = false, defaultValue = "0")
-                                     Integer page,
-                                     @RequestParam(name = "size", required = false, defaultValue = "20")
-                                     Integer size,
-                                     @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
-                                     String[] sort) {
+    public ResponseEntity<WebPageResponse<UserWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
+                                                                 Integer page,
+                                                                 @RequestParam(name = "size", required = false, defaultValue = "20")
+                                                                 Integer size,
+                                                                 @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
+                                                                 String[] sort) {
 
-        WebPageRequest request = new WebPageRequest(page, size, sort);
-        String[] sortTypes = request.sort();
-        Collection<Pair<UserSortType, Direction>> sortPairs = UserSortType.toSortPairs(sortTypes);
-        PageQuery<UserSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
-        PageDetails<Collection<User>> userPage = userQueryService.getPage(pageQuery);
-        return ResponseEntity.ok().body(null);
+        PageRequest request = new WebOffsetPageRequest(page, size, sort);
+        PageResponse<User> pageResponse = userQueryService.query(request);
+        UserWebResponse[] webContents = pageResponse.contents().stream()
+                .map(UserWebResponse::from)
+                .toList()
+                .toArray(UserWebResponse[]::new);
+        WebPageResponse<UserWebResponse> response = WebPageResponse.of(webContents, pageResponse);
+        return ResponseEntity.ok()
+                .body(response);
     }
 
 }

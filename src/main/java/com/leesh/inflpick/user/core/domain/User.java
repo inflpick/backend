@@ -16,6 +16,7 @@ public class User {
     private final String profileImageUrl;
     @Getter
     private final Role role;
+    private final UserEmail email;
     private final Oauth2UserInfo oauth2UserInfo;
     @Getter
     private final Instant createdDate;
@@ -46,5 +47,9 @@ public class User {
 
     public String getOauth2Type() {
         return oauth2UserInfo.oauth2Type().name();
+    }
+
+    public String getEmail() {
+        return email.email();
     }
 }

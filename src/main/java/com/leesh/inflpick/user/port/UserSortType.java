@@ -1,6 +1,6 @@
 package com.leesh.inflpick.user.port;
 
-import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.port.SortDirection;
 import com.leesh.inflpick.common.port.SortType;
 import org.springframework.data.util.Pair;
 
@@ -38,13 +38,13 @@ public enum UserSortType implements SortType {
         throw new InvalidUserSortTypeException(sort);
     }
 
-    public static Collection<Pair<UserSortType, Direction>> toSortPairs(String[] sortTypes) {
+    public static Collection<Pair<SortType, SortDirection>> toSortPairs(String[] sortTypes) {
         return Arrays.stream(sortTypes)
                 .map(sortType -> {
                     String[] split = sortType.split(",");
-                    UserSortType userSortType = UserSortType.findMatchTypeOrThrows(split[0]);
-                    Direction direction = Direction.findMatchTypeOrThrows(split[1]);
-                    return Pair.of(userSortType, direction);
+                    SortType userSortType = UserSortType.findMatchTypeOrThrows(split[0]);
+                    SortDirection sortDirection = SortDirection.findMatchTypeOrThrows(split[1]);
+                    return Pair.of(userSortType, sortDirection);
                 })
                 .collect(Collectors.toList());
     }

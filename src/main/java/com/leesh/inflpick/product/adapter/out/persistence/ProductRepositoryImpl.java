@@ -1,15 +1,14 @@
 package com.leesh.inflpick.product.adapter.out.persistence;
 
 import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
-import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageDetailsImpl;
+import com.leesh.inflpick.common.port.PageQueryTemp;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductMongoRepository;
 import com.leesh.inflpick.product.core.domain.Product;
-import com.leesh.inflpick.product.port.ProductSortType;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.product.port.out.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -56,7 +54,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPage(PageQuery query) {
+    public PageDetails<Collection<Product>> getPage(PageQueryTemp query) {
 
         Sort sortCriteria = PageSortConverter.convertSortCriteria(query.sortPairs());
         PageRequest pageRequest = PageRequest.of(query.page(),
@@ -70,7 +68,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         String[] sortProperties = PageSortConverter.convertSortProperties(documentPage.getSort());
 
-        return PageDetails.of(
+        return PageDetailsImpl.of(
                 documentPage.getNumber(),
                 documentPage.getSize(),
                 documentPage.getTotalPages(),

@@ -1,7 +1,7 @@
 package com.leesh.inflpick.product.core.service;
 
 import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageQueryTemp;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
@@ -70,7 +70,7 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPage(PageQuery query) {
+    public PageDetails<Collection<Product>> getPageDetails(PageQueryTemp query) {
         return productRepository.getPage(query);
     }
 }

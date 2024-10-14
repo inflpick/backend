@@ -52,14 +52,14 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
                 oauth2Type);
 
         AtomicReference<String> userId = new AtomicReference<>();
-        userQueryService.getOauth2User(oauth2UserInfo)
+        userQueryService.query(oauth2UserInfo)
                 .ifPresentOrElse(
                         user -> userId.set(user.getId()),
                         () -> {
                             String id = registerNewUser(convertOauth2User, oauth2UserInfo);
                             userId.set(id);
                         });
-        User user = userQueryService.getById(userId.get());
+        User user = userQueryService.query(userId.get());
         return new CustomOauth2User(user);
     }
 

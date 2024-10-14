@@ -1,11 +1,10 @@
 package com.leesh.inflpick.user.port.out;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
 import com.leesh.inflpick.user.core.domain.User;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -14,11 +13,9 @@ public interface UserRepository {
 
     long count();
 
-    User getById(String uuid);
+    User getById(String id) throws UserNotFoundException;
 
-    void deleteById(String id);
+    Optional<User> findByOauth2UserInfo(Oauth2UserInfo oauth2UserInfo);
 
-    Optional<User> getByOauth2UserInfo(Oauth2UserInfo oauth2UserInfo);
-
-    PageDetails<Collection<User>> getPage(PageQuery pageQuery);
+    PageResponse<User> getPage(PageRequest query);
 }

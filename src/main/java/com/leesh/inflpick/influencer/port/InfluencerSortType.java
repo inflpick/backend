@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.port;
 
-import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.port.SortDirection;
 import com.leesh.inflpick.common.port.SortType;
 import com.leesh.inflpick.influencer.core.domain.exception.InvalidInfluencerSortTypeException;
 import org.springframework.data.util.Pair;
@@ -39,13 +39,13 @@ public enum InfluencerSortType implements SortType {
         throw new InvalidInfluencerSortTypeException(sort);
     }
 
-    public static Collection<Pair<SortType, Direction>> toSortPairs(String[] sortTypes) {
+    public static Collection<Pair<SortType, SortDirection>> toSortPairs(String[] sortTypes) {
         return Arrays.stream(sortTypes)
                 .map(sortType -> {
                     String[] split = sortType.split(",");
                     SortType influencerSortType = InfluencerSortType.findMatchTypeOrThrows(split[0]);
-                    Direction direction = Direction.findMatchTypeOrThrows(split[1]);
-                    return Pair.of(influencerSortType, direction);
+                    SortDirection sortDirection = SortDirection.findMatchTypeOrThrows(split[1]);
+                    return Pair.of(influencerSortType, sortDirection);
                 })
                 .collect(Collectors.toList());
     }

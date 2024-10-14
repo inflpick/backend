@@ -1,7 +1,9 @@
 package com.leesh.inflpick.influencer.core.service;
 
 import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageQueryTemp;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
@@ -36,13 +38,13 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     private final StorageService storageService;
 
     @Override
-    public Influencer getById(String id) throws InfluencerNotFoundException {
+    public Influencer query(String id) throws InfluencerNotFoundException {
         return influencerRepository.getById(id);
     }
 
     @Override
-    public PageDetails<Collection<Influencer>> getPage(PageQuery pageQuery) {
-        return influencerRepository.getPage(pageQuery);
+    public PageResponse<Influencer> query(PageRequest request) {
+        return influencerRepository.getPage(request);
     }
 
     @Override

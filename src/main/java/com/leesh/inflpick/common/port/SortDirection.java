@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.core;
+package com.leesh.inflpick.common.port;
 
 import com.leesh.inflpick.common.port.in.exception.InvalidDirectionException;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public enum Direction {
+public enum SortDirection {
 
     ASC("asc"),
     DESC("desc"),
@@ -16,19 +16,19 @@ public enum Direction {
 
     private final String value;
 
-    Direction(String value) {
+    SortDirection(String value) {
         this.value = value;
     }
 
     public static List<String> availableDirections() {
-        return Arrays.stream(Direction.values())
+        return Arrays.stream(SortDirection.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
 
-    public static Direction findMatchTypeOrThrows(String direction) {
-        Direction[] values = Direction.values();
-        for (Direction value : values) {
+    public static SortDirection findMatchTypeOrThrows(String direction) {
+        SortDirection[] values = SortDirection.values();
+        for (SortDirection value : values) {
             if (value.getValue().equals(direction)) {
                 return value;
             }

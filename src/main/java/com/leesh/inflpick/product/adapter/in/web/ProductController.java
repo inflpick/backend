@@ -4,9 +4,9 @@ import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
-import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.port.SortDirection;
 import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageQueryTemp;
 import com.leesh.inflpick.common.port.SortType;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.common.port.out.StorageService;
@@ -117,25 +117,21 @@ public class ProductController {
 
         WebPageRequest request = new WebPageRequest(page, size, sort);
         String[] sortTypes = request.sort();
-        Collection<Pair<SortType, Direction>> sortPairs = ProductSortType.toSortPairs(sortTypes);
-        PageQuery pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
-        PageDetails<Collection<Product>> productPage = queryService.getPage(pageQuery);
-        Collection<ProductResponse> productResponses = productPage.content()
+        Collection<Pair<SortType, SortDirection>> sortPairs = ProductSortType.toSortPairs(sortTypes);
+        PageQueryTemp pageQueryTemp = PageQueryTemp.of(request.page(), request.size(), sortPairs);
+        PageDetails<Collection<Product>> pageDetails = queryService.getPageDetails(pageQueryTemp);
+        ProductResponse[] contents = pageDetails.getContent()
                 .stream()
                 .map(product -> {
                     String productImagePath = product.getProductImagePath();
                     String productImageUrl = storageService.getUrlString(productImagePath);
                     return ProductResponse.from(product, productImageUrl);
                 })
-                .toList();
-        WebPageResponse<ProductResponse> webPageResponse = new WebPageResponse<>(
-                productResponses.toArray(ProductResponse[]::new),
-                productPage.currentPage(),
-                productPage.totalPages(),
-                productPage.size(),
-                productPage.sorts(),
-                productPage.totalElements());
-        return ResponseEntity.ok(webPageResponse);
+                .toList()
+                .toArray(ProductResponse[]::new);
+
+        WebPageResponse<ProductResponse> response = WebPageResponse.of(contents, pageDetails);
+        return ResponseEntity.ok(response);
     }
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/products/{id}")

@@ -1,18 +1,15 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
+import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.WebPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
-import com.leesh.inflpick.common.core.Direction;
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
-import com.leesh.inflpick.common.port.SortType;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.*;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;
-import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
@@ -28,8 +25,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Collection;
-import java.util.List;
 
 @Tag(name = "인플루언서 API", description = "인플루언서 API 명세서입니다.")
 @Builder
@@ -94,7 +87,7 @@ public class InfluencerController {
     )
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfluencerResponse> get(@PathVariable String id) {
-        Influencer influencer = influencerQueryService.getById(id);
+        Influencer influencer = influencerQueryService.query(id);
         String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
         return ResponseEntity.ok(InfluencerResponse.from(
                 influencer,
@@ -118,36 +111,22 @@ public class InfluencerController {
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebPageResponse<InfluencerResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
-                                                                 Integer page,
+                                                                    Integer page,
                                                                     @RequestParam(name = "size", required = false, defaultValue = "20")
-                                                                 Integer size,
+                                                                    Integer size,
                                                                     @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
-                                                                 String[] sort) {
+                                                                    String[] sort) {
 
-        WebPageRequest request = new WebPageRequest(page, size, sort);
-        String[] sortTypes = request.sort();
-        Collection<Pair<SortType, Direction>> sortPairs = InfluencerSortType.toSortPairs(sortTypes);
-        PageQuery pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
-        PageDetails<Collection<Influencer>> influencerPage = influencerQueryService.getPage(pageQuery);
-        List<InfluencerResponse> influencerResponses = convertToResponse(influencerPage);
-        WebPageResponse<InfluencerResponse> webPageResponse = new WebPageResponse<>(
-                influencerResponses.toArray(InfluencerResponse[]::new),
-                influencerPage.currentPage(),
-                influencerPage.totalPages(),
-                influencerPage.size(),
-                influencerPage.sorts(),
-                influencerPage.totalElements());
-        return ResponseEntity.ok(webPageResponse);
-    }
+        PageRequest request = new WebOffsetPageRequest(page, size, sort);
+        PageResponse<Influencer> pageResponse = influencerQueryService.query(request);
 
-    private @NotNull List<InfluencerResponse> convertToResponse(PageDetails<Collection<Influencer>> influencerPage) {
-        return influencerPage.content()
-                .stream()
-                .map(influencer -> {
+        InfluencerResponse[] webContents = pageResponse.contents().stream().map(influencer -> {
                     String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
                     return InfluencerResponse.from(influencer, profileImageUrl);
-                })
-                .toList();
+                }).toArray(InfluencerResponse[]::new);
+
+        WebPageResponse<InfluencerResponse> response = WebPageResponse.of(webContents, pageResponse);
+        return ResponseEntity.ok(response);
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerCreateApiErrorCode.class, InfluencerReadApiErrorCode.class}, httpMethod = "PUT", apiPath = "/influencers/{id}")

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.product.port;
 
-import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.port.SortDirection;
 import com.leesh.inflpick.common.port.SortType;
 import com.leesh.inflpick.product.core.domain.exception.InvalidProductSortTypeException;
 import org.springframework.data.util.Pair;
@@ -39,13 +39,13 @@ public enum ProductSortType implements SortType {
         throw new InvalidProductSortTypeException(sort);
     }
 
-    public static Collection<Pair<SortType, Direction>> toSortPairs(String[] sortTypes) {
+    public static Collection<Pair<SortType, SortDirection>> toSortPairs(String[] sortTypes) {
         return Arrays.stream(sortTypes)
                 .map(sortType -> {
                     String[] split = sortType.split(",");
                     SortType productSortType = ProductSortType.findMatchTypeOrThrows(split[0]);
-                    Direction direction = Direction.findMatchTypeOrThrows(split[1]);
-                    return Pair.of(productSortType, direction);
+                    SortDirection sortDirection = SortDirection.findMatchTypeOrThrows(split[1]);
+                    return Pair.of(productSortType, sortDirection);
                 })
                 .collect(Collectors.toList());
     }

@@ -1,11 +1,10 @@
 package com.leesh.inflpick.user.core.service;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
 import com.leesh.inflpick.user.core.domain.User;
-import com.leesh.inflpick.user.port.UserSortType;
 import com.leesh.inflpick.user.port.in.AlreadyConnectedOauth2User;
 import com.leesh.inflpick.user.port.in.UserCommand;
 import com.leesh.inflpick.user.port.in.UserCommandService;
@@ -14,7 +13,6 @@ import com.leesh.inflpick.user.port.out.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -27,7 +25,7 @@ public class UserServiceImpl implements UserCommandService, UserQueryService {
     @Override
     public String create(UserCommand command) {
         User user = command.toEntity(uuidHolder);
-        userRepository.getByOauth2UserInfo(command.oauth2UserInfo())
+        this.query(command.oauth2UserInfo())
                 .ifPresent(u -> {
                     throw new AlreadyConnectedOauth2User(u.getCreatedDate());
                 });
@@ -35,17 +33,17 @@ public class UserServiceImpl implements UserCommandService, UserQueryService {
     }
 
     @Override
-    public Optional<User> getOauth2User(Oauth2UserInfo oauth2UserInfo) {
-        return userRepository.getByOauth2UserInfo(oauth2UserInfo);
+    public Optional<User> query(Oauth2UserInfo oauth2UserInfo) {
+        return userRepository.findByOauth2UserInfo(oauth2UserInfo);
     }
 
     @Override
-    public User getById(String id) {
+    public User query(String id) {
         return userRepository.getById(id);
     }
 
     @Override
-    public PageDetails<Collection<User>> getPage(PageQuery<UserSortType> pageQuery) {
-        return userRepository.getPage(pageQuery);
+    public PageResponse<User> query(PageRequest request) {
+        return userRepository.getPage(request);
     }
 }

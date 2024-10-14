@@ -1,5 +1,7 @@
 package com.leesh.inflpick.common.adapter.in.web.value;
 
+import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "페이지 응답")
@@ -15,4 +17,24 @@ public record WebPageResponse<T>(
         String[] sorts,
         @Schema(description = "총 컨텐츠 개수", example = "100", implementation = Long.class, requiredMode = Schema.RequiredMode.REQUIRED)
         long totalElements) {
+
+    public static <T> WebPageResponse<T> of(T[] contents,
+                                            PageDetails<?> pageDetails) {
+        return new WebPageResponse<>(contents,
+                pageDetails.getCurrentPage(),
+                pageDetails.getTotalPages(),
+                pageDetails.getPageSize(),
+                pageDetails.getSortProperties(),
+                pageDetails.getTotalElements());
+    }
+
+    public static <T> WebPageResponse<T> of(T[] contents,
+                                            PageResponse<?> pageInfo) {
+        return new WebPageResponse<>(contents,
+                pageInfo.currentPage(),
+                pageInfo.totalPages(),
+                pageInfo.size(),
+                pageInfo.sortProperties(),
+                pageInfo.totalElements());
+    }
 }

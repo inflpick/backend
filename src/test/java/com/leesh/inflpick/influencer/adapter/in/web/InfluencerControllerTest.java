@@ -213,7 +213,7 @@ class InfluencerControllerTest {
 
 
         // when & then
-        Mockito.when(queryService.getById(id))
+        Mockito.when(queryService.query(id))
                 .thenReturn(influencer);
         Mockito.when(storageService.getUrlString(influencer.getProfileImagePath()))
                 .thenReturn(profileImageUrl);
@@ -247,7 +247,7 @@ class InfluencerControllerTest {
         String uuid = "test-uuid";
 
         // when & then
-        Mockito.when(queryService.getById(uuid))
+        Mockito.when(queryService.query(uuid))
                 .thenThrow(new InfluencerNotFoundException(uuid));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/influencers/{uuid}", uuid)
