@@ -58,7 +58,7 @@ springdoc:
     path: /v3/api-docs # Swagger API 기본접속 경로
 logging:
   level: # 적용할 곳과 레벨을 지정합니다.
-    root: warn
+    root: info
     com.leesh: debug
   file: # 로그 파일에 대한 명시입니다. 주의점 name과 path중 하나만 사용해야합니다. path 사용을 권장합니다.
     path: logs # 로그 파일의 위치 절대 경로를 적어주시면 됩니다.

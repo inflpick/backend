@@ -8,8 +8,8 @@ import lombok.Builder;
 import org.jetbrains.annotations.NotNull;
 
 @Builder
-public record KeywordCreateCommand(@NotNull KeywordName name,
-                                   @NotNull KeywordColor color) {
+public record KeywordCommand(@NotNull KeywordName name,
+                             @NotNull KeywordColor color) {
 
     public Keyword toEntity(UuidHolder uuidHolder) {
         return Keyword.builder()

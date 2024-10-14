@@ -2,7 +2,7 @@ package com.leesh.inflpick.keyword.core.service;
 
 import com.leesh.inflpick.keyword.core.domain.KeywordColor;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
-import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
+import com.leesh.inflpick.keyword.port.in.KeywordCommand;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.mock.FakeKeywordRepository;
 import org.assertj.core.api.Assertions;
@@ -29,7 +29,7 @@ class KeywordServiceImplTest {
     void createKeyword() {
         // given
         long count = repository.count();
-        KeywordCreateCommand command = KeywordCreateCommand.builder()
+        KeywordCommand command = KeywordCommand.builder()
                 .name(new KeywordName("키워드"))
                 .color(KeywordColor.from("#FFFFFF"))
                 .build();

@@ -1,7 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
@@ -34,7 +33,7 @@ import java.util.List;
 @RestController
 public class KeywordController {
 
-    private final KeywordCommandService createService;
+    private final KeywordCommandService commandService;
     private final KeywordReadService readService;
 
     @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "POST", apiPath = "/api/keywords")
@@ -43,12 +42,11 @@ public class KeywordController {
     })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리소스의 URI", schema = @Schema(type = "string"))),
-            @ApiResponse(responseCode = "400", description = "입력 값이 잘못된 경우", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))),
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody KeywordRequest request) {
-        String id = createService.create(request.toCommand());
+        String id = commandService.create(request.toCommand());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(id)
@@ -74,6 +72,24 @@ public class KeywordController {
                 .map(KeywordResponse::from)
                 .toList();
         return ResponseEntity.ok(bodies);
+    }
+
+    @Operation(summary = "키워드 수정", description = "키워드 수정",
+            security = {@SecurityRequirement(name = "Bearer-Auth")},
+            parameters = {
+                    @Parameter(name = "id", description = "키워드 ID", required = true, example = "1")
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(schema = @Schema(implementation = KeywordRequest.class)))
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "성공")
+    })
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update(@PathVariable String id,
+                                       @RequestBody KeywordRequest request) {
+        commandService.update(id, request.toCommand());
+        return ResponseEntity.noContent().build();
     }
 
 }

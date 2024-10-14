@@ -2,6 +2,7 @@ package com.leesh.inflpick.keyword.port.in;
 
 public interface KeywordCommandService {
 
-    String create(KeywordCreateCommand command);
+    String create(KeywordCommand command);
 
+    void update(String id, KeywordCommand command);
 }

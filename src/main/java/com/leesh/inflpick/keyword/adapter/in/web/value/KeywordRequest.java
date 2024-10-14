@@ -3,7 +3,7 @@ package com.leesh.inflpick.keyword.adapter.in.web.value;
 import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
 import com.leesh.inflpick.keyword.core.domain.KeywordColor;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;
-import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
+import com.leesh.inflpick.keyword.port.in.KeywordCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.jetbrains.annotations.Nullable;
@@ -33,9 +33,9 @@ public record KeywordRequest(@Schema(description = "키워드명(최소 1자, �
         }
     }
 
-    public KeywordCreateCommand toCommand() {
+    public KeywordCommand toCommand() {
         KeywordName keywordName = new KeywordName(name);
         KeywordColor color = KeywordColor.from(hexColor);
-        return new KeywordCreateCommand(keywordName, color);
+        return new KeywordCommand(keywordName, color);
     }
 }
