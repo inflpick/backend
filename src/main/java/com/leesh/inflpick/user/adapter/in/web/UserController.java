@@ -92,12 +92,9 @@ public class UserController {
     )
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WebPageResponse<UserWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
-                                                                 Integer page,
-                                                                 @RequestParam(name = "size", required = false, defaultValue = "20")
-                                                                 Integer size,
-                                                                 @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
-                                                                 String[] sort) {
+    public ResponseEntity<WebPageResponse<UserWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                                 @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
+                                                                 @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc") String[] sort) {
 
         PageRequest request = new WebOffsetPageRequest(page, size, sort);
         PageResponse<User> pageResponse = userQueryService.query(request);
