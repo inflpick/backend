@@ -2,6 +2,7 @@ package com.leesh.inflpick.keyword.core.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -10,8 +11,8 @@ public class Keyword {
 
     @Getter
     private final String id;
-    private final KeywordName name;
-    private final KeywordColor color;
+    private KeywordName name;
+    private KeywordColor color;
     @Getter
     private final Instant createdDate;
     @Getter
@@ -45,5 +46,10 @@ public class Keyword {
 
     public String getHexColor() {
         return color.hexColor();
+    }
+
+    public void update(@NotNull KeywordName name, @NotNull KeywordColor color) {
+        this.name = name;
+        this.color = color;
     }
 }

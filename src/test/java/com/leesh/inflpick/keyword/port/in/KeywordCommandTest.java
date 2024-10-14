@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class KeywordCreateCommandTest {
+class KeywordCommandTest {
 
     @Test
     @DisplayName("KeywordCreateCommand 객체로 키워드를 생성해야 한다")
@@ -16,7 +16,7 @@ class KeywordCreateCommandTest {
         // given
         KeywordName name = new KeywordName("example");
         KeywordColor color = KeywordColor.from("#FFFFFF");
-        KeywordCreateCommand command = KeywordCreateCommand.builder()
+        KeywordCommand command = KeywordCommand.builder()
                 .name(name)
                 .color(color)
                 .build();

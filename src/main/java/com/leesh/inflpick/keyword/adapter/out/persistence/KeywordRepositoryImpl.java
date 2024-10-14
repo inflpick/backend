@@ -61,4 +61,15 @@ public class KeywordRepositoryImpl implements KeywordRepository {
                 .collect(Collectors.toSet());
         return new Keywords(keywords);
     }
+
+    @Override
+    public Optional<Keyword> findById(String id) {
+        return keywordMongoRepository.findById(id)
+                .map(KeywordDocument::toEntity);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        keywordMongoRepository.deleteById(id);
+    }
 }

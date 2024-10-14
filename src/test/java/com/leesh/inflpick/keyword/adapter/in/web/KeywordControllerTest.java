@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web;
 
-import com.leesh.inflpick.keyword.port.in.KeywordCreateCommand;
+import com.leesh.inflpick.keyword.port.in.KeywordCommand;
 import com.leesh.inflpick.keyword.port.in.KeywordCommandService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +44,7 @@ class KeywordControllerTest {
         // when & then
         String testUuid = "test-id";
         Mockito.when(createService.create(
-                Mockito.any(KeywordCreateCommand.class)))
+                Mockito.any(KeywordCommand.class)))
                         .thenReturn(testUuid);
 
         mockMvc.perform(post(apiPath)
