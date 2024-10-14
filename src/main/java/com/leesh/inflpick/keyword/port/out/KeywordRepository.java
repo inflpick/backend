@@ -23,4 +23,6 @@ public interface KeywordRepository {
     Keywords getAllByIds(Set<String> keywordIds);
 
     Optional<Keyword> findById(String id);
+
+    void deleteById(String id);
 }

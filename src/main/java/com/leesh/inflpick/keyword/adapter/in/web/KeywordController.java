@@ -91,4 +91,17 @@ public class KeywordController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "키워드 삭제", description = "키워드 삭제",
+            security = {@SecurityRequirement(name = "Bearer-Auth")},
+            parameters = {@Parameter(name = "id", description = "키워드 ID", required = true, example = "92624c72-1cf2-4762-8c45-fe1a1f0a3e97")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "성공")
+    })
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        commandService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

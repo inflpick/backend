@@ -58,4 +58,14 @@ public class FakeKeywordRepository implements KeywordRepository {
 
         return new Keywords(keywords);
     }
+
+    @Override
+    public Optional<Keyword> findById(String id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(String id) {
+
+    }
 }

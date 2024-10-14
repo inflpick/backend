@@ -46,6 +46,11 @@ public class KeywordServiceImpl implements KeywordCommandService, KeywordReadSer
     }
 
     @Override
+    public void delete(String id) {
+        keywordRepository.deleteById(id);
+    }
+
+    @Override
     public List<Keyword> search(String name) {
         return keywordRepository.search(name);
     }
