@@ -26,11 +26,7 @@ public enum Direction {
                 .collect(Collectors.toList());
     }
 
-    public static Direction from(String direction) {
-        return findOrThrowMatchType(direction);
-    }
-
-    private static Direction findOrThrowMatchType(String direction) {
+    public static Direction findMatchTypeOrThrows(String direction) {
         Direction[] values = Direction.values();
         for (Direction value : values) {
             if (value.getValue().equals(direction)) {

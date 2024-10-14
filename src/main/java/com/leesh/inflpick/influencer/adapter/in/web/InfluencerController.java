@@ -38,7 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -126,13 +125,7 @@ public class InfluencerController {
 
         PageRequest request = new PageRequest(page, size, sort);
         String[] sortTypes = request.sort();
-        Collection<Pair<InfluencerSortType, Direction>> sortPairs = new ArrayList<>();
-        for (String sortType : sortTypes) {
-            String[] split = sortType.split(",");
-            InfluencerSortType influencerSortType = InfluencerSortType.from(split[0]);
-            Direction direction = Direction.from(split[1]);
-            sortPairs.add(Pair.of(influencerSortType, direction));
-        }
+        Collection<Pair<InfluencerSortType, Direction>> sortPairs = InfluencerSortType.toSortPairs(sortTypes);
         PageQuery<InfluencerSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
         PageDetails<Collection<Influencer>> influencerPage = influencerQueryService.getPage(pageQuery);
         List<InfluencerResponse> influencerResponses = convertToResponse(influencerPage);

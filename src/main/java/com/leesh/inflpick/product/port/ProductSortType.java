@@ -1,9 +1,12 @@
 package com.leesh.inflpick.product.port;
 
+import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.product.core.domain.exception.InvalidProductSortTypeException;
 import lombok.Getter;
+import org.springframework.data.util.Pair;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +30,7 @@ public enum ProductSortType {
                 .collect(Collectors.toList());
     }
 
-    public static ProductSortType from(String sort) {
-        return findOrThrowMatchType(sort);
-    }
-
-    private static ProductSortType findOrThrowMatchType(String sort) {
+    private static ProductSortType findMatchTypeOrThrows(String sort) {
         ProductSortType[] values = ProductSortType.values();
         for (ProductSortType value : values) {
             if (value.getValue().equals(sort)) {
@@ -39,6 +38,17 @@ public enum ProductSortType {
             }
         }
         throw new InvalidProductSortTypeException(sort);
+    }
+
+    public static Collection<Pair<ProductSortType, Direction>> toSortPairs(String[] sortTypes) {
+        return Arrays.stream(sortTypes)
+                .map(sortType -> {
+                    String[] split = sortType.split(",");
+                    ProductSortType productSortType = ProductSortType.findMatchTypeOrThrows(split[0]);
+                    Direction direction = Direction.findMatchTypeOrThrows(split[1]);
+                    return Pair.of(productSortType, direction);
+                })
+                .collect(Collectors.toList());
     }
 
 }

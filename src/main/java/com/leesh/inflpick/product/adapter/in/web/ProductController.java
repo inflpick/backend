@@ -41,9 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
 
@@ -118,13 +116,7 @@ public class ProductController {
 
         PageRequest request = new PageRequest(page, size, sort);
         String[] sortTypes = request.sort();
-        List<Pair<ProductSortType, Direction>> sortPairs = new ArrayList<>();
-        for (String sortType : sortTypes) {
-            String[] split = sortType.split(",");
-            ProductSortType productSortType = ProductSortType.from(split[0]);
-            Direction direction = Direction.from(split[1]);
-            sortPairs.add(Pair.of(productSortType, direction));
-        }
+        Collection<Pair<ProductSortType, Direction>> sortPairs = ProductSortType.toSortPairs(sortTypes);
         PageQuery<ProductSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
         PageDetails<Collection<Product>> productPage = queryService.getPage(pageQuery);
         Collection<ProductResponse> productResponses = productPage.content()
