@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.jetbrains.annotations.Nullable;
 
-@Schema(name = "키워드 생성 요청")
+@Schema(name = "키워드 요청")
 @Builder
 public record KeywordRequest(@Schema(description = "키워드명(최소 1자, 최대 30자)", example = "100만 유튜버", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED, minLength = KeywordName.MIN_LENGTH, maxLength = KeywordName.MAX_LENGTH)
                              String name,

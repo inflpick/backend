@@ -42,6 +42,8 @@ public class KeywordDocument implements Persistable<String> {
                 .id(keyword.getId())
                 .name(keyword.getName())
                 .color(keyword.getHexColor())
+                .createdDate(keyword.getCreatedDate())
+                .lastModifiedDate(keyword.getLastModifiedDate())
                 .build();
     }
 

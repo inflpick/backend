@@ -28,7 +28,7 @@ public class KeywordServiceImpl implements KeywordCommandService, KeywordReadSer
     public String create(KeywordCommand command) {
         keywordRepository.findByName(command.name())
                 .ifPresent(keyword -> {
-                    throw new DuplicateKeywordNameException("imagePath", command.name().name(), "Keyword");
+                    throw new DuplicateKeywordNameException("키워드 이름", command.name().name(), "Keyword");
                 });
         Keyword entity = command.toEntity(uuidHolder);
         keywordRepository.save(entity);
@@ -38,7 +38,11 @@ public class KeywordServiceImpl implements KeywordCommandService, KeywordReadSer
 
     @Override
     public void update(String id, KeywordCommand command) {
-
+        keywordRepository.findById(id)
+                .ifPresent(keyword -> {
+                    keyword.update(command.name(), command.color());
+                    keywordRepository.save(keyword);
+                });
     }
 
     @Override
