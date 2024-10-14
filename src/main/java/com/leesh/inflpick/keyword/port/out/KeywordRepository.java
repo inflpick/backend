@@ -18,11 +18,9 @@ public interface KeywordRepository {
 
     Optional<Keyword> findByName(KeywordName name);
 
-    List<Keyword> search(String name);
+    List<Keyword> search(KeywordName name);
 
     Keywords getAllByIds(Set<String> keywordIds);
 
-    Optional<Keyword> findById(String id);
-
-    void deleteById(String id);
+    void deleteByName(KeywordName name);
 }

@@ -46,8 +46,8 @@ public class KeywordRepositoryImpl implements KeywordRepository {
     }
 
     @Override
-    public List<Keyword> search(String name) {
-        return keywordMongoRepository.searchBy(name)
+    public List<Keyword> search(KeywordName name) {
+        return keywordMongoRepository.searchBy(name.name())
                 .stream()
                 .map(KeywordDocument::toEntity)
                 .toList();
@@ -63,13 +63,7 @@ public class KeywordRepositoryImpl implements KeywordRepository {
     }
 
     @Override
-    public Optional<Keyword> findById(String id) {
-        return keywordMongoRepository.findById(id)
-                .map(KeywordDocument::toEntity);
-    }
-
-    @Override
-    public void deleteById(String id) {
-        keywordMongoRepository.deleteById(id);
+    public void deleteByName(KeywordName name) {
+        keywordMongoRepository.deleteByName(name.name());
     }
 }

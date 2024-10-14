@@ -46,8 +46,8 @@ public class FakeKeywordRepository implements KeywordRepository {
     }
 
     @Override
-    public List<Keyword> search(String name) {
-        return data;
+    public List<Keyword> search(KeywordName name) {
+        return List.of();
     }
 
     @Override
@@ -60,12 +60,7 @@ public class FakeKeywordRepository implements KeywordRepository {
     }
 
     @Override
-    public Optional<Keyword> findById(String id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public void deleteById(String id) {
+    public void deleteByName(KeywordName name) {
 
     }
 }

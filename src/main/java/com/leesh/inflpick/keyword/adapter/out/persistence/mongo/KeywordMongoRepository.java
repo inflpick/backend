@@ -16,4 +16,6 @@ public interface KeywordMongoRepository extends MongoRepository<KeywordDocument,
     List<KeywordDocument> searchBy(@NotNull String name);
 
     List<KeywordDocument> findAllByIdIn(Collection<String> id);
+
+    void deleteByName(@NotNull String name);
 }

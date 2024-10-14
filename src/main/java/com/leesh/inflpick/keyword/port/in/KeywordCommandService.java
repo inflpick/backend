@@ -1,10 +1,12 @@
 package com.leesh.inflpick.keyword.port.in;
 
+import com.leesh.inflpick.keyword.core.domain.KeywordName;
+
 public interface KeywordCommandService {
 
     String create(KeywordCommand command);
 
-    void update(String id, KeywordCommand command);
+    void update(KeywordCommand command, KeywordName keywordName);
 
-    void delete(String id);
+    void delete(KeywordName keywordName);
 }

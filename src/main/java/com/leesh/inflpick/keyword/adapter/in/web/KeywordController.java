@@ -4,6 +4,7 @@ import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
+import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.KeywordCommandService;
 import com.leesh.inflpick.keyword.port.in.KeywordReadService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,7 +69,8 @@ public class KeywordController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<KeywordResponse>> search(@RequestParam(value = "name") String name) {
 
-        List<KeywordResponse> bodies = readService.search(name)
+        KeywordName keywordName = KeywordName.from(name);
+        List<KeywordResponse> bodies = readService.search(keywordName)
                 .stream()
                 .map(KeywordResponse::from)
                 .toList();
@@ -84,10 +86,11 @@ public class KeywordController {
             @ApiResponse(responseCode = "204", description = "성공")
     })
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@PathVariable String id,
+    @PutMapping(path = "/{name}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> update(@PathVariable String name,
                                        @RequestBody KeywordRequest request) {
-        commandService.update(id, request.toCommand());
+        KeywordName keywordName = KeywordName.from(name);
+        commandService.update(request.toCommand(), keywordName);
         return ResponseEntity.noContent().build();
     }
 
@@ -98,9 +101,10 @@ public class KeywordController {
             @ApiResponse(responseCode = "204", description = "성공")
     })
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        commandService.delete(id);
+    @DeleteMapping(path = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> delete(@PathVariable String name) {
+        KeywordName keywordName = KeywordName.from(name);
+        commandService.delete(keywordName);
         return ResponseEntity.noContent().build();
     }
 
