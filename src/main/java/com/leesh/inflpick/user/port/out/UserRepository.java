@@ -1,8 +1,11 @@
 package com.leesh.inflpick.user.port.out;
 
+import com.leesh.inflpick.common.port.PageDetails;
+import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
 import com.leesh.inflpick.user.core.domain.User;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -17,4 +20,5 @@ public interface UserRepository {
 
     Optional<User> getByOauth2UserInfo(Oauth2UserInfo oauth2UserInfo);
 
+    PageDetails<Collection<User>> getPage(PageQuery pageQuery);
 }

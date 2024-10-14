@@ -1,13 +1,12 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence;
 
-import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
@@ -16,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -60,10 +58,9 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     }
 
     @Override
-    public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
+    public PageDetails<Collection<Influencer>> getPage(PageQuery query) {
 
-        Sort sortCriteria = getSortCriteria(query.sortPairs());
-
+        Sort sortCriteria = PageSortConverter.convertSortCriteria(query.sortPairs());
         PageRequest pageRequest = PageRequest.of(query.page(),
                 query.size(),
                 sortCriteria);
@@ -73,31 +70,15 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
         Set<String> allKeywordIds = getAllKeywordIds(content);
         List<Influencer> contents = convertToEntities(allKeywordIds, content);
 
-        return new PageDetails<>(
+        String[] sortProperties = PageSortConverter.convertSortProperties(documentPage.getSort());
+
+        return PageDetails.of(
                 documentPage.getNumber(),
                 documentPage.getSize(),
                 documentPage.getTotalPages(),
                 documentPage.getTotalElements(),
-                getSortProperties(documentPage.getSort()),
+                sortProperties,
                 contents);
-    }
-
-    private static String @NotNull [] getSortProperties(Sort sort) {
-        return sort.isSorted() ?
-                sort.toString().split(",") :
-                Sort.unsorted().toString().split(",");
-    }
-
-    private Sort getSortCriteria(Collection<Pair<InfluencerSortType, Direction>> sortPairs) {
-        Sort sortOrder = Sort.unsorted();
-        for (Pair<InfluencerSortType, Direction> sortPair : sortPairs) {
-            InfluencerSortType sortType = sortPair.getFirst();
-            String sortField = sortType.getValue();
-            Direction direction = sortPair.getSecond();
-            Sort.Direction sortDirection = direction.isDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
-            sortOrder = sortOrder.and(Sort.by(sortDirection, sortField));
-        }
-        return sortOrder;
     }
 
     private @NotNull List<Influencer> convertToEntities(Set<String> allKeywordIds, List<InfluencerDocument> content) {

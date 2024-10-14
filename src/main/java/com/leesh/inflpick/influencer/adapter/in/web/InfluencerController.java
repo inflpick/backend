@@ -1,11 +1,12 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
-import com.leesh.inflpick.common.adapter.in.web.value.PageResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.WebPageRequest;
+import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.SortType;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.*;
@@ -116,27 +117,27 @@ public class InfluencerController {
             }
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PageResponse<InfluencerResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
+    public ResponseEntity<WebPageResponse<InfluencerResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
                                                                  Integer page,
-                                                                 @RequestParam(name = "size", required = false, defaultValue = "20")
+                                                                    @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                  Integer size,
-                                                                 @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
+                                                                    @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                  String[] sort) {
 
-        PageRequest request = new PageRequest(page, size, sort);
+        WebPageRequest request = new WebPageRequest(page, size, sort);
         String[] sortTypes = request.sort();
-        Collection<Pair<InfluencerSortType, Direction>> sortPairs = InfluencerSortType.toSortPairs(sortTypes);
-        PageQuery<InfluencerSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
+        Collection<Pair<SortType, Direction>> sortPairs = InfluencerSortType.toSortPairs(sortTypes);
+        PageQuery pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
         PageDetails<Collection<Influencer>> influencerPage = influencerQueryService.getPage(pageQuery);
         List<InfluencerResponse> influencerResponses = convertToResponse(influencerPage);
-        PageResponse<InfluencerResponse> pageResponse = new PageResponse<>(
+        WebPageResponse<InfluencerResponse> webPageResponse = new WebPageResponse<>(
                 influencerResponses.toArray(InfluencerResponse[]::new),
                 influencerPage.currentPage(),
                 influencerPage.totalPages(),
                 influencerPage.size(),
                 influencerPage.sorts(),
                 influencerPage.totalElements());
-        return ResponseEntity.ok(pageResponse);
+        return ResponseEntity.ok(webPageResponse);
     }
 
     private @NotNull List<InfluencerResponse> convertToResponse(PageDetails<Collection<Influencer>> influencerPage) {

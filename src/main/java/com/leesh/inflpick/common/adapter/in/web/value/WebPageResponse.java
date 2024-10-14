@@ -3,7 +3,7 @@ package com.leesh.inflpick.common.adapter.in.web.value;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "페이지 응답")
-public record PageResponse<T>(
+public record WebPageResponse<T>(
         T[] contents,
         @Schema(description = "현재 페이지", example = "0", implementation = Integer.class, requiredMode = Schema.RequiredMode.REQUIRED)
         int currentPage,

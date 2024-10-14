@@ -7,4 +7,18 @@ public record PageDetails<T>(
         long totalElements,
         String[] sorts,
         T content) {
+
+    public static <T> PageDetails<T> of(int currentPage,
+                                        int size,
+                                        int totalPages,
+                                        long totalElements,
+                                        String[] sorts,
+                                        T content) {
+        return new PageDetails<>(currentPage,
+                size,
+                totalPages,
+                totalElements,
+                sorts,
+                content);
+    }
 }

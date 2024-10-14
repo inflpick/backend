@@ -7,7 +7,6 @@ import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;
-import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
@@ -42,8 +41,8 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     }
 
     @Override
-    public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
-        return influencerRepository.getPage(query);
+    public PageDetails<Collection<Influencer>> getPage(PageQuery pageQuery) {
+        return influencerRepository.getPage(pageQuery);
     }
 
     @Override

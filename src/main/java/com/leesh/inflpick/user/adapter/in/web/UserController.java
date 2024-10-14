@@ -3,11 +3,13 @@ package com.leesh.inflpick.user.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.common.adapter.in.web.security.CustomOauth2User;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
+import com.leesh.inflpick.common.adapter.in.web.value.WebPageRequest;
 import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
 import com.leesh.inflpick.user.core.domain.User;
 import com.leesh.inflpick.user.port.UserSortType;
+import com.leesh.inflpick.user.port.in.UserQueryService;
 import com.leesh.inflpick.user.port.out.AuthenticationToken;
 import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -37,6 +39,7 @@ import java.util.Collection;
 public class UserController {
 
     private final AuthenticationTokenService tokenService;
+    private final UserQueryService userQueryService;
 
     @ApiErrorCodeSwaggerDocs(values = {Oauth2LoginApiErrorCode.class}, httpMethod = "GET", apiPath = "/oauth2/authorization/{oauth2Type}")
     @Operation(summary = "소셜 로그인 API",
@@ -96,10 +99,11 @@ public class UserController {
                                      @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                      String[] sort) {
 
-        PageRequest request = new PageRequest(page, size, sort);
+        WebPageRequest request = new WebPageRequest(page, size, sort);
         String[] sortTypes = request.sort();
         Collection<Pair<UserSortType, Direction>> sortPairs = UserSortType.toSortPairs(sortTypes);
         PageQuery<UserSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
+        PageDetails<Collection<User>> userPage = userQueryService.getPage(pageQuery);
         return ResponseEntity.ok().body(null);
     }
 

@@ -1,5 +1,6 @@
 package com.leesh.inflpick.product.adapter.out.persistence;
 
+import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
 import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
@@ -55,10 +56,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPage(PageQuery<ProductSortType> query) {
+    public PageDetails<Collection<Product>> getPage(PageQuery query) {
 
-        Sort sortCriteria = getSortCriteria(query.sortPairs());
-
+        Sort sortCriteria = PageSortConverter.convertSortCriteria(query.sortPairs());
         PageRequest pageRequest = PageRequest.of(query.page(),
                 query.size(),
                 sortCriteria);
@@ -68,12 +68,14 @@ public class ProductRepositoryImpl implements ProductRepository {
         Set<String> allKeywordIds = getAllKeywordIds(content);
         List<Product> contents = convertToEntities(allKeywordIds, content);
 
-        return new PageDetails<>(
+        String[] sortProperties = PageSortConverter.convertSortProperties(documentPage.getSort());
+
+        return PageDetails.of(
                 documentPage.getNumber(),
                 documentPage.getSize(),
                 documentPage.getTotalPages(),
                 documentPage.getTotalElements(),
-                getSortProperties(documentPage.getSort()),
+                sortProperties,
                 contents);
     }
 
@@ -86,18 +88,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         return sort.isSorted() ?
                 sort.toString().split(",") :
                 Sort.unsorted().toString().split(",");
-    }
-
-    private Sort getSortCriteria(Collection<Pair<ProductSortType, Direction>> sortPairs) {
-        Sort sortOrder = Sort.unsorted();
-        for (Pair<ProductSortType, Direction> sortPair : sortPairs) {
-            ProductSortType sortType = sortPair.getFirst();
-            String sortField = sortType.getValue();
-            Direction direction = sortPair.getSecond();
-            Sort.Direction sortDirection = direction.isDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
-            sortOrder = sortOrder.and(Sort.by(sortDirection, sortField));
-        }
-        return sortOrder;
     }
 
     private @NotNull List<Product> convertToEntities(Set<String> allKeywordIds, List<ProductDocument> content) {

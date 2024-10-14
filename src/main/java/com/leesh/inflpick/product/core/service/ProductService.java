@@ -8,7 +8,6 @@ import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.ProductCommand;
-import com.leesh.inflpick.product.port.ProductSortType;
 import com.leesh.inflpick.product.port.in.ProductCommandService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
@@ -71,7 +70,7 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPage(PageQuery<ProductSortType> query) {
+    public PageDetails<Collection<Product>> getPage(PageQuery query) {
         return productRepository.getPage(query);
     }
 }

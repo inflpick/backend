@@ -2,11 +2,12 @@ package com.leesh.inflpick.product.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.common.adapter.in.web.value.PageRequest;
-import com.leesh.inflpick.common.adapter.in.web.value.PageResponse;
+import com.leesh.inflpick.common.adapter.in.web.value.WebPageRequest;
+import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.core.Direction;
 import com.leesh.inflpick.common.port.PageDetails;
 import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.SortType;
 import com.leesh.inflpick.common.port.in.FileTypeValidator;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerGetListsApiErrorCode;
@@ -104,20 +105,20 @@ public class ProductController {
     @ApiErrorCodeSwaggerDocs(values = {InfluencerGetListsApiErrorCode.class}, httpMethod = "GET", apiPath = "/products?page={page}&size={size}&sort={sortType,sortDirection}")
     @Operation(summary = "제품 목록 조회", description = "제품 목록을 조회합니다.")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PageResponse<ProductResponse>> list(@Parameter(description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class))
+    public ResponseEntity<WebPageResponse<ProductResponse>> list(@Parameter(description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "page", required = false, defaultValue = "0")
                                                                        Integer page,
-                                                                       @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
+                                                                 @Parameter(description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class))
                                                                        @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @Parameter(description = "정렬 기준 (여러개 가능) [nickname | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                                                                 @Parameter(description = "정렬 기준 (여러개 가능) [nickname | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc", array = @ArraySchema(schema = @Schema(implementation = String.class)))
                                                                        @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 
-        PageRequest request = new PageRequest(page, size, sort);
+        WebPageRequest request = new WebPageRequest(page, size, sort);
         String[] sortTypes = request.sort();
-        Collection<Pair<ProductSortType, Direction>> sortPairs = ProductSortType.toSortPairs(sortTypes);
-        PageQuery<ProductSortType> pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
+        Collection<Pair<SortType, Direction>> sortPairs = ProductSortType.toSortPairs(sortTypes);
+        PageQuery pageQuery = PageQuery.of(request.page(), request.size(), sortPairs);
         PageDetails<Collection<Product>> productPage = queryService.getPage(pageQuery);
         Collection<ProductResponse> productResponses = productPage.content()
                 .stream()
@@ -127,14 +128,14 @@ public class ProductController {
                     return ProductResponse.from(product, productImageUrl);
                 })
                 .toList();
-        PageResponse<ProductResponse> pageResponse = new PageResponse<>(
+        WebPageResponse<ProductResponse> webPageResponse = new WebPageResponse<>(
                 productResponses.toArray(ProductResponse[]::new),
                 productPage.currentPage(),
                 productPage.totalPages(),
                 productPage.size(),
                 productPage.sorts(),
                 productPage.totalElements());
-        return ResponseEntity.ok(pageResponse);
+        return ResponseEntity.ok(webPageResponse);
     }
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/products/{id}")

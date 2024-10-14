@@ -1,7 +1,7 @@
 package com.leesh.inflpick.user.port;
 
 import com.leesh.inflpick.common.core.Direction;
-import lombok.Getter;
+import com.leesh.inflpick.common.port.SortType;
 import org.springframework.data.util.Pair;
 
 import java.util.Arrays;
@@ -9,8 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-public enum UserSortType {
+public enum UserSortType implements SortType {
 
     NAME("name"),
     CREATED_DATE("createdDate"),
@@ -25,14 +24,14 @@ public enum UserSortType {
 
     public static List<String> availableSortTypes() {
         return Arrays.stream(UserSortType.values())
-                .map(UserSortType::getValue)
+                .map(UserSortType::getSortValue)
                 .collect(Collectors.toList());
     }
 
     private static UserSortType findMatchTypeOrThrows(String sort) {
         UserSortType[] values = UserSortType.values();
         for (UserSortType value : values) {
-            if (value.getValue().equals(sort)) {
+            if (value.getSortValue().equals(sort)) {
                 return value;
             }
         }
@@ -50,4 +49,8 @@ public enum UserSortType {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String getSortValue() {
+        return value;
+    }
 }

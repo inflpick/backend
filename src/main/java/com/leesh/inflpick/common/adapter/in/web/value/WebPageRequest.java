@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public record PageRequest(
+public record WebPageRequest(
         @Schema(description = "페이지 번호 (0부터 시작)", example = "0", defaultValue = "0", implementation = Integer.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
         Integer page,
         @Schema(description = "페이지 크기", example = "20", defaultValue = "20", implementation = Integer.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -19,9 +19,9 @@ public record PageRequest(
     private static final int DEFAULT_SIZE = 20;
     private static final String[] DEFAULT_SORT = {"createdDate,asc"};
 
-    public PageRequest(@Nullable Integer page,
-                       @Nullable Integer size,
-                       @Nullable String[] sort) {
+    public WebPageRequest(@Nullable Integer page,
+                          @Nullable Integer size,
+                          @Nullable String[] sort) {
         this.page = Objects.requireNonNullElse(page, DEFAULT_PAGE);
         this.size = Objects.requireNonNullElse(size, DEFAULT_SIZE);
         this.sort = Objects.requireNonNullElse(sort, DEFAULT_SORT);

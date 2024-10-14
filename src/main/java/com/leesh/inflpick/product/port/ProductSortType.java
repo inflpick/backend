@@ -1,8 +1,8 @@
 package com.leesh.inflpick.product.port;
 
 import com.leesh.inflpick.common.core.Direction;
+import com.leesh.inflpick.common.port.SortType;
 import com.leesh.inflpick.product.core.domain.exception.InvalidProductSortTypeException;
-import lombok.Getter;
 import org.springframework.data.util.Pair;
 
 import java.util.Arrays;
@@ -10,8 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-public enum ProductSortType {
+public enum ProductSortType implements SortType {
 
     NAME("name"),
     CREATED_DATE("createdDate"),
@@ -26,29 +25,33 @@ public enum ProductSortType {
 
     public static List<String> availableSortTypes() {
         return Arrays.stream(ProductSortType.values())
-                .map(ProductSortType::getValue)
+                .map(ProductSortType::getSortValue)
                 .collect(Collectors.toList());
     }
 
     private static ProductSortType findMatchTypeOrThrows(String sort) {
         ProductSortType[] values = ProductSortType.values();
         for (ProductSortType value : values) {
-            if (value.getValue().equals(sort)) {
+            if (value.getSortValue().equals(sort)) {
                 return value;
             }
         }
         throw new InvalidProductSortTypeException(sort);
     }
 
-    public static Collection<Pair<ProductSortType, Direction>> toSortPairs(String[] sortTypes) {
+    public static Collection<Pair<SortType, Direction>> toSortPairs(String[] sortTypes) {
         return Arrays.stream(sortTypes)
                 .map(sortType -> {
                     String[] split = sortType.split(",");
-                    ProductSortType productSortType = ProductSortType.findMatchTypeOrThrows(split[0]);
+                    SortType productSortType = ProductSortType.findMatchTypeOrThrows(split[0]);
                     Direction direction = Direction.findMatchTypeOrThrows(split[1]);
                     return Pair.of(productSortType, direction);
                 })
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String getSortValue() {
+        return value;
+    }
 }
