@@ -23,7 +23,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
@@ -62,9 +61,11 @@ public class InfluencerController {
             security = {
                     @SecurityRequirement(name = "Bearer-Auth")
             },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true)
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true),
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string")))
+            }
     )
-    @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string")))
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@RequestBody
@@ -86,11 +87,11 @@ public class InfluencerController {
             description = "인플루언서를 단건 조회합니다.",
             parameters = {
                     @Parameter(name = "id", schema = @Schema(type = "string"), required = true, example = "f103314b-778c-49fc-ae9c-7956794a3bdf", description = "인플루언서 ID")
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
             }
     )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
-    })
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InfluencerResponse> get(@PathVariable String id) {
         Influencer influencer = influencerQueryService.getById(id);
@@ -164,11 +165,11 @@ public class InfluencerController {
             parameters = {
                 @Parameter(name = "id", schema = @Schema(type = "string"), required = true, example = "f103314b-778c-49fc-ae9c-7956794a3bdf", description = "인플루언서 ID")
             },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 수정 요청 정보", required = true)
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 수정 요청 정보", required = true),
+            responses = {
+                @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
+            }
     )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
-    })
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@PathVariable(value = "id")
@@ -189,11 +190,11 @@ public class InfluencerController {
             },
             parameters = {
                     @Parameter(name = "id", schema = @Schema(type = "string"), required = true, example = "f103314b-778c-49fc-ae9c-7956794a3bdf", description = "인플루언서 ID")
+            },
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
             }
     )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "성공 (본문 없음)"),
-    })
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> delete(@PathVariable(value = "id")
@@ -216,10 +217,15 @@ public class InfluencerController {
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "프로필 이미지 파일", required = true,
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                    schema = @Schema(type = "string", format = "binary"))
-            )
+                    schema = @Schema(type = "string", format = "binary"),
+                    examples = {
+                            @ExampleObject(name = "profileImage", value = "프로필 이미지 파일", description = "프로필 이미지 파일")
+                    })
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "성공 (본문 없음)")
+            }
     )
-    @ApiResponse(responseCode = "204", description = "성공 (본문 없음)")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping(path = "/{id}/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateProfileImage(@PathVariable(value = "id")
