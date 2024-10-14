@@ -49,4 +49,10 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Hidden
+    @GetMapping(path = "/loginFailure")
+    public ResponseEntity<LoginResponse> loginFailure() {
+        throw new UnauthorizedException("로그인에 실패하였습니다.");
+    }
+
 }
