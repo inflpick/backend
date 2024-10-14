@@ -80,7 +80,7 @@ public class KeywordController {
     @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "PUT", apiPath = "/keywords")
     @Operation(summary = "키워드 수정", description = "키워드 수정",
             security = {@SecurityRequirement(name = "Bearer-Auth")},
-            parameters = {@Parameter(name = "id", description = "키워드 ID", required = true, example = "92624c72-1cf2-4762-8c45-fe1a1f0a3e97")},
+            parameters = {@Parameter(name = "name", description = "키워드 이름", required = true, example = "100만 유튜버")},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(schema = @Schema(implementation = KeywordRequest.class))))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공")
@@ -96,7 +96,7 @@ public class KeywordController {
 
     @Operation(summary = "키워드 삭제", description = "키워드 삭제",
             security = {@SecurityRequirement(name = "Bearer-Auth")},
-            parameters = {@Parameter(name = "id", description = "키워드 ID", required = true, example = "92624c72-1cf2-4762-8c45-fe1a1f0a3e97")})
+            parameters = {@Parameter(name = "name", description = "키워드 이름", required = true, example = "100만 유튜버")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공")
     })
