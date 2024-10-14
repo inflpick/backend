@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 @Builder
 public record KeywordRequest(
         @Schema(description = "키워드명(최소 1자, 최대 30자)",
-                example = "100만 유튜버",
+                example = "기술",
                 implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED,
                 minLength = KeywordName.MIN_LENGTH,
                 maxLength = KeywordName.MAX_LENGTH)

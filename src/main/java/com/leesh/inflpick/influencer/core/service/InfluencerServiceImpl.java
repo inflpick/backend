@@ -1,7 +1,5 @@
 package com.leesh.inflpick.influencer.core.service;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQueryTemp;
 import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
@@ -23,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Set;
 
 @Builder

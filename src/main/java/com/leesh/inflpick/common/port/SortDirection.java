@@ -1,6 +1,5 @@
 package com.leesh.inflpick.common.port;
 
-import com.leesh.inflpick.common.port.in.exception.InvalidDirectionException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -20,20 +19,10 @@ public enum SortDirection {
         this.value = value;
     }
 
-    public static List<String> availableDirections() {
+    public static List<String> availableDirectionsValues() {
         return Arrays.stream(SortDirection.values())
-                .map(Enum::name)
+                .map(SortDirection::getValue)
                 .collect(Collectors.toList());
-    }
-
-    public static SortDirection findMatchTypeOrThrows(String direction) {
-        SortDirection[] values = SortDirection.values();
-        for (SortDirection value : values) {
-            if (value.getValue().equals(direction)) {
-                return value;
-            }
-        }
-        throw new InvalidDirectionException(direction);
     }
 
     public boolean isAscending() {

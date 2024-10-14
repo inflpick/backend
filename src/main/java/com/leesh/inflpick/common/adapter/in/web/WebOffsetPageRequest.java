@@ -1,6 +1,5 @@
 package com.leesh.inflpick.common.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.exception.InvalidSortParameterException;
 import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.SortCriterion;
 import com.leesh.inflpick.common.port.SortDirection;
@@ -31,15 +30,6 @@ public record WebOffsetPageRequest(
         this.page = Objects.requireNonNullElse(page, DEFAULT_PAGE);
         this.size = Objects.requireNonNullElse(size, DEFAULT_SIZE);
         this.sort = Objects.requireNonNullElse(sort, DEFAULT_SORT);
-        validateSort();
-    }
-
-    private void validateSort() {
-        for (String sortDirection : this.sort) {
-            if (sortDirection.split(",").length != 2) {
-                throw new InvalidSortParameterException();
-            }
-        }
     }
 
     @Override
@@ -47,7 +37,7 @@ public record WebOffsetPageRequest(
 
         Collection<SortCriterion> sortCriteria = new ArrayList<>();
         Collection<String> sortFields = sortableProperties.availableValues();
-        Collection<String> sortDirections = SortDirection.availableDirections();
+        Collection<String> sortDirections = SortDirection.availableDirectionsValues();
 
         for (String sort : this.sort) {
             String[] split = sort.split(",");

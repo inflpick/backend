@@ -61,7 +61,7 @@ public class KeywordController {
 
     @Operation(summary = "키워드 명으로 검색", description = "입력한 키워드 명과 \"유사한\" 키워드를 검색합니다.",
     parameters = {
-            @Parameter(name = "name", description = "키워드 명", required = true, example = "100만 유튜버")
+            @Parameter(name = "name", description = "키워드 명", required = true, example = "기술")
     })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
@@ -80,7 +80,7 @@ public class KeywordController {
     @ApiErrorCodeSwaggerDocs(values = KeywordCreateApiErrorCode.class, httpMethod = "PUT", apiPath = "/keywords")
     @Operation(summary = "키워드 수정", description = "키워드 수정",
             security = {@SecurityRequirement(name = "Bearer-Auth")},
-            parameters = {@Parameter(name = "name", description = "키워드 이름", required = true, example = "100만 유튜버")},
+            parameters = {@Parameter(name = "name", description = "키워드 이름", required = true, example = "기술")},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(schema = @Schema(implementation = KeywordRequest.class))))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공")
@@ -96,7 +96,7 @@ public class KeywordController {
 
     @Operation(summary = "키워드 삭제", description = "키워드 삭제",
             security = {@SecurityRequirement(name = "Bearer-Auth")},
-            parameters = {@Parameter(name = "name", description = "키워드 이름", required = true, example = "100만 유튜버")})
+            parameters = {@Parameter(name = "name", description = "키워드 이름", required = true, example = "기술")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공")
     })

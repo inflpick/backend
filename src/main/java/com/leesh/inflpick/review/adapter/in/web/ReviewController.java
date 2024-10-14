@@ -7,11 +7,11 @@ import com.leesh.inflpick.common.adapter.in.web.value.CursorResponse;
 import com.leesh.inflpick.common.port.CursorPage;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerResponse;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerWebResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;
-import com.leesh.inflpick.product.adapter.in.web.value.ProductResponse;
+import com.leesh.inflpick.product.adapter.in.web.value.ProductWebResponse;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.review.core.domain.Review;
@@ -77,11 +77,11 @@ public class ReviewController {
                 .map(review -> {
                     String reviewerProfileImageUrl = storageService.getUrlString(review.getReviewer().getProfileImagePath());
                     String productImageUrl = storageService.getUrlString(review.getProduct().getProductImagePath());
-                    return ReviewResponse.from(review, InfluencerResponse.from(
+                    return ReviewResponse.from(review, InfluencerWebResponse.from(
                             influencerQueryService.query(review.getReviewer().getId()),
                             reviewerProfileImageUrl
-                    ), ProductResponse.from(
-                            productQueryService.getById(review.getProduct().getId()),
+                    ), ProductWebResponse.from(
+                            productQueryService.query(review.getProduct().getId()),
                             productImageUrl
                     ));
                 })
@@ -105,7 +105,7 @@ public class ReviewController {
                                        ReviewRequest request) {
 
         Influencer reviewer = influencerQueryService.query(request.influencerId());
-        Product product = productQueryService.getById(request.productId());
+        Product product = productQueryService.query(request.productId());
         ReviewCommand command = request.toCommand();
         String reviewId = reviewCommandService.create(reviewer, product, command);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()

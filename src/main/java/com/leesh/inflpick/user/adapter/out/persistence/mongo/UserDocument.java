@@ -1,10 +1,7 @@
 package com.leesh.inflpick.user.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.user.adapter.in.web.Oauth2Type;
-import com.leesh.inflpick.user.core.domain.Nickname;
-import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
-import com.leesh.inflpick.user.core.domain.Role;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.core.domain.*;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
@@ -21,6 +18,7 @@ public class UserDocument implements Persistable<String> {
     @Getter
     private String id;
     private String nickname;
+    private String email;
     private String profileImageUrl;
     private String role;
     private String oauth2UserId;
@@ -37,6 +35,7 @@ public class UserDocument implements Persistable<String> {
     public static UserDocument from(User user) {
         return UserDocument.builder()
                 .id(user.getId())
+                .email(user.getEmail())
                 .nickname(user.getNickname())
                 .profileImageUrl(user.getProfileImageUrl())
                 .role(user.getRole().name())
@@ -47,12 +46,14 @@ public class UserDocument implements Persistable<String> {
 
     public User toEntity() {
         Nickname nickname = Nickname.from(this.nickname);
+        UserEmail email = UserEmail.from(this.email);
         Role role = Role.from(this.role);
         Oauth2Type oauth2Type = Oauth2Type.valueOf(this.oauth2Type);
         Oauth2UserInfo oauth2UserInfo = Oauth2UserInfo.of(oauth2UserId, oauth2Type);
         return User.builder()
                 .id(id)
                 .nickname(nickname)
+                .email(email)
                 .profileImageUrl(profileImageUrl)
                 .role(role)
                 .oauth2UserInfo(oauth2UserInfo)

@@ -1,8 +1,11 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.leesh.inflpick.user.core.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+
+import java.time.Instant;
 
 @Schema(description = "유저 응답")
 @Builder
@@ -22,16 +25,19 @@ public record UserWebResponse(
         @Schema(description = "유저 소셜 로그인 ID", example = "1234567890", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String oauth2Id,
         @Schema(description = "유저 회원 가입일 (UTC)", example = "2021-07-01T00:00:00Z", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-        String joinedDate) {
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
+        Instant joinedDate) {
 
     public static UserWebResponse from(User user) {
         return UserWebResponse.builder()
                 .id(user.getId())
+                .role(user.getRole().name())
                 .nickname(user.getNickname())
                 .profileImageUrl(user.getProfileImageUrl())
                 .email(user.getEmail())
                 .oauth2Type(user.getOauth2Type())
                 .oauth2Id(user.getOauth2UserId())
+                .joinedDate(user.getCreatedDate())
                 .build();
     }
 

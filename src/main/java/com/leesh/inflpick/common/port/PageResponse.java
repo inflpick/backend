@@ -14,6 +14,6 @@ public interface PageResponse<T> {
 
     Long totalElements();
 
-    String[] sortProperties();
+    String sortProperties();
 
 }

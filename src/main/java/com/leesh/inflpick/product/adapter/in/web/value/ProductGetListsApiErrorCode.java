@@ -1,12 +1,10 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
-import com.leesh.inflpick.product.core.domain.exception.InvalidProductSortTypeException;
 import org.springframework.http.HttpStatus;
 
 public enum ProductGetListsApiErrorCode implements ApiErrorCode {
 
-    INVALID_SORT_TYPE("P_L_0001", HttpStatus.BAD_REQUEST, "유효한 정렬 타입을 입력해주세요.", InvalidProductSortTypeException.ERROR_MESSAGE_FORMAT.toPattern(), "정렬 타입이 올바르지 않은 경우에 발생합니다."),
     ;
 
     private final String code;

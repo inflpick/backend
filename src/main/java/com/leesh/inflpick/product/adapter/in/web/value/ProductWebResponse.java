@@ -12,7 +12,7 @@ import java.util.List;
 
 @Schema(name = "제품 조회 응답")
 @Builder
-public record ProductResponse(
+public record ProductWebResponse(
         @Schema(description = "ID", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String id,
         @Schema(description = "제품명", example = "마이프로틴 “6레이어 프로틴바” (육겹바)", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
@@ -32,7 +32,7 @@ public record ProductResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
         Instant lastModifiedDate) {
 
-    public static ProductResponse from(Product product, String productImageUrl) {
+    public static ProductWebResponse from(Product product, String productImageUrl) {
 
         List<KeywordResponse> keywordResponses = product.getKeywords().keywords().stream()
                 .map(KeywordResponse::from)
@@ -42,7 +42,7 @@ public record ProductResponse(
                 .map(OnlineStoreLinkResponse::from)
                 .toList();
 
-        return ProductResponse.builder()
+        return ProductWebResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())

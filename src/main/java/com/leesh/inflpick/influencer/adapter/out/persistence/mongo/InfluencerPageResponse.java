@@ -5,7 +5,6 @@ import com.leesh.inflpick.influencer.core.domain.Influencer;
 import lombok.Builder;
 
 import java.util.Collection;
-import java.util.List;
 
 @Builder
 public record InfluencerPageResponse(Collection<Influencer> contents,
@@ -13,11 +12,11 @@ public record InfluencerPageResponse(Collection<Influencer> contents,
                                      Integer totalPages,
                                      Integer size,
                                      Long totalElements,
-                                     String[] sortProperties) implements PageResponse<Influencer> {
+                                     String sortProperties) implements PageResponse<Influencer> {
 
     @Override
     public Collection<Influencer> contents() {
-        return List.of();
+        return contents;
     }
 
     @Override
@@ -41,7 +40,7 @@ public record InfluencerPageResponse(Collection<Influencer> contents,
     }
 
     @Override
-    public String[] sortProperties() {
+    public String sortProperties() {
         return sortProperties;
     }
 }

@@ -1,9 +1,9 @@
-package com.leesh.inflpick.influencer.port;
+package com.leesh.inflpick.product.port;
 
 import lombok.Getter;
 
 @Getter
-public enum InfluencerSortField {
+public enum ProductSortProperty {
 
     NAME("name"),
     CREATED_DATE("createdDate"),
@@ -12,7 +12,7 @@ public enum InfluencerSortField {
 
     private final String value;
 
-    InfluencerSortField(String value) {
+    ProductSortProperty(String value) {
         this.value = value;
     }
 }

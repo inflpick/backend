@@ -1,7 +1,7 @@
 package com.leesh.inflpick.product.core.service;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQueryTemp;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -65,12 +64,12 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
-    public Product getById(String id) throws ProductNotFoundException {
+    public Product query(String id) throws ProductNotFoundException {
         return productRepository.getById(id);
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPageDetails(PageQueryTemp query) {
-        return productRepository.getPage(query);
+    public PageResponse<Product> query(PageRequest request) {
+        return productRepository.getPage(request);
     }
 }

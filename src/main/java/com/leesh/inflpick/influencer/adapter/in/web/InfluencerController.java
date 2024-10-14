@@ -54,15 +54,14 @@ public class InfluencerController {
             security = {
                     @SecurityRequirement(name = "Bearer-Auth")
             },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true),
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "인플루언서 생성 요청 정보", required = true, content = @Content(schema = @Schema(implementation = InfluencerRequest.class))),
             responses = {
                     @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "location", description = "생성된 인플루언서의 URI", schema = @Schema(type = "string")))
             }
     )
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@RequestBody
-                                       InfluencerRequest request) {
+    public ResponseEntity<Void> create(@RequestBody InfluencerRequest request) {
 
         InfluencerCommand command = request.toCommand();
         String id = commandService.create(command);
@@ -76,20 +75,19 @@ public class InfluencerController {
     }
 
     @ApiErrorCodeSwaggerDocs(values = {InfluencerReadApiErrorCode.class}, httpMethod = "GET", apiPath = "/influencers/{id}")
-    @Operation(summary = "인플루언서 단건 조회",
-            description = "인플루언서를 단건 조회합니다.",
+    @Operation(summary = "인플루언서 단건 조회", description = "인플루언서를 단건 조회합니다.",
             parameters = {
                     @Parameter(name = "id", schema = @Schema(type = "string"), required = true, example = "f103314b-778c-49fc-ae9c-7956794a3bdf", description = "인플루언서 ID")
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerResponse.class))),
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = InfluencerWebResponse.class))),
             }
     )
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InfluencerResponse> get(@PathVariable String id) {
+    public ResponseEntity<InfluencerWebResponse> get(@PathVariable String id) {
         Influencer influencer = influencerQueryService.query(id);
         String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
-        return ResponseEntity.ok(InfluencerResponse.from(
+        return ResponseEntity.ok(InfluencerWebResponse.from(
                 influencer,
                 profileImageUrl
         ));
@@ -101,7 +99,7 @@ public class InfluencerController {
             parameters = {
                     @Parameter(name = "page", description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class)),
                     @Parameter(name = "size", description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class)),
-                    @Parameter(name = "sort", description = "정렬 기준 (여러개 가능) [name | createdDate | lastModifiedDate] 중 하나 (기본값: createdDate,asc)", example = "createdDate,asc",
+                    @Parameter(name = "sort", description = "정렬 기준 (기본값: createdDate,asc, 다중 정렬 가능), 정렬 기준이 올바르지 않은 값을 입력한 경우, 기본 값으로 동작", example = "createdDate,asc",
                             examples = {
                                     @ExampleObject(name = "createdDate,asc", value = "createdDate,asc", description = "생성일 기준 오름차순 정렬"),
                                     @ExampleObject(name = "lastModifiedDate,desc", value = "lastModifiedDate,desc", description = "수정일 기준 내림차순 정렬"),
@@ -110,22 +108,19 @@ public class InfluencerController {
             }
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WebPageResponse<InfluencerResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
-                                                                    Integer page,
-                                                                    @RequestParam(name = "size", required = false, defaultValue = "20")
-                                                                    Integer size,
-                                                                    @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
-                                                                    String[] sort) {
+    public ResponseEntity<WebPageResponse<InfluencerWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                                       @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
+                                                                       @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc") String[] sort) {
 
         PageRequest request = new WebOffsetPageRequest(page, size, sort);
         PageResponse<Influencer> pageResponse = influencerQueryService.query(request);
 
-        InfluencerResponse[] webContents = pageResponse.contents().stream().map(influencer -> {
+        InfluencerWebResponse[] webContents = pageResponse.contents().stream().map(influencer -> {
                     String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
-                    return InfluencerResponse.from(influencer, profileImageUrl);
-                }).toArray(InfluencerResponse[]::new);
+                    return InfluencerWebResponse.from(influencer, profileImageUrl);
+                }).toArray(InfluencerWebResponse[]::new);
 
-        WebPageResponse<InfluencerResponse> response = WebPageResponse.of(webContents, pageResponse);
+        WebPageResponse<InfluencerWebResponse> response = WebPageResponse.of(webContents, pageResponse);
         return ResponseEntity.ok(response);
     }
 
@@ -188,13 +183,6 @@ public class InfluencerController {
             parameters = {
                     @Parameter(name = "id", schema = @Schema(type = "string"), required = true, example = "f103314b-778c-49fc-ae9c-7956794a3bdf", description = "인플루언서 ID"),
             },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "프로필 이미지 파일", required = true,
-                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                    schema = @Schema(type = "string", format = "binary"),
-                    examples = {
-                            @ExampleObject(name = "profileImage", value = "프로필 이미지 파일", description = "프로필 이미지 파일")
-                    })
-            ),
             responses = {
                     @ApiResponse(responseCode = "204", description = "성공 (본문 없음)")
             }
@@ -203,6 +191,7 @@ public class InfluencerController {
     @PatchMapping(path = "/{id}/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateProfileImage(@PathVariable(value = "id")
                                                    String id,
+                                                   @Parameter(description = "프로필 이미지 파일", required = true)
                                                    @RequestPart(value = "profileImage")
                                                    MultipartFile profileImage) {
 

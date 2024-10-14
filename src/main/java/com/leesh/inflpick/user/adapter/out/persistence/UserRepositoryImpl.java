@@ -1,24 +1,22 @@
 package com.leesh.inflpick.user.adapter.out.persistence;
 
-import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
+import com.leesh.inflpick.common.adapter.out.persistence.SpringDataPageRequestConverter;
 import com.leesh.inflpick.common.port.PageResponse;
-import com.leesh.inflpick.common.port.SortCriterion;
+import com.leesh.inflpick.product.port.ProductSortProperty;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserDocument;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserMongoRepository;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserPageResponse;
 import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
 import com.leesh.inflpick.user.core.domain.User;
-import com.leesh.inflpick.user.port.UserSortField;
 import com.leesh.inflpick.user.port.out.UserNotFoundException;
 import com.leesh.inflpick.user.port.out.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,15 +54,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public PageResponse<User> getPage(com.leesh.inflpick.common.port.PageRequest request) {
-        Collection<SortCriterion> sortCriteria = request.sortCriteria(() -> Arrays.stream(UserSortField.values())
-                .map(UserSortField::getValue)
+        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> Arrays.stream(ProductSortProperty.values())
+                .map(ProductSortProperty::getValue)
                 .toList());
-        Sort sort = PageSortConverter.convertSortCriteria(sortCriteria);
-        PageRequest pageRequest = PageRequest.of(request.page(),
-                request.size(),
-                sort);
-
         Page<UserDocument> documentPage = userMongoRepository.findAll(pageRequest);
-        return UserPageResponse.from(documentPage);
+        List<User> entities = documentPage.getContent().stream().map(UserDocument::toEntity)
+                .toList();
+        String sortProperties = documentPage.getSort().toString();
+        return UserPageResponse.builder()
+                .contents(entities)
+                .currentPage(documentPage.getNumber())
+                .totalPages(documentPage.getTotalPages())
+                .size(documentPage.getSize())
+                .totalElements(documentPage.getTotalElements())
+                .sortProperties(sortProperties)
+                .build();
     }
 }

@@ -1,14 +1,14 @@
 package com.leesh.inflpick.product.adapter.out.persistence;
 
-import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageDetailsImpl;
-import com.leesh.inflpick.common.port.PageQueryTemp;
+import com.leesh.inflpick.common.adapter.out.persistence.SpringDataPageRequestConverter;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductMongoRepository;
+import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductPageResponse;
 import com.leesh.inflpick.product.core.domain.Product;
+import com.leesh.inflpick.product.port.ProductSortProperty;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.product.port.out.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -54,27 +53,23 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPage(PageQueryTemp query) {
+    public PageResponse<Product> getPage(com.leesh.inflpick.common.port.PageRequest request) {
 
-        Sort sortCriteria = PageSortConverter.convertSortCriteria(query.sortPairs());
-        PageRequest pageRequest = PageRequest.of(query.page(),
-                query.size(),
-                sortCriteria);
-
+        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> Arrays.stream(ProductSortProperty.values())
+                .map(ProductSortProperty::getValue)
+                .toList());
         Page<ProductDocument> documentPage = productMongoRepository.findAll(pageRequest);
         List<ProductDocument> content = documentPage.getContent();
-        Set<String> allKeywordIds = getAllKeywordIds(content);
-        List<Product> contents = convertToEntities(allKeywordIds, content);
-
-        String[] sortProperties = PageSortConverter.convertSortProperties(documentPage.getSort());
-
-        return PageDetailsImpl.of(
-                documentPage.getNumber(),
-                documentPage.getSize(),
-                documentPage.getTotalPages(),
-                documentPage.getTotalElements(),
-                sortProperties,
-                contents);
+        List<Product> entities = convertToEntities(content);
+        String sortProperties = documentPage.getSort().toString();
+        return ProductPageResponse.builder()
+                .contents(entities)
+                .currentPage(documentPage.getNumber())
+                .totalPages(documentPage.getTotalPages())
+                .size(documentPage.getSize())
+                .totalElements(documentPage.getTotalElements())
+                .sortProperties(sortProperties)
+                .build();
     }
 
     @Override
@@ -88,18 +83,11 @@ public class ProductRepositoryImpl implements ProductRepository {
                 Sort.unsorted().toString().split(",");
     }
 
-    private @NotNull List<Product> convertToEntities(Set<String> allKeywordIds, List<ProductDocument> content) {
-        Keywords allKeywords = keywordRepository.getAllByIds(allKeywordIds);
-        return content.stream().map(productDocument -> {
-            Set<String> keywordIds = productDocument.getKeywordIds();
-            Keywords keywords = allKeywords.subset(keywordIds);
-            return productDocument.toEntity(keywords);
+    private @NotNull List<Product> convertToEntities(List<ProductDocument> content) {
+        return content.stream().map(document -> {
+            Set<String> keywordIds = document.getKeywordIds();
+            Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+            return document.toEntity(keywords);
         }).toList();
-    }
-
-    private static @NotNull Set<String> getAllKeywordIds(List<ProductDocument> content) {
-        Set<String> allKeywordIds = new HashSet<>();
-        content.forEach(productDocument -> allKeywordIds.addAll(productDocument.getKeywordIds()));
-        return allKeywordIds;
     }
 }

@@ -1,25 +1,25 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence;
 
-import com.leesh.inflpick.common.adapter.out.persistence.PageSortConverter;
+import com.leesh.inflpick.common.adapter.out.persistence.SpringDataPageRequestConverter;
 import com.leesh.inflpick.common.port.PageResponse;
-import com.leesh.inflpick.common.port.SortCriterion;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerPageResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.influencer.port.InfluencerSortField;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
+import com.leesh.inflpick.product.port.ProductSortProperty;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Repository
@@ -59,17 +59,13 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     @Override
     public PageResponse<Influencer> getPage(com.leesh.inflpick.common.port.PageRequest request) {
 
-        Collection<SortCriterion> sortCriteria = request.sortCriteria(() -> Arrays.stream(InfluencerSortField.values())
-                .map(InfluencerSortField::getValue)
+        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> Arrays.stream(ProductSortProperty.values())
+                .map(ProductSortProperty::getValue)
                 .toList());
-        Sort sort = PageSortConverter.convertSortCriteria(sortCriteria);
-        PageRequest pageRequest = PageRequest.of(request.page(),
-                request.size(),
-                sort);
-
         Page<InfluencerDocument> documentPage = influencerMongoRepository.findAll(pageRequest);
-        List<Influencer> influencers = convertToEntities(documentPage);
-        String[] sortProperties = PageSortConverter.convertSortProperties(documentPage.getSort());
+        List<InfluencerDocument> content = documentPage.getContent();
+        List<Influencer> influencers = convertToEntities(content);
+        String sortProperties = documentPage.getSort().toString();
 
         return InfluencerPageResponse.builder()
                 .contents(influencers)
@@ -81,9 +77,8 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
                 .build();
     }
 
-    private @NotNull List<Influencer> convertToEntities(Page<InfluencerDocument> documentPage) {
-        List<InfluencerDocument> influencerDocuments = documentPage.getContent();
-        return influencerDocuments.stream().map(document -> {
+    private @NotNull List<Influencer> convertToEntities(List<InfluencerDocument> content) {
+        return content.stream().map(document -> {
             Set<String> keywordIds = document.getKeywordIds();
             Keywords influencerKeywords = keywordRepository.getAllByIds(keywordIds);
             return document.toEntity(influencerKeywords);

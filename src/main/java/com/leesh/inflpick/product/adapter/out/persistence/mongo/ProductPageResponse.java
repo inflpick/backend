@@ -1,20 +1,20 @@
-package com.leesh.inflpick.user.adapter.out.persistence.mongo;
+package com.leesh.inflpick.product.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.common.port.PageResponse;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.product.core.domain.Product;
 import lombok.Builder;
 
 import java.util.Collection;
 
 @Builder
-public record UserPageResponse(Collection<User> contents,
-                               Integer currentPage,
-                               Integer totalPages,
-                               Integer size,
-                               Long totalElements,
-                               String sortProperties) implements PageResponse<User> {
+public record ProductPageResponse(Collection<Product> contents,
+                                   Integer currentPage,
+                                   Integer totalPages,
+                                   Integer size,
+                                   Long totalElements,
+                                   String sortProperties) implements PageResponse<Product> {
     @Override
-    public Collection<User> contents() {
+    public Collection<Product> contents() {
         return contents;
     }
 
@@ -42,4 +42,5 @@ public record UserPageResponse(Collection<User> contents,
     public String sortProperties() {
         return sortProperties;
     }
+
 }

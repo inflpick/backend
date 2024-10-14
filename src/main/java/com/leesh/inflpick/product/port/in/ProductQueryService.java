@@ -1,14 +1,12 @@
 package com.leesh.inflpick.product.port.in;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQueryTemp;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.product.core.domain.Product;
-
-import java.util.Collection;
 
 public interface ProductQueryService {
 
-    Product getById(String id);
+    Product query(String id);
 
-    PageDetails<Collection<Product>> getPageDetails(PageQueryTemp query);
+    PageResponse<Product> query(PageRequest request);
 }
