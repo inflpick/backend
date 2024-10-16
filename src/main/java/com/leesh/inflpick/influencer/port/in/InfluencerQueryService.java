@@ -1,16 +1,12 @@
 package com.leesh.inflpick.influencer.port.in;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
-import com.leesh.inflpick.influencer.port.InfluencerSortType;
-
-import java.util.Collection;
 
 public interface InfluencerQueryService {
 
-    Influencer getById(String id);
+    Influencer query(String id);
 
-    PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query);
-
+    PageResponse<Influencer> query(PageRequest request);
 }

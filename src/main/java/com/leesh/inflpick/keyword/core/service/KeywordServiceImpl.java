@@ -2,6 +2,7 @@ package com.leesh.inflpick.keyword.core.service;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
+import com.leesh.inflpick.keyword.core.domain.KeywordName;
 import com.leesh.inflpick.keyword.port.in.DuplicateKeywordNameException;
 import com.leesh.inflpick.keyword.port.in.KeywordCommand;
 import com.leesh.inflpick.keyword.port.in.KeywordCommandService;
@@ -37,8 +38,8 @@ public class KeywordServiceImpl implements KeywordCommandService, KeywordReadSer
     }
 
     @Override
-    public void update(String id, KeywordCommand command) {
-        keywordRepository.findById(id)
+    public void update(KeywordCommand command, KeywordName keywordName) {
+        keywordRepository.findByName(keywordName)
                 .ifPresent(keyword -> {
                     keyword.update(command.name(), command.color());
                     keywordRepository.save(keyword);
@@ -46,12 +47,12 @@ public class KeywordServiceImpl implements KeywordCommandService, KeywordReadSer
     }
 
     @Override
-    public void delete(String id) {
-        keywordRepository.deleteById(id);
+    public void delete(KeywordName keywordName) {
+        keywordRepository.deleteByName(keywordName);
     }
 
     @Override
-    public List<Keyword> search(String name) {
-        return keywordRepository.search(name);
+    public List<Keyword> search(KeywordName keywordName) {
+        return keywordRepository.search(keywordName);
     }
 }

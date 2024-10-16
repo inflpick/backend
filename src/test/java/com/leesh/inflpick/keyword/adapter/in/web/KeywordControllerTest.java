@@ -64,7 +64,7 @@ class KeywordControllerTest {
         return Stream.of(
                 """
                     {
-                        "name": "100만 유튜버",
+                        "name": "기술",
                         "hexColor": "#FFFFFF"
                     }
                     """

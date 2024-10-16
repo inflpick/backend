@@ -1,12 +1,9 @@
 package com.leesh.inflpick.product.port.out;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.product.core.domain.Product;
-import com.leesh.inflpick.product.port.ProductSortType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
 
 public interface ProductRepository {
 
@@ -16,7 +13,7 @@ public interface ProductRepository {
 
     @NotNull Product getById(@NotNull String id) throws ProductNotFoundException;
 
-    PageDetails<Collection<Product>> getPage(PageQuery<ProductSortType> query);
+    PageResponse<Product> getPage(PageRequest request);
 
     void deleteById(String id);
 }

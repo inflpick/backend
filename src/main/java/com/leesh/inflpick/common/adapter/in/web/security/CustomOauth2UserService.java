@@ -1,10 +1,7 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
 import com.leesh.inflpick.user.adapter.in.web.Oauth2Type;
-import com.leesh.inflpick.user.core.domain.Nickname;
-import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
-import com.leesh.inflpick.user.core.domain.Role;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.core.domain.*;
 import com.leesh.inflpick.user.port.in.UserCommand;
 import com.leesh.inflpick.user.port.in.UserCommandService;
 import com.leesh.inflpick.user.port.in.UserQueryService;
@@ -52,24 +49,27 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
                 oauth2Type);
 
         AtomicReference<String> userId = new AtomicReference<>();
-        userQueryService.getOauth2User(oauth2UserInfo)
+        userQueryService.query(oauth2UserInfo)
                 .ifPresentOrElse(
                         user -> userId.set(user.getId()),
                         () -> {
                             String id = registerNewUser(convertOauth2User, oauth2UserInfo);
                             userId.set(id);
                         });
-        User user = userQueryService.getById(userId.get());
+        User user = userQueryService.query(userId.get());
         return new CustomOauth2User(user);
     }
 
     private String registerNewUser(OAuth2User convertOauth2User, Oauth2UserInfo oauth2UserInfo) {
         String nickname = convertOauth2User.getAttribute("nickname");
         String profileImageUrl = convertOauth2User.getAttribute("profileImageUrl");
+        String email = convertOauth2User.getAttribute("email");
         assert nickname != null;
         Nickname userNickname = Nickname.from(nickname);
+        UserEmail userEmail = UserEmail.from(email);
         UserCommand command = UserCommand.builder()
                 .nickname(userNickname)
+                .email(userEmail)
                 .profileImageUrl(profileImageUrl)
                 .role(Role.ADMIN) // TODO 임시! 추후 USER 로 수정 필요!
                 .oauth2UserInfo(oauth2UserInfo)

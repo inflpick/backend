@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,6 +21,7 @@ public class KeywordDocument implements Persistable<String> {
     @Getter
     @Id
     private final String id; // 외부에 노출할 고유한 ID
+    @Indexed(unique = true)
     @TextIndexed
     private final String name;
     private final String color;

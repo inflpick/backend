@@ -1,13 +1,12 @@
 package com.leesh.inflpick.influencer.core.service;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;
-import com.leesh.inflpick.influencer.port.InfluencerSortType;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Set;
 
 @Builder
@@ -37,13 +35,13 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     private final StorageService storageService;
 
     @Override
-    public Influencer getById(String id) throws InfluencerNotFoundException {
+    public Influencer query(String id) throws InfluencerNotFoundException {
         return influencerRepository.getById(id);
     }
 
     @Override
-    public PageDetails<Collection<Influencer>> getPage(PageQuery<InfluencerSortType> query) {
-        return influencerRepository.getPage(query);
+    public PageResponse<Influencer> query(PageRequest request) {
+        return influencerRepository.getPage(request);
     }
 
     @Override

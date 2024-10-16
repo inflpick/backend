@@ -12,7 +12,7 @@ import java.util.List;
 
 @Schema(name = "인플루언서 조회 응답")
 @Builder
-public record InfluencerResponse(
+public record InfluencerWebResponse(
         @Schema(description = "ID", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String id,
         @Schema(description = "이름", example = "도날드 트럼프", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
@@ -34,7 +34,7 @@ public record InfluencerResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
         Instant lastModifiedDate) {
 
-    public static InfluencerResponse from(Influencer influencer, String profileImageUrl) {
+    public static InfluencerWebResponse from(Influencer influencer, String profileImageUrl) {
 
         List<SocialMediaProfileLinkResponse> socialMediaProfileLinkResponse = influencer.getSocialMediaProfileLinks().links().stream()
                 .map(SocialMediaProfileLinkResponse::from)
@@ -44,7 +44,7 @@ public record InfluencerResponse(
                 .map(KeywordResponse::from)
                 .toList();
 
-        return InfluencerResponse.builder()
+        return InfluencerWebResponse.builder()
                 .id(influencer.getId())
                 .name(influencer.getName())
                 .introduction(influencer.getIntroduction())

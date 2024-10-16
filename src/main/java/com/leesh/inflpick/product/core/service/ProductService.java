@@ -1,14 +1,13 @@
 package com.leesh.inflpick.product.core.service;
 
-import com.leesh.inflpick.common.port.PageDetails;
-import com.leesh.inflpick.common.port.PageQuery;
+import com.leesh.inflpick.common.port.PageRequest;
+import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.common.port.out.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.keyword.port.out.KeywordRepository;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.ProductCommand;
-import com.leesh.inflpick.product.port.ProductSortType;
 import com.leesh.inflpick.product.port.in.ProductCommandService;
 import com.leesh.inflpick.product.port.in.ProductQueryService;
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
@@ -20,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -66,12 +64,12 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     }
 
     @Override
-    public Product getById(String id) throws ProductNotFoundException {
+    public Product query(String id) throws ProductNotFoundException {
         return productRepository.getById(id);
     }
 
     @Override
-    public PageDetails<Collection<Product>> getPage(PageQuery<ProductSortType> query) {
-        return productRepository.getPage(query);
+    public PageResponse<Product> query(PageRequest request) {
+        return productRepository.getPage(request);
     }
 }

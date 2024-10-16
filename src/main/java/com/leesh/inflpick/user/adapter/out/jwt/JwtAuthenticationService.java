@@ -59,7 +59,7 @@ public class JwtAuthenticationService implements AuthenticationTokenService {
                 .parseClaimsJws(jwtAuthentication.value())
                 .getBody()
                 .getSubject();
-        return userQueryService.getById(userId);
+        return userQueryService.query(userId);
     }
 
 
