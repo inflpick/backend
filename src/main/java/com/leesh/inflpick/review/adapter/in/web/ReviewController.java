@@ -97,7 +97,7 @@ public class ReviewController {
                     @ApiResponse(responseCode = "201", description = "성공", headers = @Header(name = "Location", description = "생성된 리뷰의 URI", schema = @Schema(type = "string"))),
             })
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> review(@RequestBody ReviewRequest request) {
 
         Influencer reviewer = influencerQueryService.query(request.influencerId());

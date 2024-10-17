@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: api-server
     volumes:
-      - ./data/db:/data/db
+#      - ./data/db:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - mongo-network

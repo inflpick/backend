@@ -25,7 +25,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         JwtAuthentication jwtAuthentication = new JwtAuthentication(jwt, 0);
         if (authenticationTokenService.verifyToken(jwtAuthentication)) {
             User user = authenticationTokenService.extractToken(jwtAuthentication);
-            return new JwtAuthenticationToken(user, "",
+            CustomUserDetails userDetails = new CustomUserDetails(user);
+            return new JwtAuthenticationToken(userDetails, "",
                     List.of((GrantedAuthority) () -> user.getRole().name()));
         }
 
