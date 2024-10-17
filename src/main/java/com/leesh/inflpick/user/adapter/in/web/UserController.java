@@ -19,12 +19,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
+@RequestMapping(path = "/users")
 @RestController
 public class UserController implements UserApiDocs {
 
@@ -37,7 +35,7 @@ public class UserController implements UserApiDocs {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path = "/loginSuccess")
+    @GetMapping(path = "/login-success")
     public ResponseEntity<LoginResponse> loginSuccess(@AuthenticationPrincipal OAuth2User oAuth2User) {
 
         if (oAuth2User == null) {
@@ -52,13 +50,13 @@ public class UserController implements UserApiDocs {
     }
 
     @Hidden
-    @GetMapping(path = "/loginFailure")
+    @GetMapping(path = "/login-failure")
     public ResponseEntity<LoginResponse> loginFailure() {
         throw new UnauthorizedException("로그인에 실패하였습니다.");
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebPageResponse<UserWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0")
                                                                  Integer page,
                                                                  @RequestParam(name = "size", required = false, defaultValue = "20")
@@ -77,7 +75,7 @@ public class UserController implements UserApiDocs {
                 .body(response);
     }
 
-    @GetMapping(path = "/users/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserWebResponse> me(@AuthenticationPrincipal UserDetails userDetails) {
         CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
         User user = customUserDetails.user();

@@ -48,11 +48,10 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authenticationManager(http))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/resources/**").permitAll()
-                        .requestMatchers("/",
-                                "/swagger-ui/**", "/v3/api-docs/**",
-                                "/oauth2/**", "/loginSuccess",
-                                "/actuator/health").permitAll()
+                        .requestMatchers("/", "/resources/**").permitAll() // 정적 리소스
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // API Docs
+                        .requestMatchers("/users/oauth2/**", "/users/login-success", "/users/login-failure").permitAll() // OAuth2
+                        .requestMatchers("/actuator/health").permitAll() // Actuator
                         .requestMatchers(HttpMethod.GET, "/influencers/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/keywords/**").permitAll()
@@ -62,8 +61,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(authenticationEntryPoint))
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/loginSuccess")
-                        .failureUrl("/loginFailure")
+                        .defaultSuccessUrl("/users/login-success")
+                        .failureUrl("/users/login-failure")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService) // 일반 OAuth 사용자 정보를 처리
                         ));
