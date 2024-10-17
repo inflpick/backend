@@ -1,7 +1,7 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerRequest;
+import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerWebRequest;
 import com.leesh.inflpick.influencer.adapter.in.web.value.SocialMediaProfileRequest;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
@@ -24,7 +24,7 @@ class InfluencerRequestTest {
         String keywordId = "keywordId";
         SocialMediaProfileLink socialMediaProfileLink = socialMediaProfileRequest.toEntity();
         String profileImagePath = "http://example.com/profile.jpg";
-        InfluencerRequest request = new InfluencerRequest(
+        InfluencerWebRequest request = new InfluencerWebRequest(
                 "짐종국",
                 "introduction",
                 "description",
@@ -49,7 +49,7 @@ class InfluencerRequestTest {
     void toCommandThrowsExceptionWhenNameIsNull() {
         SocialMediaProfileRequest socialMediaProfileRequest = new SocialMediaProfileRequest(SocialMediaPlatform.TIKTOK.name(), "http://example.com/profile.jpg");
         String keywordId = "keywordId";
-        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerRequest(
+        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerWebRequest(
                 null,
                 "introduction",
                 "description",
@@ -63,7 +63,7 @@ class InfluencerRequestTest {
     void toCommandThrowsExceptionWhenDescriptionIsNull() {
         SocialMediaProfileRequest socialMediaProfileRequest = new SocialMediaProfileRequest(SocialMediaPlatform.TIKTOK.name(), "http://example.com/profile.jpg");
         String keywordId = "keywordId";
-        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerRequest(
+        assertThrows(MissingRequiredFieldsException.class, () -> new InfluencerWebRequest(
                 "짐종국",
                 "introduction",
                 null,
@@ -76,7 +76,7 @@ class InfluencerRequestTest {
     @Test
     void toCommandThrowsExceptionWhenSocialMediaLinksAreNull() {
         String keywordId = "keywordId";
-        InfluencerRequest request = new InfluencerRequest(
+        InfluencerWebRequest request = new InfluencerWebRequest(
                 "짐종국",
                 "introduction",
                 "description",
