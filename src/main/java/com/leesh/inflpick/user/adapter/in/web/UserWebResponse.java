@@ -2,31 +2,21 @@ package com.leesh.inflpick.user.adapter.in.web;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.leesh.inflpick.user.core.domain.User;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 import java.time.Instant;
 
-@Schema(description = "유저 응답")
 @Builder
 public record UserWebResponse(
-        @Schema(description = "ID", example = "f103314b-778c-49fc-ae9c-7956794a3bdf", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String id,
-        @Schema(description = "유저 닉네임", example = "inflpicker", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String nickname,
-        @Schema(description = "유저 프로필 이미지 URL", example = "https://cdn.inflpick.com/user-profile-image.jpg", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String profileImageUrl,
-        @Schema(description = "유저 이메일", example = "user@gmail.com", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String email,
-        @Schema(description = "유저 권한", example = "kakao", implementation = Oauth2Type.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String role,
-        @Schema(description = "유저 소셜 로그인 타입", example = "kakao", implementation = Oauth2Type.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String oauth2Type,
-        @Schema(description = "유저 소셜 로그인 ID", example = "1234567890", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         String oauth2Id,
-        @Schema(description = "유저 회원 가입일 (UTC)", example = "2021-07-01T00:00:00Z", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-        Instant joinedDate) {
+        Instant joinedDate) implements UserWebResponseApiDocs {
 
     public static UserWebResponse from(User user) {
         return UserWebResponse.builder()
@@ -41,4 +31,43 @@ public record UserWebResponse(
                 .build();
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
+    @Override
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getRole() {
+        return role;
+    }
+
+    @Override
+    public String getOauth2Type() {
+        return oauth2Type;
+    }
+
+    @Override
+    public String getOauth2Id() {
+        return oauth2Id;
+    }
+
+    @Override
+    public Instant getJoinedDate() {
+        return joinedDate;
+    }
 }

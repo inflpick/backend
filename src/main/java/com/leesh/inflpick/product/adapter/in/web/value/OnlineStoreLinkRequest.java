@@ -1,19 +1,14 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
+import com.leesh.inflpick.product.adapter.in.web.docs.OnlineStoreLinkRequestApiDocs;
 import com.leesh.inflpick.product.core.domain.value.OnlineStore;
 import com.leesh.inflpick.product.core.domain.value.OnlineStoreLink;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.jetbrains.annotations.Nullable;
 
-@Schema(name = "온라인 스토어 링크 요청", description = "온라인 스토어 링크 생성 요청 필드")
 @Builder
-public record OnlineStoreLinkRequest(
-        @Schema(description = "온라인 스토어 플랫폼", example = "COUPANG", implementation = OnlineStore.class, requiredMode = Schema.RequiredMode.REQUIRED)
-        String platform,
-        @Schema(description = "온라인 스토어 링크 URI (URI 형식의 문자열)", example = "https://link.coupang.com/a/bS7Spe", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-        String url) {
+public record OnlineStoreLinkRequest(String platform, String url) implements OnlineStoreLinkRequestApiDocs {
 
     public OnlineStoreLinkRequest(@Nullable String platform,
                                   @Nullable String url) {
@@ -30,6 +25,4 @@ public record OnlineStoreLinkRequest(
                     onlineStore,
                     url);
     }
-
-
 }

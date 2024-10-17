@@ -8,19 +8,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import org.jetbrains.annotations.Nullable;
 
-@Schema(name = "키워드 요청")
 @Builder
 public record KeywordRequest(
-        @Schema(description = "키워드명(최소 1자, 최대 30자)",
-                example = "기술",
-                implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED,
-                minLength = KeywordName.MIN_LENGTH,
-                maxLength = KeywordName.MAX_LENGTH)
         String name,
-        @Schema(description = "16진수 색상 코드",
-                example = "#FFFFFF",
-                implementation = String.class,
-                requiredMode = Schema.RequiredMode.REQUIRED)
         String hexColor) {
 
     public KeywordRequest(@Nullable String name,
