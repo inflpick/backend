@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -37,6 +38,7 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final JwtProperties jwtProperties;
 
     @Bean
@@ -50,7 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/", "/resources/**").permitAll() // 정적 리소스
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // API Docs
-                        .requestMatchers("/users/oauth2/**", "/users/login-success", "/users/login-failure").permitAll() // OAuth2
+                        .requestMatchers("/oauth2/**", "/users/login-success", "/users/login-failure").permitAll() // OAuth2
                         .requestMatchers("/actuator/health").permitAll() // Actuator
                         .requestMatchers(HttpMethod.GET, "/influencers/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
@@ -62,6 +64,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(authenticationEntryPoint))
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/users/login-success")
+                        .successHandler(authenticationSuccessHandler)
                         .failureUrl("/users/login-failure")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService) // 일반 OAuth 사용자 정보를 처리

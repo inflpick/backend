@@ -19,7 +19,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
@@ -28,12 +31,6 @@ public class UserController implements UserApiDocs {
 
     private final AuthenticationTokenService tokenService;
     private final UserQueryService userQueryService;
-
-    @GetMapping(path = "/oauth2/authorization/{oauth2Type}")
-    @Override
-    public ResponseEntity<LoginResponse> oauth2Authorization(@PathVariable String oauth2Type) {
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping(path = "/login-success")
     public ResponseEntity<LoginResponse> loginSuccess(@AuthenticationPrincipal OAuth2User oAuth2User) {

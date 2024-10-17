@@ -114,7 +114,7 @@ public class SwaggerConfig {
                         exampleHolders.forEach(
                                 swaggerExampleHolder -> {
                                     mediaType.addExamples(swaggerExampleHolder.getName(), swaggerExampleHolder.getHolder());
-                                    mediaType.setSchema(new Schema<>().$ref("#/components/schemas/API 에러 응답"));
+                                    mediaType.setSchema(new Schema<>().$ref("#/components/schemas/ApiErrorResponse"));
                                 }
                         );
                         content.addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, mediaType);
