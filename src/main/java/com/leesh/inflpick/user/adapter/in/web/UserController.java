@@ -3,6 +3,7 @@ package com.leesh.inflpick.user.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.common.adapter.in.web.security.CustomOauth2User;
+import com.leesh.inflpick.common.adapter.in.web.security.CustomUserDetails;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.port.PageRequest;
@@ -24,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -105,6 +107,19 @@ public class UserController {
         WebPageResponse<UserWebResponse> response = WebPageResponse.of(webContents, pageResponse);
         return ResponseEntity.ok()
                 .body(response);
+    }
+
+    @Operation(summary = "유저 프로필 조회",
+            description = "유저 프로필을 조회합니다.",
+            security = {
+                @SecurityRequirement(name = "Bearer-Auth")
+            })
+    @GetMapping(path = "/users/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserWebResponse> me(@AuthenticationPrincipal UserDetails userDetails) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+        User user = customUserDetails.user();
+        return ResponseEntity.ok()
+                .body(UserWebResponse.from(user));
     }
 
 }
