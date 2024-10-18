@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class CustomAuthenticationFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProperties jwtProperties;
@@ -28,8 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String jwt = authorization.substring("Bearer ".length());
-            AbstractAuthenticationToken authenticationToken = new JwtAuthenticationToken(jwt, jwtProperties.secretKey());
-            Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+            Authentication withoutAuthenticated = CustomAuthenticationToken.withoutAuthenticated(jwt, jwtProperties.secretKey());
+            Authentication authenticate = authenticationManager.authenticate(withoutAuthenticated);
             SecurityContextHolder.getContext().setAuthentication(authenticate);
         }
 

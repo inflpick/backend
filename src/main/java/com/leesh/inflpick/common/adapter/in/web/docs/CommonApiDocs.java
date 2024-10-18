@@ -3,7 +3,6 @@ package com.leesh.inflpick.common.adapter.in.web.docs;
 import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
-import com.leesh.inflpick.user.adapter.in.web.LoginResponse;
 import com.leesh.inflpick.user.adapter.in.web.Oauth2LoginApiErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,11 +31,11 @@ public interface CommonApiDocs {
             },
             responses = {
                     @ApiResponse(
-                            responseCode = "200",
-                            description = "소셜 로그인 성공",
+                            responseCode = "302",
+                            description = "Location 헤더로 리다이렉션 응답",
                             content = @io.swagger.v3.oas.annotations.media.Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
                     )
             })
-    ResponseEntity<LoginResponse> oauth2Authorization(@PathVariable String oauth2Type);
+    ResponseEntity<Void> oauth2Authorization(@PathVariable String oauth2Type);
 
 }

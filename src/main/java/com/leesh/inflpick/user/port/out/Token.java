@@ -1,6 +1,6 @@
 package com.leesh.inflpick.user.port.out;
 
-public interface AuthenticationToken {
+public interface Token {
 
     String value();
 

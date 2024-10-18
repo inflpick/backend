@@ -1,25 +1,26 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.security.auth.Subject;
 import java.util.Collection;
 import java.util.List;
 
-public class JwtAuthenticationToken extends AbstractAuthenticationToken {
+public class CustomAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
     private final Object credentials;
 
-    public JwtAuthenticationToken(Object principal, Object credentials) {
+    private CustomAuthenticationToken(Object principal, Object credentials) {
         super(List.of());
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(false);
     }
 
-    public JwtAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+    private CustomAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         this.credentials = credentials;
@@ -39,5 +40,13 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     @Override
     public boolean implies(Subject subject) {
         return super.implies(subject);
+    }
+
+    public static Authentication withAuthenticated(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        return new CustomAuthenticationToken(principal, credentials, authorities);
+    }
+
+    public static Authentication withoutAuthenticated(Object principal, Object credentials) {
+        return new CustomAuthenticationToken(principal, credentials);
     }
 }

@@ -2,8 +2,8 @@ package com.leesh.inflpick.user.adapter.out.jwt;
 
 import com.leesh.inflpick.user.core.domain.User;
 import com.leesh.inflpick.user.port.in.UserQueryService;
-import com.leesh.inflpick.user.port.out.AuthenticationToken;
-import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
+import com.leesh.inflpick.user.port.out.Token;
+import com.leesh.inflpick.user.port.out.TokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -17,29 +17,29 @@ import java.time.Instant;
 import java.util.Date;
 
 @RequiredArgsConstructor
-@EnableConfigurationProperties({JwtProperties.class})
+@EnableConfigurationProperties({JwtProperties.class, CookieProperties.class})
 @Component
-public class JwtAuthenticationService implements AuthenticationTokenService {
+public class JwtService implements TokenService {
 
     private final JwtProperties jwtProperties;
     private final UserQueryService userQueryService;
 
     @Override
-    public AuthenticationToken createAccessToken(User user) {
+    public Token createAccessToken(User user) {
         Integer expiresInSeconds = jwtProperties.accessTokenExpiresInSeconds();
         String token = generateToken(expiresInSeconds, user);
-        return new JwtAuthentication(token, expiresInSeconds);
+        return new Jwt(token, expiresInSeconds);
     }
 
     @Override
-    public AuthenticationToken createRefreshToken(User user) {
+    public Token createRefreshToken(User user) {
         Integer expiresInSeconds = jwtProperties.refreshTokenExpiresInSeconds();
         String token = generateToken(expiresInSeconds, user);
-        return new JwtAuthentication(token, expiresInSeconds);
+        return new Jwt(token, expiresInSeconds);
     }
 
     @Override
-    public Boolean verifyToken(AuthenticationToken token) {
+    public Boolean verifyToken(Token token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(jwtProperties.secretKey().getBytes(StandardCharsets.UTF_8))
@@ -52,7 +52,7 @@ public class JwtAuthenticationService implements AuthenticationTokenService {
     }
 
     @Override
-    public User extractToken(JwtAuthentication jwtAuthentication) {
+    public User extractToken(Jwt jwtAuthentication) {
         String userId = Jwts.parserBuilder()
                 .setSigningKey(jwtProperties.secretKey().getBytes(StandardCharsets.UTF_8))
                 .build()

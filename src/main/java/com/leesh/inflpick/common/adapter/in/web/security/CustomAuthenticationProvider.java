@@ -1,8 +1,8 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
-import com.leesh.inflpick.user.adapter.out.jwt.JwtAuthentication;
+import com.leesh.inflpick.user.adapter.out.jwt.Jwt;
 import com.leesh.inflpick.user.core.domain.User;
-import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
+import com.leesh.inflpick.user.port.out.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -14,27 +14,27 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class JwtAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private final AuthenticationTokenService authenticationTokenService;
+    private final TokenService tokenService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String jwt = (String) authentication.getPrincipal();
-        JwtAuthentication jwtAuthentication = new JwtAuthentication(jwt, 0);
-        if (authenticationTokenService.verifyToken(jwtAuthentication)) {
-            User user = authenticationTokenService.extractToken(jwtAuthentication);
+        Jwt jwtAuthentication = new Jwt(jwt, 0);
+        if (tokenService.verifyToken(jwtAuthentication)) {
+            User user = tokenService.extractToken(jwtAuthentication);
             CustomUserDetails userDetails = new CustomUserDetails(user);
-            return new JwtAuthenticationToken(userDetails, "",
+            return CustomAuthenticationToken.withAuthenticated(userDetails, "",
                     List.of((GrantedAuthority) () -> user.getRole().name()));
         }
 
-        return null;
+        return CustomAuthenticationToken.withoutAuthenticated(null, null);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return JwtAuthenticationToken.class.isAssignableFrom(authentication);
+        return CustomAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

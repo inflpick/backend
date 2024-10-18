@@ -1,6 +1,6 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
-import com.leesh.inflpick.user.port.out.AuthenticationToken;
+import com.leesh.inflpick.user.port.out.Token;
 import lombok.Builder;
 
 @Builder
@@ -10,7 +10,7 @@ public record LoginResponse(String tokenType,
                             String refreshToken,
                             Integer refreshTokenExpiresInSeconds) implements LoginResponseApiDocs {
 
-        public static LoginResponse of(AuthenticationToken accessToken, AuthenticationToken refreshToken) {
+        public static LoginResponse of(Token accessToken, Token refreshToken) {
                 return LoginResponse.builder()
                         .tokenType("Bearer")
                         .accessToken(accessToken.value())

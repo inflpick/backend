@@ -85,8 +85,8 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
-    public JwtAuthenticationFilter jwtAuthenticationFilter(HttpSecurity httpSecurity) throws Exception {
-        return new JwtAuthenticationFilter(authenticationManager(httpSecurity), jwtProperties);
+    public CustomAuthenticationFilter jwtAuthenticationFilter(HttpSecurity httpSecurity) throws Exception {
+        return new CustomAuthenticationFilter(authenticationManager(httpSecurity), jwtProperties);
     }
 
 }

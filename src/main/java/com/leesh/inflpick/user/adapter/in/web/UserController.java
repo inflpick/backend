@@ -9,8 +9,8 @@ import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.user.core.domain.User;
 import com.leesh.inflpick.user.port.in.UserQueryService;
-import com.leesh.inflpick.user.port.out.AuthenticationToken;
-import com.leesh.inflpick.user.port.out.AuthenticationTokenService;
+import com.leesh.inflpick.user.port.out.Token;
+import com.leesh.inflpick.user.port.out.TokenService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController implements UserApiDocs {
 
-    private final AuthenticationTokenService tokenService;
+    private final TokenService tokenService;
     private final UserQueryService userQueryService;
 
     @GetMapping(path = "/login-success")
@@ -40,8 +40,8 @@ public class UserController implements UserApiDocs {
         }
 
         User user = ((CustomOauth2User) oAuth2User).user();
-        AuthenticationToken accessToken = tokenService.createAccessToken(user);
-        AuthenticationToken refreshToken = tokenService.createRefreshToken(user);
+        Token accessToken = tokenService.createAccessToken(user);
+        Token refreshToken = tokenService.createRefreshToken(user);
         LoginResponse response = LoginResponse.of(accessToken, refreshToken);
         return ResponseEntity.ok().body(response);
     }
