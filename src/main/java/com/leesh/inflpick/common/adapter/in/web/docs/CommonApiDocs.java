@@ -6,6 +6,7 @@ import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
 import com.leesh.inflpick.user.adapter.in.web.Oauth2LoginApiErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,8 +34,12 @@ public interface CommonApiDocs {
                     @ApiResponse(
                             responseCode = "302",
                             description = "Location 헤더로 리다이렉션 응답",
-                            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
-                    )
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE),
+                            headers = {
+                                    @Header(name = "Location", description = "리다이렉션 URL", example = "http://inflpick.com/oauth2/redirect"),
+                                    @Header(name = "Set-Cookie", description = "갱신 토큰", example = "REFRESH_TOKEN={refresh_token}; Path=/; HttpOnly"),
+                                    @Header(name = "Authorization", description = "인증 토큰", example = "Bearer {access_token}")
+                            })
             })
     ResponseEntity<Void> oauth2Authorization(@PathVariable String oauth2Type);
 

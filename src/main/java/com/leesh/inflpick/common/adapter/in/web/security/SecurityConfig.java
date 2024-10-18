@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,6 +40,7 @@ public class SecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
     private final CorsConfigurationSource corsConfigurationSource;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
     private final JwtProperties jwtProperties;
 
     @Bean
@@ -63,8 +65,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(authenticationEntryPoint))
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/users/login-success")
                         .successHandler(authenticationSuccessHandler)
+                        .failureHandler(authenticationFailureHandler)
                         .failureUrl("/users/login-failure")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService) // 일반 OAuth 사용자 정보를 처리

@@ -2,14 +2,12 @@ package com.leesh.inflpick.user.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
-import com.leesh.inflpick.common.adapter.in.web.security.CustomOauth2User;
 import com.leesh.inflpick.common.adapter.in.web.security.CustomUserDetails;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.user.core.domain.User;
 import com.leesh.inflpick.user.port.in.UserQueryService;
-import com.leesh.inflpick.user.port.out.Token;
 import com.leesh.inflpick.user.port.out.TokenService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,23 +29,9 @@ public class UserController implements UserApiDocs {
     private final TokenService tokenService;
     private final UserQueryService userQueryService;
 
-    @GetMapping(path = "/login-success")
-    public ResponseEntity<LoginResponse> loginSuccess(@AuthenticationPrincipal OAuth2User oAuth2User) {
-
-        if (oAuth2User == null) {
-            throw new UnauthorizedException("로그인에 실패하였습니다.");
-        }
-
-        User user = ((CustomOauth2User) oAuth2User).user();
-        Token accessToken = tokenService.createAccessToken(user);
-        Token refreshToken = tokenService.createRefreshToken(user);
-        LoginResponse response = LoginResponse.of(accessToken, refreshToken);
-        return ResponseEntity.ok().body(response);
-    }
-
     @Hidden
     @GetMapping(path = "/login-failure")
-    public ResponseEntity<LoginResponse> loginFailure() {
+    public ResponseEntity<TokenWebResponse> loginFailure() {
         throw new UnauthorizedException("로그인에 실패하였습니다.");
     }
 

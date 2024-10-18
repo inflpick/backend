@@ -18,6 +18,7 @@ public class User {
     private final Role role;
     private final UserEmail email;
     private final Oauth2UserInfo oauth2UserInfo;
+    private AuthenticationProcess authenticationProcess;
     @Getter
     private final Instant createdDate;
     private final String createdBy;
@@ -51,5 +52,18 @@ public class User {
 
     public String getEmail() {
         return email.email();
+    }
+
+    public AuthenticationProcess startAuthentication(AuthenticationCode code) {
+        this.authenticationProcess = AuthenticationProcess.start(code);
+        return this.authenticationProcess;
+    }
+
+    public AuthenticationCode getAuthenticationCode() {
+        return authenticationProcess.getCode();
+    }
+
+    public AuthenticationStatus getAuthenticationStatus() {
+        return authenticationProcess.getStatus();
     }
 }

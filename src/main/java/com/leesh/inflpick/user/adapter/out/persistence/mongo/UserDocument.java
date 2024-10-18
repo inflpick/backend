@@ -23,6 +23,8 @@ public class UserDocument implements Persistable<String> {
     private String role;
     private String oauth2UserId;
     private String oauth2Type;
+    private String authenticationStatus;
+    private String authenticationCode;
     @CreatedBy
     private final String createdBy;
     @CreatedDate
@@ -33,6 +35,8 @@ public class UserDocument implements Persistable<String> {
     private final Instant lastModifiedDate;
 
     public static UserDocument from(User user) {
+        AuthenticationStatus authenticationStatus = user.getAuthenticationStatus();
+        AuthenticationCode authenticationCode = user.getAuthenticationCode();
         return UserDocument.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -41,6 +45,8 @@ public class UserDocument implements Persistable<String> {
                 .role(user.getRole().name())
                 .oauth2UserId(user.getOauth2UserId())
                 .oauth2Type(user.getOauth2Type())
+                .authenticationStatus(authenticationStatus.name())
+                .authenticationCode(authenticationCode.value())
                 .build();
     }
 
@@ -50,6 +56,9 @@ public class UserDocument implements Persistable<String> {
         Role role = Role.from(this.role);
         Oauth2Type oauth2Type = Oauth2Type.valueOf(this.oauth2Type);
         Oauth2UserInfo oauth2UserInfo = Oauth2UserInfo.of(oauth2UserId, oauth2Type);
+        AuthenticationStatus authenticationStatus = AuthenticationStatus.valueOf(this.authenticationStatus);
+        AuthenticationCode authenticationCode = AuthenticationCode.create(this.authenticationCode);
+        AuthenticationProcess authenticationProcess = AuthenticationProcess.create(authenticationStatus, authenticationCode);
         return User.builder()
                 .id(id)
                 .nickname(nickname)
@@ -59,6 +68,7 @@ public class UserDocument implements Persistable<String> {
                 .oauth2UserInfo(oauth2UserInfo)
                 .createdDate(createdDate)
                 .createdBy(createdBy)
+                .authenticationProcess(authenticationProcess)
                 .lastModifiedDate(lastModifiedDate)
                 .lastModifiedBy(lastModifiedBy)
                 .build();

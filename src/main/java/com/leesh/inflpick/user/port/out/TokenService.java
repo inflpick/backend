@@ -1,6 +1,5 @@
 package com.leesh.inflpick.user.port.out;
 
-import com.leesh.inflpick.user.adapter.out.jwt.Jwt;
 import com.leesh.inflpick.user.core.domain.User;
 
 public interface TokenService {
@@ -9,7 +8,9 @@ public interface TokenService {
 
     Token createRefreshToken(User user);
 
-    Boolean verifyToken(Token token);
+    Boolean verifyToken(Token token, TokenType type);
 
-    User extractToken(Jwt jwtAuthentication);
+    User extractToken(Token token);
+
+    Token createAccessToken(Token refreshToken);
 }

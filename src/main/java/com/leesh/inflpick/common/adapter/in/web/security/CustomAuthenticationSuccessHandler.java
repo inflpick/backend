@@ -2,9 +2,10 @@ package com.leesh.inflpick.common.adapter.in.web.security;
 
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.user.adapter.out.jwt.CookieProperties;
+import com.leesh.inflpick.user.core.domain.AuthenticationCode;
+import com.leesh.inflpick.user.core.domain.AuthenticationProcess;
 import com.leesh.inflpick.user.core.domain.User;
-import com.leesh.inflpick.user.port.out.Token;
-import com.leesh.inflpick.user.port.out.TokenService;
+import com.leesh.inflpick.user.port.in.UserCommandService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,8 +22,8 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final TokenService tokenService;
     private final CookieProperties cookieProperties;
+    private final UserCommandService userCommandService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -33,35 +34,24 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
         User user = ((CustomOauth2User) principal).user();
-        Token accessToken = tokenService.createAccessToken(user);
-        Token refreshToken = tokenService.createRefreshToken(user);
-
+        AuthenticationProcess authenticationProcess = userCommandService.authenticate(user);
         Boolean secure = cookieProperties.secure();
         String redirectUri = cookieProperties.redirectUri();
         String domain = cookieProperties.domain();
         String sameSite = cookieProperties.sameSite();
         String path = cookieProperties.path();
 
-        ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken.value())
+        AuthenticationCode code = authenticationProcess.getCode();
+        ResponseCookie authenticationCodeCookie = ResponseCookie.from("authentication_code", code.value())
                 .httpOnly(false)
                 .domain(domain)
                 .sameSite(sameSite)
                 .secure(secure)
                 .path(path)
-                .maxAge(accessToken.expiresInSeconds())
+                .maxAge(60)
                 .build();
 
-        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken.value())
-                .httpOnly(true)
-                .domain(domain)
-                .sameSite(sameSite)
-                .secure(secure)
-                .path(path)
-                .maxAge(refreshToken.expiresInSeconds())
-                .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
-        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, authenticationCodeCookie.toString());
         response.addHeader(HttpHeaders.LOCATION, redirectUri);
         response.sendRedirect(redirectUri);
     }

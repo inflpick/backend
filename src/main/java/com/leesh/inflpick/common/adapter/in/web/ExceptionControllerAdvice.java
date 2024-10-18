@@ -34,6 +34,8 @@ import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.review.core.domain.ReviewContentsValidationFailedException;
 import com.leesh.inflpick.review.core.domain.ReviewUriValidationFailedException;
 import com.leesh.inflpick.user.adapter.in.web.Oauth2LoginApiErrorCode;
+import com.leesh.inflpick.user.adapter.in.web.AuthApiErrorCode;
+import com.leesh.inflpick.user.port.in.InvalidAuthenticationCodeException;
 import com.leesh.inflpick.user.port.out.NotSupportedOauth2TypeException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -277,6 +279,12 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ApiErrorResponse> handlerUnauthorizedException(UnauthorizedException e, HttpServletRequest request) {
         log.warn("UnauthorizedException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidAuthenticationCodeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidAuthenticationCodeException(InvalidAuthenticationCodeException e, HttpServletRequest request) {
+        log.warn("InvalidAuthenticationCodeException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, AuthApiErrorCode.INVALID_AUTHENTICATION_CODE);
     }
 
 }

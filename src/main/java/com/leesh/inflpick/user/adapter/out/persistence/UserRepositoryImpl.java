@@ -6,6 +6,7 @@ import com.leesh.inflpick.product.port.ProductSortProperty;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserDocument;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserMongoRepository;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserPageResponse;
+import com.leesh.inflpick.user.core.domain.AuthenticationCode;
 import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
 import com.leesh.inflpick.user.core.domain.User;
 import com.leesh.inflpick.user.port.out.UserNotFoundException;
@@ -69,5 +70,11 @@ public class UserRepositoryImpl implements UserRepository {
                 .totalElements(documentPage.getTotalElements())
                 .sortProperties(sortProperties)
                 .build();
+    }
+
+    @Override
+    public Optional<User> findByAuthenticationCode(AuthenticationCode authenticationCode) {
+        return userMongoRepository.findByAuthenticationCode(authenticationCode.value())
+                .map(UserDocument::toEntity);
     }
 }

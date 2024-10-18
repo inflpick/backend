@@ -2,7 +2,9 @@ package com.leesh.inflpick.common.adapter.in.web.security;
 
 import com.leesh.inflpick.user.adapter.out.jwt.Jwt;
 import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.port.out.Token;
 import com.leesh.inflpick.user.port.out.TokenService;
+import com.leesh.inflpick.user.port.out.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -21,10 +23,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        String jwt = (String) authentication.getPrincipal();
-        Jwt jwtAuthentication = new Jwt(jwt, 0);
-        if (tokenService.verifyToken(jwtAuthentication)) {
-            User user = tokenService.extractToken(jwtAuthentication);
+        String jwtString = (String) authentication.getPrincipal();
+        Token token = new Jwt(jwtString, 0);
+        if (tokenService.verifyToken(token, TokenType.ACCESS)) {
+            User user = tokenService.extractToken(token);
             CustomUserDetails userDetails = new CustomUserDetails(user);
             return CustomAuthenticationToken.withAuthenticated(userDetails, "",
                     List.of((GrantedAuthority) () -> user.getRole().name()));

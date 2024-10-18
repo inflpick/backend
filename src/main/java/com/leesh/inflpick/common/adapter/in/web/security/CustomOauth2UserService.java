@@ -71,7 +71,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
                 .nickname(userNickname)
                 .email(userEmail)
                 .profileImageUrl(profileImageUrl)
-                .role(Role.ADMIN) // TODO 임시! 추후 USER 로 수정 필요!
+                .role(Role.ADMIN)
                 .oauth2UserInfo(oauth2UserInfo)
                 .build();
         return userCommandService.create(command);
