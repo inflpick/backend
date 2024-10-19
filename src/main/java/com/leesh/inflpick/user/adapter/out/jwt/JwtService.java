@@ -1,10 +1,11 @@
 package com.leesh.inflpick.user.adapter.out.jwt;
 
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import com.leesh.inflpick.user.port.in.UserQueryService;
 import com.leesh.inflpick.user.port.out.Token;
 import com.leesh.inflpick.user.port.out.TokenService;
 import com.leesh.inflpick.user.port.out.TokenType;
+import com.leesh.inflpick.user.v2.core.entity.vo.UserId;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -25,20 +26,20 @@ import java.util.Date;
 public class JwtService implements TokenService {
 
     private final JwtProperties jwtProperties;
-    private final UserQueryService userQueryService;
+    private final UserQueryService userQueryService = null;
 
     @Override
     public Token createAccessToken(User user) {
         Integer expiresInSeconds = jwtProperties.accessTokenExpiresInSeconds();
-        String id = user.getId();
-        String token = generateToken(expiresInSeconds, TokenType.ACCESS, id);
+        UserId userId = user.getId();
+        String token = generateToken(expiresInSeconds, TokenType.ACCESS, userId.value());
         return new Jwt(token, expiresInSeconds);
     }
 
     @Override
     public Token createRefreshToken(User user) {
         Integer expiresInSeconds = jwtProperties.refreshTokenExpiresInSeconds();
-        String id = user.getId();
+        String id = user.getId().value();
         String token = generateToken(expiresInSeconds, TokenType.REFRESH, id);
         return new Jwt(token, expiresInSeconds);
     }

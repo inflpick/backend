@@ -1,7 +1,7 @@
 package com.leesh.inflpick.user.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.common.port.PageResponse;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import lombok.Builder;
 
 import java.util.Collection;

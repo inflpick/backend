@@ -6,9 +6,9 @@ import com.leesh.inflpick.product.port.ProductSortProperty;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserDocument;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserMongoRepository;
 import com.leesh.inflpick.user.adapter.out.persistence.mongo.UserPageResponse;
-import com.leesh.inflpick.user.core.domain.AuthenticationCode;
-import com.leesh.inflpick.user.core.domain.Oauth2UserInfo;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.AuthenticationCode;
+import com.leesh.inflpick.user.v2.core.entity.vo.Oauth2Info;
 import com.leesh.inflpick.user.port.out.UserNotFoundException;
 import com.leesh.inflpick.user.port.out.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,14 +48,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByOauth2UserInfo(Oauth2UserInfo oauth2UserInfo) {
-        return userMongoRepository.findByOauth2UserIdAndOauth2Type(oauth2UserInfo.id(), oauth2UserInfo.oauth2Type().name())
+    public Optional<User> findByOauth2UserInfo(Oauth2Info oauth2Info) {
+        return userMongoRepository.findByOauth2UserIdAndOauth2Type(oauth2Info.getId(), oauth2Info.getProvider().name())
                 .map(UserDocument::toEntity);
     }
 
     @Override
     public PageResponse<User> getPage(com.leesh.inflpick.common.port.PageRequest request) {
-        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> Arrays.stream(ProductSortProperty.values())
+        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request,
+                () -> Arrays.stream(ProductSortProperty.values())
                 .map(ProductSortProperty::getValue)
                 .toList());
         Page<UserDocument> documentPage = userMongoRepository.findAll(pageRequest);

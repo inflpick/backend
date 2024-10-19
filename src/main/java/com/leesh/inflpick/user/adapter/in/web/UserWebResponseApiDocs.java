@@ -1,5 +1,6 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
+import com.leesh.inflpick.user.v2.core.entity.vo.Oauth2Provider;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Instant;
@@ -19,10 +20,10 @@ public interface UserWebResponseApiDocs {
     @Schema(description = "유저 이메일", example = "user@gmail.com", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String getEmail();
 
-    @Schema(description = "유저 권한", example = "kakao", implementation = Oauth2Type.class, requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "유저 권한", example = "kakao", implementation = Oauth2Provider.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String getRole();
 
-    @Schema(description = "유저 소셜 로그인 타입", example = "kakao", implementation = Oauth2Type.class, requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "유저 소셜 로그인 타입", example = "kakao", implementation = Oauth2Provider.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String getOauth2Type();
 
     @Schema(description = "유저 소셜 로그인 ID", example = "1234567890", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)

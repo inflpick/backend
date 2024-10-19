@@ -1,6 +1,6 @@
 package com.leesh.inflpick.user.port.out;
 
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 
 public interface TokenService {
 

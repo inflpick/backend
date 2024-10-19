@@ -1,7 +1,7 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
-import com.leesh.inflpick.user.core.domain.Role;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.Role;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +22,6 @@ public record CustomUserDetails(User user) implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return user.getId();
+        return user.getId().value();
     }
 }

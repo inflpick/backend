@@ -37,3 +37,4 @@ custom:
     same-site: 'None' # Strict, Lax, None 중 하나를 선택합니다. None 이면, Secure 속성이 필요합니다.
     redirect-uri: 'https://inflpick.com/oauth2/success' # 요청을 리다이렉트할 경로를 지정합니다.
     domain: 'inflpick.com' # 쿠키를 전송할 도메인을 지정합니다.
+    secure: true # HTTPS 에서만 쿠키 전송

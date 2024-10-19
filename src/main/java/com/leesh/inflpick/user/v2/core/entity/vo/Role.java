@@ -1,4 +1,4 @@
-package com.leesh.inflpick.user.core.domain;
+package com.leesh.inflpick.user.v2.core.entity.vo;
 
 public enum Role {
 

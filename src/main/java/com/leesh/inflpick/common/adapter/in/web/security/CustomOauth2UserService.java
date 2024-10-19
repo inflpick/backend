@@ -1,11 +1,10 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
-import com.leesh.inflpick.user.adapter.in.web.Oauth2Type;
-import com.leesh.inflpick.user.core.domain.*;
-import com.leesh.inflpick.user.port.in.UserCommand;
-import com.leesh.inflpick.user.port.in.UserCommandService;
-import com.leesh.inflpick.user.port.in.UserQueryService;
 import com.leesh.inflpick.user.port.out.NotSupportedOauth2TypeException;
+import com.leesh.inflpick.user.v2.core.entity.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.*;
+import com.leesh.inflpick.user.v2.port.out.QueryUserPort;
+import com.leesh.inflpick.user.v2.port.in.CreateSocialUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -22,8 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class CustomOauth2UserService extends DefaultOAuth2UserService {
 
-    private final UserCommandService userCommandService;
-    private final UserQueryService userQueryService;
+    private final CreateSocialUserUseCase createSocialUserUseCase;
+    private final QueryUserPort queryUserPort;
     private final List<Oauth2UserConverter> oauth2UserConverters;
 
     @Override
@@ -37,43 +36,41 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName();
 
-        Oauth2Type oauth2Type = Oauth2Type.from(registrationId);
+        Oauth2Provider oauth2Provider = Oauth2Provider.from(registrationId);
         OAuth2User convertOauth2User = oauth2UserConverters.stream()
-                .filter(converter -> converter.isSupport(oauth2Type))
+                .filter(converter -> converter.isSupport(oauth2Provider))
                 .findAny()
-                .orElseThrow(() -> new NotSupportedOauth2TypeException(oauth2Type.name()))
+                .orElseThrow(() -> new NotSupportedOauth2TypeException(oauth2Provider.name()))
                 .convert(oAuth2User, userNameAttributeName);
 
-        Oauth2UserInfo oauth2UserInfo = Oauth2UserInfo.of(
+        Oauth2Info oauth2Info = Oauth2Info.create(
                 convertOauth2User.getName(),
-                oauth2Type);
+                oauth2Provider);
 
-        AtomicReference<String> userId = new AtomicReference<>();
-        userQueryService.query(oauth2UserInfo)
+        AtomicReference<UserId> userId = new AtomicReference<>();
+        queryUserPort.query(oauth2Info)
                 .ifPresentOrElse(
                         user -> userId.set(user.getId()),
                         () -> {
-                            String id = registerNewUser(convertOauth2User, oauth2UserInfo);
+                            UserId id = registerNewUser(convertOauth2User, oauth2Info);
                             userId.set(id);
                         });
-        User user = userQueryService.query(userId.get());
+        User user = queryUserPort.query(userId.get());
         return new CustomOauth2User(user);
     }
 
-    private String registerNewUser(OAuth2User convertOauth2User, Oauth2UserInfo oauth2UserInfo) {
+    private UserId registerNewUser(OAuth2User convertOauth2User, Oauth2Info oauth2Info) {
         String nickname = convertOauth2User.getAttribute("nickname");
         String profileImageUrl = convertOauth2User.getAttribute("profileImageUrl");
         String email = convertOauth2User.getAttribute("email");
-        assert nickname != null;
-        Nickname userNickname = Nickname.from(nickname);
-        UserEmail userEmail = UserEmail.from(email);
-        UserCommand command = UserCommand.builder()
-                .nickname(userNickname)
-                .email(userEmail)
-                .profileImageUrl(profileImageUrl)
-                .role(Role.ADMIN)
-                .oauth2UserInfo(oauth2UserInfo)
-                .build();
-        return userCommandService.create(command);
+        return createSocialUserUseCase.create(() -> {
+            Nickname userNickname = Nickname.create(nickname);
+            UserEmail userEmail = UserEmail.create(email);
+            return User.builder(userNickname, oauth2Info)
+                    .email(userEmail)
+                    .profileImageUrl(profileImageUrl)
+                    .role(Role.ADMIN)
+                    .build();
+        });
     }
 }

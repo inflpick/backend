@@ -2,8 +2,8 @@ package com.leesh.inflpick.auth.adapter.web;
 
 import com.leesh.inflpick.user.adapter.in.web.TokenWebRequest;
 import com.leesh.inflpick.user.adapter.in.web.TokenWebResponse;
-import com.leesh.inflpick.user.core.domain.AuthenticationCode;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.AuthenticationCode;
 import com.leesh.inflpick.user.port.in.UserQueryService;
 import com.leesh.inflpick.user.port.out.GrantType;
 import com.leesh.inflpick.user.port.out.Token;

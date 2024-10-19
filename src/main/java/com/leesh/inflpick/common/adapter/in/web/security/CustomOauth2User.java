@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -26,6 +26,6 @@ public record CustomOauth2User(User user) implements OAuth2User {
 
     @Override
     public String getName() {
-        return user.getId();
+        return user.getId().value();
     }
 }

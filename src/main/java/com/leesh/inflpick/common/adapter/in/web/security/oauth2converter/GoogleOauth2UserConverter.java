@@ -1,7 +1,7 @@
 package com.leesh.inflpick.common.adapter.in.web.security.oauth2converter;
 
 import com.leesh.inflpick.common.adapter.in.web.security.Oauth2UserConverter;
-import com.leesh.inflpick.user.adapter.in.web.Oauth2Type;
+import com.leesh.inflpick.user.v2.core.entity.vo.Oauth2Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -16,8 +16,8 @@ import java.util.Map;
 public class GoogleOauth2UserConverter implements Oauth2UserConverter {
 
     @Override
-    public Boolean isSupport(Oauth2Type oauth2Type) {
-        return Oauth2Type.GOOGLE.equals(oauth2Type);
+    public Boolean isSupport(Oauth2Provider oauth2Provider) {
+        return Oauth2Provider.GOOGLE.equals(oauth2Provider);
     }
 
     @Override

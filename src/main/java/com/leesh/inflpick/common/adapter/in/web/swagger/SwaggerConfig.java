@@ -39,7 +39,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(new Components().addSecuritySchemes("Bearer-Auth", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
-                                .description("/oauth2/authorization/{oauth2Type} 를 통해 소셜 로그인 진행 후 발급받은 Access Token 값을 입력하세요.")
+                                .description("/oauth2/authorization/{oauth2Provider} 를 통해 소셜 로그인 진행 후 발급받은 Access Token 값을 입력하세요.")
                                 .scheme("Bearer")
                                 .bearerFormat("JWT")))
                 .info(new Info()

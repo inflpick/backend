@@ -2,9 +2,9 @@ package com.leesh.inflpick.common.adapter.in.web.security;
 
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
 import com.leesh.inflpick.user.adapter.out.jwt.CookieProperties;
-import com.leesh.inflpick.user.core.domain.AuthenticationCode;
-import com.leesh.inflpick.user.core.domain.AuthenticationProcess;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.AuthenticationProcess;
+import com.leesh.inflpick.user.v2.core.entity.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.AuthenticationCode;
 import com.leesh.inflpick.user.port.in.UserCommandService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

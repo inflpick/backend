@@ -1,7 +1,7 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
 import com.leesh.inflpick.user.adapter.out.jwt.Jwt;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import com.leesh.inflpick.user.port.out.Token;
 import com.leesh.inflpick.user.port.out.TokenService;
 import com.leesh.inflpick.user.port.out.TokenType;

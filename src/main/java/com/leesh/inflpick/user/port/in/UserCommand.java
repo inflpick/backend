@@ -1,7 +1,11 @@
 package com.leesh.inflpick.user.port.in;
 
 import com.leesh.inflpick.common.port.out.UuidHolder;
-import com.leesh.inflpick.user.core.domain.*;
+import com.leesh.inflpick.user.v2.core.entity.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.Nickname;
+import com.leesh.inflpick.user.v2.core.entity.vo.Oauth2Info;
+import com.leesh.inflpick.user.v2.core.entity.vo.Role;
+import com.leesh.inflpick.user.v2.core.entity.vo.UserEmail;
 import lombok.Builder;
 
 @Builder
@@ -10,17 +14,14 @@ public record UserCommand(
         UserEmail email,
         String profileImageUrl,
         Role role,
-        Oauth2UserInfo oauth2UserInfo
+        Oauth2Info oauth2Info
 ) {
 
     public User toEntity(UuidHolder uuidHolder) {
-        return User.builder()
-                .id(uuidHolder.uuid())
+        return User.builder(nickname, oauth2Info)
                 .email(email)
-                .nickname(nickname)
                 .profileImageUrl(profileImageUrl)
                 .role(role)
-                .oauth2UserInfo(oauth2UserInfo)
                 .build();
     }
 

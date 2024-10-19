@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.adapter.in.web.security;
 
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import com.leesh.inflpick.user.port.in.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

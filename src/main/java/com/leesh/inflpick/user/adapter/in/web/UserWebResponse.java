@@ -1,7 +1,7 @@
 package com.leesh.inflpick.user.adapter.in.web;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.leesh.inflpick.user.core.domain.User;
+import com.leesh.inflpick.user.v2.core.entity.User;
 import lombok.Builder;
 
 import java.time.Instant;
@@ -20,13 +20,13 @@ public record UserWebResponse(
 
     public static UserWebResponse from(User user) {
         return UserWebResponse.builder()
-                .id(user.getId())
+                .id(user.getId().value())
                 .role(user.getRole().name())
-                .nickname(user.getNickname())
+                .nickname(user.getNickname().value())
                 .profileImageUrl(user.getProfileImageUrl())
-                .email(user.getEmail())
-                .oauth2Type(user.getOauth2Type())
-                .oauth2Id(user.getOauth2UserId())
+                .email(user.getEmail().value())
+                .oauth2Type(user.getOauth2Provider().name())
+                .oauth2Id(user.getOauth2Id())
                 .joinedDate(user.getCreatedDate())
                 .build();
     }

@@ -1,7 +1,8 @@
 package com.leesh.inflpick.user.adapter.out.persistence.mongo;
 
-import com.leesh.inflpick.user.adapter.in.web.Oauth2Type;
-import com.leesh.inflpick.user.core.domain.*;
+import com.leesh.inflpick.user.v2.core.entity.AuthenticationProcess;
+import com.leesh.inflpick.user.v2.core.entity.User;
+import com.leesh.inflpick.user.v2.core.entity.vo.*;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
@@ -35,43 +36,48 @@ public class UserDocument implements Persistable<String> {
     private final Instant lastModifiedDate;
 
     public static UserDocument from(User user) {
-        AuthenticationStatus authenticationStatus = user.getAuthenticationStatus();
-        AuthenticationCode authenticationCode = user.getAuthenticationCode();
+        AuthenticationProcess authenticationProcess = user.getAuthenticationProcess();
+        AuthenticationStatus status = authenticationProcess.getStatus();
+        AuthenticationCode code = authenticationProcess.getCode();
         return UserDocument.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .nickname(user.getNickname())
+                .id(user.getId().value())
+                .email(user.getEmail().value())
+                .nickname(user.getNickname().value())
                 .profileImageUrl(user.getProfileImageUrl())
                 .role(user.getRole().name())
-                .oauth2UserId(user.getOauth2UserId())
-                .oauth2Type(user.getOauth2Type())
-                .authenticationStatus(authenticationStatus.name())
-                .authenticationCode(authenticationCode.value())
+                .oauth2UserId(user.getOauth2Id())
+                .oauth2Type(user.getOauth2Provider().name())
+                .authenticationStatus(status.name())
+                .authenticationCode(code.value())
                 .build();
     }
 
     public User toEntity() {
-        Nickname nickname = Nickname.from(this.nickname);
-        UserEmail email = UserEmail.from(this.email);
+        Nickname nickname = Nickname.create(this.nickname);
+        UserEmail email = UserEmail.create(this.email);
         Role role = Role.from(this.role);
-        Oauth2Type oauth2Type = Oauth2Type.valueOf(this.oauth2Type);
-        Oauth2UserInfo oauth2UserInfo = Oauth2UserInfo.of(oauth2UserId, oauth2Type);
-        AuthenticationStatus authenticationStatus = AuthenticationStatus.valueOf(this.authenticationStatus);
-        AuthenticationCode authenticationCode = AuthenticationCode.create(this.authenticationCode);
-        AuthenticationProcess authenticationProcess = AuthenticationProcess.create(authenticationStatus, authenticationCode);
-        return User.builder()
-                .id(id)
-                .nickname(nickname)
+        Oauth2Provider oauth2Provider = Oauth2Provider.valueOf(this.oauth2Type);
+        Oauth2Info oauth2Info = Oauth2Info.create(oauth2UserId, oauth2Provider);
+        AuthenticationStatus status = AuthenticationStatus.valueOf(this.authenticationStatus);
+        AuthenticationCode code = AuthenticationCode.create(this.authenticationCode);
+        User user = User.builder(null, oauth2Info)
                 .email(email)
                 .profileImageUrl(profileImageUrl)
                 .role(role)
-                .oauth2UserInfo(oauth2UserInfo)
                 .createdDate(createdDate)
                 .createdBy(createdBy)
-                .authenticationProcess(authenticationProcess)
                 .lastModifiedDate(lastModifiedDate)
                 .lastModifiedBy(lastModifiedBy)
                 .build();
+        switch (status) {
+            case IN_PROGRESS:
+                user.startAuthentication(code);
+                break;
+            case COMPLETED:
+                user.completeAuthentication();
+                break;
+        }
+        return user;
     }
 
     @Override
