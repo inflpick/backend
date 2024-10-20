@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.port.in;
 
-import com.leesh.inflpick.common.port.out.UuidHolder;
+import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.keyword.core.domain.Keyword;
 import com.leesh.inflpick.keyword.core.domain.KeywordColor;
 import com.leesh.inflpick.keyword.core.domain.KeywordName;

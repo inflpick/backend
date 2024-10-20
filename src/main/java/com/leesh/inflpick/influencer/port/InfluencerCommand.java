@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.port;
 
-import com.leesh.inflpick.common.port.out.UuidHolder;
+import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerDescription;

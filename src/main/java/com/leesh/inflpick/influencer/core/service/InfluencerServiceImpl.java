@@ -3,7 +3,7 @@ package com.leesh.inflpick.influencer.core.service;
 import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
-import com.leesh.inflpick.common.port.out.UuidHolder;
+import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.InfluencerCommand;

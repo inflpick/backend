@@ -1,7 +1,6 @@
 package com.leesh.inflpick.v2.adapter.in.web.auth.dto.response;
 
-import com.leesh.inflpick.v2.adapter.in.web.auth.docs.swagger.TokenWebResponseDocs;
-import com.leesh.inflpick.v2.domain.auth.vo.Token;
+import com.leesh.inflpick.v2.domain.token.vo.Token;
 import lombok.Builder;
 
 @Builder

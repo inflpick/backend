@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.appilcation.port.out.user;
 
-import com.leesh.inflpick.v2.appilcation.port.out.common.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.appilcation.port.out.common.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.domain.common.dto.OffsetPageQuery;
+import com.leesh.inflpick.v2.domain.common.dto.OffsetPage;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.AuthenticationCode;
 import com.leesh.inflpick.v2.domain.user.vo.Oauth2Info;
@@ -17,5 +17,5 @@ public interface QueryUserPort {
 
     Optional<User> query(AuthenticationCode authenticationCode);
 
-    OffsetPageResponse<User> query(OffsetPageRequest request);
+    OffsetPage<User> query(OffsetPageQuery request);
 }

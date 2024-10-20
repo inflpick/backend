@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain;
 
-import com.leesh.inflpick.common.port.out.UuidHolder;
+import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.*;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.review.core.domain.Review;

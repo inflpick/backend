@@ -1,15 +1,15 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
 import com.leesh.inflpick.common.port.SortDirection;
-import com.leesh.inflpick.v2.appilcation.port.out.common.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.appilcation.port.out.common.dto.OffsetPageResponse;
-import com.leesh.inflpick.v2.appilcation.port.out.common.dto.SortCriterion;
+import com.leesh.inflpick.v2.domain.common.dto.OffsetPageQuery;
+import com.leesh.inflpick.v2.domain.common.dto.OffsetPage;
+import com.leesh.inflpick.v2.domain.common.dto.SortCriterion;
+import com.leesh.inflpick.v2.appilcation.port.out.user.CommandUserPort;
+import com.leesh.inflpick.v2.appilcation.port.out.user.QueryUserPort;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.AuthenticationCode;
 import com.leesh.inflpick.v2.domain.user.vo.Oauth2Info;
 import com.leesh.inflpick.v2.domain.user.vo.UserId;
-import com.leesh.inflpick.v2.appilcation.port.out.user.CommandUserPort;
-import com.leesh.inflpick.v2.appilcation.port.out.user.QueryUserPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,7 +54,7 @@ class UserRepository implements CommandUserPort, QueryUserPort {
     }
 
     @Override
-    public OffsetPageResponse<User> query(OffsetPageRequest request) {
+    public OffsetPage<User> query(OffsetPageQuery request) {
 
         Sort sortOrder = Sort.unsorted();
 
@@ -70,7 +70,7 @@ class UserRepository implements CommandUserPort, QueryUserPort {
         Page<UserDocument> documentPage = userMongoRepository.findAll(pageRequest);
         Collection<User> users = documentPage.getContent().stream().map(UserDocument::toEntity).toList();
 
-        return OffsetPageResponse.create(users,
+        return OffsetPage.create(users,
                 documentPage.getNumber(),
                 documentPage.getTotalPages(),
                 request.getSize(),

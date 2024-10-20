@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.adapter.out;
 
-import com.leesh.inflpick.common.port.out.UuidHolder;
+import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
 import org.springframework.stereotype.Component;
 
 @Component

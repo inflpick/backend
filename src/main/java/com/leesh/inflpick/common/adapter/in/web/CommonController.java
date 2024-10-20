@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.adapter.in.web;
 
-import com.leesh.inflpick.v2.adapter.out.token.jwt.auth.CookieProperties;
+import com.leesh.inflpick.v2.adapter.out.token.jwt.CookieProperties;
 import com.leesh.inflpick.common.adapter.in.web.docs.CommonApiDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
