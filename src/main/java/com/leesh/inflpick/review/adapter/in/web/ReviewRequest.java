@@ -1,7 +1,7 @@
 package com.leesh.inflpick.review.adapter.in.web;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
+import com.leesh.inflpick.common.v2.adapter.validator.RequiredFieldsValidator;
 import com.leesh.inflpick.review.adapter.in.web.docs.ReviewRequestApiDocs;
 import com.leesh.inflpick.review.core.domain.ReviewSource;
 import com.leesh.inflpick.review.port.ReviewCommand;

@@ -2,7 +2,7 @@ package com.leesh.inflpick.influencer.adapter.in.web.value;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
+import com.leesh.inflpick.common.v2.adapter.validator.RequiredFieldsValidator;
 import com.leesh.inflpick.influencer.adapter.in.web.docs.SocialMediaProfileRequestApiDocs;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
 import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.adapter.in.web.value;
 
-import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
+import com.leesh.inflpick.common.v2.adapter.validator.RequiredFieldsValidator;
 import com.leesh.inflpick.influencer.adapter.in.web.docs.InfluencerWebRequestApiDocs;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerDescription;
