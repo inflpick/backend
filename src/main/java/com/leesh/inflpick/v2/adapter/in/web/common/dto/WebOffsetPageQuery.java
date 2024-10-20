@@ -1,4 +1,4 @@
-package com.leesh.inflpick.v2.adapter.in.web.common;
+package com.leesh.inflpick.v2.adapter.in.web.common.dto;
 
 import com.leesh.inflpick.common.port.SortDirection;
 import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;

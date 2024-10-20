@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.adapter.in.web.user;
 
-import com.leesh.inflpick.v2.adapter.in.web.common.WebOffsetPageResponse;
+import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageResponse;
 import com.leesh.inflpick.v2.adapter.in.web.user.dto.response.UserWebResponse;
 import com.leesh.inflpick.v2.adapter.out.persistence.mongo.user.FakeUserRepository;
 import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;

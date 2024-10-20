@@ -6,7 +6,6 @@ import com.leesh.inflpick.v2.domain.user.vo.*;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.*;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -14,7 +13,7 @@ import java.time.Instant;
 @Builder
 @Document(collection = "users")
 @Getter
-class UserDocument implements Persistable<String> {
+class UserDocument {
 
     @Id
     private String id;
@@ -41,7 +40,9 @@ class UserDocument implements Persistable<String> {
         AuthenticationProcess authenticationProcess = user.getAuthenticationProcess();
         AuthenticationStatus status = authenticationProcess.getStatus();
         AuthenticationCode code = authenticationProcess.getCode();
+        String userId = user.isPersisted() ? user.getId().value() : null;
         return UserDocument.builder()
+                .id(userId)
                 .email(user.getEmail().value())
                 .nickname(user.getNickname().value())
                 .profileImageUrl(user.getProfileImageUrl())
@@ -81,11 +82,6 @@ class UserDocument implements Persistable<String> {
                 break;
         }
         return user;
-    }
-
-    @Override
-    public boolean isNew() {
-        return createdDate == null;
     }
 
 }

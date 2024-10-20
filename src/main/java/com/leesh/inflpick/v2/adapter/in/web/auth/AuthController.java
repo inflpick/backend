@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,10 +37,10 @@ class AuthController implements AuthControllerDocs {
         return "oauth2/authorization";
     }
 
-    @GetMapping(path = "/auth/token", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<TokenWebResponse> createToken(@RequestBody TokenWebRequest request) {
+    @PostMapping(path = "/auth/token", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TokenWebResponse> createToken(@RequestBody TokenWebRequest request) {
 
-        if (!request.grantType().equalsIgnoreCase(GrantType.AUTHORIZATION_CODE.name())) {
+        if (!request.grantType().equalsIgnoreCase(GrantType.AUTHENTICATION_CODE.name())) {
             throw new IllegalArgumentException("지원하지 않는 grant type 입니다.");
         }
 

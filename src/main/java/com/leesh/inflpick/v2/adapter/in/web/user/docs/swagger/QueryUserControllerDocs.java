@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.adapter.in.web.user.docs.swagger;
 
-import com.leesh.inflpick.v2.adapter.in.web.common.WebOffsetPageResponse;
+import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageResponse;
 import com.leesh.inflpick.v2.adapter.in.web.user.dto.response.UserWebResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

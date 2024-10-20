@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.adapter.in.web.user;
 
-import com.leesh.inflpick.v2.adapter.in.web.common.WebOffsetPageQuery;
-import com.leesh.inflpick.v2.adapter.in.web.common.WebOffsetPageResponse;
+import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageQuery;
+import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageResponse;
 import com.leesh.inflpick.v2.adapter.in.web.user.docs.swagger.QueryUserControllerDocs;
 import com.leesh.inflpick.v2.adapter.in.web.user.dto.response.UserWebResponse;
 import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.domain.token.vo;
 
 public enum GrantType {
-    AUTHORIZATION_CODE,
+    AUTHENTICATION_CODE,
     REFRESH_TOKEN
 }

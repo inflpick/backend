@@ -52,7 +52,7 @@ public class AuthenticationProcess {
     }
 
     Boolean canStart() {
-        return status.notStarted() || status.completed();
+        return status.notStarted() || status.completed() || status.inProgress();
     }
 
     boolean isProgress() {

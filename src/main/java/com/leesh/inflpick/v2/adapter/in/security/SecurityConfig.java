@@ -56,6 +56,7 @@ class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // API Docs
                         .requestMatchers("/oauth2/**", "/users/login-success", "/users/login-failure").permitAll() // OAuth2
                         .requestMatchers("/actuator/health").permitAll() // Actuator
+                        .requestMatchers(HttpMethod.POST, "/auth/token").permitAll() // 토큰 발급
                         .requestMatchers(HttpMethod.GET, "/influencers/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/keywords/**").permitAll()
