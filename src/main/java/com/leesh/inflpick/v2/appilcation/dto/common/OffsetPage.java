@@ -1,4 +1,4 @@
-package com.leesh.inflpick.v2.domain.common.dto;
+package com.leesh.inflpick.v2.appilcation.dto.common;
 
 import lombok.Getter;
 

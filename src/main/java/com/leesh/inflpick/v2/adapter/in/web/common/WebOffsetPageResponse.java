@@ -3,7 +3,7 @@ package com.leesh.inflpick.v2.adapter.in.web.common;
 
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.port.PageResponse;
-import com.leesh.inflpick.v2.domain.common.dto.OffsetPage;
+import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
 import lombok.Getter;
 
 @Getter

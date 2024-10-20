@@ -1,4 +1,4 @@
-package com.leesh.inflpick.v2.domain.user.dto;
+package com.leesh.inflpick.v2.appilcation.dto.user;
 
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.Nickname;

@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.appilcation.port.out.user;
 
-import com.leesh.inflpick.v2.domain.common.dto.OffsetPageQuery;
-import com.leesh.inflpick.v2.domain.common.dto.OffsetPage;
+import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
+import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.AuthenticationCode;
 import com.leesh.inflpick.v2.domain.user.vo.Oauth2Info;

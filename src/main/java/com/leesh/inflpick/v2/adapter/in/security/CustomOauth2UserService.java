@@ -4,7 +4,7 @@ import com.leesh.inflpick.v2.appilcation.port.in.user.CommandUserUseCase;
 import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
 import com.leesh.inflpick.v2.appilcation.service.user.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.domain.user.User;
-import com.leesh.inflpick.v2.domain.user.dto.UserCommand;
+import com.leesh.inflpick.v2.appilcation.dto.user.UserCommand;
 import com.leesh.inflpick.v2.domain.user.exception.NotSupportedOauth2TypeException;
 import com.leesh.inflpick.v2.domain.user.vo.*;
 import lombok.RequiredArgsConstructor;

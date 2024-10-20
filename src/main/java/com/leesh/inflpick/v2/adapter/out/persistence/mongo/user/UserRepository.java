@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
 import com.leesh.inflpick.common.port.SortDirection;
-import com.leesh.inflpick.v2.domain.common.dto.OffsetPageQuery;
-import com.leesh.inflpick.v2.domain.common.dto.OffsetPage;
-import com.leesh.inflpick.v2.domain.common.dto.SortCriterion;
+import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
+import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
+import com.leesh.inflpick.v2.appilcation.dto.common.SortCriterion;
 import com.leesh.inflpick.v2.appilcation.port.out.user.CommandUserPort;
 import com.leesh.inflpick.v2.appilcation.port.out.user.QueryUserPort;
 import com.leesh.inflpick.v2.domain.user.User;
