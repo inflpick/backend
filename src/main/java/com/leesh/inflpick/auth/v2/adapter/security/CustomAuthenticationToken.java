@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.adapter.in.web.security;
+package com.leesh.inflpick.auth.v2.adapter.security;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,6 @@
-package com.leesh.inflpick.common.adapter.in.web.security.oauth2converter;
+package com.leesh.inflpick.auth.v2.adapter.security.oauth2converter;
 
-import com.leesh.inflpick.common.adapter.in.web.security.Oauth2UserConverter;
+import com.leesh.inflpick.auth.v2.adapter.security.Oauth2UserConverter;
 import com.leesh.inflpick.user.v2.core.entity.vo.Oauth2Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

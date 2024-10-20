@@ -2,7 +2,7 @@ package com.leesh.inflpick.user.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
-import com.leesh.inflpick.common.adapter.in.web.security.CustomUserDetails;
+import com.leesh.inflpick.auth.v2.adapter.security.CustomUserDetails;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.PageResponse;

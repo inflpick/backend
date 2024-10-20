@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.adapter.in.web.security;
+package com.leesh.inflpick.auth.v2.adapter.security;
 
 import com.leesh.inflpick.user.v2.core.entity.User;
 import com.leesh.inflpick.user.port.in.UserQueryService;
