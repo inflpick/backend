@@ -31,8 +31,9 @@ class CustomAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Authentication authenticate = authenticationManager.authenticate(withoutAuthenticated);
                 SecurityContextHolder.getContext().setAuthentication(authenticate);
-            } catch (ExpiredAuthenticationException e) {
-                request.setAttribute("expired", true);
+            } catch (ExpiredAuthenticationException | InvalidAuthenticationException e) {
+                SecurityContextHolder.clearContext();
+                request.setAttribute("exception", e);
             }
         }
 

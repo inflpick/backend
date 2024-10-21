@@ -25,9 +25,10 @@ public enum CommonApiErrorCode implements ApiErrorCode {
     INVALID_SORT_DIRECTION("C0013", HttpStatus.BAD_REQUEST, "유효한 정렬 방향을 입력해주세요.", InvalidDirectionException.ERROR_MESSAGE_FORMAT.toPattern(), "정렬 방향이 올바르지 않은 경우에 발생합니다."),
     INVALID_SORT_PARAMETER("C0014", HttpStatus.BAD_REQUEST, "유효한 정렬 파라미터를 입력해주세요.", InvalidSortParameterException.ERROR_MESSAGE_FORMAT, "정렬 파라미터가 올바르지 않은 경우에 발생합니다."),
     NOT_FOUND_API_URL("C0015", HttpStatus.NOT_FOUND, "잘못된 API URL 이에요.", "API URL을 확인 후 다시 시도해주세요.", "존재하지 않는 API URL을 호출하는 경우에 발생합니다."),
-    UNAUTHORIZED("C0016", HttpStatus.UNAUTHORIZED, "인증되지 않았어요.", "로그인 후 다시 시도해주세요.", "API 요청 시, 인증되지 않은 사용자가 요청한 경우에 발생합니다."),
-    FORBIDDEN("C0017", HttpStatus.FORBIDDEN, "접근 권한이 없어요.", "권한을 확인 후 다시 시도해주세요.", "API 요청 시, 권한이 없는 사용자가 요청한 경우에 발생합니다."),
-    EXPIRED_TOKEN("C0018", HttpStatus.UNAUTHORIZED, "인증이 필요해요.", "다시 로그인하거나, 문제가 반복될 경우 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.", "인증 토큰이 만료된 경우 발생하는 에러로, 에러 코드를 통해 토큰 갱신 요청이 필요합니다.")
+    UNAUTHORIZED("C0016", HttpStatus.UNAUTHORIZED, "인증되지 않았어요.", "로그인 후 다시 시도해주세요.", "접근 토큰 없이 API 요청을 하는 경우에 발생합니다."),
+    FORBIDDEN("C0017", HttpStatus.FORBIDDEN, "접근 권한이 없어요.", "권한을 확인 후 다시 시도해주세요.", "접근 토큰 없이 API 요청을 하거나, 요청한 리소스에 대한 권한이 없는 경우에 발생합니다."),
+    EXPIRED_TOKEN("C0018", HttpStatus.UNAUTHORIZED, "접근 토큰이 만료됐어요.", "다시 로그인하거나, 문제가 반복될 경우 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.", "접근 토큰이 만료된 경우 발생하는 에러로, 에러 코드를 통해 토큰 갱신 요청이 필요합니다."),
+    INVALID_TOKEN("C0019", HttpStatus.UNAUTHORIZED, "유효하지 않은 접근 토큰이에요.", "다시 로그인하거나, 문제가 반복될 경우 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.", "유효하지 않은 접근 토큰을 사용하여 API 요청한 경우에 발생합니다."),
     ;
 
     CommonApiErrorCode(String code, HttpStatus httpStatus, String reason, String action, String comment) {

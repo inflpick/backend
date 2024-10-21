@@ -7,7 +7,6 @@ import com.leesh.inflpick.v2.adapter.out.docs.swagger.common.ApiErrorCodeSwagger
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +19,7 @@ public interface CreateTokenControllerDocs {
             description = "토큰을 발급합니다.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CreateTokenWebRequest.class))
-            ),
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "토큰 발급 성공",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CreateTokenWebResponse.class))
-                    )
-            })
+            ))
     ResponseEntity<CreateTokenWebResponse> createToken(CreateTokenWebRequest request);
 
 }

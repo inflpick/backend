@@ -28,21 +28,21 @@ class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        String jwtString = (String) authentication.getPrincipal();
-        Token token = Jwt.create(jwtString);
-        if (validateTokenUseCase.isExpired(token)) {
-            throw new ExpiredAuthenticationException("Token is expired");
+        String accessTokenString = (String) authentication.getPrincipal();
+        Token accessToken = Jwt.create(accessTokenString);
+        if (validateTokenUseCase.isExpired(accessToken)) {
+            throw new ExpiredAuthenticationException("AccessToken is expired");
         }
 
-        if (validateTokenUseCase.verify(token, TokenType.ACCESS)) {
-            UserId userId = tokenUseCase.extract(token);
+        if (validateTokenUseCase.isValid(accessToken, TokenType.ACCESS)) {
+            UserId userId = tokenUseCase.extract(accessToken);
             User user = queryUserUseCase.query(userId);
             CustomUserDetails userDetails = new CustomUserDetails(user);
             return CustomAuthenticationToken.withAuthenticated(userDetails, "",
                     List.of((GrantedAuthority) () -> user.getRole().name()));
+        } else {
+            throw new InvalidAuthenticationException("Invalid accessToken");
         }
-
-        return CustomAuthenticationToken.withoutAuthenticated(null, null);
     }
 
     @Override

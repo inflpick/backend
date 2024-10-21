@@ -50,7 +50,8 @@ public class CreateTokenService implements CreateTokenUseCase, RefreshTokenUseCa
         if (tokenValidator.verify(refreshToken, TokenType.REFRESH)) {
             UserId userId = tokenExtractor.extract(refreshToken);
             Token accessToken = tokenGenerator.generate(userId, TokenType.ACCESS);
-            return TokenResponse.create(accessToken, refreshToken);
+            Token newRefreshToken = tokenGenerator.generate(userId, TokenType.REFRESH);
+            return TokenResponse.create(accessToken, newRefreshToken);
         } else {
             throw new InvalidTokenException("Invalid refresh token");
         }

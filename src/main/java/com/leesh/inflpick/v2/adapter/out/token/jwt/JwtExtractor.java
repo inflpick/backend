@@ -24,7 +24,7 @@ public class JwtExtractor implements TokenExtractor {
                 .build()
                 .parseClaimsJws(token.value())
                 .getBody()
-                .getSubject();
+                .getId();
         return UserId.create(userId);
     }
 }

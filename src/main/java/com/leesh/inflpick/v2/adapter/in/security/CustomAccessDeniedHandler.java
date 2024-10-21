@@ -9,13 +9,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
-class CustomAccessDeniedHandler implements org.springframework.security.web.access.AccessDeniedHandler {
+class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     private final ObjectMapper objectMapper;
 
@@ -23,7 +24,7 @@ class CustomAccessDeniedHandler implements org.springframework.security.web.acce
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         CommonApiErrorCode apiErrorCode = CommonApiErrorCode.FORBIDDEN;
         ApiErrorResponse responseBody = ExceptionController.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(responseBody));

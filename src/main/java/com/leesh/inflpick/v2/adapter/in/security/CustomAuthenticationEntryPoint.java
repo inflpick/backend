@@ -7,6 +7,7 @@ import com.leesh.inflpick.v2.adapter.in.web.common.error.CommonApiErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -22,22 +23,19 @@ class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
 
-        Object expired = request.getAttribute("expired");
-        if (expired instanceof Boolean && (Boolean) expired) {
-            CommonApiErrorCode apiErrorCode = CommonApiErrorCode.EXPIRED_TOKEN;
-            ApiErrorResponse responseBody = ExceptionController.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
-            response.setStatus(apiErrorCode.getHttpStatus().value());
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(responseBody));
-            response.getWriter().flush();
-            return;
+        Object exception = request.getAttribute("exception");
+        CommonApiErrorCode apiErrorCode;
+        if (exception instanceof ExpiredAuthenticationException) {
+            apiErrorCode = CommonApiErrorCode.EXPIRED_TOKEN;
+        } else if (exception instanceof InvalidAuthenticationException) {
+            apiErrorCode = CommonApiErrorCode.INVALID_TOKEN;
+        } else {
+            apiErrorCode = CommonApiErrorCode.UNAUTHORIZED;
         }
 
-        CommonApiErrorCode apiErrorCode = CommonApiErrorCode.UNAUTHORIZED;
         ApiErrorResponse responseBody = ExceptionController.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
+        response.setStatus(apiErrorCode.getHttpStatus().value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(responseBody));
         response.getWriter().flush();

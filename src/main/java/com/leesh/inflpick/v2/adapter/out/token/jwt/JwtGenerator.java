@@ -33,14 +33,14 @@ public class JwtGenerator implements TokenGenerator {
         return Jwt.create(token, expiresInSeconds);
     }
 
-    private String generateToken(Integer expiresInSeconds, TokenType type, String id) {
+    private String generateToken(Integer expiresInSeconds, TokenType type, String userId) {
         Instant now = Instant.now();
         Date expiration = Date.from(now.plusSeconds(expiresInSeconds));
         byte[] secretKeyBytes = jwtProperties.secretKey().getBytes(StandardCharsets.UTF_8);
         SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
         return Jwts.builder()
                 .setSubject(type.name())
-                .setId(id)
+                .setId(userId)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(expiration)
                 .signWith(secretKey, SignatureAlgorithm.HS512)

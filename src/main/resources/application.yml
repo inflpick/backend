@@ -93,7 +93,7 @@ custom:
       - '*'
   jwt:
     secret-key: ENC(9ELPVI70PWNtXYHvTIi/5Mh0LS3/PIkOXaCMkzxJ3R4dauDgnx6WeLre2feRI2BqjvfRjd64v54/dPsXv5pPRjB3xE24j4DMq0mS0Oj8Q9W4oJKT9rPl+w==)
-    access-token-expires-in-seconds: 10 # 1시간
+    access-token-expires-in-seconds: 3600 # 1시간
     refresh-token-expires-in-seconds: 1209600 # 2주
   auth:
     redirect-uri: 'http://localhost:8080/oauth2/success' # 쿠키를 전송할 경로를 지정합니다.

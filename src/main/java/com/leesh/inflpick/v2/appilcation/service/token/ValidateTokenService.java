@@ -14,7 +14,7 @@ class ValidateTokenService implements ValidateTokenUseCase {
     private final TokenValidator tokenValidator;
 
     @Override
-    public Boolean verify(Token token, TokenType type) {
+    public Boolean isValid(Token token, TokenType type) {
         return tokenValidator.verify(token, type);
     }
 
