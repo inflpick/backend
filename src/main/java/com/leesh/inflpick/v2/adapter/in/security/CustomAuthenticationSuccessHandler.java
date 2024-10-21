@@ -1,17 +1,17 @@
 package com.leesh.inflpick.v2.adapter.in.security;
 
-import com.leesh.inflpick.v2.adapter.out.token.jwt.CookieProperties;
 import com.leesh.inflpick.common.adapter.in.web.exception.UnauthorizedException;
+import com.leesh.inflpick.v2.adapter.out.token.jwt.AuthProperties;
+import com.leesh.inflpick.v2.appilcation.port.in.user.AuthenticateUserUseCase;
+import com.leesh.inflpick.v2.domain.token.vo.GrantType;
 import com.leesh.inflpick.v2.domain.user.AuthenticationProcess;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.AuthenticationCode;
-import com.leesh.inflpick.v2.appilcation.port.in.user.AuthenticateUserUseCase;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @Component
 class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final CookieProperties cookieProperties;
+    private final AuthProperties authProperties;
     private final AuthenticateUserUseCase authenticateUserUseCase;
 
     @Override
@@ -35,23 +35,8 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
 
         User user = ((CustomOauth2User) principal).user();
         AuthenticationProcess authenticationProcess = authenticateUserUseCase.authenticate(user.getId());
-        Boolean secure = cookieProperties.secure();
-        String redirectUri = cookieProperties.redirectUri();
-        String domain = cookieProperties.domain();
-        String sameSite = cookieProperties.sameSite();
-        String path = cookieProperties.path();
-
         AuthenticationCode code = authenticationProcess.getCode();
-        ResponseCookie authenticationCodeCookie = ResponseCookie.from("authentication_code", code.value())
-                .httpOnly(false)
-                .domain(domain)
-                .sameSite(sameSite)
-                .secure(secure)
-                .path(path)
-                .maxAge(60)
-                .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, authenticationCodeCookie.toString());
+        String redirectUri = authProperties.redirectUri() + "?" + GrantType.AUTHENTICATION_CODE.name() + "=" + code.value();
         response.addHeader(HttpHeaders.LOCATION, redirectUri);
         response.sendRedirect(redirectUri);
     }

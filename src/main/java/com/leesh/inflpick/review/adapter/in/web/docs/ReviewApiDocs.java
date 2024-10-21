@@ -1,6 +1,6 @@
 package com.leesh.inflpick.review.adapter.in.web.docs;
 
-import com.leesh.inflpick.common.adapter.in.web.swagger.ApiErrorCodeSwaggerDocs;
+import com.leesh.inflpick.v2.adapter.out.docs.swagger.common.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.CursorResponse;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductReadApiErrorCode;

@@ -1,11 +1,11 @@
 package com.leesh.inflpick.v2.appilcation.service.user;
 
+import com.leesh.inflpick.v2.appilcation.dto.user.UserCommand;
 import com.leesh.inflpick.v2.appilcation.port.in.user.CommandUserUseCase;
 import com.leesh.inflpick.v2.appilcation.port.in.user.exception.DuplicatedSocialUserException;
 import com.leesh.inflpick.v2.appilcation.port.out.user.CommandUserPort;
 import com.leesh.inflpick.v2.appilcation.port.out.user.QueryUserPort;
 import com.leesh.inflpick.v2.domain.user.User;
-import com.leesh.inflpick.v2.appilcation.dto.user.UserCommand;
 import com.leesh.inflpick.v2.domain.user.vo.Oauth2Info;
 import com.leesh.inflpick.v2.domain.user.vo.UserId;
 import lombok.RequiredArgsConstructor;

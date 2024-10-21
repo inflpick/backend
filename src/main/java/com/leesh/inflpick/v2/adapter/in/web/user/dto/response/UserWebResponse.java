@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.adapter.in.web.user.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.leesh.inflpick.v2.adapter.in.web.user.docs.swagger.UserWebResponseDocs;
+import com.leesh.inflpick.v2.adapter.out.docs.swagger.user.UserWebResponseDocs;
 import com.leesh.inflpick.v2.domain.user.User;
 import lombok.Builder;
 

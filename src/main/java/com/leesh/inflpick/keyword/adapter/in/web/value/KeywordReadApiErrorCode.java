@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web.value;
 
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorCode;
+import com.leesh.inflpick.v2.adapter.in.web.common.error.ApiErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum KeywordReadApiErrorCode implements ApiErrorCode {
@@ -21,27 +21,27 @@ public enum KeywordReadApiErrorCode implements ApiErrorCode {
     }
 
     @Override
-    public String code() {
+    public String getCode() {
         return this.code;
     }
 
     @Override
-    public HttpStatus httpStatus() {
+    public HttpStatus getHttpStatus() {
         return this.httpStatus;
     }
 
     @Override
-    public String reason() {
+    public String getReason() {
         return this.reason;
     }
 
     @Override
-    public String action() {
+    public String getAction() {
         return this.action;
     }
 
     @Override
-    public String comment() {
+    public String getComment() {
         return this.comment;
     }
 }

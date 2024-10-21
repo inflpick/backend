@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.adapter.in.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leesh.inflpick.common.adapter.in.web.ExceptionControllerAdvice;
-import com.leesh.inflpick.common.adapter.in.web.value.ApiErrorResponse;
-import com.leesh.inflpick.common.adapter.in.web.value.CommonApiErrorCode;
+import com.leesh.inflpick.v2.adapter.in.web.common.ExceptionController;
+import com.leesh.inflpick.v2.adapter.in.web.common.dto.ApiErrorResponse;
+import com.leesh.inflpick.v2.adapter.in.web.common.error.CommonApiErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ class CustomAccessDeniedHandler implements org.springframework.security.web.acce
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         CommonApiErrorCode apiErrorCode = CommonApiErrorCode.FORBIDDEN;
-        ApiErrorResponse responseBody = ExceptionControllerAdvice.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
+        ApiErrorResponse responseBody = ExceptionController.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

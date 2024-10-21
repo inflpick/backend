@@ -4,13 +4,12 @@ import com.leesh.inflpick.v2.domain.user.vo.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.Instant;
 import java.util.Objects;
 
 @Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
-public class User extends AbstractAggregateRoot<User> {
+public class User {
 
     @Getter
     @Builder.Default

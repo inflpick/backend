@@ -1,11 +1,10 @@
 package com.leesh.inflpick.v2.appilcation.port.in.token;
 
-import com.leesh.inflpick.v2.domain.token.vo.Token;
-import com.leesh.inflpick.v2.domain.token.vo.TokenType;
-import com.leesh.inflpick.v2.domain.user.vo.UserId;
+import com.leesh.inflpick.v2.appilcation.dto.user.AuthenticationCodeTokenRequest;
+import com.leesh.inflpick.v2.appilcation.dto.user.TokenResponse;
 
 public interface CreateTokenUseCase {
 
-    Token create(UserId userId, TokenType type);
+    TokenResponse create(AuthenticationCodeTokenRequest request);
 
 }

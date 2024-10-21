@@ -17,7 +17,7 @@ import java.time.Instant;
 import java.util.Date;
 
 @RequiredArgsConstructor
-@EnableConfigurationProperties({JwtProperties.class, CookieProperties.class})
+@EnableConfigurationProperties({JwtProperties.class, AuthProperties.class})
 @Component
 public class JwtGenerator implements TokenGenerator {
 

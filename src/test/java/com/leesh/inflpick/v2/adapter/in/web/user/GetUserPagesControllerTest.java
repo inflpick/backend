@@ -4,7 +4,7 @@ import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageResponse;
 import com.leesh.inflpick.v2.adapter.in.web.user.dto.response.UserWebResponse;
 import com.leesh.inflpick.v2.adapter.out.persistence.mongo.user.FakeUserRepository;
 import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
-import com.leesh.inflpick.v2.appilcation.service.user.exception.UserNotFoundException;
+import com.leesh.inflpick.v2.appilcation.port.in.user.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
 import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
 import com.leesh.inflpick.v2.domain.user.User;

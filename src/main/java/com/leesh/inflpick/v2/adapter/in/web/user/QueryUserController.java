@@ -2,11 +2,11 @@ package com.leesh.inflpick.v2.adapter.in.web.user;
 
 import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageQuery;
 import com.leesh.inflpick.v2.adapter.in.web.common.dto.WebOffsetPageResponse;
-import com.leesh.inflpick.v2.adapter.in.web.user.docs.swagger.QueryUserControllerDocs;
 import com.leesh.inflpick.v2.adapter.in.web.user.dto.response.UserWebResponse;
-import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
+import com.leesh.inflpick.v2.adapter.out.docs.swagger.user.QueryUserControllerDocs;
 import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
 import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
+import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
 import com.leesh.inflpick.v2.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RestController
 public class QueryUserController implements QueryUserControllerDocs {
 
