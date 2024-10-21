@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.adapter.out.token.jwt;
 
-import com.leesh.inflpick.v2.appilcation.port.out.token.TokenGenerator;
+import com.leesh.inflpick.v2.application.port.out.token.TokenGenerator;
 import com.leesh.inflpick.v2.domain.token.vo.Token;
 import com.leesh.inflpick.v2.domain.token.vo.TokenType;
 import com.leesh.inflpick.v2.domain.user.vo.UserId;
@@ -29,7 +29,7 @@ public class JwtGenerator implements TokenGenerator {
         if (type == TokenType.REFRESH) {
             expiresInSeconds = jwtProperties.refreshTokenExpiresInSeconds();
         }
-        String token = generateToken(expiresInSeconds, type, userId.value());
+        String token = generateToken(expiresInSeconds, type, userId.getValue());
         return Jwt.create(token, expiresInSeconds);
     }
 

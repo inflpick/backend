@@ -36,7 +36,7 @@ public class UserDocumentTest {
 
         // then
         assertNotNull(user);
-        assertEquals("user123", user.getId().value());
+        assertEquals("user123", user.getId().getValue());
         assertEquals("testNickname", user.getNickname().value());
         assertEquals("test@example.com", user.getEmail().value());
         assertEquals("http://example.com/profile.jpg", user.getProfileImageUrl());

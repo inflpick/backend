@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.adapter.out.token.jwt;
 
-import com.leesh.inflpick.v2.appilcation.port.out.token.TokenValidator;
+import com.leesh.inflpick.v2.application.port.out.token.TokenValidator;
 import com.leesh.inflpick.v2.domain.token.vo.Token;
 import com.leesh.inflpick.v2.domain.token.vo.TokenType;
 import io.jsonwebtoken.Claims;

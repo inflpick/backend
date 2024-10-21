@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.adapter.in.security;
 
-import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
+import com.leesh.inflpick.v2.application.port.in.user.QueryUserUseCase;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.UserId;
 import lombok.RequiredArgsConstructor;

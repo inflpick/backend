@@ -1,11 +1,11 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
 import com.leesh.inflpick.common.port.SortDirection;
-import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
-import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
-import com.leesh.inflpick.v2.appilcation.dto.common.SortCriterion;
-import com.leesh.inflpick.v2.appilcation.port.out.user.CommandUserPort;
-import com.leesh.inflpick.v2.appilcation.port.out.user.QueryUserPort;
+import com.leesh.inflpick.v2.application.dto.common.OffsetPageQuery;
+import com.leesh.inflpick.v2.application.dto.common.OffsetPage;
+import com.leesh.inflpick.v2.application.dto.common.SortCriterion;
+import com.leesh.inflpick.v2.application.port.out.user.CommandUserPort;
+import com.leesh.inflpick.v2.application.port.out.user.QueryUserPort;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.AuthenticationCode;
 import com.leesh.inflpick.v2.domain.user.vo.Oauth2Info;
@@ -43,7 +43,7 @@ class UserRepository implements CommandUserPort, QueryUserPort {
 
     @Override
     public Optional<User> query(UserId userId) {
-        return userMongoRepository.findById(userId.value())
+        return userMongoRepository.findById(userId.getValue())
                 .map(UserDocument::toEntity);
     }
 

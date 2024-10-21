@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.adapter.in.web.common.dto;
 
 import com.leesh.inflpick.common.port.SortDirection;
-import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
-import com.leesh.inflpick.v2.appilcation.dto.common.SortCriterion;
-import com.leesh.inflpick.v2.appilcation.dto.common.Sortable;
+import com.leesh.inflpick.v2.application.dto.common.OffsetPageQuery;
+import com.leesh.inflpick.v2.application.dto.common.SortCriterion;
+import com.leesh.inflpick.v2.application.dto.common.Sortable;
 
 import java.util.ArrayList;
 import java.util.Collection;

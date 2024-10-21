@@ -5,10 +5,10 @@ import com.leesh.inflpick.v2.adapter.in.web.token.dto.response.CreateTokenWebRes
 import com.leesh.inflpick.v2.adapter.in.web.token.exception.NotSupportedGrantTypeException;
 import com.leesh.inflpick.v2.adapter.out.docs.swagger.auth.CreateTokenControllerDocs;
 import com.leesh.inflpick.v2.adapter.out.token.jwt.Jwt;
-import com.leesh.inflpick.v2.appilcation.dto.token.TokenResponse;
-import com.leesh.inflpick.v2.appilcation.dto.user.AuthenticationCodeTokenRequest;
-import com.leesh.inflpick.v2.appilcation.port.in.token.CreateTokenUseCase;
-import com.leesh.inflpick.v2.appilcation.port.in.token.RefreshTokenUseCase;
+import com.leesh.inflpick.v2.application.dto.token.TokenResponse;
+import com.leesh.inflpick.v2.application.dto.user.AuthenticationCodeTokenRequest;
+import com.leesh.inflpick.v2.application.port.in.token.CreateTokenUseCase;
+import com.leesh.inflpick.v2.application.port.in.token.RefreshTokenUseCase;
 import com.leesh.inflpick.v2.domain.token.vo.GrantType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

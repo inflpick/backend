@@ -12,9 +12,9 @@ import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerCreateApiErr
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerProfileImageUpdateApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReadApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReviewsApiErrorCode;
-import com.leesh.inflpick.influencer.core.domain.exception.InfluencerDescriptionValidationFailedException;
+import com.leesh.inflpick.v2.domain.influencer.exception.InvalidInfluencerDescriptionException;
 import com.leesh.inflpick.influencer.core.domain.exception.InfluencerIntroductionValidationFailedException;
-import com.leesh.inflpick.influencer.core.domain.exception.InfluencerNameValidationFailedException;
+import com.leesh.inflpick.v2.domain.influencer.exception.InvalidInfluencerNameFormatException;
 import com.leesh.inflpick.influencer.core.domain.exception.InvalidSocialMediaPlatformException;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
@@ -35,10 +35,10 @@ import com.leesh.inflpick.v2.adapter.in.web.common.error.CommonApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.token.error.TokenApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.token.exception.NotSupportedGrantTypeException;
 import com.leesh.inflpick.v2.adapter.in.web.user.error.UserApiErrorCode;
-import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredAuthenticationCodeException;
-import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredRefreshTokenException;
-import com.leesh.inflpick.v2.appilcation.port.in.token.exception.InvalidTokenException;
-import com.leesh.inflpick.v2.appilcation.port.in.user.exception.UserNotFoundException;
+import com.leesh.inflpick.v2.application.port.in.token.exception.ExpiredAuthenticationCodeException;
+import com.leesh.inflpick.v2.application.port.in.token.exception.ExpiredRefreshTokenException;
+import com.leesh.inflpick.v2.application.port.in.token.exception.InvalidTokenException;
+import com.leesh.inflpick.v2.application.port.in.user.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -189,8 +189,8 @@ public class ExceptionController {
         return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.NOT_FOUND_API_URL);
     }
 
-    @ExceptionHandler(InfluencerNameValidationFailedException.class)
-    public ResponseEntity<ApiErrorResponse> handlerInfluencerNameValidationFailedException(InfluencerNameValidationFailedException e, HttpServletRequest request) {
+    @ExceptionHandler(InvalidInfluencerNameFormatException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInfluencerNameValidationFailedException(InvalidInfluencerNameFormatException e, HttpServletRequest request) {
         log.warn("InfluencerNameValidationFailedException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INFLUENCER_NAME_VALIDATION_FAILED;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
@@ -203,8 +203,8 @@ public class ExceptionController {
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);
     }
 
-    @ExceptionHandler(InfluencerDescriptionValidationFailedException.class)
-    public ResponseEntity<ApiErrorResponse> handlerInfluencerDescriptionValidationFailedException(InfluencerDescriptionValidationFailedException e, HttpServletRequest request) {
+    @ExceptionHandler(InvalidInfluencerDescriptionException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInfluencerDescriptionValidationFailedException(InvalidInfluencerDescriptionException e, HttpServletRequest request) {
         log.warn("InfluencerDescriptionValidationFailedException: {}", e.getMessage(), e);
         InfluencerCreateApiErrorCode apiErrorCode = InfluencerCreateApiErrorCode.INFLUENCER_DESCRIPTION_VALIDATION_FAILED;
         return createResponseEntityFromApiErrorCode(request, apiErrorCode);

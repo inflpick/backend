@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.adapter.in.security;
 
 import com.leesh.inflpick.v2.adapter.out.token.jwt.Jwt;
-import com.leesh.inflpick.v2.appilcation.port.in.token.ExtractTokenUseCase;
-import com.leesh.inflpick.v2.appilcation.port.in.token.ValidateTokenUseCase;
-import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
+import com.leesh.inflpick.v2.application.port.in.token.ExtractTokenUseCase;
+import com.leesh.inflpick.v2.application.port.in.token.ValidateTokenUseCase;
+import com.leesh.inflpick.v2.application.port.in.user.QueryUserUseCase;
 import com.leesh.inflpick.v2.domain.token.vo.Token;
 import com.leesh.inflpick.v2.domain.token.vo.TokenType;
 import com.leesh.inflpick.v2.domain.user.User;

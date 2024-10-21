@@ -7,8 +7,6 @@ import java.util.regex.Pattern;
 
 public final class Nickname {
 
-    public static final int MIN_LENGTH = 1;
-    public static final int MAX_LENGTH = 300;
     // Nickname must be between 1 and 50 characters long
     private static final Pattern PATTERN = Pattern.compile("^.{1,50}$");
     private final String value;

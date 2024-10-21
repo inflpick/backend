@@ -1,12 +1,12 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
 import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
-import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPageQuery;
-import com.leesh.inflpick.v2.appilcation.dto.common.OffsetPage;
+import com.leesh.inflpick.v2.application.dto.common.OffsetPageQuery;
+import com.leesh.inflpick.v2.application.dto.common.OffsetPage;
 import com.leesh.inflpick.v2.domain.user.User;
 import com.leesh.inflpick.v2.domain.user.vo.*;
-import com.leesh.inflpick.v2.appilcation.port.out.user.CommandUserPort;
-import com.leesh.inflpick.v2.appilcation.port.out.user.QueryUserPort;
+import com.leesh.inflpick.v2.application.port.out.user.CommandUserPort;
+import com.leesh.inflpick.v2.application.port.out.user.QueryUserPort;
 
 import java.util.*;
 

@@ -23,6 +23,6 @@ record CustomUserDetails(User user) implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return user.getId().value();
+        return user.getId().getValue();
     }
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public class AuthenticationProcess {
+public final class AuthenticationProcess {
 
     private AuthenticationStatus status;
     private AuthenticationCode code;

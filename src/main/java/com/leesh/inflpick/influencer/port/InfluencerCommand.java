@@ -3,9 +3,9 @@ package com.leesh.inflpick.influencer.port;
 import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
-import com.leesh.inflpick.influencer.core.domain.value.InfluencerDescription;
+import com.leesh.inflpick.v2.domain.influencer.vo.InfluencerDescription;
 import com.leesh.inflpick.influencer.core.domain.value.InfluencerIntroduction;
-import com.leesh.inflpick.influencer.core.domain.value.InfluencerName;
+import com.leesh.inflpick.v2.domain.influencer.vo.InfluencerName;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;

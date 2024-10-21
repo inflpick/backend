@@ -21,7 +21,7 @@ public record UserWebResponse(
 
     public static UserWebResponse from(User user) {
         return UserWebResponse.builder()
-                .id(user.getId().value())
+                .id(user.getId().getValue())
                 .role(user.getRole().name())
                 .nickname(user.getNickname().value())
                 .profileImageUrl(user.getProfileImageUrl())

@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
-public class User {
+public final class User {
 
     @Getter
     @Builder.Default
@@ -92,7 +92,7 @@ public class User {
 
     public static User withId(UserId id, User user) {
         return User.builder(user.nickname, user.oauth2Info)
-                .id(user.id)
+                .id(id)
                 .profileImageUrl(user.profileImageUrl)
                 .role(user.role)
                 .email(user.email)

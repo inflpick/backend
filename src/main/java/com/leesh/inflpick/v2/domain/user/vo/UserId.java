@@ -1,9 +1,12 @@
 package com.leesh.inflpick.v2.domain.user.vo;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
-public class UserId {
+public final class UserId {
 
+    @Getter
     private final String value;
 
     private UserId() {
@@ -34,10 +37,6 @@ public class UserId {
 
     public static UserId empty() {
         return new UserId();
-    }
-
-    public String value() {
-        return value;
     }
 
     public boolean isEmpty() {

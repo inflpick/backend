@@ -40,7 +40,7 @@ class UserDocument {
         AuthenticationProcess authenticationProcess = user.getAuthenticationProcess();
         AuthenticationStatus status = authenticationProcess.getStatus();
         AuthenticationCode code = authenticationProcess.getCode();
-        String userId = user.isPersisted() ? user.getId().value() : null;
+        String userId = user.isPersisted() ? user.getId().getValue() : null;
         return UserDocument.builder()
                 .id(userId)
                 .email(user.getEmail().value())

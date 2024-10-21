@@ -26,6 +26,6 @@ record CustomOauth2User(User user) implements OAuth2User {
 
     @Override
     public String getName() {
-        return user.getId().value();
+        return user.getId().getValue();
     }
 }
