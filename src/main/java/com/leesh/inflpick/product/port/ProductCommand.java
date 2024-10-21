@@ -1,6 +1,6 @@
 package com.leesh.inflpick.product.port;
 
-import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
+import com.leesh.inflpick.v2.shared.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.core.domain.value.OnlineStoreLinks;
 import com.leesh.inflpick.product.core.domain.value.ProductDescription;

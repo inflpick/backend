@@ -1,9 +1,9 @@
 package com.leesh.inflpick.influencer.adapter.in.web.value;
 
-import com.leesh.inflpick.v2.adapter.in.web.common.error.ApiErrorCode;
+import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCode;
 import com.leesh.inflpick.influencer.core.domain.exception.*;
-import com.leesh.inflpick.v2.domain.influencer.exception.InvalidInfluencerDescriptionException;
-import com.leesh.inflpick.v2.domain.influencer.exception.InvalidInfluencerNameFormatException;
+import com.leesh.inflpick.v2.influencer.domain.exception.InvalidInfluencerDescriptionException;
+import com.leesh.inflpick.v2.influencer.domain.exception.InvalidInfluencerNameFormatException;
 import org.springframework.http.HttpStatus;
 
 public enum InfluencerCreateApiErrorCode implements ApiErrorCode {

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.adapter.in.web.docs;
 
-import com.leesh.inflpick.v2.adapter.out.docs.swagger.common.ApiErrorCodeSwaggerDocs;
+import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.influencer.adapter.in.web.value.*;
 import io.swagger.v3.oas.annotations.Operation;

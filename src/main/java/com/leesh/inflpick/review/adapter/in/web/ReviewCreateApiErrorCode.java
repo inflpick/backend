@@ -1,6 +1,6 @@
 package com.leesh.inflpick.review.adapter.in.web;
 
-import com.leesh.inflpick.v2.adapter.in.web.common.error.ApiErrorCode;
+import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCode;
 import com.leesh.inflpick.review.core.domain.ReviewContentsValidationFailedException;
 import com.leesh.inflpick.review.core.domain.ReviewUriValidationFailedException;
 import org.springframework.http.HttpStatus;

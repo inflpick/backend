@@ -1,6 +1,6 @@
 package com.leesh.inflpick.keyword.adapter.in.web.docs;
 
-import com.leesh.inflpick.v2.adapter.out.docs.swagger.common.ApiErrorCodeSwaggerDocs;
+import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordRequest;
 import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;

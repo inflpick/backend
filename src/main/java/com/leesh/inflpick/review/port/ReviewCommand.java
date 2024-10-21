@@ -1,6 +1,6 @@
 package com.leesh.inflpick.review.port;
 
-import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
+import com.leesh.inflpick.v2.shared.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.review.core.domain.Review;

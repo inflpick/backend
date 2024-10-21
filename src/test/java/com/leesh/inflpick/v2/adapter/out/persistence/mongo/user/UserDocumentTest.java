@@ -1,7 +1,8 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
-import com.leesh.inflpick.v2.domain.user.User;
-import com.leesh.inflpick.v2.domain.user.vo.*;
+import com.leesh.inflpick.v2.user.adapter.out.persistence.mongo.user.UserDocument;
+import com.leesh.inflpick.v2.user.domain.User;
+import com.leesh.inflpick.v2.user.domain.vo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

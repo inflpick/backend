@@ -1,7 +1,7 @@
 package com.leesh.inflpick.influencer.adapter.in.web.docs;
 
 import com.leesh.inflpick.influencer.adapter.in.web.value.SocialMediaProfileRequest;
-import com.leesh.inflpick.v2.domain.influencer.vo.InfluencerName;
+import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerName;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 

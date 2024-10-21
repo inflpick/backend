@@ -6,9 +6,9 @@ import com.leesh.inflpick.influencer.core.domain.value.ProfileImage;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.review.core.domain.Review;
 import com.leesh.inflpick.review.port.ReviewCommand;
-import com.leesh.inflpick.v2.adapter.out.uuid.UuidHolder;
-import com.leesh.inflpick.v2.domain.influencer.vo.InfluencerDescription;
-import com.leesh.inflpick.v2.domain.influencer.vo.InfluencerName;
+import com.leesh.inflpick.v2.shared.adapter.out.uuid.UuidHolder;
+import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerDescription;
+import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerName;
 import lombok.Builder;
 import lombok.Getter;
 

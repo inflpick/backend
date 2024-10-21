@@ -1,9 +1,10 @@
 package com.leesh.inflpick.v2.application.service.user;
 
 import com.leesh.inflpick.v2.adapter.out.persistence.mongo.user.FakeUserRepository;
-import com.leesh.inflpick.v2.domain.user.AuthenticationProcess;
-import com.leesh.inflpick.v2.domain.user.User;
-import com.leesh.inflpick.v2.domain.user.vo.*;
+import com.leesh.inflpick.v2.user.application.service.AuthenticateUserService;
+import com.leesh.inflpick.v2.user.domain.AuthenticationProcess;
+import com.leesh.inflpick.v2.user.domain.User;
+import com.leesh.inflpick.v2.user.domain.vo.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

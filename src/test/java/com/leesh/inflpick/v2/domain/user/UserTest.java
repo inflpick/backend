@@ -1,6 +1,7 @@
 package com.leesh.inflpick.v2.domain.user;
 
-import com.leesh.inflpick.v2.domain.user.vo.*;
+import com.leesh.inflpick.v2.user.domain.User;
+import com.leesh.inflpick.v2.user.domain.vo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
