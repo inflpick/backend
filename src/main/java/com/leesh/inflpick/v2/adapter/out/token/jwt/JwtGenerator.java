@@ -30,7 +30,7 @@ public class JwtGenerator implements TokenGenerator {
             expiresInSeconds = jwtProperties.refreshTokenExpiresInSeconds();
         }
         String token = generateToken(expiresInSeconds, type, userId.value());
-        return new Jwt(token, expiresInSeconds);
+        return Jwt.create(token, expiresInSeconds);
     }
 
     private String generateToken(Integer expiresInSeconds, TokenType type, String id) {

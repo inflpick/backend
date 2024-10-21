@@ -12,7 +12,7 @@ public interface ApiErrorResponseDocs {
     @Schema(description = "HTTP 상태 코드 (https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)", example = "400", implementation = Integer.class, requiredMode = Schema.RequiredMode.REQUIRED)
     int status();
 
-    @Schema(description = "에러 코드 (시스템 관리자가 사용)", example = "CO_0001", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "에러 코드", example = "C0001", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String code();
 
     @Schema(description = "사용자에게 보여줄 에러 원인", example = "인플루언서 이름이 올바르지 않아요.", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
@@ -24,6 +24,9 @@ public interface ApiErrorResponseDocs {
     @Schema(description = "요청 메소드", example = "POST", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String method();
 
-    @Schema(description = "요청 경로", example = "/api/influencers", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "요청 경로", example = "/**", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String path();
+
+    @Schema(description = "개발자가 에러 원인을 파악하기 위해 참고할 메세지", example = "/**", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+    String comment();
 }

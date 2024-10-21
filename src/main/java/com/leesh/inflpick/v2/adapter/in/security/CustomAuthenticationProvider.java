@@ -29,7 +29,7 @@ class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String jwtString = (String) authentication.getPrincipal();
-        Token token = new Jwt(jwtString, 0);
+        Token token = Jwt.create(jwtString);
         if (verifyTokenUseCase.verify(token, TokenType.ACCESS)) {
             UserId userId = tokenUseCase.extract(token);
             User user = queryUserUseCase.query(userId);

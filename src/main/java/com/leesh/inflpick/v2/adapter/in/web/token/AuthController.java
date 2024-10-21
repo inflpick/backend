@@ -1,4 +1,4 @@
-package com.leesh.inflpick.v2.adapter.in.web.auth;
+package com.leesh.inflpick.v2.adapter.in.web.token;
 
 import com.leesh.inflpick.v2.adapter.out.docs.swagger.auth.AuthControllerDocs;
 import com.leesh.inflpick.v2.adapter.out.token.jwt.AuthProperties;

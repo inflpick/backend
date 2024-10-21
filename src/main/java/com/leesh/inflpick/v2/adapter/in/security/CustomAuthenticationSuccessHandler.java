@@ -36,7 +36,7 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
         User user = ((CustomOauth2User) principal).user();
         AuthenticationProcess authenticationProcess = authenticateUserUseCase.authenticate(user.getId());
         AuthenticationCode code = authenticationProcess.getCode();
-        String redirectUri = authProperties.redirectUri() + "?" + GrantType.AUTHENTICATION_CODE.name() + "=" + code.value();
+        String redirectUri = authProperties.redirectUri() + "?" + GrantType.AUTHENTICATION_CODE.toLowerCaseName() + "=" + code.value();
         response.addHeader(HttpHeaders.LOCATION, redirectUri);
         response.sendRedirect(redirectUri);
     }

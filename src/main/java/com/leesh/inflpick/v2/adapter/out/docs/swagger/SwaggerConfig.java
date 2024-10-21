@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.adapter.out.docs.swagger;
 
-import com.leesh.inflpick.v2.adapter.in.web.common.error.ApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.common.dto.ApiErrorResponse;
+import com.leesh.inflpick.v2.adapter.in.web.common.error.ApiErrorCode;
 import com.leesh.inflpick.v2.adapter.out.docs.swagger.common.ApiErrorCodeSwaggerDocs;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -90,8 +90,7 @@ public class SwaggerConfig {
                 ApiErrorCode[] errorCodes = value.getEnumConstants();
                 List<SwaggerConfig.SwaggerExampleHolder> swaggerExampleHolders = Arrays.stream(errorCodes).map(
                         errorCode -> {
-                            String reason = errorCode.getReason();
-                            ApiErrorResponse apiErrorResponse = buildApiErrorResponse(errorCode, method, apiPath, reason);
+                            ApiErrorResponse apiErrorResponse = buildApiErrorResponse(errorCode, method, apiPath);
                             Example example = createSwaggerExample(errorCode.getComment(), apiErrorResponse);
                             return buildSwaggerExampleHolder(errorCode, example);
                         }
@@ -143,15 +142,16 @@ public class SwaggerConfig {
         return example;
     }
 
-    private static ApiErrorResponse buildApiErrorResponse(ApiErrorCode errorCode, String method, String apiPath, String reason) {
+    private static ApiErrorResponse buildApiErrorResponse(ApiErrorCode errorCode, String method, String apiPath) {
         return ApiErrorResponse.builder()
                 .timestamp(Instant.now())
                 .method(method)
                 .path(apiPath)
                 .code(errorCode.getCode())
                 .status(errorCode.getHttpStatus().value())
-                .reason(reason)
+                .reason(errorCode.getReason())
                 .action(errorCode.getAction())
+                .comment(errorCode.getComment())
                 .build();
     }
 

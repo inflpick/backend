@@ -29,12 +29,14 @@ import com.leesh.inflpick.product.core.domain.exception.ProductNameValidationFai
 import com.leesh.inflpick.product.port.out.ProductNotFoundException;
 import com.leesh.inflpick.review.core.domain.ReviewContentsValidationFailedException;
 import com.leesh.inflpick.review.core.domain.ReviewUriValidationFailedException;
-import com.leesh.inflpick.v2.adapter.in.web.auth.error.AuthApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.common.dto.ApiErrorResponse;
 import com.leesh.inflpick.v2.adapter.in.web.common.error.ApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.common.error.CommonApiErrorCode;
+import com.leesh.inflpick.v2.adapter.in.web.token.error.TokenApiErrorCode;
+import com.leesh.inflpick.v2.adapter.in.web.token.exception.NotSupportedGrantTypeException;
 import com.leesh.inflpick.v2.adapter.in.web.user.error.UserApiErrorCode;
-import com.leesh.inflpick.v2.appilcation.port.in.user.exception.DuplicatedSocialUserException;
+import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredRefreshTokenException;
+import com.leesh.inflpick.v2.appilcation.port.in.token.exception.InvalidTokenException;
 import com.leesh.inflpick.v2.appilcation.port.in.user.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +65,7 @@ public class ExceptionController {
                 .code(apiErrorCode.getCode())
                 .reason(apiErrorCode.getReason())
                 .action(apiErrorCode.getAction())
+                .comment(apiErrorCode.getComment())
                 .method(request.getMethod())
                 .path(request.getRequestURI())
                 .build();
@@ -130,11 +133,23 @@ public class ExceptionController {
         return createResponseEntityFromApiErrorCode(request, UserApiErrorCode.USER_NOT_FOUND);
     }
 
-    /* Auth Api Errors */
-    @ExceptionHandler(DuplicatedSocialUserException.class)
-    public ResponseEntity<ApiErrorResponse> handlerDuplicatedSocialUserException(DuplicatedSocialUserException e, HttpServletRequest request) {
-        log.error("DuplicatedSocialUserException: {}", e.getMessage(), e);
-        return createResponseEntityFromApiErrorCode(request, AuthApiErrorCode.DUPLICATED_SOCIAL_USER);
+    /* Token Api Errors */
+    @ExceptionHandler(ExpiredRefreshTokenException.class)
+    public ResponseEntity<ApiErrorResponse> handlerExpiredRefreshTokenException(ExpiredRefreshTokenException e, HttpServletRequest request) {
+        log.error("ExpiredRefreshTokenException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, TokenApiErrorCode.EXPIRED_REFRESH_TOKEN);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidTokenException(InvalidTokenException e, HttpServletRequest request) {
+        log.error("InvalidTokenException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, TokenApiErrorCode.INVALID_TOKEN);
+    }
+
+    @ExceptionHandler(NotSupportedGrantTypeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerNotSupportedGrantTypeException(NotSupportedGrantTypeException e, HttpServletRequest request) {
+        log.error("NotSupportedGrantTypeException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, TokenApiErrorCode.NOT_SUPPORTED_GRANT_TYPE);
     }
 
     @ExceptionHandler(InvalidPageNumberException.class)

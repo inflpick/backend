@@ -15,5 +15,6 @@ public record ApiErrorResponse(
         String reason,
         String action,
         String method,
-        String path) implements ApiErrorResponseDocs {
+        String path,
+        String comment) implements ApiErrorResponseDocs {
 }

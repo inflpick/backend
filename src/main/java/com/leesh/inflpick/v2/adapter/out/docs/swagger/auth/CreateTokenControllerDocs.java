@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.adapter.out.docs.swagger.auth;
 
-import com.leesh.inflpick.v2.adapter.in.web.auth.dto.request.CreateTokenWebRequest;
-import com.leesh.inflpick.v2.adapter.in.web.auth.dto.response.TokenWebResponse;
-import com.leesh.inflpick.v2.adapter.in.web.auth.error.AuthApiErrorCode;
+import com.leesh.inflpick.v2.adapter.in.web.token.dto.request.CreateTokenWebRequest;
+import com.leesh.inflpick.v2.adapter.in.web.token.dto.response.CreateTokenWebResponse;
+import com.leesh.inflpick.v2.adapter.in.web.token.error.TokenApiErrorCode;
 import com.leesh.inflpick.v2.adapter.out.docs.swagger.common.ApiErrorCodeSwaggerDocs;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,8 +15,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "인증 API", description = "인증 API")
 public interface CreateTokenControllerDocs {
 
-
-    @ApiErrorCodeSwaggerDocs(values = {AuthApiErrorCode.class}, httpMethod = "POST", apiPath = "/auth/token")
+    @ApiErrorCodeSwaggerDocs(values = {TokenApiErrorCode.class}, httpMethod = "POST", apiPath = "/auth/token")
     @Operation(summary = "토큰 발급하기",
             description = "토큰을 발급합니다.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -26,9 +25,9 @@ public interface CreateTokenControllerDocs {
                     @ApiResponse(
                             responseCode = "200",
                             description = "토큰 발급 성공",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TokenWebResponse.class))
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CreateTokenWebResponse.class))
                     )
             })
-    ResponseEntity<TokenWebResponse> createToken(CreateTokenWebRequest request);
+    ResponseEntity<CreateTokenWebResponse> createToken(CreateTokenWebRequest request);
 
 }
