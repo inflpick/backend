@@ -2,7 +2,7 @@ package com.leesh.inflpick.v2.adapter.in.security;
 
 import com.leesh.inflpick.v2.adapter.out.token.jwt.Jwt;
 import com.leesh.inflpick.v2.appilcation.port.in.token.ExtractTokenUseCase;
-import com.leesh.inflpick.v2.appilcation.port.in.token.VerifyTokenUseCase;
+import com.leesh.inflpick.v2.appilcation.port.in.token.ValidateTokenUseCase;
 import com.leesh.inflpick.v2.appilcation.port.in.user.QueryUserUseCase;
 import com.leesh.inflpick.v2.domain.token.vo.Token;
 import com.leesh.inflpick.v2.domain.token.vo.TokenType;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private final VerifyTokenUseCase verifyTokenUseCase;
+    private final ValidateTokenUseCase validateTokenUseCase;
     private final ExtractTokenUseCase tokenUseCase;
     private final QueryUserUseCase queryUserUseCase;
 
@@ -30,7 +30,11 @@ class CustomAuthenticationProvider implements AuthenticationProvider {
 
         String jwtString = (String) authentication.getPrincipal();
         Token token = Jwt.create(jwtString);
-        if (verifyTokenUseCase.verify(token, TokenType.ACCESS)) {
+        if (validateTokenUseCase.isExpired(token)) {
+            throw new ExpiredAuthenticationException("Token is expired");
+        }
+
+        if (validateTokenUseCase.verify(token, TokenType.ACCESS)) {
             UserId userId = tokenUseCase.extract(token);
             User user = queryUserUseCase.query(userId);
             CustomUserDetails userDetails = new CustomUserDetails(user);

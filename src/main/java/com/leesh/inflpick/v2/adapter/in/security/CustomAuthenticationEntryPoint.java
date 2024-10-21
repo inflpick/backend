@@ -21,6 +21,19 @@ class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+
+        Object expired = request.getAttribute("expired");
+        if (expired instanceof Boolean && (Boolean) expired) {
+            CommonApiErrorCode apiErrorCode = CommonApiErrorCode.EXPIRED_TOKEN;
+            ApiErrorResponse responseBody = ExceptionController.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
+            response.setStatus(apiErrorCode.getHttpStatus().value());
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(objectMapper.writeValueAsString(responseBody));
+            response.getWriter().flush();
+            return;
+        }
+
         CommonApiErrorCode apiErrorCode = CommonApiErrorCode.UNAUTHORIZED;
         ApiErrorResponse responseBody = ExceptionController.createResponseEntityFromApiErrorCode(request, apiErrorCode).getBody();
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

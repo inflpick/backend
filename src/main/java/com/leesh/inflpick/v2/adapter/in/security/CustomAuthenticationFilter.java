@@ -28,8 +28,12 @@ class CustomAuthenticationFilter extends OncePerRequestFilter {
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String jwt = authorization.substring("Bearer ".length());
             Authentication withoutAuthenticated = CustomAuthenticationToken.withoutAuthenticated(jwt, jwtProperties.secretKey());
-            Authentication authenticate = authenticationManager.authenticate(withoutAuthenticated);
-            SecurityContextHolder.getContext().setAuthentication(authenticate);
+            try {
+                Authentication authenticate = authenticationManager.authenticate(withoutAuthenticated);
+                SecurityContextHolder.getContext().setAuthentication(authenticate);
+            } catch (ExpiredAuthenticationException e) {
+                request.setAttribute("expired", true);
+            }
         }
 
         filterChain.doFilter(request, response);

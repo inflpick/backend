@@ -4,9 +4,9 @@ import com.leesh.inflpick.v2.appilcation.dto.token.TokenResponse;
 import com.leesh.inflpick.v2.appilcation.dto.user.AuthenticationCodeTokenRequest;
 import com.leesh.inflpick.v2.appilcation.port.in.token.CreateTokenUseCase;
 import com.leesh.inflpick.v2.appilcation.port.in.token.RefreshTokenUseCase;
+import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredAuthenticationCodeException;
 import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredRefreshTokenException;
 import com.leesh.inflpick.v2.appilcation.port.in.token.exception.InvalidTokenException;
-import com.leesh.inflpick.v2.appilcation.port.in.user.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.appilcation.port.out.token.TokenExtractor;
 import com.leesh.inflpick.v2.appilcation.port.out.token.TokenGenerator;
 import com.leesh.inflpick.v2.appilcation.port.out.token.TokenValidator;
@@ -36,7 +36,7 @@ public class CreateTokenService implements CreateTokenUseCase, RefreshTokenUseCa
     public TokenResponse create(AuthenticationCodeTokenRequest request) {
         AuthenticationCode code = AuthenticationCode.create(request.getCode());
         User user = queryUserPort.query(code)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new ExpiredAuthenticationCodeException("Expired authentication code"));
         Token accessToken = tokenGenerator.generate(user.getId(), TokenType.ACCESS);
         Token refreshToken = tokenGenerator.generate(user.getId(), TokenType.REFRESH);
         user.completeAuthentication();

@@ -35,6 +35,7 @@ import com.leesh.inflpick.v2.adapter.in.web.common.error.CommonApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.token.error.TokenApiErrorCode;
 import com.leesh.inflpick.v2.adapter.in.web.token.exception.NotSupportedGrantTypeException;
 import com.leesh.inflpick.v2.adapter.in.web.user.error.UserApiErrorCode;
+import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredAuthenticationCodeException;
 import com.leesh.inflpick.v2.appilcation.port.in.token.exception.ExpiredRefreshTokenException;
 import com.leesh.inflpick.v2.appilcation.port.in.token.exception.InvalidTokenException;
 import com.leesh.inflpick.v2.appilcation.port.in.user.exception.UserNotFoundException;
@@ -44,6 +45,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -144,6 +146,12 @@ public class ExceptionController {
     public ResponseEntity<ApiErrorResponse> handlerInvalidTokenException(InvalidTokenException e, HttpServletRequest request) {
         log.error("InvalidTokenException: {}", e.getMessage(), e);
         return createResponseEntityFromApiErrorCode(request, TokenApiErrorCode.INVALID_TOKEN);
+    }
+
+    @ExceptionHandler(ExpiredAuthenticationCodeException.class)
+    public ResponseEntity<ApiErrorResponse> handlerExpiredAuthenticationCodeException(ExpiredAuthenticationCodeException e, HttpServletRequest request) {
+        log.error("ExpiredAuthenticationCodeException: {}", e.getMessage(), e);
+        return createResponseEntityFromApiErrorCode(request, TokenApiErrorCode.EXPIRED_AUTHENTICATION_CODE);
     }
 
     @ExceptionHandler(NotSupportedGrantTypeException.class)
@@ -297,11 +305,6 @@ public class ExceptionController {
 //        return createResponseEntityFromApiErrorCode(request, Oauth2LoginApiErrorCode.NOT_SUPPORTED_OAUTH2_TYPE);
 //    }
 //
-//    @ExceptionHandler(AuthorizationDeniedException.class)
-//    public ResponseEntity<ApiErrorResponse> handlerAuthorizationDeniedException(AuthorizationDeniedException e, HttpServletRequest request) {
-//        log.warn("AuthorizationDeniedException: {}", e.getMessage(), e);
-//        return createResponseEntityFromApiErrorCode(request, CommonApiErrorCode.FORBIDDEN);
-//    }
 //
 //    @ExceptionHandler(UnauthorizedException.class)
 //    public ResponseEntity<ApiErrorResponse> handlerUnauthorizedException(UnauthorizedException e, HttpServletRequest request) {

@@ -73,13 +73,8 @@ class UserDocument {
                 .lastModifiedDate(lastModifiedDate)
                 .lastModifiedBy(lastModifiedBy)
                 .build();
-        switch (status) {
-            case IN_PROGRESS:
-                user.startAuthentication(code);
-                break;
-            case COMPLETED:
-                user.completeAuthentication();
-                break;
+        if (status == AuthenticationStatus.IN_PROGRESS) {
+            user.startAuthentication(code);
         }
         return user;
     }

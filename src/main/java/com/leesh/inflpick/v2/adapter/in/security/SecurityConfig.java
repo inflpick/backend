@@ -68,7 +68,6 @@ class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(authenticationSuccessHandler)
                         .failureHandler(authenticationFailureHandler)
-                        .failureUrl("/users/login-failure")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService) // 일반 OAuth 사용자 정보를 처리
                         ));
