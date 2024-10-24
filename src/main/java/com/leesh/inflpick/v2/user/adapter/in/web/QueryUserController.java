@@ -25,11 +25,11 @@ class QueryUserController implements QueryUserControllerDocs {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WebOffsetPageResponse<UserWebResponse>> query(@RequestParam(name = "page", required = false, defaultValue = "0")
-                                                                              Integer page,
+                                                                        Integer page,
                                                                         @RequestParam(name = "size", required = false, defaultValue = "20")
-                                                                              Integer size,
+                                                                        Integer size,
                                                                         @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
-                                                                              String[] sort) {
+                                                                        String[] sort) {
 
         OffsetPageQuery request = WebOffsetPageQuery.create(page, size, sort);
         OffsetPage<User> pageResponse = queryUserUseCase.query(request);

@@ -1,8 +1,8 @@
 package com.leesh.inflpick.common.port.out;
 
-import com.leesh.inflpick.common.adapter.out.storage.StorageProperties;
-import com.leesh.inflpick.common.port.out.exception.InvalidFileRequestException;
-import com.leesh.inflpick.common.port.out.exception.ThirdPartyStorageException;
+import com.leesh.inflpick.v2.shared.application.exception.FileFormatException;
+import com.leesh.inflpick.v2.shared.application.exception.ThirdPartyStorageException;
+import com.leesh.inflpick.v2.shared.application.port.out.storage.StorageProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,7 +13,7 @@ import java.nio.file.Path;
 public interface StorageService {
 
     URL upload(@NotNull MultipartFile file,
-               @NotNull Path path) throws ThirdPartyStorageException, InvalidFileRequestException;
+               @NotNull Path path) throws ThirdPartyStorageException, FileFormatException;
 
     String getUrlString(String path);
 

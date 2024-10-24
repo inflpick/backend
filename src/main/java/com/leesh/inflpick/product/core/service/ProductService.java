@@ -5,7 +5,7 @@ import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.v2.shared.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.keyword.port.out.KeywordRepository;
+import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
 import com.leesh.inflpick.product.core.domain.Product;
 import com.leesh.inflpick.product.port.ProductCommand;
 import com.leesh.inflpick.product.port.in.ProductCommandService;
@@ -27,14 +27,14 @@ import java.util.Set;
 public class ProductService implements ProductCommandService, ProductQueryService {
 
     private final UuidHolder uuidHolder;
-    private final KeywordRepository keywordRepository;
+    private final QueryKeywordPort queryKeywordPort;
     private final StorageService storageService;
     private final ProductRepository productRepository;
 
     @Override
     public String create(ProductCommand command) {
         Set<String> keywordIds = command.keywordUuids();
-        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
         Product product = command.toEntity(uuidHolder);
         product.addKeywords(keywords);
         return productRepository.save(product);
@@ -58,7 +58,7 @@ public class ProductService implements ProductCommandService, ProductQueryServic
     public void update(String id, ProductCommand command) {
         Product product = productRepository.getById(id);
         Set<String> keywordIds = command.keywordUuids();
-        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
         product.update(command, keywords);
         productRepository.save(product);
     }

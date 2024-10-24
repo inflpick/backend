@@ -1,52 +1,20 @@
 package com.leesh.inflpick.v2.token.adapter.in.token;
 
-import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
+import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorResponse;
 import com.leesh.inflpick.v2.token.application.port.in.exception.ExpiredAuthenticationCodeException;
 import com.leesh.inflpick.v2.token.application.port.in.exception.ExpiredRefreshTokenException;
 import com.leesh.inflpick.v2.token.application.port.in.exception.InvalidTokenException;
-import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorResponse;
-import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.Instant;
-import java.util.Optional;
+import static com.leesh.inflpick.v2.shared.adapter.in.web.CommonExceptionHandler.createResponseEntityFromApiErrorCode;
 
 @Slf4j
 @RestControllerAdvice
 public class TokenExceptionHandler {
-
-    public static ResponseEntity<ApiErrorResponse> createResponseEntityFromApiErrorCode(HttpServletRequest request, ApiErrorCode apiErrorCode) {
-        ApiErrorResponse response = ApiErrorResponse.builder()
-                .timestamp(Instant.now())
-                .status(apiErrorCode.getHttpStatus().value())
-                .code(apiErrorCode.getCode())
-                .reason(apiErrorCode.getReason())
-                .action(apiErrorCode.getAction())
-                .comment(apiErrorCode.getComment())
-                .method(request.getMethod())
-                .path(request.getRequestURI())
-                .build();
-        return ResponseEntity
-                .status(apiErrorCode.getHttpStatus())
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response);
-    }
-
-    private Optional<MissingRequiredFieldsException> findMissingRequiredFieldsException(Throwable e) {
-        while (e != null) {
-            if (e instanceof MissingRequiredFieldsException cause) {
-                return Optional.of(cause);
-            } else {
-                e = e.getCause();
-            }
-        }
-        return Optional.empty();
-    }
 
     @ExceptionHandler(ExpiredRefreshTokenException.class)
     public ResponseEntity<ApiErrorResponse> handlerExpiredRefreshTokenException(ExpiredRefreshTokenException e, HttpServletRequest request) {

@@ -3,7 +3,7 @@ package com.leesh.inflpick.product.adapter.out.persistence;
 import com.leesh.inflpick.common.adapter.out.persistence.SpringDataPageRequestConverter;
 import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
-import com.leesh.inflpick.keyword.port.out.KeywordRepository;
+import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductMongoRepository;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductPageResponse;
@@ -27,7 +27,7 @@ import java.util.Set;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductMongoRepository productMongoRepository;
-    private final KeywordRepository keywordRepository;
+    private final QueryKeywordPort queryKeywordPort;
 
     @Override
     public String save(@NotNull Product product) {
@@ -47,7 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
         Set<String> keywordUuids = productDocument.getKeywordIds();
-        Keywords keywords = keywordRepository.getAllByIds(keywordUuids);
+        Keywords keywords = queryKeywordPort.getAllByIds(keywordUuids);
 
         return productDocument.toEntity(keywords);
     }
@@ -86,7 +86,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     private @NotNull List<Product> convertToEntities(List<ProductDocument> content) {
         return content.stream().map(document -> {
             Set<String> keywordIds = document.getKeywordIds();
-            Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+            Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
             return document.toEntity(keywords);
         }).toList();
     }

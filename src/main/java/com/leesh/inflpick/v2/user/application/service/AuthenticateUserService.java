@@ -2,7 +2,7 @@ package com.leesh.inflpick.v2.user.application.service;
 
 import com.leesh.inflpick.v2.shared.adapter.out.uuid.UuidHolder;
 import com.leesh.inflpick.v2.user.application.port.in.AuthenticateUserUseCase;
-import com.leesh.inflpick.v2.user.application.port.in.exception.UserNotFoundException;
+import com.leesh.inflpick.v2.user.application.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.user.application.port.out.CommandUserPort;
 import com.leesh.inflpick.v2.user.application.port.out.QueryUserPort;
 import com.leesh.inflpick.v2.user.domain.AuthenticationProcess;

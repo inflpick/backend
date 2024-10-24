@@ -1,7 +1,6 @@
 package com.leesh.inflpick.influencer.core.domain.value;
 
 import com.leesh.inflpick.influencer.core.domain.exception.KeywordMaximumSizeExceedException;
-import com.leesh.inflpick.keyword.core.domain.Keyword;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

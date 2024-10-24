@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.influencer.domain.vo;
 
-import com.leesh.inflpick.v2.influencer.domain.exception.InvalidInfluencerNameFormatException;
+import com.leesh.inflpick.v2.influencer.domain.exception.InfluencerNameFormatException;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ public final class InfluencerName {
 
     private InfluencerName(String value) {
         if (!PATTERN.matcher(value).matches()) {
-            throw new InvalidInfluencerNameFormatException("InfluencerName must be between 1 and 300 characters long, but was: " + value);
+            throw new InfluencerNameFormatException("InfluencerName must be between 1 and 300 characters long, but was: " + value);
         }
         this.value = value;
     }

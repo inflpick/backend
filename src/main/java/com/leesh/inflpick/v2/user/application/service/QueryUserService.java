@@ -3,7 +3,7 @@ package com.leesh.inflpick.v2.user.application.service;
 import com.leesh.inflpick.v2.shared.application.dto.OffsetPage;
 import com.leesh.inflpick.v2.shared.application.dto.OffsetPageQuery;
 import com.leesh.inflpick.v2.user.application.port.in.QueryUserUseCase;
-import com.leesh.inflpick.v2.user.application.port.in.exception.UserNotFoundException;
+import com.leesh.inflpick.v2.user.application.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.user.application.port.out.QueryUserPort;
 import com.leesh.inflpick.v2.user.domain.User;
 import com.leesh.inflpick.v2.user.domain.vo.AuthenticationCode;

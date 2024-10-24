@@ -1,7 +1,7 @@
 package com.leesh.inflpick.review.adapter.in.web;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerWebResponse;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.InfluencerWebResponse;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductWebResponse;
 import com.leesh.inflpick.review.adapter.in.web.docs.ReviewResponseApiDocs;
 import com.leesh.inflpick.review.core.domain.Review;

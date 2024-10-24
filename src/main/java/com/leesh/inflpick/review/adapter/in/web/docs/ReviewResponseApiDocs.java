@@ -1,7 +1,7 @@
 package com.leesh.inflpick.review.adapter.in.web.docs;
 
 
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerWebResponse;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.InfluencerWebResponse;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductWebResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 

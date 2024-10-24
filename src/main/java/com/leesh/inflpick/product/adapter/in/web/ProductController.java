@@ -4,7 +4,7 @@ import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
 import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
 import com.leesh.inflpick.common.port.PageRequest;
 import com.leesh.inflpick.common.port.PageResponse;
-import com.leesh.inflpick.common.port.in.FileTypeValidator;
+import com.leesh.inflpick.v2.shared.adapter.in.web.FileTypeValidator;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.product.adapter.in.web.docs.ProductApiDocs;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductRequest;

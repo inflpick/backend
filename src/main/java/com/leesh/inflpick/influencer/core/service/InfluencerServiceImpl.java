@@ -11,7 +11,7 @@ import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
-import com.leesh.inflpick.keyword.port.out.KeywordRepository;
+import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
 
     private final UuidHolder uuidHolder;
     private final InfluencerRepository influencerRepository;
-    private final KeywordRepository keywordRepository;
+    private final QueryKeywordPort queryKeywordPort;
     private final StorageService storageService;
 
     @Override
@@ -48,7 +48,7 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     public String create(@NotNull InfluencerCommand command) {
 
         Set<String> keywordIds = command.keywordIds();
-        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
 
         Influencer influencer = command.toEntity(uuidHolder);
         influencer.addKeywords(keywords);
@@ -60,7 +60,7 @@ public class InfluencerServiceImpl implements InfluencerQueryService, Influencer
     public void update(String id, InfluencerCommand command) {
         Influencer influencer = influencerRepository.getById(id);
         Set<String> keywordIds = command.keywordIds();
-        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
         influencer.update(command.name(),
                 command.introduction(),
                 command.description(),
