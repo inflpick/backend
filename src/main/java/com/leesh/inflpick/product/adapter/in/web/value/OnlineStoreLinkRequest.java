@@ -1,6 +1,6 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
-import com.leesh.inflpick.common.adapter.in.web.RequiredFieldsValidator;
+import com.leesh.inflpick.common.v2.adapter.validator.RequiredFieldsValidator;
 import com.leesh.inflpick.product.adapter.in.web.docs.OnlineStoreLinkRequestApiDocs;
 import com.leesh.inflpick.product.core.domain.value.OnlineStore;
 import com.leesh.inflpick.product.core.domain.value.OnlineStoreLink;

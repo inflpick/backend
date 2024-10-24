@@ -1,7 +1,7 @@
 package com.leesh.inflpick.common.adapter.in.web.value;
 
-import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.common.adapter.in.web.docs.WebPageResponseApiDocs;
+import com.leesh.inflpick.common.port.PageResponse;
 
 public record WebPageResponse<T>(
         T[] contents,
