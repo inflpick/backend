@@ -2,7 +2,10 @@ package com.leesh.inflpick.influencer.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.SocialMediaProfileLinks;
-import com.leesh.inflpick.influencer.core.domain.value.*;
+import com.leesh.inflpick.influencer.core.domain.value.InfluencerIntroduction;
+import com.leesh.inflpick.influencer.core.domain.value.Keywords;
+import com.leesh.inflpick.influencer.core.domain.value.ProfileImage;
+import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
 import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerDescription;
 import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerName;
 import lombok.AccessLevel;
@@ -79,13 +82,13 @@ public class InfluencerDocument implements Persistable<String> {
                 .build();
     }
 
-    public Influencer toEntity(Keywords keywords) {
+    public Influencer toEntity() {
 
         return Influencer.builder()
                 .id(id)
-                .name(InfluencerName.from(name))
+                .name(InfluencerName.create(name))
                 .introduction(InfluencerIntroduction.from(introduction))
-                .description(InfluencerDescription.from(description))
+                .description(InfluencerDescription.create(description))
                 .profileImage(ProfileImage.from(profileImagePath))
                 .keywords(keywords)
                 .socialMediaProfileLinks(SocialMediaProfileLinks.from(socialMediaProfileLinks))

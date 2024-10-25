@@ -2,7 +2,7 @@ package com.leesh.inflpick.influencer.adapter.in.web.value;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.leesh.inflpick.common.v2.adapter.validator.RequiredFieldsValidator;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.SocialMediaProfileRequestDocs;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.docs.SocialMediaProfileRequestDocs;
 import com.leesh.inflpick.v2.influencer.domain.exception.NotSupportSnsPlatformException;
 import com.leesh.inflpick.v2.influencer.domain.vo.SnsPlatform;
 import com.leesh.inflpick.v2.influencer.domain.vo.SnsProfileLink;

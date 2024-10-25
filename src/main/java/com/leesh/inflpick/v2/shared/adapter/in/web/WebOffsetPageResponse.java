@@ -1,9 +1,8 @@
 package com.leesh.inflpick.v2.shared.adapter.in.web;
 
 
-import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
-import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.v2.shared.application.dto.OffsetPage;
+import com.leesh.inflpick.v2.shared.application.dto.PageResponse;
 import lombok.Getter;
 
 @Getter
@@ -16,13 +15,12 @@ public class WebOffsetPageResponse<T> {
     private final String sorts;
     private final long totalElements;
 
-    private WebOffsetPageResponse(
-            T[] contents,
-            int currentPage,
-            int totalPages,
-            int size,
-            String sorts,
-            long totalElements) {
+    private WebOffsetPageResponse(T[] contents,
+                                  int currentPage,
+                                  int totalPages,
+                                  int size,
+                                  String sorts,
+                                  long totalElements) {
         this.contents = contents;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
@@ -31,9 +29,9 @@ public class WebOffsetPageResponse<T> {
         this.totalElements = totalElements;
     }
 
-    public static <T> WebPageResponse<T> of(T[] contents,
+    public static <T> PageWebResponse<T> of(T[] contents,
                                             PageResponse<?> pageInfo) {
-        return new WebPageResponse<>(contents,
+        return new PageWebResponse<>(contents,
                 pageInfo.currentPage(),
                 pageInfo.totalPages(),
                 pageInfo.size(),

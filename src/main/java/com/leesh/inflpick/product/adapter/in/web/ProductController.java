@@ -1,9 +1,9 @@
 package com.leesh.inflpick.product.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
-import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
-import com.leesh.inflpick.common.port.PageRequest;
-import com.leesh.inflpick.common.port.PageResponse;
+import com.leesh.inflpick.v2.shared.adapter.in.web.PageWebResponse;
+import com.leesh.inflpick.v2.shared.application.dto.PageRequest;
+import com.leesh.inflpick.v2.shared.application.dto.PageResponse;
 import com.leesh.inflpick.v2.shared.adapter.in.web.FileTypeValidator;
 import com.leesh.inflpick.common.port.out.StorageService;
 import com.leesh.inflpick.product.adapter.in.web.docs.ProductApiDocs;
@@ -62,7 +62,7 @@ public class ProductController implements ProductApiDocs {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WebPageResponse<ProductWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+    public ResponseEntity<PageWebResponse<ProductWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                                                     @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
                                                                     @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc") String[] sort) {
 
@@ -75,7 +75,7 @@ public class ProductController implements ProductApiDocs {
             return ProductWebResponse.from(product, productImageUrl);
         }).toArray(ProductWebResponse[]::new);
 
-        WebPageResponse<ProductWebResponse> response = WebPageResponse.of(contents, pageResponse);
+        PageWebResponse<ProductWebResponse> response = PageWebResponse.of(contents, pageResponse);
         return ResponseEntity.ok(response);
     }
 

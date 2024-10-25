@@ -1,7 +1,7 @@
 package com.leesh.inflpick.product.adapter.out.persistence;
 
 import com.leesh.inflpick.common.adapter.out.persistence.SpringDataPageRequestConverter;
-import com.leesh.inflpick.common.port.PageResponse;
+import com.leesh.inflpick.v2.shared.application.dto.PageResponse;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
 import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
@@ -53,7 +53,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public PageResponse<Product> getPage(com.leesh.inflpick.common.port.PageRequest request) {
+    public PageResponse<Product> getPage(com.leesh.inflpick.v2.shared.application.dto.PageRequest request) {
 
         PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> Arrays.stream(ProductSortProperty.values())
                 .map(ProductSortProperty::getValue)

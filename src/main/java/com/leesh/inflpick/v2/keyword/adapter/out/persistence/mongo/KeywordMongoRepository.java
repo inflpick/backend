@@ -11,4 +11,6 @@ public interface KeywordMongoRepository extends MongoRepository<KeywordDocument,
 
     @Query("{ 'name' :  { $regex: ?0 } }")
     List<KeywordDocument> searchBy(String value);
+
+    List<KeywordDocument> findByInfluencerId(String influencerId);
 }

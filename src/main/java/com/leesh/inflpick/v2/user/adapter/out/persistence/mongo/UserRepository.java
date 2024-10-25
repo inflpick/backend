@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.user.adapter.out.persistence.mongo;
 
-import com.leesh.inflpick.common.port.SortDirection;
+import com.leesh.inflpick.v2.shared.application.dto.SortDirection;
 import com.leesh.inflpick.v2.shared.application.dto.OffsetPageQuery;
 import com.leesh.inflpick.v2.shared.application.dto.OffsetPage;
 import com.leesh.inflpick.v2.shared.application.dto.SortCriterion;

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.port.in.exception;
 
-import com.leesh.inflpick.common.port.SortDirection;
+import com.leesh.inflpick.v2.shared.application.dto.SortDirection;
 
 import java.text.MessageFormat;
 

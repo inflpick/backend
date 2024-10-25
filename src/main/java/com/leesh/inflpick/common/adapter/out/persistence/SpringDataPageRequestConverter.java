@@ -1,8 +1,8 @@
 package com.leesh.inflpick.common.adapter.out.persistence;
 
-import com.leesh.inflpick.common.port.SortCriterion;
-import com.leesh.inflpick.common.port.SortDirection;
-import com.leesh.inflpick.common.port.SortableProperties;
+import com.leesh.inflpick.v2.shared.application.port.SortCriterion;
+import com.leesh.inflpick.v2.shared.application.dto.SortDirection;
+import com.leesh.inflpick.v2.shared.application.dto.SortableProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,7 +27,7 @@ public class SpringDataPageRequestConverter {
     }
 
 
-    public static @NotNull PageRequest convert(com.leesh.inflpick.common.port.PageRequest request, SortableProperties sortableProperties) {
+    public static @NotNull PageRequest convert(com.leesh.inflpick.v2.shared.application.dto.PageRequest request, SortableProperties sortableProperties) {
         Collection<SortCriterion> sortCriteria = request.sortCriteria(sortableProperties);
         Sort sort = SpringDataPageRequestConverter.convertSortCriteria(sortCriteria);
         return PageRequest.of(request.page(),

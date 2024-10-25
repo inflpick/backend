@@ -1,7 +1,7 @@
 package com.leesh.inflpick.product.adapter.in.web.value;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.KeywordResponse;
+import com.leesh.inflpick.v2.keyword.adapter.in.web.dto.KeywordResponse;
 import com.leesh.inflpick.product.adapter.in.web.docs.ProductResponseApiDocs;
 import com.leesh.inflpick.product.core.domain.Product;
 import lombok.Builder;

@@ -7,14 +7,14 @@ import java.util.Objects;
 @Getter
 public class KeywordId {
 
-    private final String value;
+    private final String id;
 
     private KeywordId() {
-        this.value = "";
+        this.id = "";
     }
 
-    private KeywordId(String value) {
-        this.value = value;
+    private KeywordId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -22,12 +22,12 @@ public class KeywordId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         KeywordId keywordId = (KeywordId) o;
-        return Objects.equals(value, keywordId.value);
+        return Objects.equals(id, keywordId.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(value);
+        return Objects.hashCode(id);
     }
 
     /* Business Logic */
@@ -40,6 +40,6 @@ public class KeywordId {
     }
 
     public boolean isEmpty() {
-        return value.isEmpty();
+        return id.isEmpty();
     }
 }

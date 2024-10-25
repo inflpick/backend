@@ -1,7 +1,7 @@
 package com.leesh.inflpick.review.adapter.in.web.docs;
 
 
-import com.leesh.inflpick.v2.influencer.adapter.in.web.InfluencerWebResponse;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.dto.QueryInfluencerWebResponse;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductWebResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -19,8 +19,8 @@ public interface ReviewResponseApiDocs {
     @Schema(description = "리뷰한 날짜 (UTC)", example = "2021-07-01T00:00:00Z", implementation = String.class)
     Instant reviewedDate();
 
-    @Schema(description = "리뷰한 인플루언서 정보", implementation = InfluencerWebResponse.class)
-    InfluencerWebResponse reviewer();
+    @Schema(description = "리뷰한 인플루언서 정보", implementation = QueryInfluencerWebResponse.class)
+    QueryInfluencerWebResponse reviewer();
 
     @Schema(description = "리뷰한 제품 정보", implementation = ProductWebResponse.class)
     ProductWebResponse product();

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence.mongo;
 
-import com.leesh.inflpick.common.port.PageResponse;
+import com.leesh.inflpick.v2.shared.application.dto.PageResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import lombok.Builder;
 

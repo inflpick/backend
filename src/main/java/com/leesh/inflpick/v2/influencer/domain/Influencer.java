@@ -1,37 +1,35 @@
 package com.leesh.inflpick.v2.influencer.domain;
 
+import com.leesh.inflpick.v2.influencer.domain.exception.MaximumInfluencerKeywordSizeException;
 import com.leesh.inflpick.v2.influencer.domain.vo.*;
+import com.leesh.inflpick.v2.keyword.domain.Keywords;
+import com.leesh.inflpick.v2.keyword.domain.vo.Keyword;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
+@Getter
 @Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
 public final class Influencer {
 
     @Builder.Default
-    @Getter
     private final InfluencerId id = InfluencerId.empty();
-    @Getter
     private InfluencerName name;
     @Builder.Default
-    @Getter
     private InfluencerIntroduction introduction = InfluencerIntroduction.empty();
     @Builder.Default
-    @Getter
     private InfluencerDescription description = InfluencerDescription.empty();
     @Builder.Default
-    @Getter
     private ProfileImage profileImage = ProfileImage.empty();
     @Builder.Default
-    private InfluencerKeywordIds keywordIds = InfluencerKeywordIds.empty();
-    @Builder.Default
-    @Getter
     private SnsProfileLinks snsProfileLinks = SnsProfileLinks.empty();
+    @Builder.Default
+    private Keywords keywords = Keywords.empty();
     @Builder.Default
     private final Instant createdDate = Instant.MIN;
     @Builder.Default
@@ -60,31 +58,30 @@ public final class Influencer {
     }
 
     /* Business Logic */
-    public void addKeywordIds(Set<KeywordId> keywordIds) {
-        this.keywordIds = this.keywordIds.addAll(keywordIds);
-    }
-
-    public Set<KeywordId> getKeywordIds() {
-        return this.keywordIds.getValues();
-    }
-
-    public void addSnsProfileLinks(Set<SnsProfileLink> snsProfileLinks) {
-        this.snsProfileLinks = this.snsProfileLinks.addAll(snsProfileLinks);
-    }
-
     public void update(InfluencerName name,
                        InfluencerIntroduction introduction,
                        InfluencerDescription description,
-                       Set<KeywordId> keywordIds,
-                       Set<SnsProfileLink> snsProfileLinks) {
+                       List<KeywordId> keywords,
+                       List<SnsProfileLink> snsProfileLinks) {
         this.name = name;
         this.introduction = introduction;
         this.description = description;
-        this.keywordIds = InfluencerKeywordIds.create(keywordIds);
+        this.keywords = Keywords.create(keywords);
         this.snsProfileLinks = SnsProfileLinks.create(snsProfileLinks);
     }
 
     public void updateProfileImage(String profileImagePath) {
         this.profileImage = ProfileImage.create(profileImagePath);
+    }
+
+    public void addKeywords(List<KeywordId> keywords) {
+        if (keywords.size() > 10) {
+            throw new MaximumInfluencerKeywordSizeException("Influencer Keyword size cannot exceed 10, current size: " + this.keywords.size());
+        }
+        this.keywords = Keywords.create(keywords);
+    }
+
+    public void addSnsProfileLinks(List<SnsProfileLink> links) {
+        this.snsProfileLinks = SnsProfileLinks.create(links);
     }
 }

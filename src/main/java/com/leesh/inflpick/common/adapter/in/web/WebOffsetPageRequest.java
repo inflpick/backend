@@ -1,9 +1,9 @@
 package com.leesh.inflpick.common.adapter.in.web;
 
-import com.leesh.inflpick.common.port.PageRequest;
-import com.leesh.inflpick.common.port.SortCriterion;
-import com.leesh.inflpick.common.port.SortDirection;
-import com.leesh.inflpick.common.port.SortableProperties;
+import com.leesh.inflpick.v2.shared.application.dto.PageRequest;
+import com.leesh.inflpick.v2.shared.application.port.SortCriterion;
+import com.leesh.inflpick.v2.shared.application.dto.SortDirection;
+import com.leesh.inflpick.v2.shared.application.dto.SortableProperties;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.jetbrains.annotations.Nullable;

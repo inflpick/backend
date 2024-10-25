@@ -1,6 +1,6 @@
 package com.leesh.inflpick.product.adapter.out.persistence.mongo;
 
-import com.leesh.inflpick.common.port.PageResponse;
+import com.leesh.inflpick.v2.shared.application.dto.PageResponse;
 import com.leesh.inflpick.product.core.domain.Product;
 import lombok.Builder;
 

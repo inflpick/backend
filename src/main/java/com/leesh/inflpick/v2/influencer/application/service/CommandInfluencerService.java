@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.influencer.application.service;
 
-import com.leesh.inflpick.v2.influencer.application.dto.InfluencerCommand;
+import com.leesh.inflpick.v2.influencer.application.dto.InfluencerRequest;
 import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
 import com.leesh.inflpick.v2.influencer.application.port.in.CommandInfluencerUseCase;
 import com.leesh.inflpick.v2.influencer.application.port.out.CommandInfluencerPort;
@@ -18,21 +18,23 @@ class CommandInfluencerService implements CommandInfluencerUseCase {
     private final QueryInfluencerPort queryInfluencerPort;
 
     @Override
-    public InfluencerId create(InfluencerCommand command) {
-        Influencer influencer = command.toEntity();
+    public InfluencerId create(InfluencerRequest request) {
+        Influencer influencer = request.toEntity();
+        influencer.addKeywords(request.keywordIds());
+        influencer.addSnsProfileLinks(request.snsProfileLinks());
         return commandInfluencerPort.save(influencer);
     }
 
     @Override
-    public void update(InfluencerId id, InfluencerCommand influencerCommand) {
+    public void update(InfluencerId id, InfluencerRequest influencerRequest) {
         Influencer influencer = queryInfluencerPort.query(id)
                 .orElseThrow(() -> new InfluencerNotFoundException("Influencer not found, id: %s".formatted(id)));
         influencer.update(
-                influencerCommand.name(),
-                influencerCommand.introduction(),
-                influencerCommand.description(),
-                influencerCommand.keywordIds(),
-                influencerCommand.snsProfileLinks());
+                influencerRequest.name(),
+                influencerRequest.introduction(),
+                influencerRequest.description(),
+                influencerRequest.keywordIds(),
+                influencerRequest.snsProfileLinks());
         commandInfluencerPort.save(influencer);
     }
 

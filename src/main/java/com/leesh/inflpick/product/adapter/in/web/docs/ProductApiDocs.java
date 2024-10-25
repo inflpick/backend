@@ -1,7 +1,7 @@
 package com.leesh.inflpick.product.adapter.in.web.docs;
 
 import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
+import com.leesh.inflpick.v2.shared.adapter.in.web.PageWebResponse;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerGetListsApiErrorCode;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerProfileImageUpdateApiErrorCode;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductCreateApiErrorCode;
@@ -62,9 +62,9 @@ public interface ProductApiDocs {
                                     @ExampleObject(name = "name,asc", value = "name,asc", description = "제품명 기준 오름차순 정렬")
                             })
             })
-    ResponseEntity<WebPageResponse<ProductWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                                    @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
-                                                                    @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc") String[] sort);
+    ResponseEntity<PageWebResponse<ProductWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                             @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
+                                                             @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc") String[] sort);
 
     @ApiErrorCodeSwaggerDocs(values = {ProductCreateApiErrorCode.class, ProductReadApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/products/{id}")
     @Operation(summary = "제품 수정", description = "제품을 수정합니다.", security = {

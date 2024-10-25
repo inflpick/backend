@@ -1,7 +1,6 @@
 package com.leesh.inflpick.influencer.adapter.out.persistence;
 
 import com.leesh.inflpick.common.adapter.out.persistence.SpringDataPageRequestConverter;
-import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
 import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerPageResponse;
@@ -9,8 +8,9 @@ import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
-import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
 import com.leesh.inflpick.product.port.ProductSortProperty;
+import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
+import com.leesh.inflpick.v2.shared.application.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
@@ -44,11 +44,7 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     public @NotNull Influencer getById(@NotNull String id) throws InfluencerNotFoundException {
         InfluencerDocument influencerDocument = influencerMongoRepository.findById(id)
                 .orElseThrow(() -> new InfluencerNotFoundException(id));
-
-        Set<String> keywordIds = influencerDocument.getKeywordIds();
-        Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
-
-        return influencerDocument.toEntity(keywords);
+        return influencerDocument.toEntity();
     }
 
     @Override
@@ -57,7 +53,7 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     }
 
     @Override
-    public PageResponse<Influencer> getPage(com.leesh.inflpick.common.port.PageRequest request) {
+    public PageResponse<Influencer> getPage(com.leesh.inflpick.v2.shared.application.dto.PageRequest request) {
 
         PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> Arrays.stream(ProductSortProperty.values())
                 .map(ProductSortProperty::getValue)

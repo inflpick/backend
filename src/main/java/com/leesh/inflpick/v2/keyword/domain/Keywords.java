@@ -1,26 +1,27 @@
 package com.leesh.inflpick.v2.keyword.domain;
 
-import com.leesh.inflpick.v2.influencer.domain.exception.MaximumInfluencerKeywordSizeException;
-import com.leesh.inflpick.v2.keyword.domain.vo.Keyword;
+import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+@Getter
 public class Keywords {
 
-    private final Set<Keyword> values;
+    private final List<KeywordId> ids;
 
     private Keywords() {
-        this.values = new HashSet<>();
+        this.ids = Collections.unmodifiableList(new ArrayList<>());
     }
 
-    private Keywords(Set<Keyword> values) {
-        this.values = Collections.unmodifiableSet(values);
+    private Keywords(List<KeywordId> ids) {
+        this.ids = Collections.unmodifiableList(ids);
     }
 
     /* Business Logic */
-    static Keywords create(Set<Keyword> ids) {
+    public static Keywords create(List<KeywordId> ids) {
         return new Keywords(ids);
     }
 
@@ -28,29 +29,7 @@ public class Keywords {
         return new Keywords();
     }
 
-    Keywords add(Keyword keyword) {
-        if (values.size() + 1 > 10) {
-            throw new MaximumInfluencerKeywordSizeException("Influencer Keyword size cannot exceed 10, current size: " + values.size());
-        }
-        HashSet<Keyword> keywords = new HashSet<>(this.values);
-        keywords.add(keyword);
-        return new Keywords(keywords);
-    }
-
-    public Keywords addAll(Set<Keyword> keywords) {
-        if (values.size() + keywords.size() > 10) {
-            throw new MaximumInfluencerKeywordSizeException("Influencer Keyword size cannot exceed 10, current size: " + values.size());
-        }
-        HashSet<Keyword> newKeywords = new HashSet<>(this.values);
-        newKeywords.addAll(keywords);
-        return new Keywords(newKeywords);
-    }
-
-    public Set<Keyword> getValues() {
-        return Collections.unmodifiableSet(values);
-    }
-
-    public boolean contains(Keyword keyword) {
-        return values.contains(keyword);
+    public Integer size() {
+        return ids.size();
     }
 }

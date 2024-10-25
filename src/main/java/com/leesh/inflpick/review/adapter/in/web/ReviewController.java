@@ -1,9 +1,9 @@
 package com.leesh.inflpick.review.adapter.in.web;
 
 import com.leesh.inflpick.common.adapter.in.web.value.CursorResponse;
-import com.leesh.inflpick.common.port.CursorPage;
+import com.leesh.inflpick.v2.shared.application.dto.CursorPage;
 import com.leesh.inflpick.common.port.out.StorageService;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.InfluencerWebResponse;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.dto.QueryInfluencerWebResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductWebResponse;
@@ -52,7 +52,7 @@ public class ReviewController implements ReviewApiDocs {
                 .map(review -> {
                     String reviewerProfileImageUrl = storageService.getUrlString(review.getReviewer().getProfileImagePath());
                     String productImageUrl = storageService.getUrlString(review.getProduct().getProductImagePath());
-                    return ReviewResponse.from(review, InfluencerWebResponse.from(
+                    return ReviewResponse.from(review, QueryInfluencerWebResponse.from(
                             influencerQueryService.query(review.getReviewer().getId()),
                             reviewerProfileImageUrl
                     ), ProductWebResponse.from(

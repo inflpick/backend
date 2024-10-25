@@ -6,7 +6,7 @@ import com.leesh.inflpick.common.port.in.exception.InvalidPageNumberException;
 import com.leesh.inflpick.common.port.in.exception.InvalidPageSizeException;
 import com.leesh.inflpick.common.port.in.exception.NotImageTypeException;
 import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerReviewsApiErrorCode;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.KeywordCreateApiErrorCode;
+import com.leesh.inflpick.v2.keyword.adapter.in.web.dto.KeywordCreateApiErrorCode;
 import com.leesh.inflpick.keyword.core.domain.HexColorSyntaxException;
 import com.leesh.inflpick.keyword.core.domain.KeywordNameValidationFailedException;
 import com.leesh.inflpick.v2.keyword.application.exception.DuplicateKeywordNameException;

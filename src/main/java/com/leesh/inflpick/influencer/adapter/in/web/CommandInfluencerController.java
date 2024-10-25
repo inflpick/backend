@@ -1,18 +1,8 @@
 package com.leesh.inflpick.influencer.adapter.in.web;
 
-import com.leesh.inflpick.common.adapter.in.web.WebOffsetPageRequest;
-import com.leesh.inflpick.common.adapter.in.web.value.WebPageResponse;
-import com.leesh.inflpick.common.port.PageRequest;
-import com.leesh.inflpick.common.port.PageResponse;
 import com.leesh.inflpick.v2.shared.adapter.in.web.FileTypeValidator;
-import com.leesh.inflpick.common.port.out.StorageService;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.CommandInfluencerControllerDocs;
-import com.leesh.inflpick.influencer.core.domain.Influencer;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.docs.CommandInfluencerControllerDocs;
 import com.leesh.inflpick.influencer.port.in.InfluencerCommandService;
-import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
-import com.leesh.inflpick.product.port.in.ProductQueryService;
-import com.leesh.inflpick.review.port.in.ReviewQueryService;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.InfluencerWebResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,37 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CommandInfluencerController implements CommandInfluencerControllerDocs {
 
     private final InfluencerCommandService commandService;
-    private final InfluencerQueryService influencerQueryService;
-    private final ProductQueryService productQueryService;
-    private final ReviewQueryService reviewQueryService;
-    private final StorageService storageService;
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InfluencerWebResponse> get(@PathVariable String id) {
-        Influencer influencer = influencerQueryService.query(id);
-        String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
-        return ResponseEntity.ok(InfluencerWebResponse.from(
-                influencer,
-                profileImageUrl
-        ));
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WebPageResponse<InfluencerWebResponse>> list(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                                       @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
-                                                                       @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc") String[] sort) {
-
-        PageRequest request = new WebOffsetPageRequest(page, size, sort);
-        PageResponse<Influencer> pageResponse = influencerQueryService.query(request);
-
-        InfluencerWebResponse[] webContents = pageResponse.contents().stream().map(influencer -> {
-                    String profileImageUrl = storageService.getUrlString(influencer.getProfileImagePath());
-                    return InfluencerWebResponse.from(influencer, profileImageUrl);
-                }).toArray(InfluencerWebResponse[]::new);
-
-        WebPageResponse<InfluencerWebResponse> response = WebPageResponse.of(webContents, pageResponse);
-        return ResponseEntity.ok(response);
-    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

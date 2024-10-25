@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.shared.adapter.in.web;
 
-import com.leesh.inflpick.common.port.SortDirection;
+import com.leesh.inflpick.v2.shared.application.dto.SortDirection;
 import com.leesh.inflpick.v2.shared.application.dto.OffsetPageQuery;
 import com.leesh.inflpick.v2.shared.application.dto.SortCriterion;
 import com.leesh.inflpick.v2.shared.application.dto.Sortable;

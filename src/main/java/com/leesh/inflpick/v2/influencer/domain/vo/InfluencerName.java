@@ -6,14 +6,14 @@ import lombok.Getter;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Getter
 public final class InfluencerName {
 
     // InfluencerName must be between 1 and 300 characters long
     private static final Pattern PATTERN = Pattern.compile("^.{1,300}$");
-    @Getter
     private final String value;
 
-    private InfluencerName(String value) {
+    public InfluencerName(String value) {
         if (!PATTERN.matcher(value).matches()) {
             throw new InfluencerNameFormatException("InfluencerName must be between 1 and 300 characters long, but was: " + value);
         }
