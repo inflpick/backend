@@ -2,7 +2,7 @@ package com.leesh.inflpick.v2.user.application.service;
 
 import com.leesh.inflpick.v2.user.application.dto.UserCommand;
 import com.leesh.inflpick.v2.user.application.port.in.CommandUserUseCase;
-import com.leesh.inflpick.v2.user.application.port.in.exception.DuplicatedSocialUserException;
+import com.leesh.inflpick.v2.user.application.exception.DuplicatedSocialUserException;
 import com.leesh.inflpick.v2.user.application.port.out.CommandUserPort;
 import com.leesh.inflpick.v2.user.application.port.out.QueryUserPort;
 import com.leesh.inflpick.v2.user.domain.User;

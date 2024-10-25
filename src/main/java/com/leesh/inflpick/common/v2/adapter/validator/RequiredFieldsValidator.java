@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.v2.adapter.validator;
 
-import com.leesh.inflpick.common.adapter.in.web.exception.MissingRequiredFieldsException;
+import com.leesh.inflpick.v2.shared.adapter.in.web.MissingRequiredFieldsException;
 
 public class RequiredFieldsValidator {
 

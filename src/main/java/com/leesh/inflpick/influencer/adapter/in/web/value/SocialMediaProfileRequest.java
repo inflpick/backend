@@ -1,21 +1,18 @@
 package com.leesh.inflpick.influencer.adapter.in.web.value;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.leesh.inflpick.common.v2.adapter.validator.RequiredFieldsValidator;
-import com.leesh.inflpick.influencer.adapter.in.web.docs.SocialMediaProfileRequestApiDocs;
-import com.leesh.inflpick.influencer.core.domain.value.SocialMediaPlatform;
-import com.leesh.inflpick.influencer.core.domain.value.SocialMediaProfileLink;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.SocialMediaProfileRequestDocs;
+import com.leesh.inflpick.v2.influencer.domain.exception.NotSupportSnsPlatformException;
+import com.leesh.inflpick.v2.influencer.domain.vo.SnsPlatform;
+import com.leesh.inflpick.v2.influencer.domain.vo.SnsProfileLink;
 import lombok.Builder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @Builder
-public record SocialMediaProfileRequest(String platform, String uri) implements SocialMediaProfileRequestApiDocs {
+public record SocialMediaProfileRequest(String platform, String uri) implements SocialMediaProfileRequestDocs {
 
     @JsonCreator
-    public SocialMediaProfileRequest(@JsonProperty("platform") @Nullable String platform,
-                                     @JsonProperty("uri") @Nullable String uri) {
+    public SocialMediaProfileRequest(String platform, String uri) {
         RequiredFieldsValidator.validate(platform, uri);
         assert platform != null;
         this.platform = platform.strip();
@@ -23,10 +20,13 @@ public record SocialMediaProfileRequest(String platform, String uri) implements 
         this.uri = uri.strip();
     }
 
-    public @NotNull SocialMediaProfileLink toEntity() {
-        SocialMediaPlatform socialMediaPlatform = SocialMediaPlatform.from(platform);
-        return SocialMediaProfileLink.of(
-                socialMediaPlatform,
-                uri);
+    public SnsProfileLink toEntity() {
+        SnsPlatform platform;
+        try {
+            platform = SnsPlatform.valueOf(this.platform);
+        } catch (IllegalArgumentException e) {
+            throw new NotSupportSnsPlatformException("Not support sns platform: " + this.platform);
+        }
+        return SnsProfileLink.create(platform, uri);
     }
 }

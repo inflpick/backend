@@ -9,7 +9,7 @@ import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.core.domain.value.Keywords;
 import com.leesh.inflpick.influencer.port.out.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.port.out.InfluencerRepository;
-import com.leesh.inflpick.keyword.port.out.KeywordRepository;
+import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
 import com.leesh.inflpick.product.port.ProductSortProperty;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ import java.util.Set;
 public class InfluencerRepositoryImpl implements InfluencerRepository {
 
     private final InfluencerMongoRepository influencerMongoRepository;
-    private final KeywordRepository keywordRepository;
+    private final QueryKeywordPort queryKeywordPort;
 
     @Override
     public String save(@NotNull Influencer influencer) {
@@ -46,7 +46,7 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
                 .orElseThrow(() -> new InfluencerNotFoundException(id));
 
         Set<String> keywordIds = influencerDocument.getKeywordIds();
-        Keywords keywords = keywordRepository.getAllByIds(keywordIds);
+        Keywords keywords = queryKeywordPort.getAllByIds(keywordIds);
 
         return influencerDocument.toEntity(keywords);
     }
@@ -80,7 +80,7 @@ public class InfluencerRepositoryImpl implements InfluencerRepository {
     private @NotNull List<Influencer> convertToEntities(List<InfluencerDocument> content) {
         return content.stream().map(document -> {
             Set<String> keywordIds = document.getKeywordIds();
-            Keywords influencerKeywords = keywordRepository.getAllByIds(keywordIds);
+            Keywords influencerKeywords = queryKeywordPort.getAllByIds(keywordIds);
             return document.toEntity(influencerKeywords);
         }).toList();
     }

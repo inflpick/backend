@@ -3,7 +3,7 @@ package com.leesh.inflpick.v2.configuration.security;
 import com.leesh.inflpick.v2.user.application.dto.UserCommand;
 import com.leesh.inflpick.v2.user.application.port.in.CommandUserUseCase;
 import com.leesh.inflpick.v2.user.application.port.in.QueryUserUseCase;
-import com.leesh.inflpick.v2.user.application.port.in.exception.UserNotFoundException;
+import com.leesh.inflpick.v2.user.application.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.user.domain.User;
 import com.leesh.inflpick.v2.user.domain.exception.NotSupportedOauth2TypeException;
 import com.leesh.inflpick.v2.user.domain.vo.*;

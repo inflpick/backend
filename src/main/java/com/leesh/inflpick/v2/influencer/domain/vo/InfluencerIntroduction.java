@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.influencer.domain.vo;
 
-import com.leesh.inflpick.v2.influencer.domain.exception.InvalidInfluencerIntroductionException;
+import com.leesh.inflpick.v2.influencer.domain.exception.InfluencerIntroductionFormatException;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -19,7 +19,7 @@ public final class InfluencerIntroduction {
 
     private InfluencerIntroduction(String value) {
         if (!PATTERN.matcher(value).matches()) {
-            throw new InvalidInfluencerIntroductionException("InfluencerIntroduction must be between 0 and 1000 characters long, but was: " + value);
+            throw new InfluencerIntroductionFormatException("InfluencerIntroduction must be between 0 and 1000 characters long, but was: " + value);
         }
         this.value = value;
     }

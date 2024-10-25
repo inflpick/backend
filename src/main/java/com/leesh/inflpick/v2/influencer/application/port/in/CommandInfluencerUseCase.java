@@ -7,4 +7,7 @@ public interface CommandInfluencerUseCase {
 
     InfluencerId create(InfluencerCommand influencerCommand);
 
+    void update(InfluencerId id, InfluencerCommand influencerCommand);
+
+    void delete(InfluencerId id);
 }

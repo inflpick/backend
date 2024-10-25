@@ -4,9 +4,9 @@ import lombok.Getter;
 
 import java.util.Objects;
 
+@Getter
 public final class UserId {
 
-    @Getter
     private final String value;
 
     private UserId() {

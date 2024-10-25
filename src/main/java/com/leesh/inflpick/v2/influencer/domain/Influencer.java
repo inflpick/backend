@@ -1,29 +1,45 @@
 package com.leesh.inflpick.v2.influencer.domain;
 
 import com.leesh.inflpick.v2.influencer.domain.vo.*;
+import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.Instant;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
-@Getter
 public final class Influencer {
 
     @Builder.Default
+    @Getter
     private final InfluencerId id = InfluencerId.empty();
-    private final InfluencerName name;
+    @Getter
+    private InfluencerName name;
     @Builder.Default
-    private final InfluencerIntroduction introduction = InfluencerIntroduction.empty();
+    @Getter
+    private InfluencerIntroduction introduction = InfluencerIntroduction.empty();
     @Builder.Default
-    private final InfluencerDescription description = InfluencerDescription.empty();
+    @Getter
+    private InfluencerDescription description = InfluencerDescription.empty();
     @Builder.Default
-    private final ProfileImage profileImage = ProfileImage.empty();
+    @Getter
+    private ProfileImage profileImage = ProfileImage.empty();
     @Builder.Default
-    private final InfluencerKeywords influencerKeywords = InfluencerKeywords.empty();
+    private InfluencerKeywordIds keywordIds = InfluencerKeywordIds.empty();
     @Builder.Default
-    private final SnsProfileLinks snsProfileLinks = SnsProfileLinks.empty();
+    @Getter
+    private SnsProfileLinks snsProfileLinks = SnsProfileLinks.empty();
+    @Builder.Default
+    private final Instant createdDate = Instant.MIN;
+    @Builder.Default
+    private final String createdBy = "";
+    @Builder.Default
+    private final Instant lastModifiedDate = Instant.MIN;
+    @Builder.Default
+    private final String lastModifiedBy = "";
 
     public static InfluencerBuilder builder(InfluencerName name) {
         return requiredBuilder()
@@ -41,5 +57,34 @@ public final class Influencer {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    /* Business Logic */
+    public void addKeywordIds(Set<KeywordId> keywordIds) {
+        this.keywordIds = this.keywordIds.addAll(keywordIds);
+    }
+
+    public Set<KeywordId> getKeywordIds() {
+        return this.keywordIds.getValues();
+    }
+
+    public void addSnsProfileLinks(Set<SnsProfileLink> snsProfileLinks) {
+        this.snsProfileLinks = this.snsProfileLinks.addAll(snsProfileLinks);
+    }
+
+    public void update(InfluencerName name,
+                       InfluencerIntroduction introduction,
+                       InfluencerDescription description,
+                       Set<KeywordId> keywordIds,
+                       Set<SnsProfileLink> snsProfileLinks) {
+        this.name = name;
+        this.introduction = introduction;
+        this.description = description;
+        this.keywordIds = InfluencerKeywordIds.create(keywordIds);
+        this.snsProfileLinks = SnsProfileLinks.create(snsProfileLinks);
+    }
+
+    public void updateProfileImage(String profileImagePath) {
+        this.profileImage = ProfileImage.create(profileImagePath);
     }
 }

@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.influencer.domain.vo;
 
-import com.leesh.inflpick.v2.influencer.domain.exception.InvalidInfluencerDescriptionException;
+import com.leesh.inflpick.v2.influencer.domain.exception.InfluencerDescriptionFormatException;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ public final class InfluencerDescription {
 
     private InfluencerDescription(@NotNull String value) {
         if (!PATTERN.matcher(value).matches()) {
-            throw new InvalidInfluencerDescriptionException("InfluencerDescription must be between 1 and 50000 characters long, but was: " + value);
+            throw new InfluencerDescriptionFormatException("InfluencerDescription must be between 1 and 50000 characters long, but was: " + value);
         }
         this.value = value;
     }

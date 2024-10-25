@@ -3,7 +3,7 @@ package com.leesh.inflpick.review.adapter.in.web;
 import com.leesh.inflpick.common.adapter.in.web.value.CursorResponse;
 import com.leesh.inflpick.common.port.CursorPage;
 import com.leesh.inflpick.common.port.out.StorageService;
-import com.leesh.inflpick.influencer.adapter.in.web.value.InfluencerWebResponse;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.InfluencerWebResponse;
 import com.leesh.inflpick.influencer.core.domain.Influencer;
 import com.leesh.inflpick.influencer.port.in.InfluencerQueryService;
 import com.leesh.inflpick.product.adapter.in.web.value.ProductWebResponse;

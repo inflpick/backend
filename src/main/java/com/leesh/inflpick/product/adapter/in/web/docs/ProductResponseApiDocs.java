@@ -1,6 +1,6 @@
 package com.leesh.inflpick.product.adapter.in.web.docs;
 
-import com.leesh.inflpick.keyword.adapter.in.web.value.KeywordResponse;
+import com.leesh.inflpick.v2.keyword.adapter.in.web.KeywordResponse;
 import com.leesh.inflpick.product.adapter.in.web.value.OnlineStoreLinkResponse;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
