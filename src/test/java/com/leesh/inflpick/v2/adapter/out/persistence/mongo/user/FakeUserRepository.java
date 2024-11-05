@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
-import com.leesh.inflpick.v2.shared.adapter.out.uuid.UuidHolder;
-import com.leesh.inflpick.v2.shared.application.dto.OffsetPageQuery;
-import com.leesh.inflpick.v2.shared.application.dto.OffsetPage;
+import com.leesh.inflpick.v2.common.application.port.out.uuid.UuidPort;
+import com.leesh.inflpick.v2.common.application.dto.OffsetPageQuery;
+import com.leesh.inflpick.v2.common.application.dto.OffsetPage;
 import com.leesh.inflpick.v2.user.domain.User;
 import com.leesh.inflpick.v2.user.domain.vo.*;
 import com.leesh.inflpick.v2.user.application.port.out.CommandUserPort;
@@ -12,16 +12,16 @@ import java.util.*;
 
 public class FakeUserRepository implements CommandUserPort, QueryUserPort {
 
-    private final UuidHolder uuidHolder;
+    private final UuidPort uuidPort;
     private final List<User> users;
 
     private FakeUserRepository() {
-        uuidHolder = () -> UUID.randomUUID().toString();
+        uuidPort = () -> UUID.randomUUID().toString();
         users = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < 100; i++) {
             Nickname nickname = Nickname.create("nickname" + i);
-            String oauth2Id = uuidHolder.uuid();
-            Oauth2Info oauth2Info = Oauth2Info.create(oauth2Id, Oauth2Provider.GOOGLE);
+            String oauth2Id = uuidPort.uuid();
+            Oauth2Info oauth2Info = Oauth2Info.create(oauth2Id, Oauth2Provider.google);
             User user = User.builder(nickname, oauth2Info).build();
             users.add(user);
         }
@@ -33,7 +33,7 @@ public class FakeUserRepository implements CommandUserPort, QueryUserPort {
             users.remove(user);
             users.add(user);
         } else {
-            UserId id = UserId.create(uuidHolder.uuid());
+            UserId id = UserId.create(uuidPort.uuid());
             User newUser = User.withId(id, user);
             users.add(newUser);
         }

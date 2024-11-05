@@ -1,87 +1,132 @@
 package com.leesh.inflpick.v2.influencer.domain;
 
+import com.leesh.inflpick.v2.influencer.application.dto.InfluencerRequest;
+import com.leesh.inflpick.v2.influencer.application.dto.SnsProfileLinkRequest;
 import com.leesh.inflpick.v2.influencer.domain.exception.MaximumInfluencerKeywordSizeException;
 import com.leesh.inflpick.v2.influencer.domain.vo.*;
 import com.leesh.inflpick.v2.keyword.domain.Keywords;
-import com.leesh.inflpick.v2.keyword.domain.vo.Keyword;
-import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
+import com.leesh.inflpick.v2.keyword.domain.Keyword;
+import com.leesh.inflpick.v2.product.domain.vo.ProductId;
+import com.leesh.inflpick.v2.review.domain.Review;
+import com.leesh.inflpick.v2.review.domain.vo.ReviewSource;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 
-@Getter
-@Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
-public final class Influencer {
-
-    @Builder.Default
-    private final InfluencerId id = InfluencerId.empty();
-    private InfluencerName name;
-    @Builder.Default
-    private InfluencerIntroduction introduction = InfluencerIntroduction.empty();
-    @Builder.Default
-    private InfluencerDescription description = InfluencerDescription.empty();
-    @Builder.Default
-    private ProfileImage profileImage = ProfileImage.empty();
-    @Builder.Default
-    private SnsProfileLinks snsProfileLinks = SnsProfileLinks.empty();
-    @Builder.Default
-    private Keywords keywords = Keywords.empty();
-    @Builder.Default
-    private final Instant createdDate = Instant.MIN;
-    @Builder.Default
-    private final String createdBy = "";
-    @Builder.Default
-    private final Instant lastModifiedDate = Instant.MIN;
-    @Builder.Default
-    private final String lastModifiedBy = "";
-
-    public static InfluencerBuilder builder(InfluencerName name) {
-        return requiredBuilder()
-                .name(name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Influencer that = (Influencer) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+public record Influencer(InfluencerId id,
+                         InfluencerName name,
+                         InfluencerIntroduction introduction,
+                         InfluencerDescription description,
+                         ProfileImage profileImage,
+                         SnsProfileLinks snsProfileLinks,
+                         Keywords keywords,
+                         Instant createdDate,
+                         String createdBy,
+                         Instant lastModifiedDate,
+                         String lastModifiedBy) {
 
     /* Business Logic */
-    public void update(InfluencerName name,
-                       InfluencerIntroduction introduction,
-                       InfluencerDescription description,
-                       List<KeywordId> keywords,
-                       List<SnsProfileLink> snsProfileLinks) {
-        this.name = name;
-        this.introduction = introduction;
-        this.description = description;
-        this.keywords = Keywords.create(keywords);
-        this.snsProfileLinks = SnsProfileLinks.create(snsProfileLinks);
+    public static Influencer withId(InfluencerId id,
+                                    InfluencerName name,
+                                    InfluencerIntroduction introduction,
+                                    InfluencerDescription description,
+                                    ProfileImage profileImage,
+                                    SnsProfileLinks snsProfileLinks,
+                                    Keywords keywords,
+                                    Instant createdDate,
+                                    String createdBy,
+                                    Instant lastModifiedDate,
+                                    String lastModifiedBy) {
+        return new Influencer(id,
+                name,
+                introduction,
+                description,
+                profileImage,
+                snsProfileLinks,
+                keywords,
+                createdDate,
+                createdBy,
+                lastModifiedDate,
+                lastModifiedBy);
     }
 
-    public void updateProfileImage(String profileImagePath) {
-        this.profileImage = ProfileImage.create(profileImagePath);
+    public static Influencer withoutId(String name,
+                                       String introduction,
+                                       String description,
+                                       SnsProfileLinks snsProfileLinks) {
+        InfluencerId id = InfluencerId.empty();
+        ProfileImage profileImage = ProfileImage.empty();
+        InfluencerName influencerName = InfluencerName.create(name);
+        InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(introduction);
+        InfluencerDescription influencerDescription = InfluencerDescription.create(description);
+        Keywords keywords = Keywords.empty();
+        return new Influencer(id,
+                influencerName,
+                influencerIntroduction,
+                influencerDescription,
+                profileImage,
+                snsProfileLinks,
+                keywords,
+                null,
+                null,
+                null,
+                null);
     }
 
-    public void addKeywords(List<KeywordId> keywords) {
-        if (keywords.size() > 10) {
-            throw new MaximumInfluencerKeywordSizeException("Influencer Keyword size cannot exceed 10, current size: " + this.keywords.size());
+    public Influencer updateProfileImage(String profileImagePath) {
+        return withId(id,
+                name,
+                introduction,
+                description,
+                ProfileImage.create(profileImagePath),
+                snsProfileLinks,
+                keywords,
+                createdDate,
+                createdBy,
+                Instant.now(),
+                lastModifiedBy);
+    }
+
+    public Influencer addKeywords(List<Keyword> keywords) {
+        if (this.keywords.size() + keywords.size() > 10) {
+            throw new MaximumInfluencerKeywordSizeException(this.keywords.size());
         }
-        this.keywords = Keywords.create(keywords);
+        Keywords addedKeywords = this.keywords.add(keywords);
+        return withId(id,
+                name,
+                introduction,
+                description,
+                profileImage,
+                snsProfileLinks,
+                addedKeywords,
+                createdDate,
+                createdBy,
+                Instant.now(),
+                lastModifiedBy);
     }
 
-    public void addSnsProfileLinks(List<SnsProfileLink> links) {
-        this.snsProfileLinks = SnsProfileLinks.create(links);
+    public Review review(ProductId productId, ReviewSource source) {
+        return Review.withoutPersistence(source, id, productId);
+    }
+
+    public Influencer update(InfluencerRequest command) {
+        InfluencerName influencerName = InfluencerName.create(command.name());
+        InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(command.introduction());
+        InfluencerDescription influencerDescription = InfluencerDescription.create(command.description());
+        List<SnsProfileLink> profileLinks = command.socialMediaProfileLinks().stream()
+                .map(SnsProfileLinkRequest::toEntity)
+                .toList();
+        SnsProfileLinks links = SnsProfileLinks.create(profileLinks);
+        return withId(id,
+                influencerName,
+                influencerIntroduction,
+                influencerDescription,
+                profileImage,
+                links,
+                keywords,
+                createdDate,
+                createdBy,
+                Instant.now(),
+                lastModifiedBy);
     }
 }

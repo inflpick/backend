@@ -1,14 +1,14 @@
 package com.leesh.inflpick.v2.influencer.application.service;
 
+import com.leesh.inflpick.v2.common.application.exception.FileFormatException;
+import com.leesh.inflpick.v2.common.application.port.out.storage.StoragePort;
 import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
-import com.leesh.inflpick.v2.influencer.application.exception.ProfileImageFormatException;
+import com.leesh.inflpick.v2.influencer.application.exception.InvalidProfileImageException;
 import com.leesh.inflpick.v2.influencer.application.port.in.UpdateProfileImageUseCase;
 import com.leesh.inflpick.v2.influencer.application.port.out.CommandInfluencerPort;
 import com.leesh.inflpick.v2.influencer.application.port.out.QueryInfluencerPort;
 import com.leesh.inflpick.v2.influencer.domain.Influencer;
 import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerId;
-import com.leesh.inflpick.v2.shared.application.exception.FileFormatException;
-import com.leesh.inflpick.v2.shared.application.port.out.storage.StoragePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +27,14 @@ public class UpdateProfileImageService implements UpdateProfileImageUseCase {
     private final CommandInfluencerPort commandInfluencerPort;
 
     @Override
-    public void updateProfileImage(InfluencerId id, MultipartFile profileImage) {
+    public void updateProfileImage(InfluencerId id, MultipartFile profileImage) throws InvalidProfileImageException {
         Influencer influencer = queryInfluencerPort.query(id)
-                .orElseThrow(() -> new InfluencerNotFoundException("Influencer not found, id: %s".formatted(id)));
-        Path basePath = influencer.getProfileImage().getBasePath(id);
+                .orElseThrow(() -> new InfluencerNotFoundException(id));
+        Path basePath = influencer.profileImage().getBasePath(id);
         URL uploadUrl = uploadProfileImage(profileImage, basePath);
         String profileImagePath = uploadUrl.getPath();
-        influencer.updateProfileImage(profileImagePath);
-        commandInfluencerPort.save(influencer);
+        Influencer updatedProfileImageInfluencer = influencer.updateProfileImage(profileImagePath);
+        commandInfluencerPort.save(updatedProfileImageInfluencer);
     }
 
     private URL uploadProfileImage(MultipartFile profileImage, Path basePath) {
@@ -42,7 +42,7 @@ public class UpdateProfileImageService implements UpdateProfileImageUseCase {
         try {
            uploadUrl = storagePort.upload(profileImage, basePath);
         } catch (FileFormatException e) {
-            throw new ProfileImageFormatException("Profile image format is not supported, file: %s".formatted(profileImage.getOriginalFilename()));
+            throw new InvalidProfileImageException(profileImage.getOriginalFilename());
         }
         return uploadUrl;
     }

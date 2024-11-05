@@ -1,7 +1,6 @@
 package com.leesh.inflpick.v2.application.service.user;
 
 import com.leesh.inflpick.v2.adapter.out.persistence.mongo.user.FakeUserRepository;
-import com.leesh.inflpick.v2.user.application.dto.UserCommand;
 import com.leesh.inflpick.v2.user.application.service.CommandUserService;
 import com.leesh.inflpick.v2.user.domain.vo.Nickname;
 import com.leesh.inflpick.v2.user.domain.vo.Oauth2Info;
@@ -30,7 +29,7 @@ class CommandUserServiceTest {
         // given
         Nickname nickname = Nickname.create("nickname");
         String oauth2Id = "oauth2Id";
-        Oauth2Info oauth2Info = Oauth2Info.create(oauth2Id, Oauth2Provider.KAKAO);
+        Oauth2Info oauth2Info = Oauth2Info.create(oauth2Id, Oauth2Provider.kakao);
 
         UserCommand request = UserCommand.builder(nickname, oauth2Info)
                 .build();

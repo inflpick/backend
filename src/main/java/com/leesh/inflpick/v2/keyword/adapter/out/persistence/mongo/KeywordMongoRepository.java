@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface KeywordMongoRepository extends MongoRepository<KeywordDocument, String> {
 
@@ -12,5 +13,5 @@ public interface KeywordMongoRepository extends MongoRepository<KeywordDocument,
     @Query("{ 'name' :  { $regex: ?0 } }")
     List<KeywordDocument> searchBy(String value);
 
-    List<KeywordDocument> findByInfluencerId(String influencerId);
+    Optional<KeywordDocument> findByName(String name);
 }

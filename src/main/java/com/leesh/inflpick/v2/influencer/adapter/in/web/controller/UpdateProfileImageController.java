@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.influencer.adapter.in.web.controller;
 
-import com.leesh.inflpick.v2.influencer.adapter.in.web.docs.UpdateProfileImageControllerDocs;
+import com.leesh.inflpick.v2.common.application.service.FileTypeValidator;
+import com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger.UpdateProfileImageControllerDocs;
 import com.leesh.inflpick.v2.influencer.application.port.in.UpdateProfileImageUseCase;
 import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerId;
-import com.leesh.inflpick.v2.shared.adapter.in.web.FileTypeValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

@@ -1,39 +1,18 @@
 package com.leesh.inflpick.v2.keyword.domain.vo;
 
-import lombok.Getter;
+import com.leesh.inflpick.v2.keyword.domain.exception.KeywordHexColorException;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Getter
-public final class KeywordColor {
+public record KeywordColor(String hexColor) {
 
     // Keyword Color must be hex color code
     private static final Pattern PATTERN = Pattern.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
-    private final String value;
 
-    private KeywordColor() {
-        this.value = "#FFFFFF";
-    }
-
-    private KeywordColor(String value) {
-        if (!PATTERN.matcher(value).matches()) {
-            throw new IllegalArgumentException("Keyword Color must be hex color code, but was: " + value);
+    public KeywordColor {
+        if (!PATTERN.matcher(hexColor).matches()) {
+            throw new KeywordHexColorException(hexColor);
         }
-        this.value = value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        KeywordColor that = (KeywordColor) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
     }
 
     /* Business Logic */
@@ -42,6 +21,6 @@ public final class KeywordColor {
     }
 
     public static KeywordColor withDefault() {
-        return new KeywordColor();
+        return new KeywordColor("#FFFFFF");
     }
 }

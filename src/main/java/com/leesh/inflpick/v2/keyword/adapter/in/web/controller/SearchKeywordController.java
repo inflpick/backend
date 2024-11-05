@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.keyword.adapter.in.web.controller;
 
-import com.leesh.inflpick.v2.keyword.adapter.in.web.dto.KeywordResponse;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.docs.SearchKeywordControllerDocs;
+import com.leesh.inflpick.v2.keyword.adapter.out.docs.swagger.SearchKeywordControllerDocs;
+import com.leesh.inflpick.v2.keyword.application.dto.KeywordResponse;
 import com.leesh.inflpick.v2.keyword.application.port.in.SearchKeywordUseCase;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordName;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +21,11 @@ public class SearchKeywordController implements SearchKeywordControllerDocs {
 
     private final SearchKeywordUseCase searchKeywordUseCase;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<KeywordResponse>> search(@RequestParam(value = "name") String name) {
-        KeywordName keywordName = KeywordName.create(name);
-        List<KeywordResponse> keywordResponses = searchKeywordUseCase.search(keywordName)
-                .stream()
-                .map(KeywordResponse::from)
-                .toList();
-        return ResponseEntity.ok(keywordResponses);
+    @GetMapping(path = "/name", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<KeywordResponse>> search(@RequestParam(value = "search") String search) {
+        KeywordName keywordName = KeywordName.create(search);
+        List<KeywordResponse> responses = searchKeywordUseCase.search(keywordName);
+        return ResponseEntity.ok(responses);
     }
 
 }

@@ -1,40 +1,43 @@
 package com.leesh.inflpick.v2.keyword.domain.vo;
 
 import com.leesh.inflpick.v2.keyword.domain.exception.KeywordNameFormatException;
-import lombok.Getter;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Getter
-public final class KeywordName {
+public record KeywordName(String name) {
 
     // Keyword name must be between 1 and 20 characters
     private static final Pattern PATTERN = Pattern.compile("^.{1,20}$");
-    private final String value;
 
-    private KeywordName(String value) {
-        if (!PATTERN.matcher(value).matches()) {
-            throw new KeywordNameFormatException("Keyword name must be between 1 and 20 characters long, but was: " + value);
+    public KeywordName {
+        if (name == null || name.isBlank()) {
+            name = "";
+        } else {
+            if (!PATTERN.matcher(name).matches()) {
+                throw new KeywordNameFormatException(name);
+            }
+            name = name.trim();
         }
-        this.value = value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        KeywordName that = (KeywordName) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
     }
 
     /* Business Logic */
     public static KeywordName create(String value) {
         return new KeywordName(value);
+    }
+
+    public static KeywordName empty() {
+        return new KeywordName("");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        KeywordName that = (KeywordName) obj;
+        return name.equals(that.name);
+    }
+
+    public boolean equals(String name) {
+        return this.name.equals(name);
     }
 }

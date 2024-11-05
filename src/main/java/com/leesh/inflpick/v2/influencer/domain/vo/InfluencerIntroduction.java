@@ -1,40 +1,24 @@
 package com.leesh.inflpick.v2.influencer.domain.vo;
 
 import com.leesh.inflpick.v2.influencer.domain.exception.InfluencerIntroductionFormatException;
-import lombok.Getter;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
-public final class InfluencerIntroduction {
+public record InfluencerIntroduction(String introduction) {
 
     // InfluencerIntroduction must be between 0 and 1000 characters long
     private static final Pattern PATTERN = Pattern.compile("^.{0,1000}$");
-    @Getter
-    private final String value;
 
-    private InfluencerIntroduction() {
-        this.value = "";
-    }
-
-    private InfluencerIntroduction(String value) {
-        if (!PATTERN.matcher(value).matches()) {
-            throw new InfluencerIntroductionFormatException("InfluencerIntroduction must be between 0 and 1000 characters long, but was: " + value);
+    public InfluencerIntroduction {
+        if (introduction == null || introduction.isEmpty()) {
+            introduction = "";
+        } else {
+            String stripped = introduction.strip();
+            if (!PATTERN.matcher(stripped).matches()) {
+                throw new InfluencerIntroductionFormatException(introduction);
+            }
+            introduction = stripped;
         }
-        this.value = value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InfluencerIntroduction that = (InfluencerIntroduction) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
     }
 
     /* Business Logic */
@@ -43,6 +27,7 @@ public final class InfluencerIntroduction {
     }
 
     public static InfluencerIntroduction empty() {
-        return new InfluencerIntroduction();
+        return new InfluencerIntroduction("");
+
     }
 }

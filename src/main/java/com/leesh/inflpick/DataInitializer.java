@@ -1,11 +1,12 @@
 package com.leesh.inflpick;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerDocument;
-import com.leesh.inflpick.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
+import com.leesh.inflpick.v2.influencer.adapter.out.persistence.mongo.InfluencerDocument;
+import com.leesh.inflpick.v2.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
+import com.leesh.inflpick.v2.keyword.adapter.out.persistence.mongo.KeywordDocument;
 import com.leesh.inflpick.v2.keyword.adapter.out.persistence.mongo.KeywordMongoRepository;
-import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductDocument;
-import com.leesh.inflpick.product.adapter.out.persistence.mongo.ProductMongoRepository;
+import com.leesh.inflpick.v2.product.adapter.out.persistence.mongo.ProductDocument;
+import com.leesh.inflpick.v2.product.adapter.out.persistence.mongo.ProductMongoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

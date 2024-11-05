@@ -1,45 +1,17 @@
 package com.leesh.inflpick.v2.keyword.domain.vo;
 
-import lombok.Getter;
-
-import java.util.Objects;
-
-@Getter
-public class KeywordId {
-
-    private final String id;
-
-    private KeywordId() {
-        this.id = "";
-    }
-
-    private KeywordId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        KeywordId keywordId = (KeywordId) o;
-        return Objects.equals(id, keywordId.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+public record KeywordId(String id) {
 
     /* Business Logic */
-    public static KeywordId create(String value) {
-        return new KeywordId(value);
+    public static KeywordId create(String id) {
+        return new KeywordId(id);
     }
 
     public static KeywordId empty() {
-        return new KeywordId();
+        return new KeywordId(null);
     }
 
     public boolean isEmpty() {
-        return id.isEmpty();
+        return id == null || id.isEmpty();
     }
 }

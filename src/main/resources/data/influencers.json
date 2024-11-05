@@ -6,10 +6,10 @@
     "description": "“운동독학, 누구나 쉽고 전문적으로” 국제트레이너 / 스포츠영양코치 / BJ치즈볼 / 타락헬창 40여개국 세계여행&전문 자격증으로 탄생한 핏블리",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/jimjongkook"
+        "url": "https://instagram.com/jimjongkook"
       }
     ],
     "createdDate": "2024-02-22T08:05:35.000Z",
@@ -24,10 +24,10 @@
     "description": "안녕하세요 김종국.. 아니 GYM 종국 ㅎ 입니다 ㅎ\n자격증 이라곤 이 몸땡이 뿐인 ㅎ그냥 운동 좋아하고 오래 한 ㅎ 동네 아저씨 ㅎ\n우리 다함께 건강한 대한민국을 위해서 쭉 함 달려봅시다!! \uD83D\uDCAA",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "X",
-        "uri": "https://x.com/jimjongkook"
+        "url": "https://x.com/jimjongkook"
       }
     ],
     "createdDate": "2024-02-22T08:05:35.000Z",
@@ -42,10 +42,10 @@
     "description": "“Self-taught exercise, anyone can do it easily and professionally” International trainer / sports nutrition coach / BJ Cheese Ball / Tarak Hellchang Fitvly born with world travel & professional qualifications to over 40 countries",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/jimjongkook"
+        "url": "https://instagram.com/jimjongkook"
       }
     ],
     "createdDate": "2024-02-22T08:05:35.000Z",
@@ -60,10 +60,10 @@
     "description": "Hello, I'm Kim Jong-kook... no, I'm GYM Jong-kook haha\nThe only certification I have is this body. I'm just a guy from the neighborhood who likes working out and has been doing it for a long time haha\nLet's all keep running for a healthy Republic of Korea!! 💪",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "X",
-        "uri": "https://x.com/jimjongkook"
+        "url": "https://x.com/jimjongkook"
       }
     ],
     "createdDate": "2024-02-22T08:05:35.000Z",
@@ -78,10 +78,10 @@
     "description": "Hi, I'm Jane Doe, a certified personal trainer with a passion for helping others achieve their fitness goals. Let's embark on this journey together!",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/janedoe_fitness"
+        "url": "https://instagram.com/janedoe_fitness"
       }
     ],
     "createdDate": "2024-02-23T08:05:35.000Z",
@@ -96,10 +96,10 @@
     "description": "I'm John Smith, a former professional athlete turned wellness coach. I believe in holistic health and fitness.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/johnsmithwellness"
+        "url": "https://facebook.com/johnsmithwellness"
       }
     ],
     "createdDate": "2024-02-24T08:05:35.000Z",
@@ -114,10 +114,10 @@
     "description": "Namaste! I'm Alice Lee, a certified yoga instructor specializing in Vinyasa and Hatha yoga. Join me for a journey of self-discovery and peace.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/alicelee_yoga"
+        "url": "https://instagram.com/alicelee_yoga"
       }
     ],
     "createdDate": "2024-02-25T08:05:35.000Z",
@@ -132,10 +132,10 @@
     "description": "Hey, I'm Bob Johnson. With over 10 years of experience, I help people build strength and eat right to achieve their fitness goals.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "X",
-        "uri": "https://x.com/bobjohnson_strength"
+        "url": "https://x.com/bobjohnson_strength"
       }
     ],
     "createdDate": "2024-02-26T08:05:35.000Z",
@@ -150,10 +150,10 @@
     "description": "Michael Brown here! As an endurance athlete and cycling coach, I help riders of all levels improve their performance and enjoy the ride.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/michaelbrowncycling"
+        "url": "https://facebook.com/michaelbrowncycling"
       }
     ],
     "createdDate": "2024-02-27T08:05:35.000Z",
@@ -168,10 +168,10 @@
     "description": "Hi, I'm Emily Davis, a Pilates instructor dedicated to helping you strengthen your core and improve your flexibility. Check out my wellness blog for tips!",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/emilydavis_pilates"
+        "url": "https://instagram.com/emilydavis_pilates"
       }
     ],
     "createdDate": "2024-02-28T08:05:35.000Z",
@@ -186,10 +186,10 @@
     "description": "I'm David Wilson, a black belt martial artist with over 15 years of teaching experience. Let's empower ourselves through self-defense.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "X",
-        "uri": "https://x.com/davidwilson_martialarts"
+        "url": "https://x.com/davidwilson_martialarts"
       }
     ],
     "createdDate": "2024-02-29T08:05:35.000Z",
@@ -204,10 +204,10 @@
     "description": "Hello! I'm Sarah Taylor, a professional dance instructor specializing in contemporary and hip-hop styles. Let's move to the rhythm together!",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/sarahtaylor_dance"
+        "url": "https://instagram.com/sarahtaylor_dance"
       }
     ],
     "createdDate": "2024-03-01T08:05:35.000Z",
@@ -222,10 +222,10 @@
     "description": "I'm Daniel Moore, a certified CrossFit coach ready to help you reach new heights in strength and conditioning.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/danielmoore_crossfit"
+        "url": "https://facebook.com/danielmoore_crossfit"
       }
     ],
     "createdDate": "2024-03-02T08:05:35.000Z",
@@ -240,10 +240,10 @@
     "description": "Hi there, I'm Jessica Anderson, a registered nutritionist passionate about helping you create sustainable healthy eating habits.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "LINKEDIN",
-        "uri": "https://linkedin.com/in/jessicaandersonnutrition"
+        "url": "https://linkedin.com/in/jessicaandersonnutrition"
       }
     ],
     "createdDate": "2024-03-03T08:05:35.000Z",
@@ -258,10 +258,10 @@
     "description": "I'm Kevin Thomas, an experienced swimming coach dedicated to teaching all ages and abilities the joys of swimming.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/kevinthomas_swim"
+        "url": "https://facebook.com/kevinthomas_swim"
       }
     ],
     "createdDate": "2024-03-04T08:05:35.000Z",
@@ -276,10 +276,10 @@
     "description": "Hi, I'm Lisa Martin. Whether you prefer one-on-one training or group classes, I'm here to make fitness fun and accessible.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/lisamartin_fitness"
+        "url": "https://instagram.com/lisamartin_fitness"
       }
     ],
     "createdDate": "2024-03-05T08:05:35.000Z",
@@ -294,10 +294,10 @@
     "description": "I'm Richard Jackson, helping athletes improve their mental game to achieve peak performance when it matters most.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "LINKEDIN",
-        "uri": "https://linkedin.com/in/richardjacksonpsychology"
+        "url": "https://linkedin.com/in/richardjacksonpsychology"
       }
     ],
     "createdDate": "2024-03-06T08:05:35.000Z",
@@ -312,10 +312,10 @@
     "description": "Hello, I'm Karen White. I guide individuals on a journey of self-discovery through meditation and mindfulness practices.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/karenwhite_meditation"
+        "url": "https://instagram.com/karenwhite_meditation"
       }
     ],
     "createdDate": "2024-03-07T08:05:35.000Z",
@@ -330,10 +330,10 @@
     "description": "I'm Charles Harris, a professional runner and coach. I help athletes improve their speed and endurance on the track.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/charlesharris_running"
+        "url": "https://facebook.com/charlesharris_running"
       }
     ],
     "createdDate": "2024-03-08T08:05:35.000Z",
@@ -348,10 +348,10 @@
     "description": "Greetings! I'm Nancy Clark, focusing on holistic health through natural remedies and lifestyle changes.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/nancyclark_holistic"
+        "url": "https://instagram.com/nancyclark_holistic"
       }
     ],
     "createdDate": "2024-03-09T08:05:35.000Z",
@@ -366,10 +366,10 @@
     "description": "Hi, I'm Christopher Lewis, helping athletes and fitness enthusiasts increase strength and improve overall performance.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "X",
-        "uri": "https://x.com/christopherlewis_strength"
+        "url": "https://x.com/christopherlewis_strength"
       }
     ],
     "createdDate": "2024-03-10T08:05:35.000Z",
@@ -384,10 +384,10 @@
     "description": "Hello! I'm Susan Robinson, bringing fun and energy to fitness through Zumba dance workouts.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/susanrobinson_zumba"
+        "url": "https://facebook.com/susanrobinson_zumba"
       }
     ],
     "createdDate": "2024-03-11T08:05:35.000Z",
@@ -402,10 +402,10 @@
     "description": "Hey there, I'm Mark Walker. I teach parkour and freerunning techniques for all levels. Let's defy gravity together!",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/markwalker_parkour"
+        "url": "https://instagram.com/markwalker_parkour"
       }
     ],
     "createdDate": "2024-03-12T08:05:35.000Z",
@@ -420,10 +420,10 @@
     "description": "Hi, I'm Angela Hall, specializing in Pilates and Barre to help you tone and strengthen your body gracefully.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "LINKEDIN",
-        "uri": "https://linkedin.com/in/angelahall_pilates"
+        "url": "https://linkedin.com/in/angelahall_pilates"
       }
     ],
     "createdDate": "2024-03-13T08:05:35.000Z",
@@ -438,10 +438,10 @@
     "description": "I'm Steven Young, specializing in kettlebell training for strength, flexibility, and endurance.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/stevenyoung_kettlebell"
+        "url": "https://facebook.com/stevenyoung_kettlebell"
       }
     ],
     "createdDate": "2024-03-14T08:05:35.000Z",
@@ -456,10 +456,10 @@
     "description": "Hi! I'm Laura King, and I make fitness fun with dance-based workouts that get you moving and grooving.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "INSTAGRAM",
-        "uri": "https://instagram.com/lauraking_dancefit"
+        "url": "https://instagram.com/lauraking_dancefit"
       }
     ],
     "createdDate": "2024-03-15T08:05:35.000Z",
@@ -474,10 +474,10 @@
     "description": "I'm Brian Wright, a professional boxing coach dedicated to improving your technique, speed, and power.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "X",
-        "uri": "https://x.com/brianwright_boxing"
+        "url": "https://x.com/brianwright_boxing"
       }
     ],
     "createdDate": "2024-03-16T08:05:35.000Z",
@@ -492,10 +492,10 @@
     "description": "Hello, I'm Amy Scott. I inspire others to live their best lives through wellness coaching and motivational speaking.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "LINKEDIN",
-        "uri": "https://linkedin.com/in/amyscott_wellness"
+        "url": "https://linkedin.com/in/amyscott_wellness"
       }
     ],
     "createdDate": "2024-03-17T08:05:35.000Z",
@@ -510,10 +510,10 @@
     "description": "Hey, I'm Paul Green. I combine fitness with outdoor adventures for a unique and exciting experience.",
     "profileImagePath": "",
     "keywordIds": [],
-    "socialMediaProfileLinks": [
+    "snsProfileLinks": [
       {
         "platform": "FACEBOOK",
-        "uri": "https://facebook.com/paulgreen_outdoors"
+        "url": "https://facebook.com/paulgreen_outdoors"
       }
     ],
     "createdDate": "2024-03-18T08:05:35.000Z",
