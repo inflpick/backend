@@ -1,4 +1,4 @@
-package com.leesh.inflpick.v2.product.adapter.in.web.controller;
+package com.leesh.inflpick.v2.product.adapter.in.web;
 
 import com.leesh.inflpick.v2.product.adapter.in.web.exception.NotSupportOnlineStorePlatformException;
 import lombok.extern.slf4j.Slf4j;

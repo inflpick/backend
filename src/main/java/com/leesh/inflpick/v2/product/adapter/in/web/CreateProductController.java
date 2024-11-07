@@ -1,7 +1,6 @@
-package com.leesh.inflpick.v2.product.adapter.in.web.controller;
+package com.leesh.inflpick.v2.product.adapter.in.web;
 
 import com.leesh.inflpick.v2.product.adapter.in.web.dto.UpdateProductWebRequest;
-import com.leesh.inflpick.v2.product.application.dto.CreateProductRequest;
 import com.leesh.inflpick.v2.product.application.dto.UpdateProductRequest;
 import com.leesh.inflpick.v2.product.application.port.in.CreateProductUseCase;
 import com.leesh.inflpick.v2.product.domain.vo.ProductId;
@@ -17,7 +16,7 @@ import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
-public class CreateProductController {
+public class CreateProductController implements CreateProductControllerDocs {
 
     private final CreateProductUseCase createProductUseCase;
 

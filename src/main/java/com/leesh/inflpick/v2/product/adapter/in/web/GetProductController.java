@@ -1,4 +1,4 @@
-package com.leesh.inflpick.v2.product.adapter.in.web.controller;
+package com.leesh.inflpick.v2.product.adapter.in.web;
 
 import com.leesh.inflpick.v2.product.application.dto.GetProductResponse;
 import com.leesh.inflpick.v2.product.application.port.in.GetProductUseCase;
