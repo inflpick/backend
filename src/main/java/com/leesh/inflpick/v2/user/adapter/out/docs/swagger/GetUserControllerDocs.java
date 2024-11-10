@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "유저", description = "유저 API")
+@Tag(name = "유저 API", description = "유저 API")
 public interface GetUserControllerDocs {
 
     @Operation(summary = "내 프로필 조회",
