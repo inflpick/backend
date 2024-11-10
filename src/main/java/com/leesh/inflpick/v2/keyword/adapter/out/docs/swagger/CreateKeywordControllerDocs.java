@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.keyword.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.controller.constant.CommonKeywordApiErrorCode;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.controller.constant.CreateKeywordApiErrorCode;
+import com.leesh.inflpick.v2.keyword.adapter.in.web.constant.CommonKeywordApiErrorCode;
+import com.leesh.inflpick.v2.keyword.adapter.in.web.constant.CreateKeywordApiErrorCode;
 import com.leesh.inflpick.v2.keyword.application.dto.KeywordRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

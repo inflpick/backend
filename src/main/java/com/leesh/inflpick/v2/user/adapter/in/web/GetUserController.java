@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.user.adapter.in.web;
 
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.user.adapter.out.docs.swagger.GetUserControllerDocs;
 import com.leesh.inflpick.v2.user.application.dto.GetUserResponse;
 import com.leesh.inflpick.v2.user.application.port.in.GetUserUseCase;
@@ -40,15 +40,15 @@ public class GetUserController implements GetUserControllerDocs {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OffsetPageResponse<GetUserResponse>> getPage(@RequestParam(name = "page", required = false, defaultValue = "0")
+    public ResponseEntity<PageResponse<GetUserResponse>> getPage(@RequestParam(name = "page", required = false, defaultValue = "0")
                                                                        Integer page,
-                                                                       @RequestParam(name = "size", required = false, defaultValue = "20")
+                                                                 @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                        Integer size,
-                                                                       @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
+                                                                 @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                        String[] sort) {
 
-        OffsetPageRequest request = OffsetPageRequest.create(page, size, sort);
-        OffsetPageResponse<GetUserResponse> userPage = getUserUseCase.getPage(request);
+        PageRequest request = PageRequest.create(page, size, sort);
+        PageResponse<GetUserResponse> userPage = getUserUseCase.getPage(request);
         return ResponseEntity.ok().body(userPage);
     }
 

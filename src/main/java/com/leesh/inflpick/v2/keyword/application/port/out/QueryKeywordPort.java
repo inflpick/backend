@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.keyword.application.port.out;
 
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.keyword.domain.Keyword;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordName;
@@ -17,5 +17,5 @@ public interface QueryKeywordPort {
 
     List<Keyword> query(List<KeywordId> keywordIds);
 
-    OffsetPageResponse<Keyword> query(OffsetPageRequest request);
+    PageResponse<Keyword> query(PageRequest request);
 }

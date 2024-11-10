@@ -1,5 +1,11 @@
 package com.leesh.inflpick.v2.product.domain;
 
+import com.leesh.inflpick.v2.keyword.domain.Keyword;
+import com.leesh.inflpick.v2.keyword.domain.Keywords;
+import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
+import com.leesh.inflpick.v2.product.application.dto.OnlineStoreRequest;
+import com.leesh.inflpick.v2.product.application.dto.ProductRequest;
+import com.leesh.inflpick.v2.product.domain.exception.MaximumProductKeywordsException;
 import com.leesh.inflpick.v2.product.domain.vo.*;
 
 import java.time.Instant;
@@ -10,44 +16,111 @@ public record Product(ProductId id,
                       ProductDescription description,
                       ProductImage image,
                       OnlineStoreLinks onlineStoreLinks,
-                      ProductKeywords keywords,
+                      Keywords keywords,
                       String createdBy,
                       Instant createdDate,
                       String lastModifiedBy,
                       Instant lastModifiedDate) {
 
     /* Business Logic */
-    public static Product withPersistence(ProductId id,
-                                          ProductName name,
-                                          ProductDescription description,
-                                          ProductImage image,
-                                          List<OnlineStoreLink> onlineStoreLinks,
-                                          List<ProductKeyword> keywords,
-                                          String createdBy,
-                                          Instant createdDate,
-                                          String lastModifiedBy,
-                                          Instant lastModifiedDate) {
-        ProductKeywords productKeywords = ProductKeywords.create(keywords);
-        OnlineStoreLinks links = OnlineStoreLinks.create(onlineStoreLinks);
-        return new Product(id, name, description, image, links, productKeywords, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
+    public static Product withId(ProductId id,
+                                 ProductName name,
+                                 ProductDescription description,
+                                 ProductImage image,
+                                 OnlineStoreLinks onlineStoreLinks,
+                                 Keywords keywords,
+                                 String createdBy,
+                                 Instant createdDate,
+                                 String lastModifiedBy,
+                                 Instant lastModifiedDate) {
+        return new Product(id, name, description, image, onlineStoreLinks, keywords, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
     }
 
-    public static Product withoutPersistence(ProductName name,
-                                             ProductDescription description,
-                                             List<OnlineStoreLink> onlineStoreLinks) {
+    public static Product withoutId(String name, String description, List<OnlineStoreLink> storeLinks) {
         ProductId emptyId = ProductId.empty();
-        ProductImage emptyImage = ProductImage.empty();
-        ProductKeywords productKeywords = ProductKeywords.empty();
-        OnlineStoreLinks links = OnlineStoreLinks.create(onlineStoreLinks);
-        return new Product(emptyId, name, description, emptyImage, links, productKeywords, "", Instant.now(), "", Instant.now());
+        ProductName productName = ProductName.create(name);
+        ProductDescription productDescription = ProductDescription.create(description);
+        OnlineStoreLinks links = OnlineStoreLinks.create(storeLinks);
+        ProductImage image = ProductImage.empty();
+        Keywords empty = Keywords.empty();
+        return new Product(emptyId,
+                productName,
+                productDescription,
+                image,
+                links,
+                empty,
+                null,
+                null,
+                null,
+                null);
     }
 
-    public Product addKeywords(List<ProductKeyword> keywords) {
-        ProductKeywords addedKeywords = this.keywords.addAll(keywords);
-        return new Product(id, name, description, image, onlineStoreLinks, addedKeywords, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
+    public Product addKeywords(List<Keyword> keywords) {
+        if (this.keywords.size() + keywords.size() > 10) {
+            throw new MaximumProductKeywordsException(this.keywords.size());
+        }
+        Keywords addedKeywords = this.keywords.add(keywords);
+        return withId(id,
+                name,
+                description,
+                image,
+                onlineStoreLinks,
+                addedKeywords,
+                createdBy,
+                createdDate,
+                lastModifiedBy,
+                lastModifiedDate);
     }
 
-    public Product update(ProductName name, ProductDescription description, List<ProductKeyword> keywords, List<OnlineStoreLink> onlineStoreLinks) {
-        return withPersistence(id, name, description, image, onlineStoreLinks, keywords, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
+    public Product update(ProductRequest request) {
+        ProductName name = ProductName.create(request.name());
+        ProductDescription description = ProductDescription.create(request.description());
+        List<OnlineStoreLink> onlineStoreLinks = request.onlineStoreLinks().stream()
+                .map(OnlineStoreRequest::toEntity)
+                .toList();
+        return withId(id,
+                name,
+                description,
+                image,
+                OnlineStoreLinks.create(onlineStoreLinks),
+                keywords,
+                createdBy,
+                createdDate,
+                lastModifiedBy,
+                Instant.now());
+    }
+
+    public Product putKeywords(List<Keyword> keywords) {
+        if (keywords.size() > 10) {
+            throw new MaximumProductKeywordsException(keywords.size());
+        }
+        List<KeywordId> keywordIds = keywords.stream()
+                .map(Keyword::id)
+                .toList();
+        Keywords addedKeywords = this.keywords.add(keywords);
+        return withId(id,
+                name,
+                description,
+                image,
+                onlineStoreLinks,
+                addedKeywords,
+                createdBy,
+                createdDate,
+                lastModifiedBy,
+                Instant.now());
+    }
+
+    public Product updateImage(String imagePath) {
+        ProductImage updatedImage = ProductImage.create(imagePath);
+        return withId(id,
+                name,
+                description,
+                updatedImage,
+                onlineStoreLinks,
+                keywords,
+                createdBy,
+                createdDate,
+                lastModifiedBy,
+                Instant.now());
     }
 }

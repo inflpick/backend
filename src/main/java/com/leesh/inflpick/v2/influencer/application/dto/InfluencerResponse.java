@@ -21,10 +21,10 @@ public record InfluencerResponse(String id,
                                  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
                                     Instant lastModifiedDate) implements InfluencerResponseDocs {
 
-    public static InfluencerResponse from(Influencer influencer, List<Keyword> keywords, String profileImageUrl) {
+    public static InfluencerResponse create(Influencer influencer, List<Keyword> keywords, String profileImageUrl) {
 
         List<SnsProfileLinkResponse> snsProfileLinkResponse = influencer.snsProfileLinks().links().stream()
-                .map(SnsProfileLinkResponse::from)
+                .map(SnsProfileLinkResponse::create)
                 .toList();
 
         List<KeywordResponse> keywordResponses = keywords.stream()

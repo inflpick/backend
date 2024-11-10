@@ -7,7 +7,7 @@ import java.util.List;
 public record OnlineStoreLinks(List<OnlineStoreLink> links) {
 
     /* Business Logic */
-    static OnlineStoreLinks create(List<OnlineStoreLink> links) {
+    public static OnlineStoreLinks create(List<OnlineStoreLink> links) {
         return new OnlineStoreLinks(links);
     }
 

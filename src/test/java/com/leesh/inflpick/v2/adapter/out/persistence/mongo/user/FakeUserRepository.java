@@ -1,8 +1,6 @@
 package com.leesh.inflpick.v2.adapter.out.persistence.mongo.user;
 
 import com.leesh.inflpick.v2.common.application.port.out.uuid.UuidPort;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageQuery;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPage;
 import com.leesh.inflpick.v2.user.domain.User;
 import com.leesh.inflpick.v2.user.domain.vo.*;
 import com.leesh.inflpick.v2.user.application.port.out.CommandUserPort;

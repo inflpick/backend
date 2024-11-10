@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.influencer.adapter.out.persistence;
 
 import com.leesh.inflpick.v2.common.adapter.out.persistence.SpringDataPageRequestConverter;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.common.application.dto.Sortable;
 import com.leesh.inflpick.v2.influencer.adapter.out.persistence.mongo.InfluencerDocument;
 import com.leesh.inflpick.v2.influencer.adapter.out.persistence.mongo.InfluencerMongoRepository;
@@ -12,7 +12,6 @@ import com.leesh.inflpick.v2.influencer.domain.Influencer;
 import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -44,17 +43,17 @@ public class InfluencerRepository implements CommandInfluencerPort, QueryInfluen
     }
 
     @Override
-    public OffsetPageResponse<Influencer> query(OffsetPageRequest request) {
+    public PageResponse<Influencer> query(PageRequest request) {
         Sortable sortable = () -> Arrays.stream(InfluencerSortable.values())
                 .map(InfluencerSortable::name)
                 .toList();
-        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
+        org.springframework.data.domain.PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
         Page<InfluencerDocument> documentPage = influencerMongoRepository.findAll(pageRequest);
         List<Influencer> influencers = documentPage
                 .map(InfluencerDocument::toEntity)
                 .stream()
                 .toList();
-        return OffsetPageResponse.create(influencers,
+        return PageResponse.create(influencers,
                 documentPage.getNumber(),
                 documentPage.getTotalPages(),
                 documentPage.getSize(),

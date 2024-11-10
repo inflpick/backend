@@ -21,9 +21,9 @@ public class UpdateInfluencerController implements UpdateInfluencerControllerDoc
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/influencers/{id}")
     public ResponseEntity<Void> update(@PathVariable(value = "id") String id,
-                                       @RequestBody InfluencerRequest command) {
+                                       @RequestBody InfluencerRequest request) {
         InfluencerId influencerId = InfluencerId.create(id);
-        updateInfluencerUseCase.update(influencerId, command);
+        updateInfluencerUseCase.update(influencerId, request);
         return ResponseEntity.noContent().build();
     }
 

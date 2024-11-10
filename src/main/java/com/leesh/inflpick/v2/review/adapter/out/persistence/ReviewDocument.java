@@ -6,9 +6,11 @@ import com.leesh.inflpick.v2.review.domain.Review;
 import com.leesh.inflpick.v2.review.domain.vo.ReviewId;
 import com.leesh.inflpick.v2.review.domain.vo.ReviewSource;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
+@Document(collection = "reviews")
 public record ReviewDocument(@Id String id,
                              String contents,
                              String url,
@@ -21,8 +23,9 @@ public record ReviewDocument(@Id String id,
                              @LastModifiedDate Instant lastModifiedDate) {
 
     public static ReviewDocument from(Review review) {
+        String id = review.id().isEmpty() ? null : review.id().id();
         return new ReviewDocument(
-                review.id().id(),
+                id,
                 review.source().contents(),
                 review.source().url(),
                 review.source().reviewDate(),
@@ -35,7 +38,7 @@ public record ReviewDocument(@Id String id,
     }
 
     public Review toEntity() {
-        return Review.withPersistence(
+        return Review.withId(
                 ReviewId.create(id),
                 ReviewSource.create(contents, url, reviewDate),
                 InfluencerId.create(influencerId),

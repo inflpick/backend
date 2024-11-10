@@ -1,9 +1,7 @@
 package com.leesh.inflpick.v2.common.adapter.out.persistence;
 
-import com.leesh.inflpick.v2.common.application.dto.*;
-import com.leesh.inflpick.v2.common.application.port.SortCriterion;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.Sortable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Collection;
@@ -14,27 +12,7 @@ public class SpringDataPageRequestConverter {
         // Utility class
     }
 
-    private static Sort convertSortCriteria(Collection<SortCriterion> criteria) {
-        Sort sortOrder = Sort.unsorted();
-        for (SortCriterion sortCriterion : criteria) {
-            String sortProperty = sortCriterion.sortProperty();
-            SortDirection sortDirection = sortCriterion.sortDirection();
-            Sort.Direction direction = sortDirection.isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC;
-            sortOrder = sortOrder.and(Sort.by(direction, sortProperty));
-        }
-        return sortOrder;
-    }
-
-
-    public static @NotNull PageRequest convert(PageRequestTemp request, SortableProperties sortableProperties) {
-        Collection<SortCriterion> sortCriteria = request.sortCriteria(sortableProperties);
-        Sort sort = SpringDataPageRequestConverter.convertSortCriteria(sortCriteria);
-        return PageRequest.of(request.page(),
-                request.size(),
-                sort);
-    }
-
-    public static PageRequest convert(OffsetPageRequest request, Sortable sortable) {
+    public static org.springframework.data.domain.PageRequest convert(PageRequest request, Sortable sortable) {
         Collection<String> sortableFields = sortable.getProperties();
         Sort sortOrder = Sort.unsorted();
         for (String sort : request.sort()) {
@@ -48,7 +26,7 @@ public class SpringDataPageRequestConverter {
                 }
             }
         }
-        return PageRequest.of(request.page(),
+        return org.springframework.data.domain.PageRequest.of(request.page(),
                 request.size(),
                 sortOrder);
     }

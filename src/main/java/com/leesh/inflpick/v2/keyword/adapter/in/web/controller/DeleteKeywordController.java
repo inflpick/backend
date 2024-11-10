@@ -5,6 +5,7 @@ import com.leesh.inflpick.v2.keyword.application.port.in.DeleteKeywordUseCase;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class DeleteKeywordController implements DeleteKeywordControllerDocs {
 
     private final DeleteKeywordUseCase deleteKeywordUseCase;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable(value = "id") String id) {
         KeywordId keywordId = KeywordId.create(id);

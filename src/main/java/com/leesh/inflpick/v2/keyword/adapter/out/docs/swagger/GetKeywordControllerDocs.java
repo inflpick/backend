@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.keyword.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.controller.constant.CommonKeywordApiErrorCode;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
+import com.leesh.inflpick.v2.keyword.adapter.in.web.constant.CommonKeywordApiErrorCode;
 import com.leesh.inflpick.v2.keyword.application.dto.KeywordResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
@@ -20,9 +19,6 @@ public interface GetKeywordControllerDocs {
     @ApiErrorCodeSwaggerDocs(values = {CommonKeywordApiErrorCode.class}, httpMethod = "GET", apiPath = "/keywords")
     @Operation(summary = "키워드 단건 조회",
             description = "키워드를 조회합니다.",
-            security = {
-                    @SecurityRequirement(name = "Bearer-Auth")
-            },
             parameters = {
                     @Parameter(name = "id", description = "키워드 ID", required = true, example = "6726946b272157735138c837", schema = @Schema(implementation = String.class))
             },
@@ -33,9 +29,6 @@ public interface GetKeywordControllerDocs {
 
     @Operation(summary = "키워드 목록 페이지 조회",
             description = "키워드 목록 페이지를 조회합니다.",
-            security = {
-                    @SecurityRequirement(name = "Bearer-Auth")
-            },
             parameters = {
                     @Parameter(name = "page", description = "페이지 번호 (기본값: 0)", example = "0", schema = @Schema(implementation = Integer.class)),
                     @Parameter(name = "size", description = "한 페이지 크기 (기본값: 20)", example = "20", schema = @Schema(implementation = Integer.class)),
@@ -50,7 +43,7 @@ public interface GetKeywordControllerDocs {
                             })
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = OffsetPageResponse.class)))
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = PageResponse.class)))
             })
-    ResponseEntity<OffsetPageResponse<KeywordResponse>> getPage(Integer page, Integer size, String[] sort);
+    ResponseEntity<PageResponse<KeywordResponse>> getPage(Integer page, Integer size, String[] sort);
 }

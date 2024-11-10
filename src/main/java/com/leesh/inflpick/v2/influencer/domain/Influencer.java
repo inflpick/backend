@@ -4,8 +4,9 @@ import com.leesh.inflpick.v2.influencer.application.dto.InfluencerRequest;
 import com.leesh.inflpick.v2.influencer.application.dto.SnsProfileLinkRequest;
 import com.leesh.inflpick.v2.influencer.domain.exception.MaximumInfluencerKeywordSizeException;
 import com.leesh.inflpick.v2.influencer.domain.vo.*;
-import com.leesh.inflpick.v2.keyword.domain.Keywords;
 import com.leesh.inflpick.v2.keyword.domain.Keyword;
+import com.leesh.inflpick.v2.keyword.domain.Keywords;
+import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import com.leesh.inflpick.v2.product.domain.vo.ProductId;
 import com.leesh.inflpick.v2.review.domain.Review;
 import com.leesh.inflpick.v2.review.domain.vo.ReviewSource;
@@ -87,18 +88,21 @@ public record Influencer(InfluencerId id,
                 lastModifiedBy);
     }
 
-    public Influencer addKeywords(List<Keyword> keywords) {
-        if (this.keywords.size() + keywords.size() > 10) {
+    public Influencer putKeywords(List<Keyword> keywords) {
+        if (keywords.size() > 10) {
             throw new MaximumInfluencerKeywordSizeException(this.keywords.size());
         }
-        Keywords addedKeywords = this.keywords.add(keywords);
+        List<KeywordId> keywordIds = keywords.stream()
+                .map(Keyword::id)
+                .toList();
+        Keywords newKeywords = Keywords.create(keywordIds);
         return withId(id,
                 name,
                 introduction,
                 description,
                 profileImage,
                 snsProfileLinks,
-                addedKeywords,
+                newKeywords,
                 createdDate,
                 createdBy,
                 Instant.now(),
@@ -106,14 +110,14 @@ public record Influencer(InfluencerId id,
     }
 
     public Review review(ProductId productId, ReviewSource source) {
-        return Review.withoutPersistence(source, id, productId);
+        return Review.withoutId(source, id, productId);
     }
 
-    public Influencer update(InfluencerRequest command) {
-        InfluencerName influencerName = InfluencerName.create(command.name());
-        InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(command.introduction());
-        InfluencerDescription influencerDescription = InfluencerDescription.create(command.description());
-        List<SnsProfileLink> profileLinks = command.socialMediaProfileLinks().stream()
+    public Influencer update(InfluencerRequest request) {
+        InfluencerName influencerName = InfluencerName.create(request.name());
+        InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(request.introduction());
+        InfluencerDescription influencerDescription = InfluencerDescription.create(request.description());
+        List<SnsProfileLink> profileLinks = request.socialMediaProfileLinks().stream()
                 .map(SnsProfileLinkRequest::toEntity)
                 .toList();
         SnsProfileLinks links = SnsProfileLinks.create(profileLinks);

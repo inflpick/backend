@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.product.adapter.out.persistence;
 
 import com.leesh.inflpick.v2.common.adapter.out.persistence.SpringDataPageRequestConverter;
-import com.leesh.inflpick.v2.common.application.dto.PageRequestTemp;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
-import com.leesh.inflpick.v2.keyword.adapter.out.persistence.mongo.KeywordDocument;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
+import com.leesh.inflpick.v2.common.application.dto.Sortable;
 import com.leesh.inflpick.v2.keyword.adapter.out.persistence.mongo.KeywordMongoRepository;
 import com.leesh.inflpick.v2.product.adapter.out.persistence.mongo.ProductDocument;
 import com.leesh.inflpick.v2.product.adapter.out.persistence.mongo.ProductMongoRepository;
@@ -11,12 +11,12 @@ import com.leesh.inflpick.v2.product.application.port.out.CommandProductPort;
 import com.leesh.inflpick.v2.product.application.port.out.QueryProductPort;
 import com.leesh.inflpick.v2.product.domain.Product;
 import com.leesh.inflpick.v2.product.domain.vo.ProductId;
-import com.leesh.inflpick.v2.product.domain.vo.ProductKeyword;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,41 +36,32 @@ public class ProductRepository implements CommandProductPort, QueryProductPort {
     }
 
     @Override
-    public Optional<Product> query(ProductId productId) {
-
-        Optional<ProductDocument> optional = productMongoRepository.findById(productId.id());
-        if (optional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        ProductDocument productDocument = optional.get();
-        List<ProductKeyword> productKeywords = keywordMongoRepository.findAllById(productDocument.keywordIds()).stream()
-                .map(KeywordDocument::toProductKeyword)
-                .toList();
-
-        Product product = productDocument.toEntity(productKeywords);
-        return Optional.of(product);
+    public void delete(ProductId id) {
+        productMongoRepository.deleteById(id.id());
     }
 
     @Override
-    public OffsetPageResponse<Product> query(PageRequestTemp request) {
+    public Optional<Product> query(ProductId productId) {
+        return productMongoRepository.findById(productId.id())
+                .map(ProductDocument::toEntity);
+    }
 
-        org.springframework.data.domain.PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, () -> List.of("name", "createdDate", "lastModifiedDate"));
-
-        Page<ProductDocument> productDocuments = productMongoRepository.findAll(pageRequest);
-        List<Product> products = productDocuments.getContent().stream().map(document -> {
-            List<ProductKeyword> productKeywords = keywordMongoRepository.findAllById(document.keywordIds()).stream()
-                    .map(KeywordDocument::toProductKeyword)
-                    .toList();
-            return document.toEntity(productKeywords);
-        }).toList();
-        String sortProperties = productDocuments.getSort().toString();
-
-        return new OffsetPageResponse<>(products,
-                productDocuments.getNumber(),
-                productDocuments.getTotalPages(),
-                productDocuments.getSize(),
-                productDocuments.getTotalElements(),
-                sortProperties);
+    @Override
+    public PageResponse<Product> query(PageRequest request) {
+        Sortable sortable = () -> Arrays.stream(ProductSortable.values())
+                .map(ProductSortable::name)
+                .toList();
+        org.springframework.data.domain.PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
+        Page<ProductDocument> documentPage = productMongoRepository.findAll(pageRequest);
+        List<Product> products = documentPage
+                .map(ProductDocument::toEntity)
+                .stream()
+                .toList();
+        return PageResponse.create(products,
+                documentPage.getNumber(),
+                documentPage.getTotalPages(),
+                documentPage.getSize(),
+                documentPage.getTotalElements(),
+                documentPage.getSort().toString());
     }
 }

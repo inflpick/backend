@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.user.application.service;
 
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.user.application.dto.GetUserResponse;
 import com.leesh.inflpick.v2.user.application.exception.UserNotFoundException;
 import com.leesh.inflpick.v2.user.application.port.in.GetUserUseCase;
@@ -22,12 +22,12 @@ public class GetUserService implements GetUserUseCase {
     private final QueryUserPort queryUserPort;
 
     @Override
-    public OffsetPageResponse<GetUserResponse> getPage(OffsetPageRequest request) {
-        OffsetPageResponse<User> userPage = queryUserPort.query(request);
+    public PageResponse<GetUserResponse> getPage(PageRequest request) {
+        PageResponse<User> userPage = queryUserPort.query(request);
         List<GetUserResponse> getUserResponse = userPage.contents().stream()
                 .map(GetUserResponse::create)
                 .toList();
-        return OffsetPageResponse.create(getUserResponse,
+        return PageResponse.create(getUserResponse,
                 userPage.currentPage(),
                 userPage.totalPages(),
                 userPage.size(),

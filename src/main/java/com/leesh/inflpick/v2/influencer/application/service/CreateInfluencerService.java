@@ -29,7 +29,7 @@ public class CreateInfluencerService implements CreateInfluencerUseCase {
                 .toList();
         List<Keyword> existsKeywords = queryKeywordPort.query(keywordIds);
         Influencer influencer = request.toEntity();
-        influencer = influencer.addKeywords(existsKeywords);
-        return commandInfluencerPort.save(influencer);
+        Influencer addKeywordInfluencer = influencer.putKeywords(existsKeywords);
+        return commandInfluencerPort.save(addKeywordInfluencer);
     }
 }

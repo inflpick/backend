@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.keyword.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.v2.common.adapter.out.persistence.SpringDataPageRequestConverter;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.common.application.dto.Sortable;
 import com.leesh.inflpick.v2.keyword.application.port.out.CommandKeywordPort;
 import com.leesh.inflpick.v2.keyword.application.port.out.QueryKeywordPort;
@@ -12,7 +12,6 @@ import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,17 +72,17 @@ public class KeywordRepository implements SearchKeywordPort, CommandKeywordPort,
     }
 
     @Override
-    public OffsetPageResponse<Keyword> query(OffsetPageRequest request) {
+    public PageResponse<Keyword> query(PageRequest request) {
         Sortable sortable = () -> Arrays.stream(KeywordSortable.values())
                 .map(KeywordSortable::name)
                 .toList();
-        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
+        org.springframework.data.domain.PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
         Page<KeywordDocument> keywordPage = keywordMongoRepository.findAll(pageRequest);
         List<Keyword> keywords = keywordPage
                 .map(KeywordDocument::toEntity)
                 .stream()
                 .toList();
-        return OffsetPageResponse.create(keywords,
+        return PageResponse.create(keywords,
                 keywordPage.getNumber(),
                 keywordPage.getTotalPages(),
                 keywordPage.getSize(),

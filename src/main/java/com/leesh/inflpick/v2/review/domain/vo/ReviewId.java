@@ -8,6 +8,10 @@ public record ReviewId(String id) {
     }
 
     public static ReviewId empty() {
-        return new ReviewId("");
+        return new ReviewId(null);
+    }
+
+    public boolean isEmpty() {
+        return id == null || id.isBlank();
     }
 }

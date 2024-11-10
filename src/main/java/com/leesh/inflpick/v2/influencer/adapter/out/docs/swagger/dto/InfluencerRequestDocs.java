@@ -18,9 +18,17 @@ public interface InfluencerRequestDocs {
     @Schema(description = "인플루언서 설명", example = "“Self-taught exercise, anyone can do it easily and professionally” International trainer / sports nutrition coach / BJ Cheese Ball / Tarak Hellchang Fitvly born with world travel & professional qualifications to over 40 countries", requiredMode = Schema.RequiredMode.REQUIRED)
     String description();
 
-    @ArraySchema(arraySchema = @Schema(description = "인플루언서 키워드 ID 목록", example = "[\"6726946b272157735138c837\", \"6726946b272157735138c837\"]", defaultValue = "[]", requiredMode = Schema.RequiredMode.NOT_REQUIRED), maxItems = 10)
+    @ArraySchema(arraySchema = @Schema(description = "인플루언서 키워드 ID 목록",
+            example = "[\"6726946b272157735138c837\", \"6726946b272157735138c837\"]",
+            defaultValue = "[]",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED),
+            maxItems = 10)
     List<String> keywordIds();
 
-    @ArraySchema(arraySchema = @Schema(description = "인플루언서의 SNS 링크 목록", example = "[{\"platform\": \"INSTAGRAM\", \"url\": \"https://instagram.com\"}]", implementation = SnsProfileLinkRequest.class, defaultValue = "[]", requiredMode = Schema.RequiredMode.NOT_REQUIRED))
+    @ArraySchema(arraySchema = @Schema(description = "인플루언서의 SNS 링크 목록",
+            example = "[{\"platform\": \"INSTAGRAM\", \"url\": \"https://instagram.com\"}]",
+            implementation = SnsProfileLinkRequest.class,
+            defaultValue = "[]",
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED))
     List<SnsProfileLinkRequest> socialMediaProfileLinks();
 }

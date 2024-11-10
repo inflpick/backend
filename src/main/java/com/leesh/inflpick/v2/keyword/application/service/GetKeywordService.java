@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.keyword.application.service;
 
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.keyword.application.dto.KeywordResponse;
 import com.leesh.inflpick.v2.keyword.application.exception.KeywordNotFoundException;
 import com.leesh.inflpick.v2.keyword.application.port.in.GetKeywordUseCase;
@@ -29,12 +29,12 @@ public class GetKeywordService implements GetKeywordUseCase {
     }
 
     @Override
-    public OffsetPageResponse<KeywordResponse> getPage(OffsetPageRequest request) {
-        OffsetPageResponse<Keyword> keywordPage = queryKeywordPort.query(request);
+    public PageResponse<KeywordResponse> getPage(PageRequest request) {
+        PageResponse<Keyword> keywordPage = queryKeywordPort.query(request);
         List<KeywordResponse> keywordResponses = keywordPage.contents().stream()
-                .map(KeywordResponse::create)
+                .map(keyword -> this.get(keyword.id()))
                 .toList();
-        return OffsetPageResponse.create(keywordResponses,
+        return PageResponse.create(keywordResponses,
                 keywordPage.currentPage(),
                 keywordPage.totalPages(),
                 keywordPage.size(),

@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.user.adapter.out.persistence;
 
 import com.leesh.inflpick.v2.common.adapter.out.persistence.SpringDataPageRequestConverter;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageRequest;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageRequest;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.common.application.dto.Sortable;
 import com.leesh.inflpick.v2.user.adapter.out.persistence.mongo.UserDocument;
 import com.leesh.inflpick.v2.user.adapter.out.persistence.mongo.UserMongoRepository;
@@ -15,7 +15,6 @@ import com.leesh.inflpick.v2.user.domain.vo.Oauth2Info;
 import com.leesh.inflpick.v2.user.domain.vo.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -56,16 +55,16 @@ public class UserRepository implements CommandUserPort, QueryUserPort {
     }
 
     @Override
-    public OffsetPageResponse<User> query(OffsetPageRequest request) {
+    public PageResponse<User> query(PageRequest request) {
         Sortable sortable = () -> Arrays.stream(UserSortable.values())
                 .map(UserSortable::name)
                 .toList();
-        PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
+        org.springframework.data.domain.PageRequest pageRequest = SpringDataPageRequestConverter.convert(request, sortable);
         Page<UserDocument> documentPage = userMongoRepository.findAll(pageRequest);
         List<User> users = documentPage.getContent().stream()
                 .map(UserDocument::toEntity)
                 .toList();
-        return OffsetPageResponse.create(users,
+        return PageResponse.create(users,
                 documentPage.getNumber(),
                 documentPage.getTotalPages(),
                 documentPage.getSize(),

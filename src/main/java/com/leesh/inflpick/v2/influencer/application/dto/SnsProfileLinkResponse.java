@@ -4,7 +4,7 @@ import com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger.dto.SnsProfileL
 import com.leesh.inflpick.v2.influencer.domain.vo.SnsProfileLink;
 
 public record SnsProfileLinkResponse(String platform, String url) implements SnsProfileLinkResponseDocs {
-    public static SnsProfileLinkResponse from(SnsProfileLink snsProfileLink) {
+    public static SnsProfileLinkResponse create(SnsProfileLink snsProfileLink) {
         return new SnsProfileLinkResponse(
                 snsProfileLink.platform().name(),
                 snsProfileLink.url());

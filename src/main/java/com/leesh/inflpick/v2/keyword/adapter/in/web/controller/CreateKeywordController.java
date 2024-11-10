@@ -7,6 +7,7 @@ import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class CreateKeywordController implements CreateKeywordControllerDocs {
 
     private final CreateKeywordUseCase createKeywordUseCase;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody KeywordRequest request) {
         KeywordId id = createKeywordUseCase.create(request);

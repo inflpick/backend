@@ -7,8 +7,4 @@ public record OnlineStoreLink(OnlineStorePlatform platform,
     public static OnlineStoreLink create(OnlineStorePlatform platform, String url) {
         return new OnlineStoreLink(platform, url);
     }
-
-    public static OnlineStoreLink empty() {
-        return new OnlineStoreLink(OnlineStorePlatform.EMPTY, "");
-    }
 }

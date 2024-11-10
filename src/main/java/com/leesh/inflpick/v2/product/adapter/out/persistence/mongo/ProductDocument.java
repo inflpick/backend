@@ -1,6 +1,8 @@
 package com.leesh.inflpick.v2.product.adapter.out.persistence.mongo;
 
+import com.leesh.inflpick.v2.keyword.domain.Keywords;
 import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
+import com.leesh.inflpick.v2.product.domain.OnlineStoreLinks;
 import com.leesh.inflpick.v2.product.domain.Product;
 import com.leesh.inflpick.v2.product.domain.vo.*;
 import org.springframework.data.annotation.*;
@@ -21,13 +23,12 @@ public record ProductDocument(@Id String id,
 
     public static ProductDocument from(Product product) {
 
-        ProductId productId = product.id();
+        String id = product.id().isEmpty() ? null : product.id().id();
         ProductName productName = product.name();
         ProductDescription productDescription = product.description();
         ProductImage productImage = product.image();
-        List<String> productKeywordIds = product.keywords().keywords()
+        List<String> productKeywordIds = product.keywords().ids()
                 .stream()
-                .map(ProductKeyword::id)
                 .map(KeywordId::id)
                 .toList();
         List<OnlineStoreLinkDocument> onlineStoreLinkDocuments = product.onlineStoreLinks().links()
@@ -35,7 +36,7 @@ public record ProductDocument(@Id String id,
                 .map(OnlineStoreLinkDocument::from)
                 .toList();
 
-        return new ProductDocument(productId.id(),
+        return new ProductDocument(id,
                 productName.name(),
                 productDescription.description(),
                 productImage.path(),
@@ -47,7 +48,7 @@ public record ProductDocument(@Id String id,
                 product.lastModifiedDate());
     }
 
-    public Product toEntity(List<ProductKeyword> keywords) {
+    public Product toEntity() {
 
         ProductId productId = ProductId.create(id);
         ProductName productName = ProductName.create(name);
@@ -56,12 +57,13 @@ public record ProductDocument(@Id String id,
         List<OnlineStoreLink> onlineStoreLinks = this.onlineStoreLinks.stream()
                 .map(OnlineStoreLinkDocument::toEntity)
                 .toList();
-        return Product.withPersistence(productId,
+        OnlineStoreLinks links = OnlineStoreLinks.create(onlineStoreLinks);
+        return Product.withId(productId,
                 productName,
                 productDescription,
                 productImage,
-                onlineStoreLinks,
-                keywords,
+                links,
+                Keywords.createIdString(keywordIds),
                 createdBy,
                 createdDate,
                 lastModifiedBy,

@@ -7,4 +7,5 @@ public interface CommandProductPort {
 
     ProductId save(Product product);
 
+    void delete(ProductId id);
 }

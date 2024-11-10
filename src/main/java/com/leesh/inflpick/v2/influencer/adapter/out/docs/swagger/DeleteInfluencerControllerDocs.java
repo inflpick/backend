@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.controller.constant.CommonInfluencerApiErrorCode;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CommonInfluencerApiErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;

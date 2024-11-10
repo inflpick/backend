@@ -8,7 +8,7 @@ public record ProductId(String id) {
     }
 
     public static ProductId empty() {
-        return new ProductId("");
+        return new ProductId(null);
     }
 
     public boolean isEmpty() {

@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.user.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
 import com.leesh.inflpick.v2.user.adapter.in.web.constant.GetUserApiErrorCode;
 import com.leesh.inflpick.v2.user.application.dto.GetUserResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,12 +62,12 @@ public interface GetUserControllerDocs {
                             })
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = OffsetPageResponse.class)))
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = PageResponse.class)))
             })
-    ResponseEntity<OffsetPageResponse<GetUserResponse>> getPage(@RequestParam(name = "page", required = false, defaultValue = "0")
+    ResponseEntity<PageResponse<GetUserResponse>> getPage(@RequestParam(name = "page", required = false, defaultValue = "0")
                                                              Integer page,
-                                                                @RequestParam(name = "size", required = false, defaultValue = "20")
+                                                          @RequestParam(name = "size", required = false, defaultValue = "20")
                                                              Integer size,
-                                                                @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
+                                                          @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                              String[] sort);
 }

@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.common.application.dto.OffsetPageResponse;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.controller.constant.CommonInfluencerApiErrorCode;
+import com.leesh.inflpick.v2.common.application.dto.PageResponse;
+import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CommonInfluencerApiErrorCode;
 import com.leesh.inflpick.v2.influencer.application.dto.InfluencerResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,13 +44,13 @@ public interface GetInfluencerControllerDocs {
                             })
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = OffsetPageResponse.class)))
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = PageResponse.class)))
             })
-    ResponseEntity<OffsetPageResponse<InfluencerResponse>> getPage(@RequestParam(name = "page", required = false, defaultValue = "0")
+    ResponseEntity<PageResponse<InfluencerResponse>> getPage(@RequestParam(name = "page", required = false, defaultValue = "0")
                                                                       Integer page,
-                                                                   @RequestParam(name = "size", required = false, defaultValue = "20")
+                                                             @RequestParam(name = "size", required = false, defaultValue = "20")
                                                                       Integer size,
-                                                                   @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
+                                                             @RequestParam(name = "sort", required = false, defaultValue = "createdDate,asc")
                                                                       String[] sort);
 
 }

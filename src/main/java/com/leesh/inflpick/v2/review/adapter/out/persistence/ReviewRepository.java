@@ -1,8 +1,7 @@
 package com.leesh.inflpick.v2.review.adapter.out.persistence;
 
-import com.leesh.inflpick.v2.influencer.domain.vo.InfluencerId;
-import com.leesh.inflpick.v2.product.domain.vo.ProductId;
-import com.leesh.inflpick.v2.review.application.dto.GetCursorPageResponse;
+import com.leesh.inflpick.v2.common.application.dto.CursorResponse;
+import com.leesh.inflpick.v2.review.application.dto.CursorRequest;
 import com.leesh.inflpick.v2.review.application.port.out.CommandReviewPort;
 import com.leesh.inflpick.v2.review.application.port.out.QueryReviewPort;
 import com.leesh.inflpick.v2.review.domain.Review;
@@ -15,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +33,11 @@ public class ReviewRepository implements CommandReviewPort, QueryReviewPort {
     }
 
     @Override
+    public void delete(ReviewId id) {
+        reviewMongoRepository.deleteById(id.id());
+    }
+
+    @Override
     public Optional<Review> query(ReviewId id) {
         return reviewMongoRepository.findById(id.id())
                 .map(ReviewDocument::toEntity);
@@ -42,33 +45,33 @@ public class ReviewRepository implements CommandReviewPort, QueryReviewPort {
     }
 
     @Override
-    public GetCursorPageResponse<Review> query(InfluencerId influencerId, ProductId productId, Instant cursor, Integer limit) {
+    public CursorResponse<Review> query(CursorRequest request) {
 
         Criteria criteria = new Criteria();
-        criteria.and("reviewedDate").gt(cursor);
+        criteria.and("reviewDate").gt(request.cursor());
 
-        if (!influencerId.isEmpty()) {
-            criteria.and("influencerId").is(influencerId.id());
+        if (!request.influencerId().isEmpty()) {
+            criteria.and("influencerId").is(request.influencerId().id());
         }
 
-        if (!productId.isEmpty()) {
-            criteria.and("productId").is(productId.id());
+        if (!request.productId().isEmpty()) {
+            criteria.and("productId").is(request.productId().id());
         }
 
         Query query = new Query(criteria);
-        query.limit(limit + 1);
-        query.with(Sort.by(Sort.Order.desc("reviewedDate")));
+        query.limit(request.limit() + 1);
+        query.with(Sort.by(Sort.Order.desc("reviewDate")));
 
         List<ReviewDocument> documents = mongoTemplate.find(query, ReviewDocument.class);
         List<Review> reviews = documents.stream()
                 .map(ReviewDocument::toEntity)
                 .toList();
 
-        boolean hasNext = reviews.size() > limit;
+        boolean hasNext = reviews.size() > request.limit();
         if (hasNext) {
             reviews.removeLast();
         }
 
-        return new GetCursorPageResponse<>(limit, reviews, hasNext);
+        return new CursorResponse<>(request.limit(), reviews, hasNext);
     }
 }

@@ -17,25 +17,39 @@ public record Review(ReviewId id,
                      Instant lastModifiedDate) {
 
     /* Business Logic */
-    public static Review withPersistence(ReviewId id,
-                                         ReviewSource source,
-                                         InfluencerId influencerId,
-                                         ProductId productId,
-                                         String createdBy,
-                                         Instant createdDate,
-                                         String lastModifiedBy,
-                                         Instant lastModifiedDate) {
-        return new Review(id, source, influencerId, productId, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
+    public static Review withId(ReviewId id,
+                                ReviewSource source,
+                                InfluencerId influencerId,
+                                ProductId productId,
+                                String createdBy,
+                                Instant createdDate,
+                                String lastModifiedBy,
+                                Instant lastModifiedDate) {
+        return new Review(id,
+                source,
+                influencerId,
+                productId,
+                createdBy,
+                createdDate,
+                lastModifiedBy,
+                lastModifiedDate);
     }
 
-    public static Review withoutPersistence(ReviewSource source,
-                                            InfluencerId influencerId,
-                                            ProductId productId) {
+    public static Review withoutId(ReviewSource source,
+                                   InfluencerId influencerId,
+                                   ProductId productId) {
         ReviewId emptyId = ReviewId.empty();
-        return new Review(emptyId, source, influencerId, productId, "", Instant.now(), "", Instant.now());
+        return new Review(emptyId,
+                source,
+                influencerId,
+                productId,
+                null,
+                null,
+                null,
+                null);
     }
 
     public Review update(InfluencerId influencerId, ProductId productId, ReviewSource source) {
-        return withPersistence(id, source, influencerId, productId, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
+        return withId(id, source, influencerId, productId, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
     }
 }
