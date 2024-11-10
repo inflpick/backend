@@ -1,82 +1,53 @@
 package com.leesh.inflpick.v2.user.adapter.out.persistence.mongo;
 
-import com.leesh.inflpick.v2.user.domain.AuthenticationProcess;
 import com.leesh.inflpick.v2.user.domain.User;
 import com.leesh.inflpick.v2.user.domain.vo.*;
-import lombok.Builder;
-import lombok.Getter;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Builder
 @Document(collection = "users")
-@Getter
-class UserDocument {
+public record UserDocument(@Id String id,
+                           String nickname,
+                           String email,
+                           String profileImageUrl,
+                           String role,
+                           String oauth2Id,
+                           String oauth2Provider,
+                           String authenticationCode,
+                           @CreatedBy String createdBy,
+                           @CreatedDate Instant createdDate,
+                           @LastModifiedBy String lastModifiedBy,
+                           @LastModifiedDate Instant lastModifiedDate) {
 
-    @Id
-    private String id;
-    private String nickname;
-    private String email;
-    private String profileImageUrl;
-    private String role;
-    private String oauth2Id;
-    private String oauth2Provider;
-    @Builder.Default
-    private String authenticationStatus = AuthenticationStatus.NOT_STARTED.name();
-    @Builder.Default
-    private String authenticationCode = AuthenticationCode.empty().value();
-    @CreatedBy
-    private final String createdBy;
-    @CreatedDate
-    private final Instant createdDate;
-    @LastModifiedBy
-    private final String lastModifiedBy;
-    @LastModifiedDate
-    private final Instant lastModifiedDate;
-
-    static UserDocument from(User user) {
-        AuthenticationProcess authenticationProcess = user.getAuthenticationProcess();
-        AuthenticationStatus status = authenticationProcess.getStatus();
-        AuthenticationCode code = authenticationProcess.getCode();
-        String userId = user.isPersisted() ? user.getId().getValue() : null;
-        return UserDocument.builder()
-                .id(userId)
-                .email(user.getEmail().value())
-                .nickname(user.getNickname().value())
-                .profileImageUrl(user.getProfileImageUrl())
-                .role(user.getRole().name())
-                .oauth2Id(user.getOauth2Id())
-                .oauth2Provider(user.getOauth2Provider().name())
-                .authenticationStatus(status.name())
-                .authenticationCode(code.value())
-                .build();
+    public static UserDocument from(User user) {
+        String userId = user.isPersisted() ? user.id().id() : null;
+        return new UserDocument(
+                userId,
+                user.nickname().nickname(),
+                user.email().email(),
+                user.profileImageUrl(),
+                user.role().name(),
+                user.oauth2Info().getId(),
+                user.oauth2Info().getProvider().name(),
+                user.authenticationCode().code(),
+                user.createdBy(),
+                user.createdDate(),
+                user.lastModifiedBy(),
+                user.lastModifiedDate()
+        );
     }
 
-    User toEntity() {
+    public User toEntity() {
+        UserId userId = UserId.create(id);
         Nickname nickname = Nickname.create(this.nickname);
         UserEmail email = UserEmail.create(this.email);
         Role role = Role.from(this.role);
         Oauth2Provider oauth2Provider = Oauth2Provider.valueOf(this.oauth2Provider);
         Oauth2Info oauth2Info = Oauth2Info.create(oauth2Id, oauth2Provider);
-        AuthenticationStatus status = AuthenticationStatus.valueOf(this.authenticationStatus);
         AuthenticationCode code = AuthenticationCode.create(this.authenticationCode);
-        UserId userId = UserId.create(id);
-        User user = User.builder(nickname, oauth2Info)
-                .id(userId)
-                .email(email)
-                .profileImageUrl(profileImageUrl)
-                .role(role)
-                .createdDate(createdDate)
-                .createdBy(createdBy)
-                .lastModifiedDate(lastModifiedDate)
-                .lastModifiedBy(lastModifiedBy)
-                .build();
-        if (status == AuthenticationStatus.IN_PROGRESS) {
-            user.startAuthentication(code);
-        }
-        return user;
+        return User.withId(userId, nickname, oauth2Info, profileImageUrl, role, email, code, createdDate, createdBy, lastModifiedDate, lastModifiedBy);
     }
 
 }

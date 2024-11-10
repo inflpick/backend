@@ -7,9 +7,9 @@ import java.util.List;
 
 public enum Oauth2Provider {
 
-    KAKAO,
-    GOOGLE,
-    NAVER,
+    kakao,
+    google,
+    naver,
     ;
 
     public static List<String> availableOauth2Types() {
@@ -20,7 +20,7 @@ public enum Oauth2Provider {
 
     public static Oauth2Provider from(String oauth2Type) {
         try {
-            return Oauth2Provider.valueOf(oauth2Type.toUpperCase());
+            return Oauth2Provider.valueOf(oauth2Type.toLowerCase());
         } catch (IllegalArgumentException e) {
             throw new NotSupportedOauth2TypeException("Not supported oauth2 type: " + oauth2Type);
         }

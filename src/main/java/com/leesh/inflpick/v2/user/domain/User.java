@@ -1,63 +1,20 @@
 package com.leesh.inflpick.v2.user.domain;
 
 import com.leesh.inflpick.v2.user.domain.vo.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
 
 import java.time.Instant;
-import java.util.Objects;
 
-@Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
-public final class User {
-
-    @Getter
-    @Builder.Default
-    private final UserId id = UserId.empty();
-    @Getter
-    private final Nickname nickname;
-    @Getter
-    private final Oauth2Info oauth2Info;
-    @Getter
-    @Builder.Default
-    private final String profileImageUrl = "";
-    @Getter
-    @Builder.Default
-    private final Role role = Role.USER;
-    @Getter
-    @Builder.Default
-    private final UserEmail email = UserEmail.empty();
-    @Getter
-    @Builder.Default
-    private AuthenticationProcess authenticationProcess = AuthenticationProcess.notStarted();
-    @Getter
-    @Builder.Default
-    private final Instant createdDate = Instant.MIN;
-    @Builder.Default
-    private final String createdBy = "";
-    @Builder.Default
-    private final Instant lastModifiedDate = Instant.MIN;
-    @Builder.Default
-    private final String lastModifiedBy = "";
-
-    public static UserBuilder builder(Nickname nickname, Oauth2Info oauth2Info) {
-        return requiredBuilder()
-                .nickname(nickname)
-                .oauth2Info(oauth2Info);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+public record User(UserId id,
+                   Nickname nickname,
+                   Oauth2Info oauth2Info,
+                   String profileImageUrl,
+                   Role role,
+                   UserEmail email,
+                   AuthenticationCode authenticationCode,
+                   Instant createdDate,
+                   String createdBy,
+                   Instant lastModifiedDate,
+                   String lastModifiedBy) {
 
     public String getOauth2Id() {
         return oauth2Info.getId();
@@ -67,40 +24,63 @@ public final class User {
         return oauth2Info.getProvider();
     }
 
-    public AuthenticationProcess startAuthentication(AuthenticationCode code) {
-        if (!authenticationProcess.canStart()) {
-            throw new IllegalStateException("Authentication process is already started or completed");
-        }
-        this.authenticationProcess.start(code);
-        return this.authenticationProcess;
-    }
-
-    public void completeAuthentication() {
-        if (!authenticationProcess.isProgress()) {
-            throw new IllegalStateException("Authentication process is not in progress");
-        }
-        this.authenticationProcess.complete();
-    }
-
-    public Boolean isAuthenticationInProgress() {
-        return authenticationProcess.isProgress();
+    public User startAuthentication(AuthenticationCode code) {
+        return User.withId(id,
+                nickname,
+                oauth2Info,
+                profileImageUrl,
+                role,
+                email,
+                code,
+                createdDate,
+                createdBy,
+                lastModifiedDate,
+                lastModifiedBy);
     }
 
     public boolean isPersisted() {
-        return !id.isEmpty();
+        return id != null && !id.isEmpty();
     }
 
-    public static User withId(UserId id, User user) {
-        return User.builder(user.nickname, user.oauth2Info)
-                .id(id)
-                .profileImageUrl(user.profileImageUrl)
-                .role(user.role)
-                .email(user.email)
-                .authenticationProcess(user.authenticationProcess)
-                .createdDate(user.createdDate)
-                .createdBy(user.createdBy)
-                .lastModifiedDate(user.lastModifiedDate)
-                .lastModifiedBy(user.lastModifiedBy)
-                .build();
+    public static User withId(UserId id,
+                              Nickname nickname,
+                              Oauth2Info oauth2Info,
+                              String profileImageUrl,
+                              Role role,
+                              UserEmail email,
+                              AuthenticationCode authenticationCode,
+                              Instant createdDate,
+                              String createdBy,
+                              Instant lastModifiedDate,
+                              String lastModifiedBy) {
+        return new User(id, nickname, oauth2Info, profileImageUrl, role, email, authenticationCode, createdDate, createdBy, lastModifiedDate, lastModifiedBy);
+    }
+
+    public static User withoutId(String nickname,
+                                 String oauth2Id,
+                                 Oauth2Provider oauth2Provider,
+                                 String profileImageUrl,
+                                 Role role,
+                                 String email) {
+        UserId emptyId = UserId.empty();
+        Nickname userNickname = Nickname.create(nickname);
+        UserEmail userEmail = UserEmail.create(email);
+        Oauth2Info oauth2Info = Oauth2Info.create(oauth2Id, oauth2Provider);
+        AuthenticationCode emptyCode = AuthenticationCode.empty();
+        return new User(emptyId, userNickname, oauth2Info, profileImageUrl, role, userEmail, emptyCode, null, null, null, null);
+    }
+
+    public User endAuthenticate() {
+        return User.withId(id,
+                nickname,
+                oauth2Info,
+                profileImageUrl,
+                role,
+                email,
+                AuthenticationCode.empty(),
+                createdDate,
+                createdBy,
+                lastModifiedDate,
+                lastModifiedBy);
     }
 }

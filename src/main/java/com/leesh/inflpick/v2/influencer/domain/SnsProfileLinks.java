@@ -2,36 +2,22 @@ package com.leesh.inflpick.v2.influencer.domain;
 
 import com.leesh.inflpick.v2.influencer.domain.vo.SnsProfileLink;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public final class SnsProfileLinks {
+public record SnsProfileLinks(List<SnsProfileLink> links) {
 
-    private final Set<SnsProfileLink> links;
-
-    private SnsProfileLinks() {
-        this.links = Set.of();
-    }
-
-    private SnsProfileLinks(Set<SnsProfileLink> links) {
-        this.links = new HashSet<>(links);
+    public SnsProfileLinks {
+        links = Collections.unmodifiableList(links);
     }
 
     /* Business Logic */
-    static SnsProfileLinks create(Set<SnsProfileLink> links) {
-        return new SnsProfileLinks(Set.copyOf(links));
+    public static SnsProfileLinks create(List<SnsProfileLink> links) {
+        return new SnsProfileLinks(links);
     }
 
-    static SnsProfileLinks empty() {
-        return new SnsProfileLinks();
+    public static SnsProfileLinks empty() {
+        return new SnsProfileLinks(new ArrayList<>());
     }
-
-    Set<SnsProfileLink> getLinks() {
-        return Set.copyOf(links);
-    }
-
-    void add(SnsProfileLink link) {
-        links.add(link);
-    }
-
 }

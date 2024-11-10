@@ -16,7 +16,7 @@ class UserTest {
     void testStartAuthentication() {
         // given
         Nickname nickname = Nickname.create("testNickname");
-        Oauth2Info oauth2Info = Oauth2Info.create("oauth2Id", Oauth2Provider.GOOGLE);
+        Oauth2Info oauth2Info = Oauth2Info.create("oauth2Id", Oauth2Provider.google);
         User user = User.builder(nickname, oauth2Info).build();
         AuthenticationCode code = AuthenticationCode.create("1234");
 
@@ -32,7 +32,7 @@ class UserTest {
     void testCompleteAuthentication() {
         // given
         Nickname nickname = Nickname.create("testNickname");
-        Oauth2Info oauth2Info = Oauth2Info.create("oauth2Id", Oauth2Provider.GOOGLE);
+        Oauth2Info oauth2Info = Oauth2Info.create("oauth2Id", Oauth2Provider.google);
         User user = User.builder(nickname, oauth2Info).build();
         AuthenticationCode code = AuthenticationCode.create("1234");
 

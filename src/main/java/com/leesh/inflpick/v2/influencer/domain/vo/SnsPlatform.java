@@ -5,8 +5,10 @@ public enum SnsPlatform {
     YOUTUBE,
     TIKTOK,
     FACEBOOK,
-    TWITTER,
+    LINKEDIN,
+    X,
     BLOG,
     CAFE,
     ETC
+    ;
 }

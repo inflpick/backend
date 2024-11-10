@@ -1,45 +1,136 @@
 package com.leesh.inflpick.v2.influencer.domain;
 
+import com.leesh.inflpick.v2.influencer.application.dto.InfluencerRequest;
+import com.leesh.inflpick.v2.influencer.application.dto.SnsProfileLinkRequest;
+import com.leesh.inflpick.v2.influencer.domain.exception.MaximumInfluencerKeywordSizeException;
 import com.leesh.inflpick.v2.influencer.domain.vo.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
+import com.leesh.inflpick.v2.keyword.domain.Keyword;
+import com.leesh.inflpick.v2.keyword.domain.Keywords;
+import com.leesh.inflpick.v2.keyword.domain.vo.KeywordId;
+import com.leesh.inflpick.v2.product.domain.vo.ProductId;
+import com.leesh.inflpick.v2.review.domain.Review;
+import com.leesh.inflpick.v2.review.domain.vo.ReviewSource;
 
-import java.util.Objects;
+import java.time.Instant;
+import java.util.List;
 
-@Builder(access = AccessLevel.PUBLIC, builderMethodName = "requiredBuilder")
-@Getter
-public final class Influencer {
+public record Influencer(InfluencerId id,
+                         InfluencerName name,
+                         InfluencerIntroduction introduction,
+                         InfluencerDescription description,
+                         ProfileImage profileImage,
+                         SnsProfileLinks snsProfileLinks,
+                         Keywords keywords,
+                         Instant createdDate,
+                         String createdBy,
+                         Instant lastModifiedDate,
+                         String lastModifiedBy) {
 
-    @Builder.Default
-    private final InfluencerId id = InfluencerId.empty();
-    private final InfluencerName name;
-    @Builder.Default
-    private final InfluencerIntroduction introduction = InfluencerIntroduction.empty();
-    @Builder.Default
-    private final InfluencerDescription description = InfluencerDescription.empty();
-    @Builder.Default
-    private final ProfileImage profileImage = ProfileImage.empty();
-    @Builder.Default
-    private final InfluencerKeywords influencerKeywords = InfluencerKeywords.empty();
-    @Builder.Default
-    private final SnsProfileLinks snsProfileLinks = SnsProfileLinks.empty();
-
-    public static InfluencerBuilder builder(InfluencerName name) {
-        return requiredBuilder()
-                .name(name);
+    /* Business Logic */
+    public static Influencer withId(InfluencerId id,
+                                    InfluencerName name,
+                                    InfluencerIntroduction introduction,
+                                    InfluencerDescription description,
+                                    ProfileImage profileImage,
+                                    SnsProfileLinks snsProfileLinks,
+                                    Keywords keywords,
+                                    Instant createdDate,
+                                    String createdBy,
+                                    Instant lastModifiedDate,
+                                    String lastModifiedBy) {
+        return new Influencer(id,
+                name,
+                introduction,
+                description,
+                profileImage,
+                snsProfileLinks,
+                keywords,
+                createdDate,
+                createdBy,
+                lastModifiedDate,
+                lastModifiedBy);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Influencer that = (Influencer) o;
-        return Objects.equals(id, that.id);
+    public static Influencer withoutId(String name,
+                                       String introduction,
+                                       String description,
+                                       SnsProfileLinks snsProfileLinks) {
+        InfluencerId id = InfluencerId.empty();
+        ProfileImage profileImage = ProfileImage.empty();
+        InfluencerName influencerName = InfluencerName.create(name);
+        InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(introduction);
+        InfluencerDescription influencerDescription = InfluencerDescription.create(description);
+        Keywords keywords = Keywords.empty();
+        return new Influencer(id,
+                influencerName,
+                influencerIntroduction,
+                influencerDescription,
+                profileImage,
+                snsProfileLinks,
+                keywords,
+                null,
+                null,
+                null,
+                null);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
+    public Influencer updateProfileImage(String profileImagePath) {
+        return withId(id,
+                name,
+                introduction,
+                description,
+                ProfileImage.create(profileImagePath),
+                snsProfileLinks,
+                keywords,
+                createdDate,
+                createdBy,
+                Instant.now(),
+                lastModifiedBy);
+    }
+
+    public Influencer putKeywords(List<Keyword> keywords) {
+        if (keywords.size() > 10) {
+            throw new MaximumInfluencerKeywordSizeException(this.keywords.size());
+        }
+        List<KeywordId> keywordIds = keywords.stream()
+                .map(Keyword::id)
+                .toList();
+        Keywords newKeywords = Keywords.create(keywordIds);
+        return withId(id,
+                name,
+                introduction,
+                description,
+                profileImage,
+                snsProfileLinks,
+                newKeywords,
+                createdDate,
+                createdBy,
+                Instant.now(),
+                lastModifiedBy);
+    }
+
+    public Review review(ProductId productId, ReviewSource source) {
+        return Review.withoutId(source, id, productId);
+    }
+
+    public Influencer update(InfluencerRequest request) {
+        InfluencerName influencerName = InfluencerName.create(request.name());
+        InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(request.introduction());
+        InfluencerDescription influencerDescription = InfluencerDescription.create(request.description());
+        List<SnsProfileLink> profileLinks = request.socialMediaProfileLinks().stream()
+                .map(SnsProfileLinkRequest::toEntity)
+                .toList();
+        SnsProfileLinks links = SnsProfileLinks.create(profileLinks);
+        return withId(id,
+                influencerName,
+                influencerIntroduction,
+                influencerDescription,
+                profileImage,
+                links,
+                keywords,
+                createdDate,
+                createdBy,
+                Instant.now(),
+                lastModifiedBy);
     }
 }

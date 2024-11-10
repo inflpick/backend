@@ -1,19 +1,17 @@
 package com.leesh.inflpick.v2.token.application.service;
 
-import com.leesh.inflpick.v2.token.application.dto.TokenResponse;
-import com.leesh.inflpick.v2.token.application.dto.AuthenticationCodeTokenRequest;
+import com.leesh.inflpick.v2.token.application.dto.CreateTokenResponse;
 import com.leesh.inflpick.v2.token.application.port.in.CreateTokenUseCase;
-import com.leesh.inflpick.v2.token.application.port.in.RefreshTokenUseCase;
 import com.leesh.inflpick.v2.token.application.port.in.exception.ExpiredAuthenticationCodeException;
 import com.leesh.inflpick.v2.token.application.port.in.exception.ExpiredRefreshTokenException;
-import com.leesh.inflpick.v2.token.application.port.in.exception.InvalidTokenException;
-import com.leesh.inflpick.v2.token.adapter.out.TokenExtractor;
-import com.leesh.inflpick.v2.token.adapter.out.TokenGenerator;
-import com.leesh.inflpick.v2.token.adapter.out.TokenValidator;
+import com.leesh.inflpick.v2.token.application.port.in.exception.InvalidRefreshTokenException;
+import com.leesh.inflpick.v2.token.application.port.out.TokenExtractorPort;
+import com.leesh.inflpick.v2.token.application.port.out.TokenGeneratorPort;
+import com.leesh.inflpick.v2.token.application.port.out.TokenValidatorPort;
+import com.leesh.inflpick.v2.token.domain.Token;
+import com.leesh.inflpick.v2.token.domain.vo.TokenType;
 import com.leesh.inflpick.v2.user.application.port.out.CommandUserPort;
 import com.leesh.inflpick.v2.user.application.port.out.QueryUserPort;
-import com.leesh.inflpick.v2.token.domain.vo.Token;
-import com.leesh.inflpick.v2.token.domain.vo.TokenType;
 import com.leesh.inflpick.v2.user.domain.User;
 import com.leesh.inflpick.v2.user.domain.vo.AuthenticationCode;
 import com.leesh.inflpick.v2.user.domain.vo.UserId;
@@ -24,42 +22,41 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class CreateTokenService implements CreateTokenUseCase, RefreshTokenUseCase {
+public class CreateTokenService implements CreateTokenUseCase {
 
-    private final TokenGenerator tokenGenerator;
+    private final TokenGeneratorPort tokenGeneratorPort;
     private final QueryUserPort queryUserPort;
     private final CommandUserPort commandUserPort;
-    private final TokenValidator tokenValidator;
-    private final TokenExtractor tokenExtractor;
+    private final TokenValidatorPort tokenValidatorPort;
+    private final TokenExtractorPort tokenExtractorPort;
 
     @Override
-    public TokenResponse create(AuthenticationCodeTokenRequest request) {
-        AuthenticationCode code = AuthenticationCode.create(request.getCode());
+    public CreateTokenResponse create(AuthenticationCode code) throws ExpiredAuthenticationCodeException {
         User user = queryUserPort.query(code)
-                .orElseThrow(() -> new ExpiredAuthenticationCodeException("Expired authentication code"));
-        Token accessToken = tokenGenerator.generate(user.getId(), TokenType.ACCESS);
-        Token refreshToken = tokenGenerator.generate(user.getId(), TokenType.REFRESH);
-        user.completeAuthentication();
-        commandUserPort.save(user);
-        return TokenResponse.create(accessToken, refreshToken);
+                .orElseThrow(ExpiredAuthenticationCodeException::new);
+        Token accessToken = tokenGeneratorPort.generate(user.id(), TokenType.ACCESS);
+        Token refreshToken = tokenGeneratorPort.generate(user.id(), TokenType.REFRESH);
+        User endAuthenticateUser = user.endAuthenticate();
+        commandUserPort.save(endAuthenticateUser);
+        return CreateTokenResponse.create(accessToken, refreshToken);
     }
 
     @Override
-    public TokenResponse refresh(Token refreshToken) {
+    public CreateTokenResponse refresh(Token refreshToken) throws ExpiredRefreshTokenException, InvalidRefreshTokenException {
         validateExpiredToken(refreshToken);
-        if (tokenValidator.verify(refreshToken, TokenType.REFRESH)) {
-            UserId userId = tokenExtractor.extract(refreshToken);
-            Token accessToken = tokenGenerator.generate(userId, TokenType.ACCESS);
-            Token newRefreshToken = tokenGenerator.generate(userId, TokenType.REFRESH);
-            return TokenResponse.create(accessToken, newRefreshToken);
+        if (tokenValidatorPort.isValid(refreshToken, TokenType.REFRESH)) {
+            UserId userId = tokenExtractorPort.extract(refreshToken);
+            Token accessToken = tokenGeneratorPort.generate(userId, TokenType.ACCESS);
+            Token newRefreshToken = tokenGeneratorPort.generate(userId, TokenType.REFRESH);
+            return CreateTokenResponse.create(accessToken, newRefreshToken);
         } else {
-            throw new InvalidTokenException("Invalid refresh token");
+            throw new InvalidRefreshTokenException(refreshToken.value());
         }
     }
 
     private void validateExpiredToken(Token refreshToken) {
-        if (tokenValidator.isExpired(refreshToken)) {
-            throw new ExpiredRefreshTokenException("Expired refresh token");
+        if (tokenValidatorPort.isExpired(refreshToken)) {
+            throw new ExpiredRefreshTokenException();
         }
     }
 }

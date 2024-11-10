@@ -1,36 +1,24 @@
 package com.leesh.inflpick.v2.influencer.domain.vo;
 
-import com.leesh.inflpick.v2.influencer.domain.exception.InvalidInfluencerNameFormatException;
-import lombok.Getter;
+import com.leesh.inflpick.v2.influencer.domain.exception.InfluencerNameFormatException;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
-public final class InfluencerName {
+public record InfluencerName(String name) {
 
     // InfluencerName must be between 1 and 300 characters long
-    private static final Pattern PATTERN = Pattern.compile("^.{1,300}$");
-    @Getter
-    private final String value;
+    private static final Pattern PATTERN = Pattern.compile("^.{0,300}$");
 
-    private InfluencerName(String value) {
-        if (!PATTERN.matcher(value).matches()) {
-            throw new InvalidInfluencerNameFormatException("InfluencerName must be between 1 and 300 characters long, but was: " + value);
+    public InfluencerName {
+        if (name == null || name.isEmpty()) {
+            name = "";
+        } else {
+            String stripped = name.strip();
+            if (!PATTERN.matcher(stripped).matches()) {
+                throw new InfluencerNameFormatException(name);
+            }
+            name = stripped;
         }
-        this.value = value;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (InfluencerName) obj;
-        return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 
     /* Business Logic */
