@@ -3,7 +3,7 @@ name: 'Docker & AWS 배포'
 on:
   push:
     branches:
-      - push
+      - prod
 
 jobs:
   deploy:
