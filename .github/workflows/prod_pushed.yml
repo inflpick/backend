@@ -57,7 +57,7 @@ jobs:
           -X POST \
           -d '{
                 "embeds": [{
-                  "title": "✅ inflpick-backend 배포 성공",
+                  "title": "✅🖥️inflpick-backend 배포 성공",
                   "description": "배포가 성공적으로 완료되었습니다.",
                   "color": 3066993,
                   "fields": [
@@ -92,7 +92,7 @@ jobs:
           -X POST \
           -d '{
                 "embeds": [{
-                  "title": "❌ inflpick-backend 배포 실패",
+                  "title": "❌🖥️inflpick-backend 배포 실패",
                   "description": "배포가 실패했습니다.",
                   "color": 15158332,
                   "fields": [

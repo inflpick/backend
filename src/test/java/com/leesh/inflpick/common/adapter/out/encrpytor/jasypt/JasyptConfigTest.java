@@ -1,7 +1,7 @@
 package com.leesh.inflpick.common.adapter.out.encrpytor.jasypt;
 
-import com.leesh.inflpick.v2.common.adapter.out.encryptor.jasypt.JasyptConfig;
-import com.leesh.inflpick.v2.common.adapter.out.encryptor.jasypt.JasyptProperties;
+import com.leesh.inflpick.common.adapter.out.encryptor.jasypt.JasyptConfig;
+import com.leesh.inflpick.common.adapter.out.encryptor.jasypt.JasyptProperties;
 import org.assertj.core.api.Assertions;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Test;
