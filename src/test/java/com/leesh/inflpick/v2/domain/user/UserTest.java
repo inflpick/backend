@@ -1,7 +1,10 @@
 package com.leesh.inflpick.v2.domain.user;
 
-import com.leesh.inflpick.v2.user.domain.User;
-import com.leesh.inflpick.v2.user.domain.vo.*;
+import com.leesh.inflpick.user.domain.User;
+import com.leesh.inflpick.user.domain.vo.AuthenticationCode;
+import com.leesh.inflpick.user.domain.vo.Nickname;
+import com.leesh.inflpick.user.domain.vo.Oauth2Info;
+import com.leesh.inflpick.user.domain.vo.Oauth2Provider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

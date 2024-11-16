@@ -1,10 +1,10 @@
 package com.leesh.inflpick.v2.application.service.user;
 
 import com.leesh.inflpick.v2.user.application.service.CommandUserService;
-import com.leesh.inflpick.v2.user.domain.vo.Nickname;
-import com.leesh.inflpick.v2.user.domain.vo.Oauth2Info;
-import com.leesh.inflpick.v2.user.domain.vo.Oauth2Provider;
-import com.leesh.inflpick.v2.user.domain.vo.UserId;
+import com.leesh.inflpick.user.domain.vo.Nickname;
+import com.leesh.inflpick.user.domain.vo.Oauth2Info;
+import com.leesh.inflpick.user.domain.vo.Oauth2Provider;
+import com.leesh.inflpick.user.domain.vo.UserId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
