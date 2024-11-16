@@ -1,7 +1,8 @@
 package com.leesh.inflpick.v2.review.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.review.adapter.in.web.constant.CreateReviewApiErrorCode;
+import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
+import com.leesh.inflpick.v2.product.application.exception.ProductNotFoundException;
 import com.leesh.inflpick.v2.review.application.dto.ReviewRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -17,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "리뷰 API", description = "리뷰 API")
 public interface CreateReviewControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CreateReviewApiErrorCode.class}, httpMethod = "POST", apiPath = "/reviews")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerNotFoundException.class, ProductNotFoundException.class}, httpMethod = "POST", apiPath = "/reviews")
     @Operation(summary = "리뷰 등록하기",
             description = "리뷰를 등록합니다.",
             security = {

@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.common.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.in.web.dto.ApiErrorResponse;
-import com.leesh.inflpick.v2.shared.adapter.in.web.ApiErrorCode;
+import com.leesh.inflpick.v2.common.domain.ErrorCode;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -17,6 +17,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -24,9 +25,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class SwaggerConfig {
@@ -80,22 +86,26 @@ public class SwaggerConfig {
                 return operation;
             }
 
-            Class<? extends ApiErrorCode>[] values = methodAnnotation.values();
+            Class<? extends ErrorCode>[] values = methodAnnotation.values();
             String method = methodAnnotation.httpMethod();
             String apiPath = methodAnnotation.apiPath();
-            Map<Integer, List<SwaggerConfig.SwaggerExampleHolder>> statusGroupedExampleHolders = new HashMap<>();
+            Map<Integer, List<SwaggerExampleHolder>> statusGroupedExampleHolders = new HashMap<>();
 
-            for (Class<? extends ApiErrorCode> value : values) {
-                ApiErrorCode[] errorCodes = value.getEnumConstants();
-                List<SwaggerConfig.SwaggerExampleHolder> swaggerExampleHolders = Arrays.stream(errorCodes).map(
-                        errorCode -> {
-                            ApiErrorResponse apiErrorResponse = buildApiErrorResponse(errorCode, method, apiPath);
-                            Example example = createSwaggerExample(errorCode.getComment(), apiErrorResponse);
-                            return buildSwaggerExampleHolder(errorCode, example);
-                        }
-                ).toList();
+            for (Class<? extends ErrorCode> value : values) {
 
-                for (SwaggerConfig.SwaggerExampleHolder swaggerExampleHolder : swaggerExampleHolders) {
+                List<SwaggerExampleHolder> swaggerExampleHolders = new ArrayList<>();
+                ErrorCode errorCode;
+
+                try {
+                    errorCode = value.getDeclaredConstructor().newInstance();
+                    ApiErrorResponse apiErrorResponse = buildApiErrorResponse(errorCode, method, apiPath);
+                    Example example = createSwaggerExample(errorCode.getComment(), apiErrorResponse);
+                    swaggerExampleHolders.add(buildSwaggerExampleHolder(errorCode, example));
+                } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException | InstantiationException e) {
+                    log.error("기본 생성자가 존재하지 않아, 문서화 코드를 생성할 수 없습니다.", e);
+                }
+
+                for (SwaggerExampleHolder swaggerExampleHolder : swaggerExampleHolders) {
                     statusGroupedExampleHolders.computeIfAbsent(swaggerExampleHolder.getCode(), k -> new ArrayList<>());
                     statusGroupedExampleHolders.computeIfPresent(swaggerExampleHolder.getCode(), (k, v) -> {
                         v.add(swaggerExampleHolder);
@@ -126,7 +136,7 @@ public class SwaggerConfig {
         };
     }
 
-    private static SwaggerExampleHolder buildSwaggerExampleHolder(ApiErrorCode errorCode, Example example) {
+    private static SwaggerExampleHolder buildSwaggerExampleHolder(ErrorCode errorCode, Example example) {
         return SwaggerExampleHolder.builder()
                 .holder(example)
                 .name(errorCode.getCode())
@@ -141,17 +151,17 @@ public class SwaggerConfig {
         return example;
     }
 
-    private static ApiErrorResponse buildApiErrorResponse(ApiErrorCode errorCode, String method, String apiPath) {
-        return ApiErrorResponse.builder()
-                .timestamp(Instant.now())
-                .method(method)
-                .path(apiPath)
-                .code(errorCode.getCode())
-                .status(errorCode.getHttpStatus().value())
-                .reason(errorCode.getReason())
-                .action(errorCode.getAction())
-                .comment(errorCode.getComment())
-                .build();
+    private static ApiErrorResponse buildApiErrorResponse(ErrorCode errorCode, String method, String apiPath) {
+        return new ApiErrorResponse(
+                Instant.now(),
+                errorCode.getHttpStatus().value(),
+                errorCode.getCode(),
+                errorCode.getReason(),
+                errorCode.getAction(),
+                errorCode.getComment(),
+                method,
+                apiPath
+        );
     }
 
     @Getter

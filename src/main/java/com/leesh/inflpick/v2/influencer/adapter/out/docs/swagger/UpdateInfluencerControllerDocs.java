@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CommonInfluencerApiErrorCode;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CreateInfluencerApiErrorCode;
 import com.leesh.inflpick.v2.influencer.application.dto.InfluencerRequest;
+import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
+import com.leesh.inflpick.v2.influencer.domain.exception.NotSupportedSnsPlatformException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "인플루언서 API", description = "인플루언서 API")
 public interface UpdateInfluencerControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonInfluencerApiErrorCode.class, CreateInfluencerApiErrorCode.class}, httpMethod = "PUT", apiPath = "/influencer/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerNotFoundException.class, NotSupportedSnsPlatformException.class}, httpMethod = "PUT", apiPath = "/influencer/{id}")
     @Operation(summary = "인플루언서 수정하기",
             description = "인플루언서를 수정합니다.",
             security = {

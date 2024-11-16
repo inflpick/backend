@@ -2,8 +2,8 @@ package com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.v2.common.application.dto.PageResponse;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CommonInfluencerApiErrorCode;
 import com.leesh.inflpick.v2.influencer.application.dto.InfluencerResponse;
+import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = "인플루언서 API", description = "인플루언서 정보를 조회합니다.")
 public interface GetInfluencerControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonInfluencerApiErrorCode.class}, httpMethod = "GET", apiPath = "/influencers")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerNotFoundException.class}, httpMethod = "GET", apiPath = "/influencers")
     @Operation(summary = "인플루언서 단건 조회",
             description = "인플루언서를 조회합니다.",
             parameters = {

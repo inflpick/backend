@@ -1,9 +1,9 @@
 package com.leesh.inflpick.v2.product.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.product.adapter.in.web.constant.CommonProductApiErrorCode;
-import com.leesh.inflpick.v2.product.adapter.in.web.constant.CreateProductApiErrorCode;
+import com.leesh.inflpick.v2.product.adapter.in.web.exception.NotSupportOnlineStorePlatformException;
 import com.leesh.inflpick.v2.product.application.dto.ProductRequest;
+import com.leesh.inflpick.v2.product.application.exception.ProductNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "제품 API", description = "제품 API")
 public interface UpdateProductControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonProductApiErrorCode.class, CreateProductApiErrorCode.class}, httpMethod = "PUT", apiPath = "/products/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {ProductNotFoundException.class, NotSupportOnlineStorePlatformException.class}, httpMethod = "PUT", apiPath = "/products/{id}")
     @Operation(summary = "제품 수정하기",
             description = "제품을 수정합니다.",
             security = {

@@ -1,8 +1,9 @@
 package com.leesh.inflpick.v2.keyword.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.constant.CommonKeywordApiErrorCode;
 import com.leesh.inflpick.v2.keyword.application.dto.KeywordRequest;
+import com.leesh.inflpick.v2.keyword.application.exception.AlreadyExistKeywordNameException;
+import com.leesh.inflpick.v2.keyword.application.exception.KeywordNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "키워드 API", description = "키워드 API")
 public interface UpdateKeywordControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonKeywordApiErrorCode.class, CommonKeywordApiErrorCode.class}, httpMethod = "PUT", apiPath = "/keyword")
+    @ApiErrorCodeSwaggerDocs(values = {AlreadyExistKeywordNameException.class, KeywordNotFoundException.class}, httpMethod = "PUT", apiPath = "/keyword")
     @Operation(summary = "키워드 수정하기",
             description = "키워드를 수정합니다.",
             security = {

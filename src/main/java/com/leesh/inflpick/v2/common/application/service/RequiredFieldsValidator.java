@@ -12,10 +12,10 @@ public class RequiredFieldsValidator {
     public static void validate(Object... object) {
         for (Object o : object) {
             if (o == null) {
-                throw new MissingRequiredFieldsException(null);
+                throw new MissingRequiredFieldsException();
             }
             if (o instanceof String && ((String) o).isBlank()) {
-                throw new MissingRequiredFieldsException(o);
+                throw new MissingRequiredFieldsException();
             }
         }
     }

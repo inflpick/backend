@@ -2,8 +2,8 @@ package com.leesh.inflpick.v2.user.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.v2.common.application.dto.PageResponse;
-import com.leesh.inflpick.v2.user.adapter.in.web.constant.GetUserApiErrorCode;
 import com.leesh.inflpick.v2.user.application.dto.GetUserResponse;
+import com.leesh.inflpick.v2.user.application.exception.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +29,7 @@ public interface GetUserControllerDocs {
             })
     ResponseEntity<GetUserResponse> me(@Parameter(hidden = true) UserDetails userDetails);
 
-    @ApiErrorCodeSwaggerDocs(values = {GetUserApiErrorCode.class}, httpMethod = "GET", apiPath = "/users")
+    @ApiErrorCodeSwaggerDocs(values = {UserNotFoundException.class}, httpMethod = "GET", apiPath = "/users")
     @Operation(summary = "유저 단건 조회",
             description = "유저를 조회합니다.",
             security = {

@@ -2,8 +2,8 @@ package com.leesh.inflpick.v2.product.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.v2.common.application.dto.PageResponse;
-import com.leesh.inflpick.v2.product.adapter.in.web.constant.CommonProductApiErrorCode;
 import com.leesh.inflpick.v2.product.application.dto.ProductResponse;
+import com.leesh.inflpick.v2.product.application.exception.ProductNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "제품 API", description = "제품 정보를 조회합니다.")
 public interface GetProductControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonProductApiErrorCode.class}, httpMethod = "GET", apiPath = "/products/{id}")
+    @ApiErrorCodeSwaggerDocs(values = {ProductNotFoundException.class}, httpMethod = "GET", apiPath = "/products/{id}")
     @Operation(summary = "제품 단건 조회",
             description = "제품을 조회합니다.",
             parameters = {

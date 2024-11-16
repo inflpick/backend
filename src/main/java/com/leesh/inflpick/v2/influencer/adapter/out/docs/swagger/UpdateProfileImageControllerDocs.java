@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CommonInfluencerApiErrorCode;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.UpdateProfileImageApiErrorCode;
+import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
+import com.leesh.inflpick.v2.influencer.application.exception.InvalidProfileImageException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "인플루언서 API", description = "인플루언서 API 명세서입니다.")
 public interface UpdateProfileImageControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonInfluencerApiErrorCode.class, UpdateProfileImageApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/influencers/{id}/profile-image")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerNotFoundException.class, InvalidProfileImageException.class}, httpMethod = "PATCH", apiPath = "/influencers/{id}/profile-image")
     @Operation(summary = "인플루언서 프로필 이미지 수정",
             description = "인플루언서의 프로필 이미지를 수정합니다.",
             security = {

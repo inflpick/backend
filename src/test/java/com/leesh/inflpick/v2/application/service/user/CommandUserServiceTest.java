@@ -1,6 +1,5 @@
 package com.leesh.inflpick.v2.application.service.user;
 
-import com.leesh.inflpick.v2.adapter.out.persistence.mongo.user.FakeUserRepository;
 import com.leesh.inflpick.v2.user.application.service.CommandUserService;
 import com.leesh.inflpick.v2.user.domain.vo.Nickname;
 import com.leesh.inflpick.v2.user.domain.vo.Oauth2Info;

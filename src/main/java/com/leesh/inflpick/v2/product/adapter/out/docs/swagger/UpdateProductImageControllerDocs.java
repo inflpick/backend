@@ -1,8 +1,9 @@
 package com.leesh.inflpick.v2.product.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.product.adapter.in.web.constant.CommonProductApiErrorCode;
-import com.leesh.inflpick.v2.product.adapter.in.web.constant.UpdateProductImageApiErrorCode;
+import com.leesh.inflpick.v2.product.adapter.in.web.exception.NotSupportOnlineStorePlatformException;
+import com.leesh.inflpick.v2.product.application.exception.InvalidProductImageFormat;
+import com.leesh.inflpick.v2.product.application.exception.ProductNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "제품 API", description = "제품 API")
 public interface UpdateProductImageControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonProductApiErrorCode.class, UpdateProductImageApiErrorCode.class}, httpMethod = "PATCH", apiPath = "/products/{id}/image")
+    @ApiErrorCodeSwaggerDocs(values = {ProductNotFoundException.class, NotSupportOnlineStorePlatformException.class, InvalidProductImageFormat.class}, httpMethod = "PATCH", apiPath = "/products/{id}/image")
     @Operation(summary = "제품 이미지 수정",
             description = "제품의 이미지를 수정합니다.",
             security = {

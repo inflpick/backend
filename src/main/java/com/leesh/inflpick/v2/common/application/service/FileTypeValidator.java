@@ -1,6 +1,6 @@
 package com.leesh.inflpick.v2.common.application.service;
 
-import com.leesh.inflpick.v2.common.application.exception.ImageFormatException;
+import com.leesh.inflpick.v2.common.adapter.in.web.exception.NotImageTypeException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +28,7 @@ public class FileTypeValidator {
 
     public static void validateImageFile(@NotNull MultipartFile file) {
         if (!isImageFile(file)) {
-            throw new ImageFormatException(file.getOriginalFilename());
+            throw new NotImageTypeException();
         }
     }
 

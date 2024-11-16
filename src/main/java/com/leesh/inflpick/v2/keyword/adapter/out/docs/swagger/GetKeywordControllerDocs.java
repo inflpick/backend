@@ -2,8 +2,9 @@ package com.leesh.inflpick.v2.keyword.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
 import com.leesh.inflpick.v2.common.application.dto.PageResponse;
-import com.leesh.inflpick.v2.keyword.adapter.in.web.constant.CommonKeywordApiErrorCode;
 import com.leesh.inflpick.v2.keyword.application.dto.KeywordResponse;
+import com.leesh.inflpick.v2.keyword.application.exception.AlreadyExistKeywordNameException;
+import com.leesh.inflpick.v2.keyword.application.exception.KeywordNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "키워드 API", description = "키워드 정보를 조회합니다.")
 public interface GetKeywordControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CommonKeywordApiErrorCode.class}, httpMethod = "GET", apiPath = "/keywords")
+    @ApiErrorCodeSwaggerDocs(values = {AlreadyExistKeywordNameException.class, KeywordNotFoundException.class}, httpMethod = "GET", apiPath = "/keywords")
     @Operation(summary = "키워드 단건 조회",
             description = "키워드를 조회합니다.",
             parameters = {

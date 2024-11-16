@@ -1,7 +1,7 @@
 package com.leesh.inflpick.v2.product.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.product.adapter.in.web.constant.CreateProductApiErrorCode;
+import com.leesh.inflpick.v2.product.adapter.in.web.exception.NotSupportOnlineStorePlatformException;
 import com.leesh.inflpick.v2.product.application.dto.ProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "제품 API", description = "제품 API")
 public interface CreateProductControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CreateProductApiErrorCode.class}, httpMethod = "POST", apiPath = "/products")
+    @ApiErrorCodeSwaggerDocs(values = {NotSupportOnlineStorePlatformException.class}, httpMethod = "POST", apiPath = "/products")
     @Operation(summary = "제품 등록하기",
             description = "제품을 등록합니다.",
             security = {

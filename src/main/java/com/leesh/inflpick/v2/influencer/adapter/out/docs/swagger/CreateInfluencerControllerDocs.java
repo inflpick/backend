@@ -1,8 +1,8 @@
 package com.leesh.inflpick.v2.influencer.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.v2.common.adapter.out.docs.swagger.ApiErrorCodeSwaggerDocs;
-import com.leesh.inflpick.v2.influencer.adapter.in.web.constant.CreateInfluencerApiErrorCode;
 import com.leesh.inflpick.v2.influencer.application.dto.InfluencerRequest;
+import com.leesh.inflpick.v2.influencer.application.exception.InfluencerNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "인플루언서 API", description = "인플루언서 API")
 public interface CreateInfluencerControllerDocs {
 
-    @ApiErrorCodeSwaggerDocs(values = {CreateInfluencerApiErrorCode.class}, httpMethod = "POST", apiPath = "/influencer")
+    @ApiErrorCodeSwaggerDocs(values = {InfluencerNotFoundException.class}, httpMethod = "POST", apiPath = "/influencer")
     @Operation(summary = "인플루언서 등록하기",
             description = "인플루언서를 등록합니다.",
             security = {
