@@ -18,11 +18,8 @@ public interface InfluencerResponseDocs {
     @Schema(description = "이름", example = "도날드 트럼프", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String name();
 
-    @Schema(description = "인물을 잘 나타낼 수 있는 짧은 소개", example = "미국 45대 대통령, 트럼프 주식회사 CEO, 정치가", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "인물을 잘 나타낼 수 있는 소개", example = "미국 45대 대통령, 트럼프 주식회사 CEO, 정치가", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String introduction();
-
-    @Schema(description = "인물에 대한 설명", example = "Hillary Diane Rodham Clinton is a politician, diplomat, lawyer, writer, and public speaker. She served as First Lady of the United States from 1993 to 2001, as a United States senator from New York from 2001 to 2009, and as the 67th United States secretary of state from 2009 until 2013.", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
-    String description();
 
     @Schema(description = "프로필 이미지 URL", example = "https://cdn.inflpick.com/profile-image.jpg", implementation = String.class, requiredMode = Schema.RequiredMode.REQUIRED)
     String profileImageUrl();

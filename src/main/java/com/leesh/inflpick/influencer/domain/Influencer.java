@@ -17,7 +17,6 @@ import java.util.List;
 public record Influencer(InfluencerId id,
                          InfluencerName name,
                          InfluencerIntroduction introduction,
-                         InfluencerDescription description,
                          ProfileImage profileImage,
                          SnsProfileLinks snsProfileLinks,
                          Keywords keywords,
@@ -30,7 +29,6 @@ public record Influencer(InfluencerId id,
     public static Influencer withId(InfluencerId id,
                                     InfluencerName name,
                                     InfluencerIntroduction introduction,
-                                    InfluencerDescription description,
                                     ProfileImage profileImage,
                                     SnsProfileLinks snsProfileLinks,
                                     Keywords keywords,
@@ -41,7 +39,6 @@ public record Influencer(InfluencerId id,
         return new Influencer(id,
                 name,
                 introduction,
-                description,
                 profileImage,
                 snsProfileLinks,
                 keywords,
@@ -53,18 +50,15 @@ public record Influencer(InfluencerId id,
 
     public static Influencer withoutId(String name,
                                        String introduction,
-                                       String description,
                                        SnsProfileLinks snsProfileLinks) {
         InfluencerId id = InfluencerId.empty();
         ProfileImage profileImage = ProfileImage.empty();
         InfluencerName influencerName = InfluencerName.create(name);
         InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(introduction);
-        InfluencerDescription influencerDescription = InfluencerDescription.create(description);
         Keywords keywords = Keywords.empty();
         return new Influencer(id,
                 influencerName,
                 influencerIntroduction,
-                influencerDescription,
                 profileImage,
                 snsProfileLinks,
                 keywords,
@@ -78,7 +72,6 @@ public record Influencer(InfluencerId id,
         return withId(id,
                 name,
                 introduction,
-                description,
                 ProfileImage.create(profileImagePath),
                 snsProfileLinks,
                 keywords,
@@ -99,7 +92,6 @@ public record Influencer(InfluencerId id,
         return withId(id,
                 name,
                 introduction,
-                description,
                 profileImage,
                 snsProfileLinks,
                 newKeywords,
@@ -116,7 +108,6 @@ public record Influencer(InfluencerId id,
     public Influencer update(InfluencerRequest request) {
         InfluencerName influencerName = InfluencerName.create(request.name());
         InfluencerIntroduction influencerIntroduction = InfluencerIntroduction.create(request.introduction());
-        InfluencerDescription influencerDescription = InfluencerDescription.create(request.description());
         List<SnsProfileLink> profileLinks = request.socialMediaProfileLinks().stream()
                 .map(SnsProfileLinkRequest::toEntity)
                 .toList();
@@ -124,7 +115,6 @@ public record Influencer(InfluencerId id,
         return withId(id,
                 influencerName,
                 influencerIntroduction,
-                influencerDescription,
                 profileImage,
                 links,
                 keywords,

@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public record InfluencerDocument(@Id String id,
                                   String name,
                                   String introduction,
-                                  String description,
                                   String profileImagePath,
                                   List<String> keywordIds,
                                   List<SnsProfileLinkDocument> snsProfileLinks,
@@ -30,7 +29,6 @@ public record InfluencerDocument(@Id String id,
         String id = influencer.id().isEmpty() ? null : influencer.id().id();
         InfluencerName name = influencer.name();
         InfluencerIntroduction introduction = influencer.introduction();
-        InfluencerDescription description = influencer.description();
         ProfileImage profileImage = influencer.profileImage();
         List<String> keywordIds = influencer.keywords().ids()
                 .stream()
@@ -45,7 +43,6 @@ public record InfluencerDocument(@Id String id,
                 id,
                 name.name(),
                 introduction.introduction(),
-                description.description(),
                 profileImage.path(),
                 keywordIds,
                 snsProfileLinkDocuments,
@@ -60,7 +57,6 @@ public record InfluencerDocument(@Id String id,
         InfluencerId id = InfluencerId.create(this.id);
         InfluencerName name = InfluencerName.create(this.name);
         InfluencerIntroduction introduction = InfluencerIntroduction.create(this.introduction);
-        InfluencerDescription description = InfluencerDescription.create(this.description);
         ProfileImage profileImage = ProfileImage.create(this.profileImagePath);
         List<SnsProfileLink> snsProfileLinks = this.snsProfileLinks.stream()
                 .map(SnsProfileLinkDocument::toEntity)
@@ -69,7 +65,6 @@ public record InfluencerDocument(@Id String id,
         return Influencer.withId(id,
                 name,
                 introduction,
-                description,
                 profileImage,
                 profileLinks,
                 Keywords.createIdString(keywordIds),

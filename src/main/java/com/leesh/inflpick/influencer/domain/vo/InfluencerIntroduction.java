@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public record InfluencerIntroduction(String introduction) {
 
     // InfluencerIntroduction must be between 0 and 1000 characters long
-    private static final Pattern PATTERN = Pattern.compile("^.{0,1000}$");
+    private static final Pattern PATTERN = Pattern.compile("^.{0,30000}$");
 
     public InfluencerIntroduction {
         if (introduction == null || introduction.isEmpty()) {

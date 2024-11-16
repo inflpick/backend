@@ -12,14 +12,13 @@ import java.util.List;
 public record InfluencerResponse(String id,
                                  String name,
                                  String introduction,
-                                 String description,
                                  String profileImageUrl,
                                  List<SnsProfileLinkResponse> socialMediaProfileLinks,
                                  List<KeywordResponse> keywords,
                                  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-                                    Instant createdDate,
+                                 Instant createdDate,
                                  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-                                    Instant lastModifiedDate) implements InfluencerResponseDocs {
+                                 Instant lastModifiedDate) implements InfluencerResponseDocs {
 
     public static InfluencerResponse create(Influencer influencer, List<Keyword> keywords, String profileImageUrl) {
 
@@ -34,7 +33,6 @@ public record InfluencerResponse(String id,
         return new InfluencerResponse(influencer.id().id(),
                 influencer.name().name(),
                 influencer.introduction().introduction(),
-                influencer.description().description(),
                 profileImageUrl,
                 snsProfileLinkResponse,
                 keywordResponses,

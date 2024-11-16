@@ -10,12 +10,11 @@ import java.util.List;
 
 public record InfluencerRequest(String name,
                                 String introduction,
-                                String description,
                                 List<String> keywordIds,
                                 List<SnsProfileLinkRequest> socialMediaProfileLinks) implements InfluencerRequestDocs {
 
     public InfluencerRequest {
-        RequiredFieldsValidator.validate(name, introduction, description);
+        RequiredFieldsValidator.validate(name, introduction);
         keywordIds = (keywordIds == null) ? List.of() : keywordIds;
         socialMediaProfileLinks = (socialMediaProfileLinks == null) ? List.of() : socialMediaProfileLinks;
     }
@@ -25,6 +24,6 @@ public record InfluencerRequest(String name,
                 .map(SnsProfileLinkRequest::toEntity)
                 .toList();
         SnsProfileLinks snsProfileLinks = SnsProfileLinks.create(profileLinks);
-        return Influencer.withoutId(name, introduction, description, snsProfileLinks);
+        return Influencer.withoutId(name, introduction, snsProfileLinks);
     }
 }
