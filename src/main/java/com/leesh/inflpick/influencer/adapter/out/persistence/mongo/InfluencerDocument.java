@@ -3,7 +3,6 @@ package com.leesh.inflpick.influencer.adapter.out.persistence.mongo;
 import com.leesh.inflpick.influencer.domain.Influencer;
 import com.leesh.inflpick.influencer.domain.SnsProfileLinks;
 import com.leesh.inflpick.influencer.domain.vo.*;
-import com.leesh.inflpick.v2.influencer.domain.vo.*;
 import com.leesh.inflpick.keyword.domain.Keywords;
 import com.leesh.inflpick.keyword.domain.vo.KeywordId;
 import org.springframework.data.annotation.*;

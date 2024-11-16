@@ -5,7 +5,6 @@ import com.leesh.inflpick.keyword.domain.vo.KeywordId;
 import com.leesh.inflpick.product.domain.OnlineStoreLinks;
 import com.leesh.inflpick.product.domain.Product;
 import com.leesh.inflpick.product.domain.vo.*;
-import com.leesh.inflpick.v2.product.domain.vo.*;
 import org.springframework.data.annotation.*;
 
 import java.time.Instant;

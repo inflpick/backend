@@ -2,7 +2,6 @@ package com.leesh.inflpick.common.adapter.out.docs.swagger;
 
 import com.leesh.inflpick.common.adapter.in.web.dto.ApiErrorResponse;
 import com.leesh.inflpick.common.adapter.in.web.exception.*;
-import com.leesh.inflpick.v2.common.adapter.in.web.exception.*;
 import com.leesh.inflpick.common.adapter.in.web.filter.security.ExpiredAuthenticationException;
 import com.leesh.inflpick.common.adapter.in.web.filter.security.InvalidAuthenticationException;
 import com.leesh.inflpick.common.application.exception.ThirdPartyStorageException;

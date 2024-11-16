@@ -7,7 +7,6 @@ import com.leesh.inflpick.product.application.dto.OnlineStoreRequest;
 import com.leesh.inflpick.product.application.dto.ProductRequest;
 import com.leesh.inflpick.product.domain.exception.MaximumProductKeywordsException;
 import com.leesh.inflpick.product.domain.vo.*;
-import com.leesh.inflpick.v2.product.domain.vo.*;
 
 import java.time.Instant;
 import java.util.List;

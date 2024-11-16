@@ -2,7 +2,6 @@ package com.leesh.inflpick.user.adapter.out.persistence.mongo;
 
 import com.leesh.inflpick.user.domain.User;
 import com.leesh.inflpick.user.domain.vo.*;
-import com.leesh.inflpick.v2.user.domain.vo.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 

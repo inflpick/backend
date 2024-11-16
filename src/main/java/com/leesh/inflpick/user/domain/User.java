@@ -1,7 +1,6 @@
 package com.leesh.inflpick.user.domain;
 
 import com.leesh.inflpick.user.domain.vo.*;
-import com.leesh.inflpick.v2.user.domain.vo.*;
 
 import java.time.Instant;
 

@@ -4,7 +4,6 @@ import com.leesh.inflpick.influencer.application.dto.InfluencerRequest;
 import com.leesh.inflpick.influencer.application.dto.SnsProfileLinkRequest;
 import com.leesh.inflpick.influencer.domain.exception.MaximumInfluencerKeywordSizeException;
 import com.leesh.inflpick.influencer.domain.vo.*;
-import com.leesh.inflpick.v2.influencer.domain.vo.*;
 import com.leesh.inflpick.keyword.domain.Keyword;
 import com.leesh.inflpick.keyword.domain.Keywords;
 import com.leesh.inflpick.keyword.domain.vo.KeywordId;
