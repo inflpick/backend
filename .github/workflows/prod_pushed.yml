@@ -63,7 +63,7 @@ jobs:
                   "fields": [
                     {
                       "name": "브랜치",
-                      "value": "`'"${{ github.ref_name }}"'`",
+                      "value": "`'"${{ github.ref }}"'`",
                       "inline": true
                     },
                     {
@@ -98,7 +98,7 @@ jobs:
                   "fields": [
                     {
                       "name": "브랜치",
-                      "value": "`'"${{ github.ref_name }}"'`",
+                      "value": "`'"${{ github.ref }}"'`",
                       "inline": true
                     },
                     {

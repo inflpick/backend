@@ -20,5 +20,6 @@ COPY --from=builder /home/gradle/project/build/libs/*.jar app.jar
 EXPOSE 8080
 
 # 8. 애플리케이션 실행
+ENV JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
