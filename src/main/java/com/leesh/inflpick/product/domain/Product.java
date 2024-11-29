@@ -10,17 +10,41 @@ import com.leesh.inflpick.product.domain.vo.*;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
-public record Product(ProductId id,
-                      ProductName name,
-                      ProductDescription description,
-                      ProductImage image,
-                      OnlineStoreLinks onlineStoreLinks,
-                      Keywords keywords,
-                      String createdBy,
-                      Instant createdDate,
-                      String lastModifiedBy,
-                      Instant lastModifiedDate) {
+public final class Product {
+    private final ProductId id;
+    private final ProductName name;
+    private final ProductDescription description;
+    private final ProductImage image;
+    private final OnlineStoreLinks onlineStoreLinks;
+    private final Keywords keywords;
+    private final String createdBy;
+    private final Instant createdDate;
+    private final String lastModifiedBy;
+    private final Instant lastModifiedDate;
+
+    public Product(ProductId id,
+                   ProductName name,
+                   ProductDescription description,
+                   ProductImage image,
+                   OnlineStoreLinks onlineStoreLinks,
+                   Keywords keywords,
+                   String createdBy,
+                   Instant createdDate,
+                   String lastModifiedBy,
+                   Instant lastModifiedDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.onlineStoreLinks = onlineStoreLinks;
+        this.keywords = keywords;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.lastModifiedBy = lastModifiedBy;
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
     /* Business Logic */
     public static Product withId(ProductId id,
@@ -123,4 +147,58 @@ public record Product(ProductId id,
                 lastModifiedBy,
                 Instant.now());
     }
+
+    public ProductId id() {
+        return id;
+    }
+
+    public ProductName name() {
+        return name;
+    }
+
+    public ProductDescription description() {
+        return description;
+    }
+
+    public ProductImage image() {
+        return image;
+    }
+
+    public OnlineStoreLinks onlineStoreLinks() {
+        return onlineStoreLinks;
+    }
+
+    public Keywords keywords() {
+        return keywords;
+    }
+
+    public String createdBy() {
+        return createdBy;
+    }
+
+    public Instant createdDate() {
+        return createdDate;
+    }
+
+    public String lastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public Instant lastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (Product) obj;
+        return Objects.equals(this.id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

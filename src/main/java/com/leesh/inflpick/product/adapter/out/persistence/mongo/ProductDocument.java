@@ -6,10 +6,12 @@ import com.leesh.inflpick.product.domain.OnlineStoreLinks;
 import com.leesh.inflpick.product.domain.Product;
 import com.leesh.inflpick.product.domain.vo.*;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.List;
 
+@Document(collection = "products")
 public record ProductDocument(@Id String id,
                               String name,
                               String description,
