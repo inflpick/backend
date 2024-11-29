@@ -24,19 +24,17 @@ public class UpdateKeywordService implements UpdateKeywordUseCase {
 
     @Override
     public void update(KeywordId id, KeywordRequest request) throws AlreadyExistKeywordNameException, KeywordNameFormatException {
-
-        var keyword = queryKeywordPort.query(id)
-                .orElseThrow(() -> new KeywordNotFoundException(id));
-
-        validateExistDuplicatedKeywordName(request);
-        Keyword updatedKeyword = keyword.update(request);
-        commandKeywordPort.save(updatedKeyword);
-    }
-
-    private void validateExistDuplicatedKeywordName(KeywordRequest request) {
-        KeywordName keywordName = KeywordName.create(request.name());
-        queryKeywordPort.query(keywordName).ifPresent(k -> {
-            throw new AlreadyExistKeywordNameException(k.name());
-        });
+        var keyword = queryKeywordPort.query(id).orElseThrow(() -> new KeywordNotFoundException(id));
+        queryKeywordPort.query(KeywordName.create(request.name()))
+                .filter(k -> !k.id().equals(id))
+                .ifPresentOrElse(
+                        k -> {
+                            throw new AlreadyExistKeywordNameException(k.name());
+                        },
+                        () -> {
+                            Keyword updatedKeyword = keyword.update(request);
+                            commandKeywordPort.save(updatedKeyword);
+                        }
+                );
     }
 }
