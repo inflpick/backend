@@ -1,6 +1,7 @@
 package com.leesh.inflpick.product.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.leesh.inflpick.keyword.application.dto.KeywordResponse;
 import com.leesh.inflpick.keyword.domain.Keyword;
 import com.leesh.inflpick.product.domain.Product;
@@ -8,6 +9,7 @@ import com.leesh.inflpick.product.domain.Product;
 import java.time.Instant;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL) // empty() 메서드에서 빈 json 응답을 보내기 위해 필요
 public record ProductResponse(String id,
                               String name,
                               String description,
@@ -40,5 +42,9 @@ public record ProductResponse(String id,
                 onlineStoreLinkResponses,
                 product.createdDate(),
                 product.lastModifiedDate());
+    }
+
+    public static ProductResponse empty() {
+        return new ProductResponse(null, null, null, null, null, null, null, null);
     }
 }

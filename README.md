@@ -6,4 +6,4 @@
 
 2. 도커 실행
 
-(프로젝트 루트 경로에서) `docker-compose -p inflpick --env-file infra/.env -f infra/docker-compose-local.yml up -d`
+(프로젝트 루트 경로에서) `docker compose -p inflpick --env-file infra/.env -f infra/docker-compose-local.yml up -d`

@@ -22,10 +22,10 @@ public interface ReviewResponseDocs {
     @Schema(description = "reviewDate", example = "2021-08-01T00:00:00Z")
     Instant reviewDate();
 
-    @Schema(description = "인플루언서", implementation = InfluencerResponse.class)
+    @Schema(description = "인플루언서 (삭제 시 빈 값)", implementation = InfluencerResponse.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     InfluencerResponse influencer();
 
-    @Schema(description = "제품", implementation = ProductResponse.class)
+    @Schema(description = "제품 (삭제 시 빈 값)", implementation = ProductResponse.class, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     ProductResponse product();
 
 }

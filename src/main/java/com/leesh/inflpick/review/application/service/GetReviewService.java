@@ -3,15 +3,13 @@ package com.leesh.inflpick.review.application.service;
 import com.leesh.inflpick.common.application.dto.CursorResponse;
 import com.leesh.inflpick.common.application.port.out.storage.StoragePort;
 import com.leesh.inflpick.influencer.application.dto.InfluencerResponse;
-import com.leesh.inflpick.influencer.application.exception.InfluencerNotFoundException;
 import com.leesh.inflpick.influencer.application.port.out.QueryInfluencerPort;
-import com.leesh.inflpick.influencer.domain.Influencer;
+import com.leesh.inflpick.influencer.domain.vo.InfluencerId;
 import com.leesh.inflpick.keyword.application.port.out.QueryKeywordPort;
 import com.leesh.inflpick.keyword.domain.Keyword;
 import com.leesh.inflpick.product.application.dto.ProductResponse;
-import com.leesh.inflpick.product.application.exception.ProductNotFoundException;
 import com.leesh.inflpick.product.application.port.out.QueryProductPort;
-import com.leesh.inflpick.product.domain.Product;
+import com.leesh.inflpick.product.domain.vo.ProductId;
 import com.leesh.inflpick.review.application.dto.CursorRequest;
 import com.leesh.inflpick.review.application.dto.ReviewResponse;
 import com.leesh.inflpick.review.application.port.in.GetReviewUseCase;
@@ -41,31 +39,43 @@ public class GetReviewService implements GetReviewUseCase {
         CursorResponse<Review> reviewPage = queryReviewPort.query(request);
 
         List<ReviewResponse> responses = reviewPage.contents().stream()
-                .map(review -> get(review.id()))
+                .map(this::getReviewResponse)
                 .toList();
 
         return new CursorResponse<>(reviewPage.limit(), responses, reviewPage.hasNext());
     }
 
-    @Override
-    public ReviewResponse get(ReviewId reviewId) {
-        Review review = queryReviewPort.query(reviewId).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
-        InfluencerResponse influencerResponse = getInfluencerResponse(review);
-        ProductResponse productResponse = getProductResponse(review);
+    public ReviewResponse getReviewResponse(Review review) {
+        InfluencerResponse influencerResponse = getInfluencerResponse(review.influencerId());
+        ProductResponse productResponse = getProductResponse(review.productId());
         return ReviewResponse.create(review, influencerResponse, productResponse);
     }
 
-    private ProductResponse getProductResponse(Review review) {
-        Product product = queryProductPort.query(review.productId()).orElseThrow(() -> new ProductNotFoundException(review.productId()));
-        List<Keyword> productKeywords = queryKeywordPort.query(product.keywords().ids());
-        String productImageUrl = storagePort.getUrlString(product.image().path());
-        return ProductResponse.create(product, productKeywords, productImageUrl);
+    @Override
+    public ReviewResponse get(ReviewId reviewId) {
+        Review review = queryReviewPort.query(reviewId).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+        InfluencerResponse influencerResponse = getInfluencerResponse(review.influencerId());
+        ProductResponse productResponse = getProductResponse(review.productId());
+        return ReviewResponse.create(review, influencerResponse, productResponse);
     }
 
-    private InfluencerResponse getInfluencerResponse(Review review) {
-        Influencer influencer = queryInfluencerPort.query(review.influencerId()).orElseThrow(() -> new InfluencerNotFoundException(review.influencerId()));
-        List<Keyword> influencerKeywords = queryKeywordPort.query(influencer.keywords().ids());
-        String profileImageUrl = storagePort.getUrlString(influencer.profileImage().path());
-        return InfluencerResponse.create(influencer, influencerKeywords, profileImageUrl);
+    private ProductResponse getProductResponse(ProductId productId) {
+        return queryProductPort.query(productId)
+                .map(product -> {
+                    List<Keyword> keywords = queryKeywordPort.query(product.keywords().ids());
+                    String imageUrl = storagePort.getUrlString(product.image().path());
+                    return ProductResponse.create(product, keywords, imageUrl);
+                })
+                .orElseGet(ProductResponse::empty);
+    }
+
+    private InfluencerResponse getInfluencerResponse(InfluencerId id) {
+        return queryInfluencerPort.query(id)
+                .map(influencer -> {
+                    List<Keyword> keywords = queryKeywordPort.query(influencer.keywords().ids());
+                    String imageUrl = storagePort.getUrlString(influencer.profileImage().path());
+                    return InfluencerResponse.create(influencer, keywords, imageUrl);
+                })
+                .orElseGet(InfluencerResponse::empty);
     }
 }
