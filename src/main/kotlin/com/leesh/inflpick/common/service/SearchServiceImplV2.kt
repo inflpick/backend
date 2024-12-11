@@ -1,8 +1,8 @@
 package com.leesh.inflpick.common.service
 
-import com.leesh.inflpick.common.controller.SearchInfluencerResponse
-import com.leesh.inflpick.common.controller.SearchProductResponse
-import com.leesh.inflpick.common.controller.SearchResponse
+import com.leesh.inflpick.common.controller.dto.SearchInfluencerResponse
+import com.leesh.inflpick.common.controller.dto.SearchProductResponse
+import com.leesh.inflpick.common.controller.dto.SearchResponse
 import com.leesh.inflpick.common.controller.port.SearchService
 import com.leesh.inflpick.influencer.service.port.InfluencerRepositoryV2
 import com.leesh.inflpick.product.service.port.ProductRepositoryV2

@@ -15,6 +15,9 @@ class ProductRepositoryImplV2(private val productMongoRepository: ProductMongoRe
     }
 
     override fun searchByName(keyword: String): List<ProductV2> {
-        TODO("Not yet implemented")
+        return productMongoRepository.findAllByNameMatches(keyword)
+            .map {
+                it.toDomain()
+            }
     }
 }

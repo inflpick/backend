@@ -1,6 +1,6 @@
 package com.leesh.inflpick.common.service
 
-import com.leesh.inflpick.common.controller.SearchResponse
+import com.leesh.inflpick.common.controller.dto.SearchResponse
 import com.leesh.inflpick.influencer.domin.InfluencerV2
 import com.leesh.inflpick.mock.FakeInfluencerRepository
 import com.leesh.inflpick.mock.FakeProductRepository
@@ -50,6 +50,5 @@ class SearchServiceImplTest : BehaviorSpec({
             }
         }
     }
-
 
 })

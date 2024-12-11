@@ -3,7 +3,8 @@ spring:
     name: api-server
   data:
     mongodb:
-      uri: mongodb://inflpick:inflpick@mongodb:27017/api-server?authSource=admin
+#      uri: mongodb://inflpick:inflpick@mongodb:27017/api-server?authSource=admin
+      uri: ENC(itRW/kbSl2zOGsmE86hBYUG+Kw8LA56tIyxH3pDfa0Na+rB37pdpE1u2iE2rVVdgIwpbc0YOAEWPVx8z4W1NW8aAP6ol194aUVL2gPWRpaTdcPOj7V9atPjWRC5KcRGD4aeAJETXjIswGUSqyew2e9s6uUSfpHlWoxMex1e9bus=)
   servlet:
     multipart:
       enabled: true # 멀티파트 업로드 지원여부 (default: true)

@@ -1,0 +1,2923 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "인플픽 API 명세서",
+    "description": "인플픽 API 명세서",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "local"
+    },
+    {
+      "url": "https://api.inflpick.com",
+      "description": "prod"
+    }
+  ],
+  "tags": [
+    {
+      "name": "제품 API",
+      "description": "제품 정보를 조회합니다."
+    },
+    {
+      "name": "인플루언서 API",
+      "description": "인플루언서 API 명세서입니다."
+    },
+    {
+      "name": "키워드 API",
+      "description": "키워드 API 명세서입니다."
+    },
+    {
+      "name": "제품 API",
+      "description": "제품 API"
+    },
+    {
+      "name": "인플루언서 API",
+      "description": "인플루언서 정보를 조회합니다."
+    },
+    {
+      "name": "키워드 API",
+      "description": "키워드 정보를 조회합니다."
+    },
+    {
+      "name": "인플루언서 API",
+      "description": "인플루언서 API"
+    },
+    {
+      "name": "인증 API",
+      "description": "인증 API"
+    },
+    {
+      "name": "유저 API",
+      "description": "유저 API"
+    },
+    {
+      "name": "공통 API",
+      "description": "공통 API"
+    },
+    {
+      "name": "키워드 API",
+      "description": "키워드 API"
+    },
+    {
+      "name": "리뷰 API",
+      "description": "리뷰 API"
+    },
+    {
+      "name": "Search",
+      "description": "검색 API"
+    }
+  ],
+  "paths": {
+    "/reviews/{id}": {
+      "get": {
+        "tags": [
+          "리뷰 API"
+        ],
+        "summary": "리뷰 단건 조회",
+        "description": "리뷰를 조회합니다.",
+        "operationId": "get_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "리뷰 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "리뷰 API"
+        ],
+        "summary": "리뷰 수정하기",
+        "description": "리뷰를 수정합니다.",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "리뷰 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "리뷰 수정 성공 (본문 없음)"
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "리뷰 API"
+        ],
+        "summary": "리뷰 삭제하기",
+        "description": "리뷰를 삭제합니다.",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "리뷰 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "리뷰 삭제 성공 (본문 없음)"
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "제품 API"
+        ],
+        "summary": "제품 단건 조회",
+        "description": "ID로 제품 하나를 조회",
+        "operationId": "get_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "제품 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponse"
+                }
+              }
+            }
+          },
+          "404": {
+             "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "PRODUCT_NOT_FOUND": {
+                    "description": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "PRODUCT_NOT_FOUND",
+                      "reason": "상품을 찾을 수 없어요.",
+                      "action": "상품 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                      "path": "GET",
+                      "comment": "/products/{id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "제품 API"
+        ],
+        "summary": "제품 수정하기",
+        "description": "제품을 수정합니다.",
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "제품 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "제품 수정 성공"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_SUPPORT_ONLINE_STORE_PLATFORM": {
+                    "description": "지원하지 않는 온라인 스토어 플랫폼을 입력한 경우 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "NOT_SUPPORT_ONLINE_STORE_PLATFORM",
+                      "reason": "지원하지 않는 온라인 스토어 플랫폼입니다.",
+                      "action": "지원하는 온라인 스토어 플랫폼을 입력해주세요.",
+                      "method": "지원하지 않는 온라인 스토어 플랫폼을 입력한 경우 발생합니다.",
+                      "path": "PUT",
+                      "comment": "/products/{id}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "PRODUCT_NOT_FOUND": {
+                    "description": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "PRODUCT_NOT_FOUND",
+                      "reason": "상품을 찾을 수 없어요.",
+                      "action": "상품 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                      "path": "PUT",
+                      "comment": "/products/{id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "제품 API"
+        ],
+        "summary": "제품 삭제하기",
+        "description": "제품을 삭제합니다.",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "제품 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "제품 삭제 성공 (본문 없음)"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "PRODUCT_NOT_FOUND": {
+                    "description": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "PRODUCT_NOT_FOUND",
+                      "reason": "상품을 찾을 수 없어요.",
+                      "action": "상품 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                      "path": "DELETE",
+                      "comment": "/products/{id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/keywords/{id}": {
+      "get": {
+        "tags": [
+          "키워드 API"
+        ],
+        "summary": "키워드 단건 조회",
+        "description": "키워드를 조회합니다.",
+        "operationId": "get_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "키워드 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeywordResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "ALREADY_EXIST_KEYWORD_NAME": {
+                    "description": "이미 존재하는 키워드 이름을 사용하여 키워드를 생성하려고 시도한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 400,
+                      "code": "ALREADY_EXIST_KEYWORD_NAME",
+                      "reason": "이미 존재하는 키워드 이름이에요.",
+                      "action": "다른 이름으로 다시 시도해주세요.",
+                      "method": "이미 존재하는 키워드 이름을 사용하여 키워드를 생성하려고 시도한 경우에 발생합니다.",
+                      "path": "GET",
+                      "comment": "/keywords"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "KEYWORD_NOT_FOUND": {
+                    "description": "키워드 ID가 잘못된 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "KEYWORD_NOT_FOUND",
+                      "reason": "키워드를 찾을 수 없어요.",
+                      "action": "키워드 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "키워드 ID가 잘못된 경우에 발생합니다.",
+                      "path": "GET",
+                      "comment": "/keywords"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "키워드 API"
+        ],
+        "summary": "키워드 수정하기",
+        "description": "키워드를 수정합니다.",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "키워드 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "키워드 수정 성공"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "ALREADY_EXIST_KEYWORD_NAME": {
+                    "description": "이미 존재하는 키워드 이름을 사용하여 키워드를 생성하려고 시도한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "ALREADY_EXIST_KEYWORD_NAME",
+                      "reason": "이미 존재하는 키워드 이름이에요.",
+                      "action": "다른 이름으로 다시 시도해주세요.",
+                      "method": "이미 존재하는 키워드 이름을 사용하여 키워드를 생성하려고 시도한 경우에 발생합니다.",
+                      "path": "PUT",
+                      "comment": "/keyword"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "KEYWORD_NOT_FOUND": {
+                    "description": "키워드 ID가 잘못된 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "KEYWORD_NOT_FOUND",
+                      "reason": "키워드를 찾을 수 없어요.",
+                      "action": "키워드 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "키워드 ID가 잘못된 경우에 발생합니다.",
+                      "path": "PUT",
+                      "comment": "/keyword"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "키워드 API"
+        ],
+        "summary": "키워드 삭제하기",
+        "description": "키워드를 삭제합니다.",
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "키워드 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "키워드 삭제 성공 (본문 없음)"
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/influencers/{id}": {
+      "get": {
+        "tags": [
+          "인플루언서 API"
+        ],
+        "summary": "인플루언서 단건 조회",
+        "description": "인플루언서를 조회합니다.",
+        "operationId": "get_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "인플루언서 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InfluencerResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INFLUENCER_NOT_FOUND": {
+                    "description": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "INFLUENCER_NOT_FOUND",
+                      "reason": "요청한 인플루언서를 찾을 수 없어요.",
+                      "action": "요청 값을 확인 후 다시 시도해주세요.",
+                      "method": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                      "path": "GET",
+                      "comment": "/influencers"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "인플루언서 API"
+        ],
+        "summary": "인플루언서 수정하기",
+        "description": "인플루언서를 수정합니다.",
+        "operationId": "update_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "인플루언서 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InfluencerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "인플루언서 수정 성공"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_SUPPORTED_SNS_PLATFORM": {
+                    "description": "지원하지 않는 SNS 플랫폼을 사용하여 API 요청을 하는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "NOT_SUPPORTED_SNS_PLATFORM",
+                      "reason": "지원하지 않는 SNS 플랫폼이에요.",
+                      "action": "지원하는 SNS 플랫폼을 확인 후 다시 시도해주세요.",
+                      "method": "지원하지 않는 SNS 플랫폼을 사용하여 API 요청을 하는 경우에 발생합니다.",
+                      "path": "PUT",
+                      "comment": "/influencer/{id}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INFLUENCER_NOT_FOUND": {
+                    "description": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "INFLUENCER_NOT_FOUND",
+                      "reason": "요청한 인플루언서를 찾을 수 없어요.",
+                      "action": "요청 값을 확인 후 다시 시도해주세요.",
+                      "method": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                      "path": "PUT",
+                      "comment": "/influencer/{id}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "인플루언서 API"
+        ],
+        "summary": "인플루언서 삭제하기",
+        "description": "인플루언서를 삭제합니다.",
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "인플루언서 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6726946b272157735138c837"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "인플루언서 삭제 성공 (본문 없음)"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INFLUENCER_NOT_FOUND": {
+                    "description": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "INFLUENCER_NOT_FOUND",
+                      "reason": "요청한 인플루언서를 찾을 수 없어요.",
+                      "action": "요청 값을 확인 후 다시 시도해주세요.",
+                      "method": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                      "path": "DELETE",
+                      "comment": "/influencer/{influencerId}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/reviews": {
+      "get": {
+        "tags": [
+          "리뷰 API"
+        ],
+        "summary": "리뷰 목록 커서 조회",
+        "description": "리뷰 목록 커서를 조회합니다.",
+        "operationId": "getCursor",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "리뷰한 날짜 (기본값: 1970-01-01T00:00:00Z)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "example": "1970-01-01T00:00:00Z"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "커서 한번에 컨텐츠 사이즈 (기본값: 20)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 20
+          },
+          {
+            "name": "influencerId",
+            "in": "query",
+            "description": "인플루언서 ID (기본값: \"\")",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "제품 ID (기본값: \"\")",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "리뷰 API"
+        ],
+        "summary": "리뷰 등록하기",
+        "description": "리뷰를 등록합니다.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "리뷰 등록 성공",
+            "headers": {
+              "Location": {
+                "description": "생성된 제품 ID",
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INFLUENCER_NOT_FOUND": {
+                    "description": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "INFLUENCER_NOT_FOUND",
+                      "reason": "요청한 인플루언서를 찾을 수 없어요.",
+                      "action": "요청 값을 확인 후 다시 시도해주세요.",
+                      "method": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                      "path": "POST",
+                      "comment": "/reviews"
+                    }
+                  },
+                  "PRODUCT_NOT_FOUND": {
+                    "description": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "PRODUCT_NOT_FOUND",
+                      "reason": "상품을 찾을 수 없어요.",
+                      "action": "상품 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                      "path": "POST",
+                      "comment": "/reviews"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "제품 API"
+        ],
+        "summary": "제품 목록 페이지 조회",
+        "description": "제품 목록 페이지를 조회합니다.",
+        "operationId": "getPage_1",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지 번호 (기본값: 0)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "한 페이지 크기 (기본값: 20)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "정렬 기준 (기본값: createdDate,asc), 정렬 기준이 올바르지 않은 값을 입력한 경우, 기본 값으로 동작",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "createdDate",
+                "asc"
+              ]
+            },
+            "examples": {
+              "name,asc": {
+                "description": "제품 이름 기준 오름차순 정렬",
+                "value": "name,asc"
+              },
+              "createdDate,asc": {
+                "description": "생성일 기준 오름차순 정렬",
+                "value": "createdDate,asc"
+              },
+              "createdDate,desc": {
+                "description": "생성일 기준 내림차순 정렬",
+                "value": "createdDate,desc"
+              },
+              "lastModifiedDate,asc": {
+                "description": "수정일 기준 오름차순 정렬",
+                "value": "lastModifiedDate,asc"
+              },
+              "lastModifiedDate,desc": {
+                "description": "수정일 기준 내림차순 정렬",
+                "value": "lastModifiedDate,desc"
+              },
+              "name,desc": {
+                "description": "제품 이름 기준 내림차순 정렬",
+                "value": "name,desc"
+              }
+            },
+            "example": "createdDate,asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "제품 API"
+        ],
+        "summary": "제품 등록하기",
+        "description": "제품을 등록합니다.",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "제품 등록 성공",
+            "headers": {
+              "Location": {
+                "description": "생성된 제품 ID",
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_SUPPORT_ONLINE_STORE_PLATFORM": {
+                    "description": "지원하지 않는 온라인 스토어 플랫폼을 입력한 경우 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "NOT_SUPPORT_ONLINE_STORE_PLATFORM",
+                      "reason": "지원하지 않는 온라인 스토어 플랫폼입니다.",
+                      "action": "지원하는 온라인 스토어 플랫폼을 입력해주세요.",
+                      "method": "지원하지 않는 온라인 스토어 플랫폼을 입력한 경우 발생합니다.",
+                      "path": "POST",
+                      "comment": "/products"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/keywords": {
+      "get": {
+        "tags": [
+          "키워드 API"
+        ],
+        "summary": "키워드 목록 페이지 조회",
+        "description": "키워드 목록 페이지를 조회합니다.",
+        "operationId": "getPage_2",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지 번호 (기본값: 0)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "한 페이지 크기 (기본값: 20)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "정렬 기준 (기본값: createdDate,asc), 정렬 기준이 올바르지 않은 값을 입력한 경우, 기본 값으로 동작",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "createdDate",
+                "asc"
+              ]
+            },
+            "examples": {
+              "name,asc": {
+                "description": "키워드 이름 기준 오름차순 정렬",
+                "value": "name,asc"
+              },
+              "createdDate,asc": {
+                "description": "생성일 기준 오름차순 정렬",
+                "value": "createdDate,asc"
+              },
+              "createdDate,desc": {
+                "description": "생성일 기준 내림차순 정렬",
+                "value": "createdDate,desc"
+              },
+              "lastModifiedDate,asc": {
+                "description": "수정일 기준 오름차순 정렬",
+                "value": "lastModifiedDate,asc"
+              },
+              "lastModifiedDate,desc": {
+                "description": "수정일 기준 내림차순 정렬",
+                "value": "lastModifiedDate,desc"
+              },
+              "name,desc": {
+                "description": "키워드 이름 기준 내림차순 정렬",
+                "value": "name,desc"
+              }
+            },
+            "example": "createdDate,asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "키워드 API"
+        ],
+        "summary": "키워드 등록하기",
+        "description": "키워드를 등록합니다.",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeywordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "ALREADY_EXIST_KEYWORD_NAME": {
+                    "description": "이미 존재하는 키워드 이름을 사용하여 키워드를 생성하려고 시도한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "ALREADY_EXIST_KEYWORD_NAME",
+                      "reason": "이미 존재하는 키워드 이름이에요.",
+                      "action": "다른 이름으로 다시 시도해주세요.",
+                      "method": "이미 존재하는 키워드 이름을 사용하여 키워드를 생성하려고 시도한 경우에 발생합니다.",
+                      "path": "POST",
+                      "comment": "/keyword"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "KEYWORD_NOT_FOUND": {
+                    "description": "키워드 ID가 잘못된 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "KEYWORD_NOT_FOUND",
+                      "reason": "키워드를 찾을 수 없어요.",
+                      "action": "키워드 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "키워드 ID가 잘못된 경우에 발생합니다.",
+                      "path": "POST",
+                      "comment": "/keyword"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/influencers": {
+      "get": {
+        "tags": [
+          "인플루언서 API"
+        ],
+        "summary": "인플루언서 목록 페이지 조회",
+        "description": "인플루언서 목록 페이지를 조회합니다.",
+        "operationId": "getPage_3",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지 번호 (기본값: 0)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "한 페이지 크기 (기본값: 20)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "정렬 기준 (기본값: createdDate,asc), 정렬 기준이 올바르지 않은 값을 입력한 경우, 기본 값으로 동작",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "createdDate",
+                "asc"
+              ]
+            },
+            "examples": {
+              "name,asc": {
+                "description": "인플루언서 이름 기준 오름차순 정렬",
+                "value": "name,asc"
+              },
+              "createdDate,asc": {
+                "description": "생성일 기준 오름차순 정렬",
+                "value": "createdDate,asc"
+              },
+              "createdDate,desc": {
+                "description": "생성일 기준 내림차순 정렬",
+                "value": "createdDate,desc"
+              },
+              "lastModifiedDate,asc": {
+                "description": "수정일 기준 오름차순 정렬",
+                "value": "lastModifiedDate,asc"
+              },
+              "lastModifiedDate,desc": {
+                "description": "수정일 기준 내림차순 정렬",
+                "value": "lastModifiedDate,desc"
+              },
+              "name,desc": {
+                "description": "인플루언서 이름 기준 내림차순 정렬",
+                "value": "name,desc"
+              }
+            },
+            "example": "createdDate,asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "인플루언서 API"
+        ],
+        "summary": "인플루언서 등록하기",
+        "description": "인플루언서를 등록합니다.",
+        "operationId": "create_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InfluencerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "인플루언서 등록 성공",
+            "headers": {
+              "Location": {
+                "description": "생성된 인플루언서 ID",
+                "style": "simple",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INFLUENCER_NOT_FOUND": {
+                    "description": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "INFLUENCER_NOT_FOUND",
+                      "reason": "요청한 인플루언서를 찾을 수 없어요.",
+                      "action": "요청 값을 확인 후 다시 시도해주세요.",
+                      "method": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                      "path": "POST",
+                      "comment": "/influencer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/auth/token": {
+      "post": {
+        "tags": [
+          "인증 API"
+        ],
+        "summary": "토큰 발급하기",
+        "description": "인증 코드 혹은 갱신 토큰을 통해 토큰을 발급합니다.",
+        "operationId": "createToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_SUPPORTED_GRANT_TYPE": {
+                    "description": "지원하지 않는 인증 타입을 사용하여 토큰을 발급할 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "NOT_SUPPORTED_GRANT_TYPE",
+                      "reason": "지원하지 않는 인증 타입이에요.",
+                      "action": "인증 타입을 확인 후 다시 시도해주세요",
+                      "method": "지원하지 않는 인증 타입을 사용하여 토큰을 발급할 수 없을 때 발생합니다.",
+                      "path": "POST",
+                      "comment": "/auth/token"
+                    }
+                  },
+                  "EXPIRED_REFRESH_TOKEN": {
+                    "description": "갱신 토큰이 만료되어 토큰을 발급할 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "EXPIRED_REFRESH_TOKEN",
+                      "reason": "로그인이 만료되었어요.",
+                      "action": "다시 로그인 해주세요.",
+                      "method": "갱신 토큰이 만료되어 토큰을 발급할 수 없을 때 발생합니다.",
+                      "path": "POST",
+                      "comment": "/auth/token"
+                    }
+                  },
+                  "EXPIRED_AUTHENTICATION_CODE": {
+                    "description": "이미 토큰을 발급 받은 인증 코드로 다시 토큰 발급 요청을 하는 경우 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "EXPIRED_AUTHENTICATION_CODE",
+                      "reason": "인증 요청이 만료됐어요.",
+                      "action": "재 로그인이 필요해요.",
+                      "method": "이미 토큰을 발급 받은 인증 코드로 다시 토큰 발급 요청을 하는 경우 발생합니다.",
+                      "path": "POST",
+                      "comment": "/auth/token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}/image": {
+      "patch": {
+        "tags": [
+          "제품 API"
+        ],
+        "summary": "제품 이미지 수정",
+        "description": "제품의 이미지를 수정합니다.",
+        "operationId": "updateProductImage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "제품 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6728d0aad5e37a27ed7e2907"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "image"
+                ],
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "description": "제품 이미지 파일",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "성공 (본문 없음)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_SUPPORT_ONLINE_STORE_PLATFORM": {
+                    "description": "지원하지 않는 온라인 스토어 플랫폼을 입력한 경우 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "NOT_SUPPORT_ONLINE_STORE_PLATFORM",
+                      "reason": "지원하지 않는 온라인 스토어 플랫폼입니다.",
+                      "action": "지원하는 온라인 스토어 플랫폼을 입력해주세요.",
+                      "method": "지원하지 않는 온라인 스토어 플랫폼을 입력한 경우 발생합니다.",
+                      "path": "PATCH",
+                      "comment": "/products/{id}/image"
+                    }
+                  },
+                  "INVALID_PRODUCT_IMAGE_FORMAT": {
+                    "description": "상품 이미지 형식이 지원되지 않는 경우 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 400,
+                      "code": "INVALID_PRODUCT_IMAGE_FORMAT",
+                      "reason": "상품 이미지 형식이 지원되지 않습니다.",
+                      "action": "지원되는 상품 이미지 형식을 확인 후 다시 시도해주세요.",
+                      "method": "상품 이미지 형식이 지원되지 않는 경우 발생합니다.",
+                      "path": "PATCH",
+                      "comment": "/products/{id}/image"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "PRODUCT_NOT_FOUND": {
+                    "description": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:07Z",
+                      "status": 404,
+                      "code": "PRODUCT_NOT_FOUND",
+                      "reason": "상품을 찾을 수 없어요.",
+                      "action": "상품 ID를 확인 후, 다시 시도해주세요.",
+                      "method": "상품 ID가 존재하지 않는 경우에 발생합니다.",
+                      "path": "PATCH",
+                      "comment": "/products/{id}/image"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/influencers/{id}/profile-image": {
+      "patch": {
+        "tags": [
+          "인플루언서 API"
+        ],
+        "summary": "인플루언서 프로필 이미지 수정",
+        "description": "인플루언서의 프로필 이미지를 수정합니다.",
+        "operationId": "updateProfileImage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "인플루언서 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "6728d0aad5e37a27ed7e2907"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "profileImage"
+                ],
+                "type": "object",
+                "properties": {
+                  "profileImage": {
+                    "type": "string",
+                    "description": "프로필 이미지 파일",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "성공 (본문 없음)"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INVALID_PROFILE_IMAGE_REQUEST": {
+                    "description": "주로 파일의 이름이 비어있거나, 파일 내용에 잘못된 문자 형식으로 인해 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 400,
+                      "code": "INVALID_PROFILE_IMAGE_REQUEST",
+                      "reason": "이미지 파일이 아니에요.",
+                      "action": "이미지 파일만 업로드 할 수 있어요.",
+                      "method": "주로 파일의 이름이 비어있거나, 파일 내용에 잘못된 문자 형식으로 인해 발생합니다.",
+                      "path": "PATCH",
+                      "comment": "/influencers/{id}/profile-image"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INFLUENCER_NOT_FOUND": {
+                    "description": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "INFLUENCER_NOT_FOUND",
+                      "reason": "요청한 인플루언서를 찾을 수 없어요.",
+                      "action": "요청 값을 확인 후 다시 시도해주세요.",
+                      "method": "요청한 값을 가진 인플루언서를 찾을 수 없을 때 발생합니다.",
+                      "path": "PATCH",
+                      "comment": "/influencers/{id}/profile-image"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "유저 API"
+        ],
+        "summary": "유저 목록 페이지 조회",
+        "description": "유저 목록 페이지를 조회합니다.",
+        "operationId": "getPage",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지 번호 (기본값: 0)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "한 페이지 크기 (기본값: 20)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "정렬 기준 (기본값: createdDate,asc), 정렬 기준이 올바르지 않은 값을 입력한 경우, 기본 값으로 동작",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "createdDate",
+                "asc"
+              ]
+            },
+            "examples": {
+              "createdDate,asc": {
+                "description": "생성일 기준 오름차순 정렬",
+                "value": "createdDate,asc"
+              },
+              "createdDate,desc": {
+                "description": "생성일 기준 내림차순 정렬",
+                "value": "createdDate,desc"
+              },
+              "lastModifiedDate,asc": {
+                "description": "수정일 기준 오름차순 정렬",
+                "value": "lastModifiedDate,asc"
+              },
+              "lastModifiedDate,desc": {
+                "description": "수정일 기준 내림차순 정렬",
+                "value": "lastModifiedDate,desc"
+              },
+              "nickname,asc": {
+                "description": "유저 닉네임 기준 오름차순 정렬",
+                "value": "nickname,asc"
+              },
+              "nickname,desc": {
+                "description": "유저 닉네임 기준 내림차순 정렬",
+                "value": "nickname,desc"
+              }
+            },
+            "example": "createdDate,asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "유저 API"
+        ],
+        "summary": "유저 단건 조회",
+        "description": "유저를 조회합니다.",
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "유저 ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "67264864c67b2d08a657e2a9"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "USER_NOT_FOUND": {
+                    "description": "존재하지 않는 사용자를 조회하려고 했을 때 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 404,
+                      "code": "USER_NOT_FOUND",
+                      "reason": "유저 정보를 찾을 수 없어요.",
+                      "action": "요청한 유저 정보를 찾을 수 없습니다.",
+                      "method": "존재하지 않는 사용자를 조회하려고 했을 때 발생합니다.",
+                      "path": "GET",
+                      "comment": "/users"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": [
+          "유저 API"
+        ],
+        "summary": "내 프로필 조회",
+        "description": "내 프로필 정보를 조회합니다.",
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer-Auth": [ ]
+          }
+        ]
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "검색",
+        "description": "검색 API",
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/authorization/{provider}": {
+      "get": {
+        "tags": [
+          "인증 API"
+        ],
+        "summary": "인증 코드 받기",
+        "description": "해당 링크로 이동하여 소셜 로그인 진행 후 URL 파라미터를 통해 인증 코드를 받습니다. 인증 코드는 \"토큰 발급 API\"를 통해 액세스 토큰을 발급받을 때 사용됩니다.",
+        "operationId": "oauth2Authorization",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "kakao",
+                "google",
+                "naver"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Location 헤더로 리다이렉션 응답",
+            "headers": {
+              "Location": {
+                "description": "리다이렉션 URL",
+                "style": "simple",
+                "schema": {
+                  "example": "https://inflpick.com/oauth2/redirect?code=7a726599-abfe-4eaa-91f8-322607303ba0"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keywords/name": {
+      "get": {
+        "tags": [
+          "키워드 API"
+        ],
+        "summary": "키워드 명으로 검색",
+        "description": "입력한 키워드 명과 \"유사한\" 키워드를 검색합니다.",
+        "operationId": "search_1",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "검색할 키워드 명",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "기술"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/KeywordResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api": {
+      "get": {
+        "tags": [
+          "공통 API"
+        ],
+        "summary": "공통 API 에러 응답",
+        "description": "공통 API 에러 응답을 명시합니다.",
+        "operationId": "common",
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "INVALID_REQUEST_BODY": {
+                    "description": "API 요청 본문이 올바르지 않은 경우에 발생합니다. (ex. Json 형식이 올바르지 않은 경우)",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 400,
+                      "code": "INVALID_REQUEST_BODY",
+                      "reason": "요청 본문이 올바르지 않아요.",
+                      "action": "요청 본문을 확인 후 다시 요청해주세요.",
+                      "method": "API 요청 본문이 올바르지 않은 경우에 발생합니다. (ex. Json 형식이 올바르지 않은 경우)",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  },
+                  "MISSING_REQUEST_PART": {
+                    "description": "API 요청 시, 필수 파라미터가 입력되지 않은 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 400,
+                      "code": "MISSING_REQUEST_PART",
+                      "reason": "필수 입력 값이 입력되지 않았어요.",
+                      "action": "필수 입력 값을 확인 후, 다시 시도해주세요.",
+                      "method": "API 요청 시, 필수 파라미터가 입력되지 않은 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  },
+                  "MISSING_REQUIRED_FIELDS": {
+                    "description": "API 요청 시, 필수 입력 값이 입력되지 않은 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 400,
+                      "code": "MISSING_REQUIRED_FIELDS",
+                      "reason": "필수 값이 입력되지 않았어요.",
+                      "action": "필수 값을 입력 후 다시 요청해주세요.",
+                      "method": "API 요청 시, 필수 입력 값이 입력되지 않은 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  },
+                  "NOT_IMAGE_TYPE": {
+                    "description": "이미지 파일이 아닌 파일을 업로드한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 400,
+                      "code": "NOT_IMAGE_TYPE",
+                      "reason": "이미지 파일이 아니에요.",
+                      "action": "이미지 파일을 확인 후 다시 요청해주세요.",
+                      "method": "이미지 파일이 아닌 파일을 업로드한 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "EXPIRED_AUTHENTICATION": {
+                    "description": "토큰이 만료된 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 401,
+                      "code": "EXPIRED_AUTHENTICATION",
+                      "reason": "토큰이 만료되었어요.",
+                      "action": "다시 로그인 후, 토큰을 재발급 받아주세요.",
+                      "method": "토큰이 만료된 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  },
+                  "INVALID_AUTHENTICATION": {
+                    "description": "토큰이 올바르지 않은 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 401,
+                      "code": "INVALID_AUTHENTICATION",
+                      "reason": "토큰이 올바르지 않아요.",
+                      "action": "다시 로그인 후, 토큰을 재발급 받아주세요.",
+                      "method": "토큰이 올바르지 않은 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_ADMIN_USER": {
+                    "description": "관리자 권한이 없는 사용자가 관리자 권한이 필요한 API 요청을 하는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 403,
+                      "code": "NOT_ADMIN_USER",
+                      "reason": "접근 권한이 없어요.",
+                      "action": "관리자 권한을 확인 후 다시 시도해주세요.",
+                      "method": "관리자 권한이 없는 사용자가 관리자 권한이 필요한 API 요청을 하는 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "THIRD_PARTY_STORAGE_ERROR": {
+                    "description": "외부 저장소 연동 중 오류가 발생한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 500,
+                      "code": "THIRD_PARTY_STORAGE_ERROR",
+                      "reason": "외부 저장소 연동 중 오류가 발생했어요.",
+                      "action": "외부 저장소 연동 상태를 확인 후 다시 시도해주세요.",
+                      "method": "외부 저장소 연동 중 오류가 발생한 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "NOT_SUPPORT_HTTP_METHOD": {
+                    "description": "API 요청 시, 지원하지 않는 HTTP 메소드를 사용한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 405,
+                      "code": "NOT_SUPPORT_HTTP_METHOD",
+                      "reason": "지원하지 않는 HTTP 메소드에요.",
+                      "action": "요청을 확인 후 다시 요청해주세요.",
+                      "method": "API 요청 시, 지원하지 않는 HTTP 메소드를 사용한 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "SERVICE_UNAVAILABLE": {
+                    "description": "현재 서버가 점검 중이거나 서비스를 제공할 수 없는 상태, 혹은 처리할 수 없는 에러가 발생한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 503,
+                      "code": "SERVICE_UNAVAILABLE",
+                      "reason": "현재 서버가 요청을 처리할 수 없는 상태에요.",
+                      "action": "잠시 후 다시 시도하시거나, 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.",
+                      "method": "현재 서버가 점검 중이거나 서비스를 제공할 수 없는 상태, 혹은 처리할 수 없는 에러가 발생한 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "TOO_MANY_REQUESTS": {
+                    "description": "짧은 시간 동안 많은 API 요청되는 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 429,
+                      "code": "TOO_MANY_REQUESTS",
+                      "reason": "요청이 너무 많아요.",
+                      "action": "잠시 후 다시 시도하시거나, 인플픽 관리자(info@inflpick.com)에게 문의바랍니다.",
+                      "method": "짧은 시간 동안 많은 API 요청되는 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                },
+                "examples": {
+                  "UNSUPPORTED_HTTP_MEDIA_TYPE": {
+                    "description": "API 요청 시, 지원하지 않는 HTTP 미디어 타입을 사용한 경우에 발생합니다.",
+                    "value": {
+                      "timestamp": "2024-12-07T10:33:08Z",
+                      "status": 415,
+                      "code": "UNSUPPORTED_HTTP_MEDIA_TYPE",
+                      "reason": "지원하지 않는 HTTP 미디어 타입이에요.",
+                      "action": "요청을 확인 후 다시 요청해주세요.",
+                      "method": "API 요청 시, 지원하지 않는 HTTP 미디어 타입을 사용한 경우에 발생합니다.",
+                      "path": "*",
+                      "comment": "/api/**"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ReviewRequest": {
+        "type": "object",
+        "properties": {
+          "influencerId": {
+            "type": "string",
+            "description": "인플루언서 ID",
+            "example": "6726946b272157735138c837"
+          },
+          "productId": {
+            "type": "string",
+            "description": "제품 ID",
+            "example": "6726946b272157735138c837"
+          },
+          "contents": {
+            "type": "string",
+            "description": "리뷰 내용",
+            "example": "좋아요"
+          },
+          "url": {
+            "type": "string",
+            "description": "리뷰 URL",
+            "example": "https://www.naver.com"
+          },
+          "reviewDate": {
+            "type": "string",
+            "description": "리뷰 날짜",
+            "format": "date-time",
+            "example": "2021-08-01T00:00:00Z"
+          }
+        }
+      },
+      "OnlineStoreRequest": {
+        "required": [
+          "platform",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string",
+            "description": "온라인 스토어 플랫폼",
+            "example": "COUPANG"
+          },
+          "url": {
+            "type": "string",
+            "description": "온라인 스토어 링크 URL",
+            "example": "https://coupang.com"
+          }
+        }
+      },
+      "ProductRequest": {
+        "required": [
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "제품 이름",
+            "example": "핏블리"
+          },
+          "description": {
+            "type": "string",
+            "description": "제품 설명",
+            "example": "핏블리"
+          },
+          "keywordIds": {
+            "maxItems": 10,
+            "type": "array",
+            "description": "제품 키워드 ID 목록",
+            "example": [
+              "6726946b272157735138c837",
+              "6726946b272157735138c837"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "default": [ ]
+          },
+          "onlineStoreLinks": {
+            "type": "array",
+            "description": "제품의 온라인 스토어 링크 목록",
+            "example": [
+              {
+                "platform": "COUPANG",
+                "url": "https://coupang.com"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/OnlineStoreRequest"
+            },
+            "default": [ ]
+          }
+        }
+      },
+      "KeywordRequest": {
+        "required": [
+          "hexColor",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "키워드명(최소 1자, 최대 30자)",
+            "example": "100만 유튜버"
+          },
+          "hexColor": {
+            "type": "string",
+            "description": "16진수 색상 코드",
+            "example": "#FFFFFF"
+          }
+        }
+      },
+      "InfluencerRequest": {
+        "required": [
+          "introduction",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "인플루언서 이름",
+            "example": "핏블리"
+          },
+          "introduction": {
+            "type": "string",
+            "description": "인플루언서 소개",
+            "example": "➞ Fitvly (Seokki Moon) PROFILE International Trainer & Sports Nutrition Coach"
+          },
+          "keywordIds": {
+            "maxItems": 10,
+            "type": "array",
+            "description": "인플루언서 키워드 ID 목록",
+            "example": [
+              "6726946b272157735138c837",
+              "6726946b272157735138c837"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "default": [ ]
+          },
+          "socialMediaProfileLinks": {
+            "type": "array",
+            "description": "인플루언서의 SNS 링크 목록",
+            "example": [
+              {
+                "platform": "INSTAGRAM",
+                "url": "https://instagram.com"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/SnsProfileLinkRequest"
+            },
+            "default": [ ]
+          }
+        }
+      },
+      "SnsProfileLinkRequest": {
+        "required": [
+          "platform",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string",
+            "description": "SNS 플랫폼",
+            "example": "INSTAGRAM",
+            "enum": [
+              "INSTAGRAM",
+              "YOUTUBE",
+              "TIKTOK",
+              "FACEBOOK",
+              "LINKEDIN",
+              "X",
+              "BLOG",
+              "CAFE",
+              "ETC"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "description": "SNS 프로필 링크 URL",
+            "example": "https://instagram.com"
+          }
+        }
+      },
+      "CreateTokenRequest": {
+        "required": [
+          "grantType"
+        ],
+        "type": "object",
+        "properties": {
+          "grantType": {
+            "type": "string",
+            "description": "인증 타입",
+            "example": "AUTHENTICATION_CODE",
+            "enum": [
+              "AUTHENTICATION_CODE",
+              "REFRESH_TOKEN"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "description": "인증 코드 (인증 타입이 \"AUTHENTICATION_CODE\" 타입인 경우에만 필수)",
+            "example": "7a726599-abfe-4eaa-91f8-322607303ba0"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "리프레시 토큰 (인증 타입이 \"REFRESH_TOKEN\" 타입인 경우에만 필수)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYyNjIwNjM4MCwiZXhwIjoxNjI2MjA2MzgwfQ.7J1"
+          }
+        }
+      },
+      "CreateTokenResponse": {
+        "required": [
+          "accessToken",
+          "accessTokenExpiresInSeconds",
+          "refreshToken",
+          "refreshTokenExpiresInSeconds",
+          "tokenType"
+        ],
+        "type": "object",
+        "properties": {
+          "tokenType": {
+            "type": "string",
+            "description": "토큰 타입 (Bearer로 고정)",
+            "example": "Bearer"
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "액세스 토큰",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYyNjIwNjM4MCwiZXhwIjoxNjI2MjA2MzgwfQ.7J1"
+          },
+          "accessTokenExpiresInSeconds": {
+            "type": "integer",
+            "description": "액세스 토큰 만료 시간 (초)",
+            "format": "int32",
+            "example": 3600
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "리프레시 토큰",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYyNjIwNjM4MCwiZXhwIjoxNjI2MjA2MzgwfQ.7J1"
+          },
+          "refreshTokenExpiresInSeconds": {
+            "type": "integer",
+            "description": "리프레시 토큰 만료 시간 (초)",
+            "format": "int32",
+            "example": 604800
+          }
+        }
+      },
+      "ArraySchema": {
+        "type": "object",
+        "description": "컨텐츠",
+        "example": [ ]
+      },
+      "PageResponse": {
+        "required": [
+          "contents",
+          "currentPage",
+          "size",
+          "sortProperties",
+          "totalElements",
+          "totalPages"
+        ],
+        "type": "object",
+        "properties": {
+          "contents": {
+            "$ref": "#/components/schemas/ArraySchema"
+          },
+          "currentPage": {
+            "type": "integer",
+            "description": "현재 페이지",
+            "format": "int32",
+            "example": 1
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "전체 페이지 수",
+            "format": "int32",
+            "example": 1
+          },
+          "size": {
+            "type": "integer",
+            "description": "페이지 크기",
+            "format": "int32",
+            "example": 10
+          },
+          "totalElements": {
+            "type": "integer",
+            "description": "전체 요소 수",
+            "format": "int64",
+            "example": 0
+          },
+          "sortProperties": {
+            "type": "string",
+            "description": "적용된 정렬 속성",
+            "example": "[]"
+          }
+        }
+      },
+      "GetUserResponse": {
+        "required": [
+          "email",
+          "id",
+          "joinedDate",
+          "nickname",
+          "oauth2Id",
+          "oauth2Provider",
+          "profileImageUrl",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "유저 ID",
+            "example": "67264864c67b2d08a657e2a9"
+          },
+          "nickname": {
+            "type": "string",
+            "description": "유저 닉네임",
+            "example": "inflpicker"
+          },
+          "profileImageUrl": {
+            "type": "string",
+            "description": "프로필 이미지 URL",
+            "example": "https://profile-image.com"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일",
+            "example": "inflpicker@gmail.com"
+          },
+          "role": {
+            "type": "string",
+            "description": "유저 권한",
+            "example": "USER",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          },
+          "oauth2Provider": {
+            "type": "string",
+            "description": "OAuth2 제공자",
+            "example": "GOOGLE",
+            "enum": [
+              "kakao",
+              "google",
+              "naver"
+            ]
+          },
+          "oauth2Id": {
+            "type": "string",
+            "description": "OAuth2 ID",
+            "example": "1234567890"
+          },
+          "joinedDate": {
+            "type": "string",
+            "description": "가입일",
+            "example": "2021-07-01T00:00:00Z"
+          }
+        }
+      },
+      "SearchInfluencerResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "profileImageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchProductResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "productImageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "influencers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchInfluencerResponse"
+            }
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchProductResponse"
+            }
+          }
+        }
+      },
+      "InfluencerResponse": {
+        "required": [
+          "createdDate",
+          "id",
+          "introduction",
+          "keywords",
+          "lastModifiedDate",
+          "name",
+          "profileImageUrl",
+          "socialMediaProfileLinks"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID",
+            "example": "f103314b-778c-49fc-ae9c-7956794a3bdf"
+          },
+          "name": {
+            "type": "string",
+            "description": "이름",
+            "example": "도날드 트럼프"
+          },
+          "introduction": {
+            "type": "string",
+            "description": "인물을 잘 나타낼 수 있는 소개",
+            "example": "미국 45대 대통령, 트럼프 주식회사 CEO, 정치가"
+          },
+          "profileImageUrl": {
+            "type": "string",
+            "description": "프로필 이미지 URL",
+            "example": "https://cdn.inflpick.com/profile-image.jpg"
+          },
+          "socialMediaProfileLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/소셜 미디어 프로필 링크 응답"
+            }
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/키워드 조회 응답"
+            }
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "생성일 (UTC)",
+            "format": "date-time",
+            "example": "2021-07-01T00:00:00Z"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "마지막 수정일 (UTC)",
+            "format": "date-time",
+            "example": "2021-07-01T00:00:00Z"
+          }
+        }
+      },
+      "KeywordResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "string",
+            "example": "6726946b272157735138c837",
+            "nullable": false,
+          },
+          "name": {
+            "title": "키워드 이름",
+            "type": "string",
+            "maxLength": 30,
+            "example": "기술"
+          },
+          "hexColor": {
+            "type": "string",
+            "description": "16진수 색상 코드",
+            "example": "#FFFFFF"
+          }
+        }
+      },
+      "OnlineStoreLinkResponse": {
+        "required": [
+          "platform",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string",
+            "description": "플랫폼 이름",
+            "example": "COUPANG",
+            "enum": [
+              "COUPANG",
+              "NAVER",
+              "AMAZON"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "description": "온라인 스토어 URL (URL 형식의 문자열)",
+            "example": "https://shopping.naver.com"
+          }
+        }
+      },
+      "ProductResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "ID",
+            "type": "string",
+#            "description": "ID",
+            "pattern": "^[a-f0-9]{24}$",
+            "maxLength": 24,
+            "minLength": 24,
+            "example": "6726946b272157735138c837",
+            "uniqueItems": true,
+            "nullable": false,
+#            "format": "uuid",
+#            "writeOnly": false,
+#            "deprecated": false,
+          },
+          "name": {
+            "title": "제품명",
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "example": "칼로바이 에너지바",
+            "uniqueItems": true,
+            "nullable": false,
+          },
+          "description": {
+            "title": "제품 설명",
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "example": "칼로바이 에너지바",
+            "uniqueItems": true,
+            "nullable": false,
+          },
+          "productImageUrl": {
+            "title": "제품 이미지 URL",
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "example": "https://cdn.inflpick.com/product-image.jpg",
+            "uniqueItems": true,
+            "nullable": false,
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KeywordResponse"
+            }
+          },
+          "onlineStoreLinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OnlineStoreLinkResponse"
+            }
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ReviewResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "리뷰 ID",
+            "example": "6726946b272157735138c837"
+          },
+          "contents": {
+            "type": "string",
+            "description": "contents",
+            "example": "좋아요"
+          },
+          "url": {
+            "type": "string",
+            "description": "url",
+            "example": "https://www.naver.com"
+          },
+          "reviewDate": {
+            "type": "string",
+            "description": "reviewDate",
+            "format": "date-time",
+            "example": "2021-08-01T00:00:00Z"
+          },
+          "influencer": {
+            "$ref": "#/components/schemas/InfluencerResponse"
+          },
+          "product": {
+            "$ref": "#/components/schemas/ProductResponse"
+          }
+        }
+      },
+      "소셜 미디어 프로필 링크 응답": {
+        "type": "object",
+        "description": "소셜 미디어 링크 목록"
+      },
+      "키워드 조회 응답": {
+        "type": "object",
+        "description": "인물에 대한 키워드 목록"
+      },
+      "ApiErrorResponse": {
+        "required": [
+          "action",
+          "code",
+          "comment",
+          "method",
+          "path",
+          "reason",
+          "status",
+          "timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "description": "에러 발생 시간 (UTC)",
+            "format": "date-time",
+            "example": "2021-08-01T00:00:00Z"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP 상태 코드 (https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)",
+            "format": "int32",
+            "example": 400
+          },
+          "code": {
+            "type": "string",
+            "description": "에러 코드",
+            "example": "C0001"
+          },
+          "reason": {
+            "type": "string",
+            "description": "사용자에게 보여줄 에러 원인",
+            "example": "인플루언서 이름이 올바르지 않아요."
+          },
+          "action": {
+            "type": "string",
+            "description": "사용자에게 보여줄 에러 해결 방법",
+            "example": "인플루언서 이름은 최소 1글자, 최대 300글자 이하여야 합니다."
+          },
+          "method": {
+            "type": "string",
+            "description": "요청 메소드",
+            "example": "POST"
+          },
+          "path": {
+            "type": "string",
+            "description": "요청 경로",
+            "example": "/**"
+          },
+          "comment": {
+            "type": "string",
+            "description": "개발자가 에러 원인을 파악하기 위해 참고할 메세지",
+            "example": "/**"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer-Auth": {
+        "type": "http",
+        "description": "/oauth2/authorization/{provider} 를 통해 소셜 로그인 진행 후 발급받은 Access Token 값을 입력하세요.",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

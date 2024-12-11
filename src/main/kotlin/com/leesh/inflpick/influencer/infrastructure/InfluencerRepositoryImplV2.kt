@@ -16,7 +16,10 @@ class InfluencerRepositoryImplV2(val influencerMongoRepositoryV2: InfluencerMong
     }
 
     override fun searchByName(keyword: String): List<InfluencerV2> {
-        TODO("Not yet implemented")
+        val documents = influencerMongoRepositoryV2.findAllByNameMatches(keyword)
+        return documents.map {
+            it.toDomain()
+        }
     }
 
 }
