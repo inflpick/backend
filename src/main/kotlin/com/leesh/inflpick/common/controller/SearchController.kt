@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/search")
 @RestController
-class SearchController(val searchService: SearchService) {
+class SearchController(val service: SearchService) {
 
     @GetMapping
     fun search(@RequestParam(required = true, defaultValue = "") keyword: String): ResponseEntity<SearchResponse> {
-        val response = searchService.search(keyword)
+        val response = service.search(keyword)
         return ResponseEntity.ok(response)
     }
 

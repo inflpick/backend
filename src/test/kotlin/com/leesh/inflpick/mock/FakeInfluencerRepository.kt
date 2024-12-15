@@ -1,18 +1,14 @@
 package com.leesh.inflpick.mock
 
 import com.leesh.inflpick.influencer.domin.InfluencerV2
-import com.leesh.inflpick.influencer.infrastructure.InfluencerDocumentV2
 import com.leesh.inflpick.influencer.service.port.InfluencerRepositoryV2
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
-class FakeInfluencerRepository: InfluencerRepositoryV2 {
+class FakeInfluencerRepository(data: List<InfluencerV2>) : InfluencerRepositoryV2 {
 
-    private val data = CopyOnWriteArrayList<InfluencerDocumentV2>()
+    private val data = CopyOnWriteArrayList<InfluencerV2>()
 
-    constructor()
-
-    constructor(data: List<InfluencerV2>) {
+    init {
         this.saveAll(data)
     }
 
@@ -21,19 +17,14 @@ class FakeInfluencerRepository: InfluencerRepositoryV2 {
     }
 
     override fun save(influencerV2: InfluencerV2): InfluencerV2 {
-        val influencerDocumentV2 = when {
-            influencerV2.isPersistent() -> data.find { it.id == influencerV2.id }
-                ?.also { data.remove(it) }
-                ?.let { InfluencerDocumentV2.fromDomain(notPersistentDomain = influencerV2) }
-            else -> InfluencerDocumentV2.fromDomain(UUID.randomUUID().toString(), influencerV2)
-        }
-        influencerDocumentV2?.let { data.add(it) }
-        return influencerDocumentV2?.toDomain() ?: influencerV2
+        data.removeIf { it == influencerV2 }
+        val updatedInfluencer = influencerV2.copy(id = FakeDomainId())
+        data.add(updatedInfluencer)
+        return influencerV2
     }
 
     override fun searchByName(keyword: String): List<InfluencerV2> {
         return data.filter { it.name.contains(keyword) }
-            .map { it.toDomain() }
     }
 
 }

@@ -97,7 +97,6 @@ dependencies {
 
 	// (선택 사항) Kotest의 Assertions 모듈
 	testImplementation("io.kotest:kotest-assertions-core")
-
 }
 
 tasks.named('test') {

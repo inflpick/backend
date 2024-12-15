@@ -1,5 +1,6 @@
 package com.leesh.inflpick.influencer.infrastructure
 
+import com.leesh.inflpick.influencer.domin.InfluencerId
 import com.leesh.inflpick.influencer.domin.InfluencerV2
 import com.leesh.inflpick.influencer.domin.SnsPlatformV2
 import com.leesh.inflpick.influencer.domin.SnsProfileLinkV2
@@ -22,7 +23,7 @@ data class InfluencerDocumentV2(
 
     fun toDomain(): InfluencerV2 {
         return InfluencerV2(
-            id = id!!,
+            id = InfluencerId.fromString(id!!),
             name = name,
             introduction = introduction,
             profileImagePath = profileImagePath,
@@ -44,23 +45,23 @@ data class InfluencerDocumentV2(
 
     companion object {
 
-        fun fromDomain(id: String? = null, notPersistentDomain: InfluencerV2): InfluencerDocumentV2 {
+        fun fromDomain(id: String? = null, domain: InfluencerV2): InfluencerDocumentV2 {
             return InfluencerDocumentV2(
                 id = id,
-                name = notPersistentDomain.name,
-                introduction = notPersistentDomain.introduction,
-                profileImagePath = notPersistentDomain.profileImagePath,
-                keywordIds = notPersistentDomain.keywords,
-                snsProfileLinks = notPersistentDomain.snsProfileLinksV2.toList().map {
+                name = domain.name,
+                introduction = domain.introduction,
+                profileImagePath = domain.profileImagePath,
+                keywordIds = domain.keywords,
+                snsProfileLinks = domain.snsProfileLinksV2.toList().map {
                     SnsProfileDocumentV2(
                         platform = it.platform.name,
                         url = it.url
                     )
                 },
-                createdBy = notPersistentDomain.createdBy,
-                lastModifiedBy = notPersistentDomain.lastModifiedBy,
-                createdDate = notPersistentDomain.createdDate,
-                lastModifiedDate = notPersistentDomain.lastModifiedDate
+                createdBy = domain.createdBy,
+                lastModifiedBy = domain.lastModifiedBy,
+                createdDate = domain.createdDate,
+                lastModifiedDate = domain.lastModifiedDate
             )
         }
 

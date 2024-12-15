@@ -5,8 +5,8 @@
 db = db.getSiblingDB('api-server');
 
 db.createUser({
-    user: "myuser",
-    pwd: "mypassword",
+    user: "inflpick",
+    pwd: "inflpick",
     roles: [{ role: "readWrite", db: "api-server" }]
 });
 

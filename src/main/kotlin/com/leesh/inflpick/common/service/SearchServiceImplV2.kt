@@ -14,10 +14,18 @@ import org.springframework.transaction.annotation.Transactional
 class SearchServiceImplV2(val influencerRepository: InfluencerRepositoryV2, val productRepository: ProductRepositoryV2): SearchService {
 
     override fun search(keyword: String): SearchResponse {
+
+        if (keyword.isBlank()) return SearchResponse()
+
         val influencerResponses: List<SearchInfluencerResponse> = influencerRepository.searchByName(keyword)
-            .map { SearchInfluencerResponse(it.id, it.name, it.profileImagePath) }
+            .map {
+                SearchInfluencerResponse(it.idToString(), it.name, it.profileImagePath)
+            }
+
         val productResponses: List<SearchProductResponse> = productRepository.searchByName(keyword)
-            .map { SearchProductResponse(it.id, it.name, it.productImagePath) }
+            .map {
+                SearchProductResponse( it.idToString(), it.name, it.productImagePath)
+            }
         return SearchResponse(influencers = influencerResponses, products = productResponses)
     }
 }

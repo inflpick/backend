@@ -1,4 +1,4 @@
-package com.leesh.inflpick.common.controller
+package com.leesh.inflpick.common.exception
 
 import org.springframework.http.HttpStatus
 

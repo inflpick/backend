@@ -2,6 +2,7 @@ package com.leesh.inflpick.product.infrastructure
 
 import com.leesh.inflpick.product.domain.OnlineStoreLinkV2
 import com.leesh.inflpick.product.domain.OnlineStorePlatformV2
+import com.leesh.inflpick.product.domain.ProductId
 import com.leesh.inflpick.product.domain.ProductV2
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -25,7 +26,7 @@ data class ProductDocumentV2(
 ) {
     fun toDomain(): ProductV2 {
         return ProductV2(
-            id = id!!,
+            id = ProductId.fromString(id!!),
             name = name,
             description = description,
             productImagePath = productImagePath,

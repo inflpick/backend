@@ -1,7 +1,7 @@
 package com.leesh.inflpick.common.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.leesh.inflpick.common.controller.ErrorCode
+import com.leesh.inflpick.common.exception.ErrorCode
 import jakarta.servlet.http.HttpServletRequest
 import java.time.Instant
 
